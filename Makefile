@@ -13,12 +13,12 @@ deps-install install-deps:
 %-install install-%:
 	@mvn -f $*/pom.xml install
 
-.PHONY: %-run run-%
-%-run run-%:
+.PHONY: %-start start-%
+%-start start-%:
 	@mvn -f $*/pom.xml docker:start
 
-.PHONY: %-app-run run-%-app
-%-app-run run-%-app:
+.PHONY: %-app-start start-%-app
+%-app-start start-%-app:
 	@mvn -f apps/$*/pom.xml docker:start
 
 .PHONY: unit-tests-run run-unit-tests
