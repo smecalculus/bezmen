@@ -9,9 +9,15 @@
   </parent>
   <modelVersion>4.0.0</modelVersion>
 
-  <artifactId>domain</artifactId>
+  <artifactId>service</artifactId>
 
   <dependencies>
+    <dependency>
+      <groupId>org.smecalculus.bezmen</groupId>
+      <artifactId>core</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+
     <dependency>
       <groupId>org.smecalculus.bezmen</groupId>
       <artifactId>data</artifactId>

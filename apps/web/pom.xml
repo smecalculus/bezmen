@@ -14,7 +14,13 @@
   <dependencies>
     <dependency>
       <groupId>org.smecalculus.bezmen</groupId>
-      <artifactId>domain</artifactId>
+      <artifactId>core</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.smecalculus.bezmen</groupId>
+      <artifactId>service</artifactId>
       <version>${project.version}</version>
     </dependency>
 
