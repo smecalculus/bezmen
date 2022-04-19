@@ -1,0 +1,8 @@
+---
+- changeSet:
+    id: dummy
+    changes:
+      - sqlFile:
+          path: initial/dummy.sql
+          splitStatements: true
+          stripComments: true

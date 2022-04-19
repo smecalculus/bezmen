@@ -13,13 +13,13 @@
 
   <dependencies>
     <dependency>
-      <groupId>org.smecalculus.bezmen</groupId>
+      <groupId>${project.groupId}</groupId>
       <artifactId>core</artifactId>
       <version>${project.version}</version>
     </dependency>
 
     <dependency>
-      <groupId>org.smecalculus.bezmen</groupId>
+      <groupId>${project.groupId}</groupId>
       <artifactId>service</artifactId>
       <version>${project.version}</version>
     </dependency>

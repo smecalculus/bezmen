@@ -13,7 +13,7 @@
 
   <dependencies>
     <dependency>
-      <groupId>org.smecalculus.bezmen</groupId>
+      <groupId>${project.groupId}</groupId>
       <artifactId>core</artifactId>
       <version>${project.version}</version>
     </dependency>
@@ -29,9 +29,29 @@
     </dependency>
 
     <dependency>
-      <groupId>org.junit.jupiter</groupId>
-      <artifactId>junit-jupiter-engine</artifactId>
-      <scope>test</scope>
+      <groupId>org.postgresql</groupId>
+      <artifactId>postgresql</artifactId>
+      <version>42.3.4</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.yaml</groupId>
+      <artifactId>snakeyaml</artifactId>
+      <version>1.30</version>
     </dependency>
   </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.liquibase</groupId>
+        <artifactId>liquibase-maven-plugin</artifactId>
+        <version>4.9.1</version>
+        <configuration>
+          <propertyFile>${project.basedir}/src/main/resources/liquibase.properties</propertyFile>
+          <changeLogFile>${project.basedir}/src/schema/postgres/changelog.yaml</changeLogFile>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
 </project>

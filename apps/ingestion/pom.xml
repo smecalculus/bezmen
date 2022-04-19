@@ -5,11 +5,11 @@
   <parent>
     <artifactId>apps</artifactId>
     <groupId>org.smecalculus.bezmen</groupId>
-    <version>${revision}</version>
+      <version>${revision}</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
 
-  <artifactId>service</artifactId>
+  <artifactId>ingestion</artifactId>
 
   <dependencies>
     <dependency>
