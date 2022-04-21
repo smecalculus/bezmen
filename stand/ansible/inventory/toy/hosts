@@ -1,0 +1,5 @@
+[postgres]
+toy_postgres_1 ansible_connection=local
+
+[web]
+toy_web_1 ansible_connection=local
