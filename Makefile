@@ -36,27 +36,20 @@ all-tests-run run-all-tests: unit-tests-run
 
 db=postgres
 
+#.PHONY: %-stand-deploy deploy-%-stand
+#%-stand-deploy deploy-%-stand:
+#	docker-compose \
+#		-f stand/compose/$*.yml \
+#		-p $* \
+#		--profile db:$(db) \
+#		up
+
 .PHONY: %-stand-deploy deploy-%-stand
 %-stand-deploy deploy-%-stand:
-	@docker-compose \
-	-p $* \
-	-f stand/compose/$*.yml \
-	--profile db:$(db) \
-	up
-
-#.PHONY: %-stand-deploy deploy-%-stand
-#%-stand-deploy deploy-%-stand:
-#	@ansible-playbook \
-#	stand/ansible/$*.yml \
-#	-i stand/ansible/inventory/$* \
-#	-e db=$(db)
-
-#.PHONY: %-stand-deploy deploy-%-stand
-#%-stand-deploy deploy-%-stand:
-#	@ansible-playbook \
-#	stand/ansible/$*/playbook.yml \
-#	-i stand/ansible/$*/hosts \
-#	-e db=$(db)
+	cd stand/ansible && \
+	ansible-playbook $*.yml \
+		-i inventory/$* \
+		-e db=$(db)
 
 .PHONY: %-publish publish-%
 %-publish publish-%:

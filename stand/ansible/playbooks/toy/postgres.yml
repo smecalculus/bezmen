@@ -1,0 +1,82 @@
+- name: postgres
+  hosts: env_postgres
+  tasks:
+    - community.docker.docker_container:
+        name: "{{ inventory_hostname }}"
+        image: postgres:14-alpine
+        network_mode: host
+        state: started
+        healthcheck:
+          test: ["CMD-SHELL", "pg_isready"]
+          interval: 10s
+          timeout: 5s
+          retries: 5
+        env:
+          POSTGRES_PASSWORD: password
+
+- name: env schema
+  hosts: env_schema
+  tasks:
+    - name: database
+      community.docker.docker_container:
+        name: "{{ inventory_hostname }}"
+        image: localhost/bezmen/schema:latest
+        network_mode: host
+        state: started
+        detach: no
+        command: >
+          --changelog-file=postgres/dba/changelog.yml
+          --url=jdbc:postgresql://localhost:5432/postgres?currentSchema=public
+          --username=postgres
+          --password=password
+          --labels=database
+          update
+          -Dbezmen.database=bezmen
+    - name: schema
+      community.docker.docker_container:
+        name: "{{ inventory_hostname }}"
+        image: localhost/bezmen/schema:latest
+        network_mode: host
+        state: started
+        detach: no
+        command: >
+          --changelog-file=postgres/dba/changelog.yml
+          --url=jdbc:postgresql://localhost:5432/bezmen?currentSchema=public
+          --username=postgres
+          --password=password
+          --labels=schema
+          update
+          -Dbezmen.schema=bezmen
+    - name: user
+      community.docker.docker_container:
+        name: "{{ inventory_hostname }}"
+        image: localhost/bezmen/schema:latest
+        network_mode: host
+        state: started
+        detach: no
+        command: >
+          --changelog-file=postgres/dba/changelog.yml
+          --url=jdbc:postgresql://localhost:5432/bezmen?currentSchema=bezmen
+          --username=postgres
+          --password=password
+          --labels=user
+          update
+          -Dbezmen.username=bezmen
+          -Dbezmen.password=bezmen
+
+- name: app schema
+  hosts: app_schema
+  tasks:
+    - name: tables
+      community.docker.docker_container:
+        name: "{{ inventory_hostname }}"
+        image: localhost/bezmen/schema:latest
+        network_mode: host
+        state: started
+        detach: no
+        command: >
+          --changelog-file=postgres/owner/changelog.yml
+          --url=jdbc:postgresql://localhost:5432/bezmen?currentSchema=bezmen
+          --username=bezmen
+          --password=bezmen
+          update

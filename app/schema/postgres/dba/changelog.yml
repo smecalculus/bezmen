@@ -1,0 +1,39 @@
+databaseChangeLog:
+  - logical-file-path: dba/changelog.yml
+  - property:
+      name: author
+      value: bezmen
+  - changeSet:
+      id: database-${bezmen.database}
+      author: ${author}
+      runOnChange: true
+      runInTransaction: false
+      labels: database
+      changes:
+        - sqlFile:
+            path: database.sql
+            relativeToChangeLogFile: true
+            splitStatements: false
+            stripComments: true
+  - changeSet:
+      id: schema-${bezmen.schema}
+      author: ${author}
+      runOnChange: true
+      runInTransaction: false
+      labels: schema
+      changes:
+        - sqlFile:
+            path: schema.sql
+            relativeToChangeLogFile: true
+            splitStatements: true
+  - changeSet:
+      id: user-${bezmen.username}
+      author: ${author}
+      runOnChange: true
+      runInTransaction: false
+      labels: user
+      changes:
+        - sqlFile:
+            path: user.sql
+            relativeToChangeLogFile: true
+            splitStatements: false

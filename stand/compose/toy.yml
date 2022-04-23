@@ -10,6 +10,13 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+  schema:
+    image: localhost/bezmen/schema-postgres:latest
+    profiles:
+      - db:postgres
+    depends_on:
+      postgres:
+        condition: service_healthy
   web:
     image: localhost/bezmen/web:latest
     depends_on:

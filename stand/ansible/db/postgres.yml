@@ -1,5 +1,0 @@
-- hosts: postgres
-  tasks:
-    - community.docker.docker_container:
-        name: "{{ inventory_hostname }}"
-        image: postgres:14-alpine

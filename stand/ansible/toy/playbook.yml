@@ -1,6 +1,0 @@
-- import_playbook: "{{ db }}.yml"
-
-- hosts: all
-  tasks:
-    - debug:
-        msg: "{{ foo }}"
