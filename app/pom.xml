@@ -14,6 +14,7 @@
     <module>web</module>
     <module>service</module>
     <module>data</module>
+    <module>schema</module>
     <module>core</module>
     <module>ingestion</module>
   </modules>
