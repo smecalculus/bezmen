@@ -6,34 +6,46 @@ databaseChangeLog:
   - changeSet:
       id: database-${bezmen.database}
       author: ${author}
-      runOnChange: true
+      runAlways: true
+      validCheckSum: ANY
       runInTransaction: false
       labels: database
+      preConditions:
+        - onFail: CONTINUE
+        - sqlCheck:
+            expectedResult: 0
+            sql: SELECT count(*) FROM pg_database WHERE datname = '${bezmen.database}'
       changes:
         - sqlFile:
             path: database.sql
             relativeToChangeLogFile: true
+            splitStatements: true
+  - changeSet:
+      id: user-${bezmen.owner}
+      author: ${author}
+      runAlways: true
+      runInTransaction: true
+      validCheckSum: ANY
+      labels: user
+      preConditions:
+        - onFail: CONTINUE
+        - sqlCheck:
+            expectedResult: 0
+            sql: SELECT count(*) FROM pg_roles WHERE rolname = '${bezmen.owner}'
+      changes:
+        - sqlFile:
+            path: user.sql
+            relativeToChangeLogFile: true
             splitStatements: false
-            stripComments: true
   - changeSet:
       id: schema-${bezmen.schema}
       author: ${author}
-      runOnChange: true
-      runInTransaction: false
+      runAlways: true
+      runInTransaction: true
+      validCheckSum: ANY
       labels: schema
       changes:
         - sqlFile:
             path: schema.sql
             relativeToChangeLogFile: true
             splitStatements: true
-  - changeSet:
-      id: user-${bezmen.username}
-      author: ${author}
-      runOnChange: true
-      runInTransaction: false
-      labels: user
-      changes:
-        - sqlFile:
-            path: user.sql
-            relativeToChangeLogFile: true
-            splitStatements: false

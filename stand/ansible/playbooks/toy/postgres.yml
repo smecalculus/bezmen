@@ -17,7 +17,7 @@
 - name: env schema
   hosts: env_schema
   tasks:
-    - name: database
+    - name: database & user
       community.docker.docker_container:
         name: "{{ inventory_hostname }}"
         image: localhost/bezmen/schema:latest
@@ -27,11 +27,14 @@
         command: >
           --changelog-file=postgres/dba/changelog.yml
           --url=jdbc:postgresql://localhost:5432/postgres?currentSchema=public
+          --liquibase-schema-name=public
           --username=postgres
           --password=password
-          --labels=database
+          --labels=database,user
           update
           -Dbezmen.database=bezmen
+          -Dbezmen.owner=bezmen
+          -Dbezmen.password=bezmen
     - name: schema
       community.docker.docker_container:
         name: "{{ inventory_hostname }}"
@@ -42,27 +45,13 @@
         command: >
           --changelog-file=postgres/dba/changelog.yml
           --url=jdbc:postgresql://localhost:5432/bezmen?currentSchema=public
+          --liquibase-schema-name=public
           --username=postgres
           --password=password
           --labels=schema
           update
           -Dbezmen.schema=bezmen
-    - name: user
-      community.docker.docker_container:
-        name: "{{ inventory_hostname }}"
-        image: localhost/bezmen/schema:latest
-        network_mode: host
-        state: started
-        detach: no
-        command: >
-          --changelog-file=postgres/dba/changelog.yml
-          --url=jdbc:postgresql://localhost:5432/bezmen?currentSchema=bezmen
-          --username=postgres
-          --password=password
-          --labels=user
-          update
-          -Dbezmen.username=bezmen
-          -Dbezmen.password=bezmen
+          -Dbezmen.owner=bezmen
 
 - name: app schema
   hosts: app_schema
@@ -77,6 +66,7 @@
         command: >
           --changelog-file=postgres/owner/changelog.yml
           --url=jdbc:postgresql://localhost:5432/bezmen?currentSchema=bezmen
+          --liquibase-schema-name=bezmen
           --username=bezmen
           --password=bezmen
           update

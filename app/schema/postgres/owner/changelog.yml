@@ -8,7 +8,6 @@ databaseChangeLog:
       author: ${author}
       changes:
         - sqlFile:
-            path: dummy/database.sql
+            path: dummy/dummy.sql
             relativeToChangeLogFile: true
             splitStatements: true
-            stripComments: true
