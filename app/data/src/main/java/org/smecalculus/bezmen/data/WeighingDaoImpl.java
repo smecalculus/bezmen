@@ -1,10 +1,8 @@
 package org.smecalculus.bezmen.data;
 
 import lombok.RequiredArgsConstructor;
-import org.smecalculus.bezmen.core.DmMapper;
-import org.smecalculus.bezmen.core.weighing.Weighing;
-import org.smecalculus.bezmen.core.weighing.WeighingDao;
-import org.smecalculus.bezmen.core.weighing.WeighingDm;
+import org.smecalculus.bezmen.core.Weighing;
+import org.smecalculus.bezmen.data.contract.WeighingDao;
 
 import java.util.List;
 

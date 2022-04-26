@@ -1,4 +1,7 @@
-package org.smecalculus.bezmen.core.weighing;
+package org.smecalculus.bezmen.service.contract;
+
+import org.smecalculus.bezmen.core.Weighing;
+import org.smecalculus.bezmen.core.WeighingSpec;
 
 import java.util.List;
 

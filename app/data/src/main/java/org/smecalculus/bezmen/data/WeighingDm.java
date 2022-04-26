@@ -1,4 +1,4 @@
-package org.smecalculus.bezmen.core.weighing;
+package org.smecalculus.bezmen.data;
 
 import lombok.Data;
 

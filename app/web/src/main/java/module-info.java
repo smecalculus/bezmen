@@ -10,4 +10,6 @@ module bezmen.web  {
     requires spring.context;
 
     requires lombok;
+    requires java.compiler;
+    requires org.mapstruct;
 }

@@ -1,4 +1,4 @@
-package org.smecalculus.bezmen.core.weighing;
+package org.smecalculus.bezmen.web.contract;
 
 import org.smecalculus.bezmen.api.WeighingRm;
 import org.smecalculus.bezmen.api.WeighingSpecRm;

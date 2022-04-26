@@ -1,10 +1,10 @@
-package org.smecalculus.bezmen.core;
+package org.smecalculus.bezmen.web.contract;
 
 import org.mapstruct.Mapper;
 import org.smecalculus.bezmen.api.WeighingRm;
 import org.smecalculus.bezmen.api.WeighingSpecRm;
-import org.smecalculus.bezmen.core.weighing.Weighing;
-import org.smecalculus.bezmen.core.weighing.WeighingSpec;
+import org.smecalculus.bezmen.core.Weighing;
+import org.smecalculus.bezmen.core.WeighingSpec;
 
 import java.util.List;
 

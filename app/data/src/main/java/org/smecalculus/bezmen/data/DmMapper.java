@@ -1,8 +1,7 @@
-package org.smecalculus.bezmen.core;
+package org.smecalculus.bezmen.data;
 
 import org.mapstruct.Mapper;
-import org.smecalculus.bezmen.core.weighing.Weighing;
-import org.smecalculus.bezmen.core.weighing.WeighingDm;
+import org.smecalculus.bezmen.core.Weighing;
 
 import java.util.List;
 import java.util.UUID;

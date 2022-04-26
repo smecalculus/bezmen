@@ -3,11 +3,11 @@ package org.smecalculus.bezmen.web;
 import lombok.RequiredArgsConstructor;
 import org.smecalculus.bezmen.api.WeighingRm;
 import org.smecalculus.bezmen.api.WeighingSpecRm;
-import org.smecalculus.bezmen.core.RmMapper;
-import org.smecalculus.bezmen.core.weighing.Weighing;
-import org.smecalculus.bezmen.core.weighing.WeighingApi;
-import org.smecalculus.bezmen.core.weighing.WeighingService;
-import org.smecalculus.bezmen.core.weighing.WeighingSpec;
+import org.smecalculus.bezmen.core.Weighing;
+import org.smecalculus.bezmen.core.WeighingSpec;
+import org.smecalculus.bezmen.service.contract.WeighingService;
+import org.smecalculus.bezmen.web.contract.RmMapper;
+import org.smecalculus.bezmen.web.contract.WeighingApi;
 import org.springframework.stereotype.Component;
 
 import java.util.List;

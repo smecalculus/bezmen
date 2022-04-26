@@ -3,7 +3,7 @@ package org.smecalculus.bezmen.web;
 import lombok.RequiredArgsConstructor;
 import org.smecalculus.bezmen.api.WeighingRm;
 import org.smecalculus.bezmen.api.WeighingSpecRm;
-import org.smecalculus.bezmen.core.weighing.WeighingApi;
+import org.smecalculus.bezmen.web.contract.WeighingApi;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
