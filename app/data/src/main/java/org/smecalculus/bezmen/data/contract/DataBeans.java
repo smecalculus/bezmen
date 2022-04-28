@@ -1,6 +1,7 @@
 package org.smecalculus.bezmen.data.contract;
 
-import org.smecalculus.bezmen.config.data.ConfigBeans;
+import org.smecalculus.bezmen.config.data.contract.ConfigBeans;
+import org.smecalculus.bezmen.config.data.contract.DataProps;
 import org.smecalculus.bezmen.data.impl.DmMapper;
 import org.smecalculus.bezmen.data.impl.WeighingDaoImpl;
 import org.smecalculus.bezmen.data.impl.WeighingRepository;
@@ -27,12 +28,12 @@ public class DataBeans extends AbstractJdbcConfiguration {
     }
 
     @Bean
-    public DataSource dataSource() {
+    public DataSource dataSource(DataProps dataProps) {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName("org.h2.Driver");
-        dataSource.setUrl("jdbc:h2:mem:db;DB_CLOSE_DELAY=-1");
-        dataSource.setUsername("sa");
-        dataSource.setPassword("sa");
+        dataSource.setUrl(dataProps.h2Props().url());
+        dataSource.setUsername(dataProps.h2Props().username());
+        dataSource.setPassword(dataProps.h2Props().password());
         return dataSource;
     }
 
