@@ -1,8 +1,9 @@
-package org.smecalculus.bezmen.data;
+package org.smecalculus.bezmen.data.impl;
 
 import lombok.RequiredArgsConstructor;
-import org.smecalculus.bezmen.core.Weighing;
+import org.smecalculus.bezmen.core.service.Weighing;
 import org.smecalculus.bezmen.data.contract.WeighingDao;
+import org.smecalculus.bezmen.data.model.WeighingDm;
 import org.springframework.stereotype.Component;
 
 import java.util.List;

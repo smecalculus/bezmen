@@ -1,8 +1,8 @@
-package org.smecalculus.bezmen.service;
+package org.smecalculus.bezmen.service.impl;
 
 import lombok.RequiredArgsConstructor;
-import org.smecalculus.bezmen.core.Weighing;
-import org.smecalculus.bezmen.core.WeighingSpec;
+import org.smecalculus.bezmen.core.service.Weighing;
+import org.smecalculus.bezmen.core.service.WeighingSpec;
 import org.smecalculus.bezmen.data.contract.WeighingDao;
 import org.smecalculus.bezmen.service.contract.WeighingService;
 

@@ -1,8 +1,8 @@
 module bezmen.data  {
     exports org.smecalculus.bezmen.data.contract;
-    exports org.smecalculus.bezmen.data;
 
     requires bezmen.core;
+    requires bezmen.config;
 
     requires java.sql;
 

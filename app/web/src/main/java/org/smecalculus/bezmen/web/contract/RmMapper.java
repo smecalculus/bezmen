@@ -3,8 +3,8 @@ package org.smecalculus.bezmen.web.contract;
 import org.mapstruct.Mapper;
 import org.smecalculus.bezmen.api.WeighingRm;
 import org.smecalculus.bezmen.api.WeighingSpecRm;
-import org.smecalculus.bezmen.core.Weighing;
-import org.smecalculus.bezmen.core.WeighingSpec;
+import org.smecalculus.bezmen.core.service.Weighing;
+import org.smecalculus.bezmen.core.service.WeighingSpec;
 
 import java.util.List;
 

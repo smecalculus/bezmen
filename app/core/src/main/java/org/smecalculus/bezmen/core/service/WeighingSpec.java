@@ -1,4 +1,4 @@
-package org.smecalculus.bezmen.core;
+package org.smecalculus.bezmen.core.service;
 
 import lombok.Builder;
 
