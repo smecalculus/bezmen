@@ -15,7 +15,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Retention(RUNTIME)
 public @interface ValueOfEnum {
 
-    String message() default "foo bar";
+    String message() default "Invalid enum value '${validatedValue}'";
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};
 

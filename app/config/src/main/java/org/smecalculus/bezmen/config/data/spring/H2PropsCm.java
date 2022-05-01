@@ -6,6 +6,7 @@ import javax.validation.constraints.NotBlank;
 
 @Data
 public class H2PropsCm {
+
     @NotBlank
     String url;
 

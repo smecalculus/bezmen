@@ -5,6 +5,7 @@ import javax.validation.ConstraintValidatorContext;
 import java.util.Set;
 import java.util.stream.Stream;
 
+import static java.lang.String.format;
 import static java.util.stream.Collectors.toSet;
 
 public class ValueOfEnumValidator implements ConstraintValidator<ValueOfEnum, String> {
@@ -23,6 +24,12 @@ public class ValueOfEnumValidator implements ConstraintValidator<ValueOfEnum, St
             return true;
         }
 
-        return allowedValues.contains(value);
+        if (!allowedValues.contains(value.toUpperCase())) {
+            context.buildConstraintViolationWithTemplate(format("Allowed values: %s", allowedValues))
+                    .addConstraintViolation();
+            return false;
+        }
+
+        return true;
     }
 }
