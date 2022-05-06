@@ -1,4 +1,4 @@
-package org.smecalculus.bezmen.data;
+package org.smecalculus.bezmen.data.model;
 
 public enum DataMode {
     H2,

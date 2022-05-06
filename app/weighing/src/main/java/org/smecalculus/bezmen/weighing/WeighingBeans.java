@@ -1,16 +1,15 @@
 package org.smecalculus.bezmen.weighing;
 
 import com.smecalculus.bezmen.messaging.MessagingBeans;
-import com.smecalculus.bezmen.messaging.config.MessagingProps;
+import com.smecalculus.bezmen.messaging.model.MessagingProps;
 import org.smecalculus.bezmen.core.validation.BezmenValidator;
 import org.smecalculus.bezmen.data.DataBeans;
+import org.smecalculus.bezmen.service.ServiceBeans;
 import org.smecalculus.bezmen.weighing.data.WeighingDao;
 import org.smecalculus.bezmen.weighing.data.WeighingDaoImpl;
-import org.smecalculus.bezmen.weighing.data.WeighingDmMapper;
 import org.smecalculus.bezmen.weighing.data.WeighingRepository;
-import org.smecalculus.bezmen.weighing.messaging.DefaultMessagingApi;
 import org.smecalculus.bezmen.weighing.messaging.WeighingApi;
-import org.smecalculus.bezmen.weighing.messaging.WeighingRmMapper;
+import org.smecalculus.bezmen.weighing.messaging.WeighingApiImpl;
 import org.smecalculus.bezmen.weighing.service.WeighingService;
 import org.smecalculus.bezmen.weighing.service.WeighingServiceImpl;
 import org.springframework.context.annotation.Bean;
@@ -20,13 +19,13 @@ import org.springframework.context.annotation.Import;
 import org.springframework.data.jdbc.repository.config.EnableJdbcRepositories;
 
 @Configuration(proxyBeanMethods = false)
-@Import({MessagingBeans.class, DataBeans.class})
-@ComponentScan(basePackageClasses = {WeighingRmMapper.class, WeighingDmMapper.class})
+@Import({MessagingBeans.class, ServiceBeans.class, DataBeans.class})
+@ComponentScan(basePackageClasses = {WeighingMapper.class})
 @EnableJdbcRepositories(basePackages = "org.smecalculus.bezmen.weighing.data")
 public class WeighingBeans {
 
     @Bean
-    public WeighingDao weighingDao(WeighingDmMapper mapper, WeighingRepository repository) {
+    public WeighingDao weighingDao(WeighingMapper mapper, WeighingRepository repository) {
         return new WeighingDaoImpl(mapper, repository);
     }
 
@@ -37,13 +36,13 @@ public class WeighingBeans {
 
     @Bean
     WeighingApi messagingApi(WeighingService service,
-                             WeighingRmMapper mapper,
+                             WeighingMapper mapper,
                              BezmenValidator validator) {
-        return new DefaultMessagingApi(service, mapper, validator);
+        return new WeighingApiImpl(service, mapper, validator);
     }
 
     @Bean
-    ControllerRegistrar controllerRegistrar(MessagingProps messagingProps) {
-        return new ControllerRegistrar(messagingProps.receptionProps().protocols());
+    WeighingRegistrar controllerRegistrar(MessagingProps messagingProps) {
+        return new WeighingRegistrar(messagingProps.receptionProps().protocols());
     }
 }

@@ -1,4 +1,4 @@
-package com.smecalculus.bezmen.messaging.config;
+package com.smecalculus.bezmen.messaging.model;
 
 public enum MessagingProtocol {
     HTTP,

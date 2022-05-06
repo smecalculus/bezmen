@@ -1,4 +1,4 @@
-package com.smecalculus.bezmen.messaging.config;
+package com.smecalculus.bezmen.messaging.model;
 
 import com.typesafe.config.Optional;
 import lombok.Data;

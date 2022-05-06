@@ -1,14 +1,16 @@
-package com.smecalculus.bezmen.messaging.config;
+package com.smecalculus.bezmen.messaging;
 
+import com.smecalculus.bezmen.messaging.model.MessagingProps;
+import com.smecalculus.bezmen.messaging.model.MessagingPropsCm;
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigBeanFactory;
 import lombok.NonNull;
 import org.smecalculus.bezmen.core.validation.BezmenValidator;
 
-public record DefaultMessagingConfig(
+record MessagingConfigImpl(
         @NonNull Config config,
         @NonNull BezmenValidator validator,
-        @NonNull MessagingCmMapper mapper
+        @NonNull MessagingMapper mapper
 ) implements MessagingConfig {
 
     @Override

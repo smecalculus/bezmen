@@ -1,10 +1,13 @@
-package com.smecalculus.bezmen.messaging.config;
+package com.smecalculus.bezmen.messaging;
 
+import com.smecalculus.bezmen.messaging.model.MessagingProps;
+import com.smecalculus.bezmen.messaging.model.MessagingPropsCm;
+import com.smecalculus.bezmen.messaging.model.MessagingProtocol;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring")
-public interface MessagingCmMapper {
+interface MessagingMapper {
 
     @Mapping(target = "receptionProps", source = "reception")
     MessagingProps from(MessagingPropsCm messagingPropsCm);

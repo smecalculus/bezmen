@@ -1,4 +1,4 @@
-package org.smecalculus.bezmen.data;
+package org.smecalculus.bezmen.data.model;
 
 import lombok.Data;
 import lombok.ToString;

@@ -1,6 +1,6 @@
 package org.smecalculus.bezmen.weighing;
 
-import com.smecalculus.bezmen.messaging.config.MessagingProtocol;
+import com.smecalculus.bezmen.messaging.model.MessagingProtocol;
 import org.smecalculus.bezmen.weighing.messaging.WeighingPostgresController;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
@@ -12,7 +12,7 @@ import java.util.Set;
 
 import static org.springframework.beans.factory.support.BeanDefinitionBuilder.genericBeanDefinition;
 
-record ControllerRegistrar(
+record WeighingRegistrar(
         Set<MessagingProtocol> protocols
 ) implements BeanDefinitionRegistryPostProcessor {
 

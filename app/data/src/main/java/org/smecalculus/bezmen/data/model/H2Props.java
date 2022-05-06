@@ -1,4 +1,4 @@
-package org.smecalculus.bezmen.data;
+package org.smecalculus.bezmen.data.model;
 
 import lombok.Builder;
 import lombok.NonNull;

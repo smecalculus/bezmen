@@ -1,28 +1,26 @@
 package org.smecalculus.bezmen.weighing.data;
 
-import lombok.RequiredArgsConstructor;
+import lombok.NonNull;
+import org.smecalculus.bezmen.weighing.WeighingMapper;
 import org.smecalculus.bezmen.weighing.service.Weighing;
-import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-@Component
-@RequiredArgsConstructor
-public class WeighingDaoImpl implements WeighingDao {
-
-    private final WeighingDmMapper dmMapper;
-    private final WeighingRepository weighingRepository;
+public record WeighingDaoImpl(
+        @NonNull WeighingMapper mapper,
+        @NonNull WeighingRepository repository
+) implements WeighingDao {
 
     @Override
-    public Weighing save(Weighing weighing) {
-        WeighingDm newWeighingDm = dmMapper.map(weighing);
-        WeighingDm savedWeighingDm = weighingRepository.save(newWeighingDm);
-        return dmMapper.map(savedWeighingDm);
+    public Weighing save(@NonNull Weighing weighing) {
+        WeighingDm newWeighingDm = mapper.map(weighing);
+        WeighingDm savedWeighingDm = repository.save(newWeighingDm);
+        return mapper.map(savedWeighingDm);
     }
 
     @Override
     public List<Weighing> getWeighings() {
-        Iterable<WeighingDm> weighingDms = weighingRepository.findAll();
-        return dmMapper.map(weighingDms);
+        Iterable<WeighingDm> weighingDms = repository.findAll();
+        return mapper.map(weighingDms);
     }
 }

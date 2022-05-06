@@ -4,11 +4,13 @@ import com.typesafe.config.Config;
 import com.typesafe.config.ConfigBeanFactory;
 import lombok.NonNull;
 import org.smecalculus.bezmen.core.validation.BezmenValidator;
+import org.smecalculus.bezmen.data.model.DataProps;
+import org.smecalculus.bezmen.data.model.DataPropsCm;
 
-public record DataConfigImpl(
+record DataConfigImpl(
         @NonNull Config config,
         @NonNull BezmenValidator validator,
-        @NonNull DataCmMapper mapper
+        @NonNull DataMapper mapper
 ) implements DataConfig {
 
     @Override

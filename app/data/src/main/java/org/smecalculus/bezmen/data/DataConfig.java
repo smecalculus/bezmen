@@ -1,6 +1,8 @@
 package org.smecalculus.bezmen.data;
 
-public interface DataConfig {
+import org.smecalculus.bezmen.data.model.DataProps;
+
+interface DataConfig {
 
     DataProps getDataProps();
 }
