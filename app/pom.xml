@@ -18,7 +18,8 @@
     <module>core</module>
     <module>ingestion</module>
     <module>api</module>
-    <module>config</module>
+    <module>messaging</module>
+    <module>weighing</module>
   </modules>
 
   <properties>
