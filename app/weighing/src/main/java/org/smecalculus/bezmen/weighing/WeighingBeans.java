@@ -6,8 +6,8 @@ import org.smecalculus.bezmen.core.validation.BezmenValidator;
 import org.smecalculus.bezmen.data.DataBeans;
 import org.smecalculus.bezmen.service.ServiceBeans;
 import org.smecalculus.bezmen.weighing.data.WeighingDao;
-import org.smecalculus.bezmen.weighing.data.WeighingDaoImpl;
-import org.smecalculus.bezmen.weighing.data.WeighingRepository;
+import org.smecalculus.bezmen.weighing.data.WeighingDaoSpringDataImpl;
+import org.smecalculus.bezmen.weighing.data.springdata.WeighingRepository;
 import org.smecalculus.bezmen.weighing.messaging.WeighingApi;
 import org.smecalculus.bezmen.weighing.messaging.WeighingApiImpl;
 import org.smecalculus.bezmen.weighing.service.WeighingService;
@@ -26,7 +26,7 @@ public class WeighingBeans {
 
     @Bean
     public WeighingDao weighingDao(WeighingMapper mapper, WeighingRepository repository) {
-        return new WeighingDaoImpl(mapper, repository);
+        return new WeighingDaoSpringDataImpl(mapper, repository);
     }
 
     @Bean

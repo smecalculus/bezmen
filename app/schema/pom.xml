@@ -11,6 +11,18 @@
 
   <artifactId>schema</artifactId>
 
+  <dependencies>
+    <dependency>
+      <groupId>org.liquibase</groupId>
+      <artifactId>liquibase-core</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.yaml</groupId>
+      <artifactId>snakeyaml</artifactId>
+    </dependency>
+  </dependencies>
+
   <build>
     <plugins>
       <plugin>
@@ -30,7 +42,7 @@
                       </formats>
                       <fileSets>
                         <fileSet>
-                          <directory>${project.basedir}/postgres</directory>
+                          <directory>${project.basedir}/src/main/resources/postgres</directory>
                           <outputDirectory>postgres</outputDirectory>
                         </fileSet>
                       </fileSets>

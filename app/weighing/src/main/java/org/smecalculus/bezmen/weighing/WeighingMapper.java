@@ -8,24 +8,19 @@ import org.smecalculus.bezmen.weighing.service.Weighing;
 import org.smecalculus.bezmen.weighing.service.WeighingSpec;
 
 import java.util.List;
-import java.util.UUID;
 
 @Mapper(componentModel = "spring")
 public interface WeighingMapper {
 
     WeighingSpec from(WeighingSpecRm weighingSpecRm);
 
-    WeighingRm from(Weighing weighing);
+    WeighingRm toRm(Weighing weighing);
 
-    List<WeighingRm> from(List<Weighing> weighings);
+    List<WeighingRm> toRm(List<Weighing> weighings);
 
-    WeighingDm map(Weighing weighing);
+    WeighingDm toDm(Weighing weighing);
 
-    Weighing map(WeighingDm weighingDm);
+    Weighing from(WeighingDm weighingDm);
 
-    List<Weighing> map(Iterable<WeighingDm> weighingDms);
-
-    String map(UUID uuid);
-
-    UUID map(String uuid);
+    List<Weighing> from(Iterable<WeighingDm> weighingDms);
 }

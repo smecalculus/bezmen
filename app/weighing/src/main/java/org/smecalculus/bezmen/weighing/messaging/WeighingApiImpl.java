@@ -24,13 +24,13 @@ public record WeighingApiImpl(
         validator.validate(weighingSpecRm);
         WeighingSpec weighingSpec = mapper.from(weighingSpecRm);
         Weighing weighing = weighingService.register(weighingSpec);
-        return mapper.from(weighing);
+        return mapper.toRm(weighing);
     }
 
     @Override
     public List<WeighingRm> getWeighings() {
         List<Weighing> weighings = weighingService.getWeighings();
-        return mapper.from(weighings);
+        return mapper.toRm(weighings);
     }
 
     @Override
