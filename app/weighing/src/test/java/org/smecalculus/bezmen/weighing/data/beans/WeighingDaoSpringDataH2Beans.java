@@ -1,6 +1,10 @@
-package org.smecalculus.bezmen.weighing.data;
+package org.smecalculus.bezmen.weighing.data.beans;
 
 import org.smecalculus.bezmen.schema.SchemaBeans;
+import org.smecalculus.bezmen.weighing.WeighingModelMapper;
+import org.smecalculus.bezmen.weighing.data.WeighingDao;
+import org.smecalculus.bezmen.weighing.data.WeighingDaoSpringDataImpl;
+import org.smecalculus.bezmen.weighing.data.springdata.WeighingRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
@@ -19,6 +23,11 @@ import javax.sql.DataSource;
 @EnableTransactionManagement
 @EnableJdbcRepositories(basePackages = "org.smecalculus.bezmen.weighing.data.springdata")
 public class WeighingDaoSpringDataH2Beans extends AbstractJdbcConfiguration {
+
+    @Bean
+    public WeighingDao underTest(WeighingModelMapper modelMapper, WeighingRepository repository) {
+        return new WeighingDaoSpringDataImpl(modelMapper, repository);
+    }
 
     @Bean
     public DataSource dataSource() {

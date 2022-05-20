@@ -1,7 +1,7 @@
 package org.smecalculus.bezmen.weighing.data;
 
 import lombok.NonNull;
-import org.smecalculus.bezmen.weighing.WeighingMapper;
+import org.smecalculus.bezmen.weighing.WeighingModelMapper;
 import org.smecalculus.bezmen.weighing.data.mybatis.WeighingSqlMapper;
 import org.smecalculus.bezmen.weighing.service.Weighing;
 
@@ -11,7 +11,7 @@ import java.util.UUID;
 import static java.util.Collections.emptyList;
 
 public record WeighingDaoMyBatisImpl(
-        @NonNull WeighingMapper mapper,
+        @NonNull WeighingModelMapper mapper,
         @NonNull WeighingSqlMapper sqlMapper
 ) implements WeighingDao {
 

@@ -1,7 +1,7 @@
 package org.smecalculus.bezmen.weighing.data;
 
 import lombok.NonNull;
-import org.smecalculus.bezmen.weighing.WeighingMapper;
+import org.smecalculus.bezmen.weighing.WeighingModelMapper;
 import org.smecalculus.bezmen.weighing.data.springdata.WeighingRepository;
 import org.smecalculus.bezmen.weighing.service.Weighing;
 
@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.UUID;
 
 public record WeighingDaoSpringDataImpl(
-        @NonNull WeighingMapper mapper,
+        @NonNull WeighingModelMapper mapper,
         @NonNull WeighingRepository repository
 ) implements WeighingDao {
 

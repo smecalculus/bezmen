@@ -20,12 +20,12 @@ import org.springframework.data.jdbc.repository.config.EnableJdbcRepositories;
 
 @Configuration(proxyBeanMethods = false)
 @Import({MessagingBeans.class, ServiceBeans.class, DataBeans.class})
-@ComponentScan(basePackageClasses = {WeighingMapper.class})
+@ComponentScan(basePackageClasses = {WeighingModelMapper.class})
 @EnableJdbcRepositories(basePackages = "org.smecalculus.bezmen.weighing.data")
 public class WeighingBeans {
 
     @Bean
-    public WeighingDao weighingDao(WeighingMapper mapper, WeighingRepository repository) {
+    public WeighingDao weighingDao(WeighingModelMapper mapper, WeighingRepository repository) {
         return new WeighingDaoSpringDataImpl(mapper, repository);
     }
 
@@ -36,7 +36,7 @@ public class WeighingBeans {
 
     @Bean
     WeighingApi messagingApi(WeighingService service,
-                             WeighingMapper mapper,
+                             WeighingModelMapper mapper,
                              BezmenValidator validator) {
         return new WeighingApiImpl(service, mapper, validator);
     }

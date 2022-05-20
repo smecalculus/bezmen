@@ -1,38 +1,43 @@
 project = bezmen
 
-.PHONY: deps-install install-deps
 deps-install install-deps:
 	cat requirements/ubuntu.reqs | xargs sudo apt -y install
 	pip install --user -r requirements/pip.reqs
+.PHONY: deps-install install-deps
 
-.PHONY: %-build build-%
 %-build build-%:
 	@mvn -f $*/pom.xml package
+.PHONY: %-build build-%
 
-.PHONY: %-install install-%
 %-install install-%:
 	@mvn -f $*/pom.xml install
+.PHONY: %-install install-%
 
-.PHONY: %-start start-%
 %-start start-%:
 	@mvn -f $*/pom.xml docker:start
+.PHONY: %-start start-%
 
-.PHONY: %-app-start start-%-app
 %-app-start start-%-app:
-	@mvn -f apps/$*/pom.xml docker:start
+	@mvn -f app/$*/pom.xml docker:start
+.PHONY: %-app-start start-%-app
 
-.PHONY: unit-tests-run run-unit-tests
-unit-tests-run run-unit-tests:
-	@mvn -f libs/pom.xml test
-	@mvn -f apps/pom.xml test
+# TESTING
 
-.PHONY: %-tests-run run-%-tests
-%-tests-run run-%-tests:
-	@mvn -f tests/$*/pom.xml test
+unit-test:
+	@mvn -f app/pom.xml test
+.PHONY: unit-test
 
-.PHONY: all-tests-run run-all-tests
-all-tests-run run-all-tests: unit-tests-run
-	@mvn -f tests/pom.xml test
+%-unit-test:
+	@mvn -f app/pom.xml test -am -pl $*
+.PHONY: %-unit-test
+
+%-test :
+	@mvn -f test/$*/pom.xml test
+.PHONY: %-test
+
+all-test: unit-test
+	@mvn -f test/pom.xml test
+.PHONY: all-test
 
 db=postgres
 
@@ -44,13 +49,13 @@ db=postgres
 #		--profile db:$(db) \
 #		up
 
-.PHONY: %-stand-deploy deploy-%-stand
 %-stand-deploy deploy-%-stand:
 	cd stand/ansible && \
 	ansible-playbook $*.yml \
 		-i inventory/$* \
 		-e db=$(db)
+.PHONY: %-stand-deploy deploy-%-stand
 
-.PHONY: %-publish publish-%
 %-publish publish-%:
 	@mvn -f $*/pom.xml deploy
+.PHONY: %-publish publish-%

@@ -1,9 +1,13 @@
-package org.smecalculus.bezmen.weighing.data;
+package org.smecalculus.bezmen.weighing.data.beans;
 
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.annotation.MapperScan;
 import org.smecalculus.bezmen.schema.SchemaBeans;
+import org.smecalculus.bezmen.weighing.WeighingModelMapper;
+import org.smecalculus.bezmen.weighing.data.WeighingDao;
+import org.smecalculus.bezmen.weighing.data.WeighingDaoMyBatisImpl;
+import org.smecalculus.bezmen.weighing.data.mybatis.WeighingSqlMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
@@ -15,6 +19,11 @@ import javax.sql.DataSource;
 @Configuration(proxyBeanMethods = false)
 @MapperScan("org.smecalculus.bezmen.weighing.data.mybatis")
 public class WeighingDaoMyBatisH2Beans {
+
+    @Bean
+    public WeighingDao underTest(WeighingModelMapper modelMapper, WeighingSqlMapper sqlMapper) {
+        return new WeighingDaoMyBatisImpl(modelMapper, sqlMapper);
+    }
 
     @Bean
     public DataSource dataSource() {

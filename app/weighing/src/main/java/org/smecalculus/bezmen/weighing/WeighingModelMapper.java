@@ -10,7 +10,7 @@ import org.smecalculus.bezmen.weighing.service.WeighingSpec;
 import java.util.List;
 
 @Mapper(componentModel = "spring")
-public interface WeighingMapper {
+public interface WeighingModelMapper {
 
     WeighingSpec from(WeighingSpecRm weighingSpecRm);
 
