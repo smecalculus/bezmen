@@ -1,5 +1,6 @@
 package org.smecalculus.bezmen.weighing.messaging;
 
+import org.smecalculus.bezmen.api.WeighingErrorRm;
 import org.smecalculus.bezmen.api.WeighingRm;
 import org.smecalculus.bezmen.api.WeighingSpecRm;
 import org.springframework.http.HttpStatus;
@@ -20,7 +21,10 @@ record WeighingHttpController(
             weighingApi.register(weighingSpecRm);
             return ResponseEntity.status(HttpStatus.CREATED).build();
         } catch (Exception e) {
-            return ResponseEntity.internalServerError().body("error");
+            WeighingErrorRm weighingErrorRm = new WeighingErrorRm();
+            weighingErrorRm.setMessage(e.getMessage());
+            return ResponseEntity.internalServerError()
+                    .body(weighingErrorRm);
         }
     }
 

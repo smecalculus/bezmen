@@ -3,6 +3,6 @@ package org.smecalculus.bezmen.api;
 import lombok.Data;
 
 @Data
-public class WeighingSpecRm {
-    String foo;
+public class WeighingErrorRm {
+    String message;
 }

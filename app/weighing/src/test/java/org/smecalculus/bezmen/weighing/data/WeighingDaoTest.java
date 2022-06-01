@@ -9,7 +9,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.smecalculus.bezmen.weighing.service.WeighingFixtures.getWeighing;
+import static org.smecalculus.bezmen.weighing.fixtures.WeighingFixtures.newWeighing;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = WeighingDaoBeans.class)
@@ -21,7 +21,7 @@ abstract class WeighingDaoTest {
     @Test
     void shouldSaveOneWeighing() {
         // given
-        Weighing expectedWeighing = getWeighing().build();
+        Weighing expectedWeighing = newWeighing().build();
         // when
         Weighing actualWeighing1 = weighingDao.save(expectedWeighing);
         // and
