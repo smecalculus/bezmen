@@ -1,4 +1,4 @@
-project = bezmen
+project:=bezmen
 
 deps-install install-deps:
 	cat requirements/ubuntu.reqs | xargs sudo apt -y install
@@ -39,7 +39,7 @@ all-test: unit-test
 	@mvn -f test/pom.xml test
 .PHONY: all-test
 
-db=postgres
+db:=postgres
 
 #.PHONY: %-stand-deploy deploy-%-stand
 #%-stand-deploy deploy-%-stand:
