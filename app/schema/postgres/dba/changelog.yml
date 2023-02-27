@@ -44,6 +44,11 @@ databaseChangeLog:
       runInTransaction: true
       validCheckSum: ANY
       labels: schema
+      preConditions:
+        - onFail: CONTINUE
+        - sqlCheck:
+            expectedResult: 0
+            sql: SELECT count(*) FROM pg_namespace WHERE nspname = '${bezmen.schema}'
       changes:
         - sqlFile:
             path: schema.sql

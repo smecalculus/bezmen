@@ -59,3 +59,23 @@ db:=postgres
 %-publish publish-%:
 	@mvn -f $*/pom.xml deploy
 .PHONY: %-publish publish-%
+
+dba-schema-binary:
+	@$(MAKE) -C app/schema dba-binary
+.PHONY: dba-schema-binary
+
+app-schema-binary:
+
+db-binary:
+
+db-process: db-binary
+
+migrator-code:
+
+migrator-binary: migrator-code
+
+migrator-process: migrator-binary
+
+dba-schema-process: db-process migrator-process dba-schema-binary
+
+app-schema-process: dba-schema-process app-schema-binary

@@ -1,0 +1,16 @@
+version: '3'
+
+includes:
+  schema:
+    taskfile: app/schema/Taskfile.yml
+    dir: app/schema
+  db:
+    taskfile: env/db/Taskfile.yml
+    dir: env/db
+
+tasks:
+  cleanup:
+    cmds:
+      - docker image prune -f
+      - docker volume prune -f
+      - docker network prune -f
