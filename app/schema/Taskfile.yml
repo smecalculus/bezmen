@@ -5,6 +5,7 @@ set: [pipefail]
 vars:
   VENDOR: postgres
   IMAGE: schema-{{.VENDOR}}
+  REGISTRY: '{{.REGISTRY | default "localhost" }}'
   BRANCH:
     sh: git rev-parse --abbrev-ref HEAD
   REVISION:
@@ -12,12 +13,26 @@ vars:
   REV: '{{.REVISION | trunc 7 }}'
 
 tasks:
-  binary:
+  binary-1:
     desc: create binary artifact
+    preconditions:
+      - sh: '[ "{{.REGISTRY}}" = "localhost" ]'
     status:
       - docker image inspect {{.IMAGE}}:{{.REV}}
     cmds:
-      - docker build -t {{.IMAGE}}:{{.BRANCH}} -t {{.IMAGE}}:{{.REV}} .
+      - docker build -t {{.IMAGE}}:{{.REV}} .
+    dir: '{{.VENDOR}}'
+  binary-2:
+    desc: create binary artifact
+    preconditions:
+      - sh: '[ "{{.REGISTRY}}" != "localhost" ]'
+    vars:
+      NAME: '{{.REGISTRY}}/smecalculus/{{.IMAGE}}:{{.REV}}'
+    status:
+      - docker pull {{.NAME}}
+    cmds:
+      - docker build -t {{.NAME}} .
+      - docker push {{.NAME}}
     dir: '{{.VENDOR}}'
   dba:
     desc: create dba objects
@@ -29,7 +44,7 @@ tasks:
       - task: binary
       - task: :db:empty
     cmds:
-      - cmd: docker rm -f $(docker ps -aq --filter name={{.VENDOR}}-dba*)
+      - cmd: docker rm -f $(docker ps -aq --filter name={{.VENDOR}}-dba*) 2> /dev/null
         ignore_error: true
       - cmd: >
           docker run
@@ -56,7 +71,7 @@ tasks:
     deps:
       - task: dba
     cmds:
-      - cmd: docker rm -f $(docker ps -aq -f name={{.VENDOR}}-owner*)
+      - cmd: docker rm -f $(docker ps -aq -f name={{.VENDOR}}-owner*) 2> /dev/null
         ignore_error: true
       - cmd: >
           docker run

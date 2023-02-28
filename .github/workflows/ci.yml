@@ -31,4 +31,4 @@ jobs:
         uses: arduino/setup-task@v1
 
       - name: Build image
-        run: task schema:owner
+        run: task schema:binary-2 REGISTRY=${{ env.REGISTRY }}
