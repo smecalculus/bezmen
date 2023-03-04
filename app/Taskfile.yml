@@ -1,0 +1,19 @@
+version: '3'
+
+set: [pipefail]
+
+vars:
+  REVISION:
+    sh: git write-tree --prefix=app
+  REV: '{{.REVISION | trunc 7 }}'
+
+tasks:
+  binary:
+    vars:
+      VERSION: 0.1.0-{{.REV }}
+      DIR: weighing/target
+    status:
+      - test -f {{.DIR}}/weighing-{{.VERSION}}.jar
+    cmds:
+      - find . -name "*.jar" -type f -delete
+      - mvn package -o -am -T 1C -Drevision={{.VERSION}}

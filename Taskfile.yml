@@ -1,6 +1,9 @@
 version: '3'
 
 includes:
+  app:
+    taskfile: app/Taskfile.yml
+    dir: app
   schema:
     taskfile: app/schema/Taskfile.yml
     dir: app/schema

@@ -10,7 +10,20 @@ env:
   REGISTRY: ghcr.io
 
 jobs:
-  full:
+  app:
+    timeout-minutes: 15
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Install Task
+        uses: arduino/setup-task@v1
+
+      - name: Build jar
+        run: task app:binary
+
+  schema:
     timeout-minutes: 15
     runs-on: ubuntu-latest
     permissions:
@@ -31,4 +44,4 @@ jobs:
         uses: arduino/setup-task@v1
 
       - name: Build image
-        run: task schema:binary-2 REGISTRY=${{ env.REGISTRY }}
+        run: task schema:binary-1

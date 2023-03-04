@@ -1,0 +1,13 @@
+databaseChangeLog:
+  - logical-file-path: owner/changelog.yml
+  - property:
+      name: author
+      value: bezmen
+  - changeSet:
+      id: dummy
+      author: ${author}
+      changes:
+        - sqlFile:
+            path: dummy/dummy.sql
+            relativeToChangeLogFile: true
+            splitStatements: true
