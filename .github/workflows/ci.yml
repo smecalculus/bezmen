@@ -44,4 +44,4 @@ jobs:
         uses: arduino/setup-task@v1
 
       - name: Build image
-        run: task schema:binary-1
+        run: task schema:binary-1 REGISTRY=localhost

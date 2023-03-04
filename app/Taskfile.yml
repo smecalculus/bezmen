@@ -16,4 +16,4 @@ tasks:
       - test -f {{.DIR}}/weighing-{{.VERSION}}.jar
     cmds:
       - find . -name "*.jar" -type f -delete
-      - mvn package -o -am -T 1C -Drevision={{.VERSION}}
+      - mvn package -am -T 1C -Drevision={{.VERSION}}
