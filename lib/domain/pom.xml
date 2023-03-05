@@ -3,25 +3,23 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <parent>
-    <artifactId>app</artifactId>
+    <artifactId>lib</artifactId>
     <groupId>org.smecalculus.bezmen</groupId>
     <version>${revision}</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
 
-  <artifactId>core</artifactId>
+  <artifactId>domain</artifactId>
 
   <dependencies>
     <dependency>
       <groupId>javax.validation</groupId>
       <artifactId>validation-api</artifactId>
     </dependency>
-
     <dependency>
       <groupId>org.hibernate.validator</groupId>
       <artifactId>hibernate-validator</artifactId>
     </dependency>
-
     <dependency>
       <groupId>com.typesafe</groupId>
       <artifactId>config</artifactId>

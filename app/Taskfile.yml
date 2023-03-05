@@ -6,14 +6,14 @@ vars:
   REVISION:
     sh: git write-tree --prefix=app
   REV: '{{.REVISION | trunc 7 }}'
+  VERSION: 0.1.0-{{.REV }}
 
 tasks:
   binary:
-    vars:
-      VERSION: 0.1.0-{{.REV }}
-      DIR: weighing/target
     status:
-      - test -f {{.DIR}}/weighing-{{.VERSION}}.jar
+      - test -f foo/target/foo-{{.VERSION}}.jar
+    deps:
+      - task: :lib:binary
     cmds:
       - find . -name "*.jar" -type f -delete
-      - mvn package -am -T 1C -Drevision={{.VERSION}}
+      - mvn package -am -T1C -Drevision={{.VERSION}}

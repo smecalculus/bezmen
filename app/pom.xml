@@ -11,27 +11,58 @@
   <version>${revision}</version>
 
   <modules>
-    <module>web</module>
-    <module>service</module>
-    <module>data</module>
-    <module>schema</module>
-    <module>core</module>
-    <module>api</module>
-    <module>messaging</module>
-    <module>weighing</module>
+    <module>foo</module>
   </modules>
 
   <properties>
     <revision>0.1.0-SNAPSHOT</revision>
+    <lib.version>0.1.0-SNAPSHOT</lib.version>
     <lombok.version>1.18.24</lombok.version>
     <mapstruct.version>1.5.0.RC1</mapstruct.version>
     <mockito.version>4.6.0</mockito.version>
-
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
 
   <dependencyManagement>
     <dependencies>
+<!--      <dependency>-->
+<!--        <groupId>org.smecalculus.bezmen</groupId>-->
+<!--        <artifactId>core</artifactId>-->
+<!--        <version>0.1.0-SNAPSHOT</version>-->
+<!--        <type>pom</type>-->
+<!--        <scope>import</scope>-->
+<!--      </dependency>-->
+      <dependency>
+        <groupId>${project.groupId}</groupId>
+        <artifactId>domain</artifactId>
+        <version>${lib.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>${project.groupId}</groupId>
+        <artifactId>api</artifactId>
+        <version>${lib.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>${project.groupId}</groupId>
+        <artifactId>messaging</artifactId>
+        <version>${lib.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>${project.groupId}</groupId>
+        <artifactId>service</artifactId>
+        <version>${lib.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>${project.groupId}</groupId>
+        <artifactId>data</artifactId>
+        <version>${lib.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>${project.groupId}</groupId>
+        <artifactId>schema</artifactId>
+        <version>${lib.version}</version>
+      </dependency>
+
       <dependency>
         <groupId>com.typesafe</groupId>
         <artifactId>config</artifactId>

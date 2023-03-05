@@ -1,0 +1,16 @@
+version: '3'
+
+set: [pipefail]
+
+vars:
+  REVISION:
+    sh: git write-tree --prefix=lib
+  REV: '{{.REVISION | trunc 7 }}'
+
+tasks:
+  binary:
+    status:
+      - test -f target/pom-resolved-{{.REV}}.xml
+    cmds:
+      - find . -name "pom-resolved*.xml" -type f -delete
+      - mvn install -am -T1C -Drev={{.REV}}
