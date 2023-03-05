@@ -7,9 +7,6 @@ includes:
   lib:
     taskfile: lib/Taskfile.yml
     dir: lib
-  schema:
-    taskfile: lib/schema/Taskfile.yml
-    dir: lib/schema
   db:
     taskfile: env/db/Taskfile.yml
     dir: env/db

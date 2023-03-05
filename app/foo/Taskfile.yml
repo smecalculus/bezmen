@@ -1,0 +1,42 @@
+version: '3'
+
+set: [pipefail]
+
+vars:
+  APP: foo
+  REVISION:
+    sh: git write-tree --prefix=app/{{.APP}}
+  REV: '{{.REVISION | trunc 7 }}'
+  VERSION: 0.1.0-{{.REV }}
+  IMAGE: '{{.APP}}'
+
+tasks:
+  binary:
+    status:
+      - test -f target/{{.APP}}-{{.VERSION}}.jar
+    deps:
+      - task: ::lib:binary
+    cmds:
+      - find . -name "*.jar" -type f -delete
+      - mvn package -am -T1C -Drevision={{.VERSION}}
+  image-1:
+    preconditions:
+      - sh: '[ "{{.REGISTRY}}" = "localhost" ]'
+    status:
+      - docker image inspect {{.IMAGE}}:{{.REV}}
+    deps:
+      - task: binary
+    cmds:
+      - cmd: docker rmi -f $(docker images -q --filter reference={{.IMAGE}}*) 2> /dev/null
+        ignore_error: true
+      - docker build target/docker-context -f Dockerfile -t {{.IMAGE}}:{{.REV}}
+  image-2:
+    preconditions:
+      - sh: '[ "{{.REGISTRY}}" != "localhost" ]'
+    vars:
+      NAME: '{{.REGISTRY}}/smecalculus/{{.IMAGE}}:{{.REV}}'
+    status:
+      - docker pull {{.NAME}}
+    cmds:
+      - docker build -t {{.NAME}} .
+      - docker push {{.NAME}}

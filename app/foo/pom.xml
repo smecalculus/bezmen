@@ -15,38 +15,41 @@
     <dependency>
       <groupId>${project.groupId}</groupId>
       <artifactId>domain</artifactId>
-<!--      <version>${revision}</version>-->
     </dependency>
-
     <dependency>
       <groupId>${project.groupId}</groupId>
       <artifactId>api</artifactId>
-<!--      <version>${revision}</version>-->
     </dependency>
-
     <dependency>
       <groupId>${project.groupId}</groupId>
       <artifactId>messaging</artifactId>
-<!--      <version>${revision}</version>-->
     </dependency>
-
     <dependency>
       <groupId>${project.groupId}</groupId>
       <artifactId>service</artifactId>
-<!--      <version>${revision}</version>-->
     </dependency>
-
     <dependency>
       <groupId>${project.groupId}</groupId>
       <artifactId>data</artifactId>
-<!--      <version>${revision}</version>-->
     </dependency>
-
     <dependency>
       <groupId>${project.groupId}</groupId>
       <artifactId>schema</artifactId>
-<!--      <version>${revision}</version>-->
       <scope>test</scope>
     </dependency>
   </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <artifactId>maven-assembly-plugin</artifactId>
+        <configuration>
+          <descriptorRefs>
+            <descriptorRef>jar-with-dependencies</descriptorRef>
+          </descriptorRefs>
+          <outputDirectory>${project.build.directory}/docker-context</outputDirectory>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
 </project>

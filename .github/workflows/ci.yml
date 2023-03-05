@@ -26,8 +26,8 @@ jobs:
       - name: Install Task
         uses: arduino/setup-task@v1
 
-      - name: Build jar
-        run: task app:binary
+      - name: Build
+        run: task app:foo:image-1 REGISTRY=localhost
 
   schema:
     timeout-minutes: 15
@@ -50,4 +50,4 @@ jobs:
         uses: arduino/setup-task@v1
 
       - name: Build image
-        run: task schema:binary-1 REGISTRY=localhost
+        run: task lib:schema:image-1 REGISTRY=localhost

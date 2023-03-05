@@ -7,6 +7,11 @@ vars:
     sh: git write-tree --prefix=lib
   REV: '{{.REVISION | trunc 7 }}'
 
+includes:
+  schema:
+    taskfile: schema/Taskfile.yml
+    dir: schema
+
 tasks:
   binary:
     status:

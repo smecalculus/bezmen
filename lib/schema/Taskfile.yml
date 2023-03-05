@@ -9,20 +9,22 @@ vars:
   BRANCH:
     sh: git rev-parse --abbrev-ref HEAD
   REVISION:
-    sh: git write-tree --prefix=app/schema/{{.VENDOR}}
+    sh: git write-tree --prefix=lib/schema/{{.VENDOR}}
   REV: '{{.REVISION | trunc 7 }}'
 
 tasks:
-  binary-1:
+  image-1:
     desc: create binary artifact
     preconditions:
       - sh: '[ "{{.REGISTRY}}" = "localhost" ]'
     status:
       - docker image inspect {{.IMAGE}}:{{.REV}}
     cmds:
-      - docker build -t {{.IMAGE}}:{{.REV}} .
+      - cmd: docker rmi -f $(docker images -q --filter reference={{.IMAGE}}*) 2> /dev/null
+        ignore_error: true
+      - docker build . -t {{.IMAGE}}:{{.REV}}
     dir: '{{.VENDOR}}'
-  binary-2:
+  image-2:
     desc: create binary artifact
     preconditions:
       - sh: '[ "{{.REGISTRY}}" != "localhost" ]'
