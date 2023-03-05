@@ -27,8 +27,7 @@ tasks:
     deps:
       - task: binary
     cmds:
-      - cmd: docker rmi -f $(docker images -q --filter reference={{.IMAGE}}*) 2> /dev/null
-        ignore_error: true
+      - task: reset
       - docker build target/docker-context -f Dockerfile -t {{.IMAGE}}:{{.REV}}
   image-2:
     preconditions:
@@ -40,3 +39,25 @@ tasks:
     cmds:
       - docker build -t {{.NAME}} .
       - docker push {{.NAME}}
+  container-1:
+    vars:
+      NAME: '{{.APP}}-{{.REV}}'
+    status:
+      - '$(docker container inspect -f {{"{{.State.Running}}"}} {{.NAME}})'
+    deps:
+      - task: image-1
+      - task: ::lib:schema:owner
+    cmds:
+      - cmd: docker rm -f $(docker ps -aq --filter name={{.APP}}*) 2> /dev/null
+        ignore_error: true
+      - cmd: >
+          docker run -d
+          --name {{.NAME}}
+          --net host
+          --label ancestor={{.IMAGE}}
+          {{.IMAGE}}:{{.REV}}
+  reset:
+      - cmd: docker rm -f $(docker ps -aq -f label=ancestor={{.IMAGE}}) 2> /dev/null
+        ignore_error: true
+      - cmd: docker rmi -f $(docker images -q --filter reference={{.IMAGE}}*) 2> /dev/null
+        ignore_error: true

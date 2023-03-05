@@ -27,7 +27,7 @@ jobs:
         uses: arduino/setup-task@v1
 
       - name: Build
-        run: task app:foo:image-1 REGISTRY=localhost
+        run: task app:foo:container-1 REGISTRY=localhost
 
   schema:
     timeout-minutes: 15

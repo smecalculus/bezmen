@@ -1,0 +1,13 @@
+version: '3'
+
+set: [pipefail]
+
+vars:
+  REVISION:
+    sh: git write-tree --prefix=env
+  REV: '{{.REVISION | trunc 7 }}'
+
+includes:
+  db:
+    taskfile: db/Taskfile.yml
+    dir: db

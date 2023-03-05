@@ -7,9 +7,9 @@ includes:
   lib:
     taskfile: lib/Taskfile.yml
     dir: lib
-  db:
-    taskfile: env/db/Taskfile.yml
-    dir: env/db
+  env:
+    taskfile: env/Taskfile.yml
+    dir: env
 
 tasks:
   cleanup:

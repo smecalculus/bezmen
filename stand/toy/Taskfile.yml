@@ -1,0 +1,14 @@
+version: '3'
+
+set: [pipefail]
+
+vars:
+  STAND: toy
+  REVISION:
+    sh: git write-tree --prefix={{.STAND}}
+  REV: '{{.REVISION | trunc 7 }}'
+
+tasks:
+  up:
+    cmds:
+      - echo
