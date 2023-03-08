@@ -1,0 +1,25 @@
+= bezmen
+:sectnums:
+:toc:
+:toclevels: 4
+:toc-title: Оглавление
+
+== app
+
+include::app/README.adoc[]
+
+== lib
+
+include::lib/README.adoc[]
+
+== env
+
+include::env/README.adoc[]
+
+== stand
+
+include::stand/README.adoc[]
+
+== test
+
+include::test/README.adoc[]

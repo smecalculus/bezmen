@@ -16,7 +16,7 @@
     <module>data</module>
     <module>schema</module>
     <module>domain</module>
-    <module>api</module>
+    <module>client</module>
     <module>messaging</module>
   </modules>
 

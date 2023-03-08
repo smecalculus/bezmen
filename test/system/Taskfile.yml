@@ -1,0 +1,16 @@
+version: '3'
+
+set: [pipefail]
+
+vars:
+  TEST_SYSTEM_REVISION:
+    sh: git write-tree --prefix=test/system
+  TEST_SYSTEM_REV: '{{.TEST_SYSTEM_REVISION | trunc 7 }}'
+
+tasks:
+  run:
+    deps:
+      - task: ::stand:toy:mk
+    cmds:
+      - cmd: >
+          mvn test

@@ -3,9 +3,9 @@ version: '3'
 set: [pipefail]
 
 vars:
-  REVISION:
+  APP_REVISION:
     sh: git write-tree --prefix=app
-  REV: '{{.REVISION | trunc 7 }}'
+  APP_REV: '{{.APP_REVISION | trunc 7 }}'
 
 includes:
   foo:
@@ -14,4 +14,7 @@ includes:
 
 tasks:
   binary:
-    # TODO
+    status:
+
+    cmds:
+      - echo {.TASK}

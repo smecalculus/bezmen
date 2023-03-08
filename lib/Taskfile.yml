@@ -3,9 +3,9 @@ version: '3'
 set: [pipefail]
 
 vars:
-  REVISION:
+  LIB_REVISION:
     sh: git write-tree --prefix=lib
-  REV: '{{.REVISION | trunc 7 }}'
+  LIB_REV: '{{.LIB_REVISION | trunc 7 }}'
 
 includes:
   schema:
@@ -15,7 +15,7 @@ includes:
 tasks:
   binary:
     status:
-      - test -f target/pom-resolved-{{.REV}}.xml
+      - test -f target/pom-resolved-{{.LIB_REV}}.xml
     cmds:
       - find . -name "pom-resolved*.xml" -type f -delete
-      - mvn install -am -T1C -Drev={{.REV}}
+      - mvn install -am -T1C -Drev={{.LIB_REV}}

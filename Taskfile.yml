@@ -4,18 +4,21 @@ vars:
   DB_MODE: postgres
 
 includes:
-  app:
-    taskfile: app/Taskfile.yml
-    dir: app
   lib:
     taskfile: lib/Taskfile.yml
     dir: lib
   env:
     taskfile: env/Taskfile.yml
     dir: env
+  app:
+    taskfile: app/Taskfile.yml
+    dir: app
   stand:
     taskfile: stand/Taskfile.yml
     dir: stand
+  test:
+    taskfile: test/Taskfile.yml
+    dir: test
 
 tasks:
   clean:

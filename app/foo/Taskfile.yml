@@ -7,18 +7,19 @@ vars:
   APP_FOO_REVISION:
     sh: git write-tree --prefix=app/{{.APP}}
   APP_FOO_REV: '{{.APP_FOO_REVISION | trunc 7 }}'
-  VERSION: 0.1.0-{{.APP_FOO_REV }}
+  APP_FOO_VERSION: 0.1.0-{{.APP_FOO_REV }}
   IMAGE: '{{.APP}}'
 
 tasks:
   binary:
     status:
-      - test -f target/{{.APP}}-{{.VERSION}}.jar
+      - test -f target/{{.APP}}-{{.APP_FOO_VERSION}}.jar
     deps:
       - task: ::lib:binary
     cmds:
       - find . -name "*.jar" -type f -delete
-      - mvn package -am -T1C -Drevision={{.VERSION}}
+      - mvn package -am -T1C -Drevision={{.APP_FOO_VERSION}}
+
   image-1:
     preconditions:
       - sh: '[ "{{.REGISTRY}}" = "localhost" ]'
@@ -28,7 +29,11 @@ tasks:
       - task: binary
     cmds:
       - task: reset
-      - docker build target/docker-context -f Dockerfile -t {{.IMAGE}}:{{.APP_FOO_REV}}
+      - cmd: >
+          docker build target/docker-context
+          -f Dockerfile
+          -t {{.IMAGE}}:{{.APP_FOO_REV}}
+
   image-2:
     preconditions:
       - sh: '[ "{{.REGISTRY}}" != "localhost" ]'
@@ -39,6 +44,7 @@ tasks:
     cmds:
       - docker build -t {{.NAME}} .
       - docker push {{.NAME}}
+
   container-1:
     vars:
       NAME: '{{.APP}}-{{.APP_FOO_REV}}'
@@ -56,6 +62,7 @@ tasks:
           --net host
           --label ancestor={{.IMAGE}}
           {{.IMAGE}}:{{.APP_FOO_REV}}
+
   reset:
       - cmd: docker rm -f $(docker ps -aq -f label=ancestor={{.IMAGE}}) 2> /dev/null
         ignore_error: true

@@ -3,15 +3,15 @@ version: '3'
 vars:
   USAGE: toy
   VENDOR: postgres
-  REVISION:
+  ENV_DB_REVISION:
     sh: git write-tree --prefix=env/db
-  REV: '{{.REVISION | trunc 7 }}'
+  ENV_DB_REV: '{{.ENV_DB_REVISION | trunc 7 }}'
 
 tasks:
   empty:
     desc: create empty database for specific usage
     vars:
-      NAME: '{{.USAGE}}-{{.VENDOR}}-{{.REV }}'
+      NAME: '{{.USAGE}}-{{.VENDOR}}-{{.ENV_DB_REV }}'
     status:
       - '$(docker container inspect -f {{"{{.State.Running}}"}} {{.NAME}})'
     dir: src

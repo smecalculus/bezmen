@@ -1,0 +1,9 @@
+Тестирование целевого приложения
+
+=== integration
+
+include::integration/README.adoc[]
+
+=== system
+
+include::system/README.adoc[]

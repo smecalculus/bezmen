@@ -3,9 +3,9 @@ version: '3'
 set: [pipefail]
 
 vars:
-  REVISION:
+  ENV_REVISION:
     sh: git write-tree --prefix=env
-  REV: '{{.REVISION | trunc 7 }}'
+  ENV_REV: '{{.ENV_REVISION | trunc 7 }}'
 
 includes:
   db:
