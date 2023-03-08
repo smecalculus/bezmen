@@ -37,7 +37,7 @@
       </dependency>
       <dependency>
         <groupId>${project.groupId}</groupId>
-        <artifactId>api</artifactId>
+        <artifactId>client</artifactId>
         <version>${lib.version}</version>
       </dependency>
       <dependency>

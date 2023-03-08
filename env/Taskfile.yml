@@ -6,8 +6,3 @@ vars:
   ENV_REVISION:
     sh: git write-tree --prefix=env
   ENV_REV: '{{.ENV_REVISION | trunc 7 }}'
-
-includes:
-  db:
-    taskfile: db/Taskfile.yml
-    dir: db

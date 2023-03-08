@@ -1,9 +1,0 @@
-- import_playbook: "playbooks/toy/{{ db }}.yml"
-
-- hosts: app_web
-  tasks:
-    - community.docker.docker_container:
-        name: "{{ inventory_hostname }}"
-        image: localhost/bezmen/web:latest
-  roles:
-    - toy/dummy

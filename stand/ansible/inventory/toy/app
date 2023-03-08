@@ -1,9 +1,0 @@
-[app_web]
-toy_app_web_1 ansible_connection=local
-
-[app_schema]
-toy_app_schema_1 ansible_connection=local
-
-[app:children]
-app_web
-app_schema

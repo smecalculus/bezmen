@@ -1,9 +1,0 @@
-[env_postgres]
-toy_env_postgres_1 ansible_connection=local
-
-[env_schema]
-toy_env_schema_1 ansible_connection=local
-
-[env:children]
-env_postgres
-env_schema
