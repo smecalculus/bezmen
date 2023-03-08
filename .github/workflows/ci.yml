@@ -27,27 +27,4 @@ jobs:
         uses: arduino/setup-task@v1
 
       - name: Build
-        run: task app:foo:container-1 REGISTRY=localhost
-
-  schema:
-    timeout-minutes: 15
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      packages: write
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
-
-      - name: Log in to the registry
-        uses: docker/login-action@v2
-        with:
-          registry: ${{ env.REGISTRY }}
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Install Task
-        uses: arduino/setup-task@v1
-
-      - name: Build image
-        run: task lib:schema:image-1 REGISTRY=localhost
+        run: task stand:toy:mk REGISTRY=localhost

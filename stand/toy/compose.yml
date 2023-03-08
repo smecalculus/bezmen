@@ -1,0 +1,72 @@
+name: toy
+services:
+  db:
+    image: postgres:15-alpine
+    container_name: db
+    profiles:
+      - postgres
+    environment:
+      POSTGRES_DB: bezmen
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  schema-dba:
+    image: schema-postgres:${SCHEMA_TAG}
+    container_name: schema-dba
+    profiles:
+      - postgres
+    depends_on:
+      db:
+        condition: service_healthy
+    labels:
+      bezmen.image: schema-postgres
+      bezmen.revision: ${SCHEMA_TAG}
+    command: >
+      --show-banner=false
+      --changelog-file=dba/changelog.yml
+      --url=jdbc:postgresql://db:5432/bezmen?currentSchema=public
+      --liquibase-schema-name=public
+      --username=postgres
+      --password=password
+      --labels=user,schema
+      update
+      -Dbezmen.schema=bezmen
+      -Dbezmen.owner=bezmen
+      -Dbezmen.password=bezmen
+
+  schema-owner:
+    image: schema-postgres:${SCHEMA_TAG}
+    container_name: schema-owner
+    profiles:
+      - postgres
+    depends_on:
+      schema-dba:
+        condition: service_completed_successfully
+    labels:
+      bezmen.image: schema-postgres
+      bezmen.revision: ${SCHEMA_TAG}
+    command: >
+      --show-banner=false
+      --changelog-file=owner/changelog.yml
+      --url=jdbc:postgresql://db:5432/bezmen?currentSchema=bezmen
+      --liquibase-schema-name=bezmen
+      --username=bezmen
+      --password=bezmen
+      update
+
+  foo:
+    image: foo:${FOO_TAG}
+    container_name: foo
+    depends_on:
+      db:
+        condition: service_healthy
+      schema-owner:
+        condition: service_completed_successfully
+    labels:
+      bezmen.image: foo
+      bezmen.revision: ${FOO_TAG}

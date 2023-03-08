@@ -1,5 +1,8 @@
 version: '3'
 
+vars:
+  DB_MODE: postgres
+
 includes:
   app:
     taskfile: app/Taskfile.yml
@@ -10,9 +13,12 @@ includes:
   env:
     taskfile: env/Taskfile.yml
     dir: env
+  stand:
+    taskfile: stand/Taskfile.yml
+    dir: stand
 
 tasks:
-  cleanup:
+  clean:
     cmds:
       - docker image prune -f
       - docker volume prune -f

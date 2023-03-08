@@ -4,10 +4,10 @@ set: [pipefail]
 
 vars:
   APP: foo
-  REVISION:
+  APP_FOO_REVISION:
     sh: git write-tree --prefix=app/{{.APP}}
-  REV: '{{.REVISION | trunc 7 }}'
-  VERSION: 0.1.0-{{.REV }}
+  APP_FOO_REV: '{{.APP_FOO_REVISION | trunc 7 }}'
+  VERSION: 0.1.0-{{.APP_FOO_REV }}
   IMAGE: '{{.APP}}'
 
 tasks:
@@ -23,17 +23,17 @@ tasks:
     preconditions:
       - sh: '[ "{{.REGISTRY}}" = "localhost" ]'
     status:
-      - docker image inspect {{.IMAGE}}:{{.REV}}
+      - docker image inspect {{.IMAGE}}:{{.APP_FOO_REV}}
     deps:
       - task: binary
     cmds:
       - task: reset
-      - docker build target/docker-context -f Dockerfile -t {{.IMAGE}}:{{.REV}}
+      - docker build target/docker-context -f Dockerfile -t {{.IMAGE}}:{{.APP_FOO_REV}}
   image-2:
     preconditions:
       - sh: '[ "{{.REGISTRY}}" != "localhost" ]'
     vars:
-      NAME: '{{.REGISTRY}}/smecalculus/{{.IMAGE}}:{{.REV}}'
+      NAME: '{{.REGISTRY}}/smecalculus/{{.IMAGE}}:{{.APP_FOO_REV}}'
     status:
       - docker pull {{.NAME}}
     cmds:
@@ -41,7 +41,7 @@ tasks:
       - docker push {{.NAME}}
   container-1:
     vars:
-      NAME: '{{.APP}}-{{.REV}}'
+      NAME: '{{.APP}}-{{.APP_FOO_REV}}'
     status:
       - '$(docker container inspect -f {{"{{.State.Running}}"}} {{.NAME}})'
     deps:
@@ -55,7 +55,7 @@ tasks:
           --name {{.NAME}}
           --net host
           --label ancestor={{.IMAGE}}
-          {{.IMAGE}}:{{.REV}}
+          {{.IMAGE}}:{{.APP_FOO_REV}}
   reset:
       - cmd: docker rm -f $(docker ps -aq -f label=ancestor={{.IMAGE}}) 2> /dev/null
         ignore_error: true

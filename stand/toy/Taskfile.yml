@@ -3,12 +3,31 @@ version: '3'
 set: [pipefail]
 
 vars:
-  STAND: toy
-  REVISION:
-    sh: git write-tree --prefix={{.STAND}}
-  REV: '{{.REVISION | trunc 7 }}'
+  STAND_TOY_REVISION:
+    sh: git write-tree --prefix=stand/toy
+  STAND_TOY_REV: '{{.STAND_TOY_REVISION | trunc 7 }}'
 
 tasks:
-  up:
+  mk:
+    deps:
+      - task: ::lib:schema:image-1
+      - task: ::app:foo:image-1
+    env:
+      SCHEMA_TAG: '{{.APP_SCHEMA_REV}}'
+      FOO_TAG: '{{.APP_FOO_REV}}'
     cmds:
-      - echo
+      - cmd: >
+          docker compose
+          --profile {{.DB_MODE}}
+          up
+          --detach
+  rm:
+    env:
+      SCHEMA_TAG: '{{.APP_SCHEMA_REV}}'
+      FOO_TAG: '{{.APP_FOO_REV}}'
+    cmds:
+      - cmd: >
+          docker compose
+          --profile {{.DB_MODE}}
+          down
+          --volumes

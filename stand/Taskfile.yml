@@ -1,0 +1,8 @@
+version: '3'
+
+set: [pipefail]
+
+includes:
+  toy:
+    taskfile: toy/Taskfile.yml
+    dir: toy
