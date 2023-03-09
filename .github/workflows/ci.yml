@@ -6,9 +6,6 @@ on:
   pull_request:
     branches: [main]
 
-env:
-  REGISTRY: ghcr.io
-
 jobs:
   app:
     timeout-minutes: 15
@@ -27,4 +24,4 @@ jobs:
         uses: arduino/setup-task@v1
 
       - name: Build
-        run: task stand:toy:mk REGISTRY=localhost
+        run: task stand:toy:mk
