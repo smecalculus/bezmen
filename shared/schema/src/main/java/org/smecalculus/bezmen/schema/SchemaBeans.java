@@ -5,20 +5,13 @@ import org.springframework.context.annotation.Bean;
 
 import javax.sql.DataSource;
 
-
-/**
- * Подтягиваем в другие модули
- * 1. Джарником
- * 2. Zip'ом
- * 3. Файликами из директории
- */
 public class SchemaBeans {
 
     @Bean
-    public SpringLiquibase liquibase(DataSource dataSource) {
+    public SpringLiquibase alfa(DataSource dataSource) {
         SpringLiquibase liquibase = new SpringLiquibase();
         liquibase.setDataSource(dataSource);
-        liquibase.setChangeLog("classpath:/postgres/owner/changelog.yml");
+        liquibase.setChangeLog("classpath:/postgres/alfa/owner/changelog.yml");
         return liquibase;
     }
 }

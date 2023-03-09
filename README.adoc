@@ -1,6 +1,6 @@
 = bezmen
 :sectnums:
-:toc:
+:toc: macro
 :toc-title:
 :toclevels: 5
 
