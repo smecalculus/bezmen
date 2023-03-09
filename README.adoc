@@ -1,16 +1,20 @@
 = bezmen
 :sectnums:
 :toc:
-:toclevels: 4
-:toc-title: Оглавление
+:toc-title:
+:toclevels: 5
+
+Преамбула
+
+toc::[]
 
 == app
 
 include::app/README.adoc[]
 
-== lib
+== shared
 
-include::lib/README.adoc[]
+include::shared/README.adoc[]
 
 == env
 
@@ -23,3 +27,7 @@ include::stand/README.adoc[]
 == test
 
 include::test/README.adoc[]
+
+== build
+
+Инструменты сборки

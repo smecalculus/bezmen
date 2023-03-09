@@ -14,7 +14,7 @@
   <dependencies>
     <dependency>
       <groupId>${project.groupId}</groupId>
-      <artifactId>web</artifactId>
+      <artifactId>process</artifactId>
     </dependency>
     <dependency>
       <groupId>${project.groupId}</groupId>

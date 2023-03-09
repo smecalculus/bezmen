@@ -1,12 +1,13 @@
 version: '3'
 
 vars:
-  DB_MODE: postgres
+  DB_VENDOR: postgres
+  REGISTRY: localhost
 
 includes:
-  lib:
-    taskfile: lib/Taskfile.yml
-    dir: lib
+  shared:
+    taskfile: shared/Taskfile.yml
+    dir: shared
   env:
     taskfile: env/Taskfile.yml
     dir: env
@@ -24,5 +25,5 @@ tasks:
   clean:
     cmds:
       - docker image prune -f
-      - docker volume prune -f
+      - docker volume rm $(docker volume ls -q -f dangling=true)
       - docker network prune -f

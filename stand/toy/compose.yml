@@ -2,7 +2,7 @@ name: toy
 services:
   db:
     image: postgres:15-alpine
-    container_name: db
+    container_name: env-db
     profiles:
       - postgres
     environment:
@@ -16,7 +16,7 @@ services:
       retries: 5
 
   schema-dba:
-    image: schema-postgres:${SCHEMA_TAG}
+    image: ${REGISTRY}/smecalculus/schema-postgres:${SCHEMA_TAG}
     container_name: schema-dba
     profiles:
       - postgres
@@ -28,7 +28,7 @@ services:
       bezmen.revision: ${SCHEMA_TAG}
     command: >
       --show-banner=false
-      --changelog-file=dba/changelog.yml
+      --changelog-file=alfa/dba/changelog.yml
       --url=jdbc:postgresql://db:5432/bezmen?currentSchema=public
       --liquibase-schema-name=public
       --username=postgres
@@ -40,7 +40,7 @@ services:
       -Dbezmen.password=bezmen
 
   schema-owner:
-    image: schema-postgres:${SCHEMA_TAG}
+    image: ${REGISTRY}/smecalculus/schema-postgres:${SCHEMA_TAG}
     container_name: schema-owner
     profiles:
       - postgres
@@ -52,7 +52,7 @@ services:
       bezmen.revision: ${SCHEMA_TAG}
     command: >
       --show-banner=false
-      --changelog-file=owner/changelog.yml
+      --changelog-file=alfa/owner/changelog.yml
       --url=jdbc:postgresql://db:5432/bezmen?currentSchema=bezmen
       --liquibase-schema-name=bezmen
       --username=bezmen
@@ -60,8 +60,8 @@ services:
       update
 
   foo:
-    image: foo:${FOO_TAG}
-    container_name: foo
+    image: ${REGISTRY}/smecalculus/foo:${FOO_TAG}
+    container_name: app-foo
     depends_on:
       db:
         condition: service_healthy

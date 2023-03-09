@@ -1,1 +1,5 @@
-Базы данных
+Поддерживаемые хранилища данных
+
+==== postgres
+
+include::postgres/README.adoc[]

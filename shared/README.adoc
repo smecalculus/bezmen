@@ -1,0 +1,21 @@
+Разделяемые модули с публичной или приватной обвязкой.
+
+=== client
+
+include::client/README.adoc[]
+
+=== process
+
+include::process/README.adoc[]
+
+=== messaging
+
+include::messaging/README.adoc[]
+
+=== data
+
+include::data/README.adoc[]
+
+=== schema
+
+include::schema/README.adoc[]

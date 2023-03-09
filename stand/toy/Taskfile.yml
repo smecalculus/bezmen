@@ -10,24 +10,26 @@ vars:
 tasks:
   mk:
     deps:
-      - task: ::lib:schema:image-1
+      - task: ::shared:schema:image-1
       - task: ::app:foo:image-1
     env:
-      SCHEMA_TAG: '{{.APP_SCHEMA_REV}}'
+      REGISTRY: '{{.REGISTRY}}'
+      SCHEMA_TAG: '{{.SCHEMA_REV}}'
       FOO_TAG: '{{.APP_FOO_REV}}'
     cmds:
       - cmd: >
           docker compose
-          --profile {{.DB_MODE}}
+          --profile {{.DB_VENDOR}}
           up
           --detach
   rm:
     env:
-      SCHEMA_TAG: '{{.APP_SCHEMA_REV}}'
+      REGISTRY: '{{.REGISTRY}}'
+      SCHEMA_TAG: '{{.SCHEMA_REV}}'
       FOO_TAG: '{{.APP_FOO_REV}}'
     cmds:
       - cmd: >
           docker compose
-          --profile {{.DB_MODE}}
+          --profile {{.DB_VENDOR}}
           down
           --volumes

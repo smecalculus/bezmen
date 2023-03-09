@@ -8,14 +8,14 @@ vars:
     sh: git write-tree --prefix=app/{{.APP}}
   APP_FOO_REV: '{{.APP_FOO_REVISION | trunc 7 }}'
   APP_FOO_VERSION: 0.1.0-{{.APP_FOO_REV }}
-  IMAGE: '{{.APP}}'
+  APP_FOO_IMAGE: '{{.REGISTRY}}/smecalculus/{{.APP}}'
 
 tasks:
   binary:
     status:
       - test -f target/{{.APP}}-{{.APP_FOO_VERSION}}.jar
     deps:
-      - task: ::lib:binary
+      - task: ::shared:binary
     cmds:
       - find . -name "*.jar" -type f -delete
       - mvn package -am -T1C -Drevision={{.APP_FOO_VERSION}}
@@ -24,7 +24,7 @@ tasks:
     preconditions:
       - sh: '[ "{{.REGISTRY}}" = "localhost" ]'
     status:
-      - docker image inspect {{.IMAGE}}:{{.APP_FOO_REV}}
+      - docker image inspect {{.APP_FOO_IMAGE}}:{{.APP_FOO_REV}}
     deps:
       - task: binary
     cmds:
@@ -32,13 +32,13 @@ tasks:
       - cmd: >
           docker build target/docker-context
           -f Dockerfile
-          -t {{.IMAGE}}:{{.APP_FOO_REV}}
+          -t {{.APP_FOO_IMAGE}}:{{.APP_FOO_REV}}
 
   image-2:
     preconditions:
       - sh: '[ "{{.REGISTRY}}" != "localhost" ]'
     vars:
-      NAME: '{{.REGISTRY}}/smecalculus/{{.IMAGE}}:{{.APP_FOO_REV}}'
+      NAME: '{{.REGISTRY}}/smecalculus/{{.APP_FOO_IMAGE}}:{{.APP_FOO_REV}}'
     status:
       - docker pull {{.NAME}}
     cmds:
@@ -52,7 +52,7 @@ tasks:
       - '$(docker container inspect -f {{"{{.State.Running}}"}} {{.NAME}})'
     deps:
       - task: image-1
-      - task: ::lib:schema:owner
+      - task: ::shared:schema:owner
     cmds:
       - cmd: docker rm -f $(docker ps -aq --filter name={{.APP}}*) 2> /dev/null
         ignore_error: true
@@ -60,11 +60,13 @@ tasks:
           docker run -d
           --name {{.NAME}}
           --net host
-          --label ancestor={{.IMAGE}}
-          {{.IMAGE}}:{{.APP_FOO_REV}}
+          --label ancestor={{.APP_FOO_IMAGE}}
+          {{.APP_FOO_IMAGE}}:{{.APP_FOO_REV}}
 
   reset:
-      - cmd: docker rm -f $(docker ps -aq -f label=ancestor={{.IMAGE}}) 2> /dev/null
+    internal: true
+    cmds:
+      - cmd: docker rm -f $(docker ps -aq -f label=ancestor={{.APP_FOO_IMAGE}}) 2> /dev/null
         ignore_error: true
-      - cmd: docker rmi -f $(docker images -q --filter reference={{.IMAGE}}*) 2> /dev/null
+      - cmd: docker rmi -f $(docker images -q --filter reference={{.APP_FOO_IMAGE}}*) 2> /dev/null
         ignore_error: true
