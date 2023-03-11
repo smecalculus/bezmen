@@ -10,29 +10,21 @@ vars:
   SCHEMA_IMAGE: '{{.REGISTRY}}/smecalculus/schema-{{.DB_VENDOR}}'
 
 tasks:
-  image-1:
-    preconditions:
-      - sh: '[ "{{.REGISTRY}}" = "localhost" ]'
-#    vars:
-#      SCHEMA_IMAGE: 'schema-{{.DB_VENDOR}}'
+  image:
+    vars:
+      OP: '{{if eq .REGISTRY "localhost"}}inspect{{else}}pull{{end}}'
     status:
-      - docker image inspect {{.SCHEMA_IMAGE}}:{{.SCHEMA_REV}}
+      - docker image {{.OP}} {{.SCHEMA_IMAGE}}:{{.SCHEMA_REV}}
     cmds:
       - task: reset
       - cmd: docker build . -t {{.SCHEMA_IMAGE}}:{{.SCHEMA_REV}}
     dir: '{{.SCHEMA_DIR}}'
 
-  image-2:
+  push:
     preconditions:
       - sh: '[ "{{.REGISTRY}}" != "localhost" ]'
-#    vars:
-#      SCHEMA_IMAGE: '{{.REGISTRY}}/smecalculus/schema-{{.DB_VENDOR}}'
-    status:
-      - docker pull {{.SCHEMA_IMAGE}}:{{.SCHEMA_REV}}
     cmds:
-      - docker build . -t {{.SCHEMA_IMAGE}}:{{.SCHEMA_REV}}
       - docker push {{.SCHEMA_IMAGE}}:{{.SCHEMA_REV}}
-    dir: '{{.SCHEMA_DIR}}'
 
   reset:
     internal: true

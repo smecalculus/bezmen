@@ -18,5 +18,6 @@
 
   <properties>
     <revision>0.1.0-SNAPSHOT</revision>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
 </project>

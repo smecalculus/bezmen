@@ -20,11 +20,11 @@ tasks:
       - find . -name "*.jar" -type f -delete
       - mvn package -am -T1C -Drevision={{.APP_FOO_VERSION}}
 
-  image-1:
-    preconditions:
-      - sh: '[ "{{.REGISTRY}}" = "localhost" ]'
+  image:
+    vars:
+      OP: '{{if eq .REGISTRY "localhost"}}inspect{{else}}pull{{end}}'
     status:
-      - docker image inspect {{.APP_FOO_IMAGE}}:{{.APP_FOO_REV}}
+      - docker image {{.OP}} {{.APP_FOO_IMAGE}}:{{.APP_FOO_REV}}
     deps:
       - task: binary
     cmds:
@@ -34,34 +34,11 @@ tasks:
           -f Dockerfile
           -t {{.APP_FOO_IMAGE}}:{{.APP_FOO_REV}}
 
-  image-2:
+  push:
     preconditions:
       - sh: '[ "{{.REGISTRY}}" != "localhost" ]'
-    vars:
-      NAME: '{{.REGISTRY}}/smecalculus/{{.APP_FOO_IMAGE}}:{{.APP_FOO_REV}}'
-    status:
-      - docker pull {{.NAME}}
     cmds:
-      - docker build -t {{.NAME}} .
-      - docker push {{.NAME}}
-
-  container-1:
-    vars:
-      NAME: '{{.APP}}-{{.APP_FOO_REV}}'
-    status:
-      - '$(docker container inspect -f {{"{{.State.Running}}"}} {{.NAME}})'
-    deps:
-      - task: image-1
-      - task: ::shared:schema:owner
-    cmds:
-      - cmd: docker rm -f $(docker ps -aq --filter name={{.APP}}*) 2> /dev/null
-        ignore_error: true
-      - cmd: >
-          docker run -d
-          --name {{.NAME}}
-          --net host
-          --label ancestor={{.APP_FOO_IMAGE}}
-          {{.APP_FOO_IMAGE}}:{{.APP_FOO_REV}}
+      - docker push {{.APP_FOO_IMAGE}}:{{.APP_FOO_REV}}
 
   reset:
     internal: true

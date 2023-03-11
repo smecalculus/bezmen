@@ -14,7 +14,5 @@ includes:
 
 tasks:
   binary:
-    status:
-
     cmds:
-      - echo {.TASK}
+      - echo {{.TASK}}

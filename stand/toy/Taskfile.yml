@@ -10,8 +10,8 @@ vars:
 tasks:
   mk:
     deps:
-      - task: ::shared:schema:image-1
-      - task: ::app:foo:image-1
+      - task: ::shared:schema:image
+      - task: ::app:foo:image
     env:
       REGISTRY: '{{.REGISTRY}}'
       SCHEMA_TAG: '{{.SCHEMA_REV}}'

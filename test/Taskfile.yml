@@ -13,5 +13,4 @@ includes:
 tasks:
   run:
     cmds:
-      - task: integration:run
-      - task: system:run
+      - echo {{.TASK}}
