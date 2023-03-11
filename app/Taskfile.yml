@@ -2,11 +2,6 @@ version: '3'
 
 set: [pipefail]
 
-vars:
-  APP_REVISION:
-    sh: git write-tree --prefix=app
-  APP_REV: '{{.APP_REVISION | trunc 7 }}'
-
 includes:
   foo:
     taskfile: foo/Taskfile.yml

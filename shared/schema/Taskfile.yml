@@ -7,29 +7,38 @@ vars:
   SCHEMA_REVISION:
     sh: git write-tree --prefix=shared/schema/{{.SCHEMA_DIR}}
   SCHEMA_REV: '{{.SCHEMA_REVISION | trunc 7 }}'
-  SCHEMA_IMAGE: '{{.REGISTRY}}/smecalculus/schema-{{.DB_VENDOR}}'
+  SCHEMA_IMAGE: schema-{{.DB_VENDOR}}
+  SCHEMA_REPO: '{{.REGISTRY}}/smecalculus/{{.SCHEMA_IMAGE}}'
 
 tasks:
   image:
     vars:
       OP: '{{if eq .REGISTRY "localhost"}}inspect{{else}}pull{{end}}'
     status:
-      - docker image {{.OP}} {{.SCHEMA_IMAGE}}:{{.SCHEMA_REV}}
+      - docker image {{.OP}} {{.SCHEMA_REPO}}:{{.SCHEMA_REV}}
     cmds:
       - task: reset
-      - cmd: docker build . -t {{.SCHEMA_IMAGE}}:{{.SCHEMA_REV}}
+      - cmd: docker build . -t {{.SCHEMA_REPO}}:{{.SCHEMA_REV}}
     dir: '{{.SCHEMA_DIR}}'
+
+  tag:
+    internal: true
+    cmds:
+      - cmd: >
+          docker tag
+          {{.SCHEMA_REPO}}:{{.SCHEMA_REV}}
+          {{.SCHEMA_REPO}}:{{.SCHEMA_REV}}-{{.STAGE}}
 
   push:
     preconditions:
       - sh: '[ "{{.REGISTRY}}" != "localhost" ]'
     cmds:
-      - docker push {{.SCHEMA_IMAGE}}:{{.SCHEMA_REV}}
+      - docker push {{.SCHEMA_REPO}}:{{.SCHEMA_REV}}
 
   reset:
     internal: true
     cmds:
-      - cmd: docker rm -f $(docker ps -aq -f label=ancestor={{.SCHEMA_IMAGE}}) 2> /dev/null
+      - cmd: docker rm -f $(docker ps -aq -f label=bezmen.image={{.SCHEMA_IMAGE}}) 2> /dev/null
         ignore_error: true
-      - cmd: docker rmi -f $(docker images -q --filter reference={{.SCHEMA_IMAGE}}*) 2> /dev/null
+      - cmd: docker rmi -f $(docker images -q -f reference={{.SCHEMA_REPO}}) 2> /dev/null
         ignore_error: true

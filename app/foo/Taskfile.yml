@@ -3,18 +3,20 @@ version: '3'
 set: [pipefail]
 
 vars:
-  APP: foo
   APP_FOO_REVISION:
-    sh: git write-tree --prefix=app/{{.APP}}
+    sh: git write-tree --prefix=app/foo
   APP_FOO_REV: '{{.APP_FOO_REVISION | trunc 7 }}'
   APP_FOO_VERSION: 0.1.0-{{.APP_FOO_REV }}
-  APP_FOO_IMAGE: '{{.REGISTRY}}/smecalculus/{{.APP}}'
+  APP_FOO_IMAGE: app-foo
+  APP_FOO_REPO: '{{.REGISTRY}}/smecalculus/{{.APP_FOO_IMAGE}}'
+  APP_FOO_REF: '{{.APP_FOO_REPO}}:{{.APP_FOO_REV}}'
 
 tasks:
   binary:
     status:
-      - test -f target/{{.APP}}-{{.APP_FOO_VERSION}}.jar
+      - test -f target/foo-{{.APP_FOO_VERSION}}.jar
     deps:
+      - task: ::source
       - task: ::shared:binary
     cmds:
       - find . -name "*.jar" -type f -delete
@@ -24,7 +26,7 @@ tasks:
     vars:
       OP: '{{if eq .REGISTRY "localhost"}}inspect{{else}}pull{{end}}'
     status:
-      - docker image {{.OP}} {{.APP_FOO_IMAGE}}:{{.APP_FOO_REV}}
+      - docker image {{.OP}} {{.APP_FOO_REPO}}:{{.APP_FOO_REV}}
     deps:
       - task: binary
     cmds:
@@ -32,18 +34,29 @@ tasks:
       - cmd: >
           docker build target/docker-context
           -f Dockerfile
-          -t {{.APP_FOO_IMAGE}}:{{.APP_FOO_REV}}
+          -t {{.APP_FOO_REPO}}:{{.APP_FOO_REV}}
+
+  tag:
+    internal: true
+    cmds:
+      - cmd: >
+          docker tag
+          {{.APP_FOO_REPO}}:{{.APP_FOO_REV}}
+          {{.APP_FOO_REPO}}:{{.APP_FOO_REV}}-{{.STAGE}}
 
   push:
+    internal: true
     preconditions:
       - sh: '[ "{{.REGISTRY}}" != "localhost" ]'
     cmds:
-      - docker push {{.APP_FOO_IMAGE}}:{{.APP_FOO_REV}}
+      - docker push {{.APP_FOO_REPO}}:{{.APP_FOO_REV}}
 
   reset:
     internal: true
     cmds:
-      - cmd: docker rm -f $(docker ps -aq -f label=ancestor={{.APP_FOO_IMAGE}}) 2> /dev/null
+#      - cmd: docker rm -f $(docker ps -aq -f label=bezmen.image={{.APP_FOO_IMAGE}}) 2> /dev/null
+      - cmd: docker rm -f $(docker ps -aq -f label=bezmen.image={{.APP_FOO_IMAGE}})
         ignore_error: true
-      - cmd: docker rmi -f $(docker images -q --filter reference={{.APP_FOO_IMAGE}}*) 2> /dev/null
+#      - cmd: docker rmi -f $(docker images -q -f reference={{.APP_FOO_REPO}}) 2> /dev/null
+      - cmd: docker rmi -f $(docker images -q -f reference={{.APP_FOO_REPO}})
         ignore_error: true

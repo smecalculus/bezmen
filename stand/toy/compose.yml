@@ -60,7 +60,7 @@ services:
       update
 
   foo:
-    image: ${REGISTRY}/smecalculus/foo:${FOO_TAG}
+    image: ${REGISTRY}/smecalculus/app-foo:${FOO_TAG}
     container_name: app-foo
     depends_on:
       db:
@@ -68,5 +68,5 @@ services:
       schema-owner:
         condition: service_completed_successfully
     labels:
-      bezmen.image: foo
+      bezmen.image: app-foo
       bezmen.revision: ${FOO_TAG}

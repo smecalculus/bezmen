@@ -16,6 +16,8 @@ tasks:
   binary:
     status:
       - test -f target/pom-resolved-{{.SHARED_REV}}.xml
+    deps:
+      - task: :source
     cmds:
       - find . -name "pom-resolved*.xml" -type f -delete
       - mvn install -am -T1C -Drev={{.SHARED_REV}}

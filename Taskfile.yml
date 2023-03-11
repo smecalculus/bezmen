@@ -22,6 +22,10 @@ includes:
     dir: test
 
 tasks:
+  source:
+    run: once
+    cmds:
+      - git add .
   clean:
     cmds:
       - docker image prune -f
