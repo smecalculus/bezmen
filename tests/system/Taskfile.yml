@@ -29,7 +29,6 @@ tasks:
       - docker tag {{.APP_FOO_REF}} {{.APP_FOO_REF}}-{{.TEST_SYSTEM_STAGE}}
   publish:
     run: once
-    internal: true
     preconditions:
       - sh: '[ "{{.REGISTRY}}" != "localhost" ]'
     cmds:
