@@ -33,5 +33,5 @@ jobs:
           java-version: '17'
           cache: 'maven'
       - uses: arduino/setup-task@v1
-      - run: task test:system:run
-      - run: task test:system:publish
+      - run: task test:system:run REGISTRY=${{ env.REGISTRY }}
+      - run: task test:system:publish REGISTRY=${{ env.REGISTRY }}

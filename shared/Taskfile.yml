@@ -19,5 +19,6 @@ tasks:
     status:
       - test -f target/pom-resolved-{{.SHARED_VERSION}}.xml
     cmds:
+      - find . -name "*.jar" -type f -delete
       - find . -name "pom-resolved*.xml" -type f -delete
       - mvn install -am -T1C -Drevision={{.SHARED_VERSION}}

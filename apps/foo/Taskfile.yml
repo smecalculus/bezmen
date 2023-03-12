@@ -20,7 +20,7 @@ tasks:
       - task: ::shared:binary
     cmds:
       - task: reset-1
-      - mvn package -am -T1C -Drevision={{.APP_FOO_VERSION}}
+      - mvn package -am -T1C -Drevision={{.APP_FOO_VERSION}} -Dshared.version={{.SHARED_VERSION}}
   image:
     run: once
     vars:
