@@ -2,6 +2,9 @@ version: '3'
 
 set: [pipefail]
 
+vars:
+  APP_VERSION: 0.1.0
+
 includes:
   foo:
     taskfile: foo/Taskfile.yml
@@ -9,5 +12,8 @@ includes:
 
 tasks:
   binary:
-    cmds:
-      - echo {{.TASK}}
+    deps:
+      - task: foo:binary
+  image:
+    deps:
+      - task: foo:image

@@ -5,7 +5,8 @@ set: [pipefail]
 vars:
   SHARED_REVISION:
     sh: git write-tree --prefix=shared
-  SHARED_REV: '{{.SHARED_REVISION | trunc 7 }}'
+  SHARED_REV: '{{.SHARED_REVISION | trunc 7}}'
+  SHARED_VERSION: 0.1.0-{{.SHARED_REV}}
 
 includes:
   schema:
@@ -14,10 +15,9 @@ includes:
 
 tasks:
   binary:
+    run: once
     status:
-      - test -f target/pom-resolved-{{.SHARED_REV}}.xml
-    deps:
-      - task: :source
+      - test -f target/pom-resolved-{{.SHARED_VERSION}}.xml
     cmds:
       - find . -name "pom-resolved*.xml" -type f -delete
-      - mvn install -am -T1C -Drev={{.SHARED_REV}}
+      - mvn install -am -T1C -Drevision={{.SHARED_VERSION}}

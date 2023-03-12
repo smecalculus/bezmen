@@ -20,11 +20,11 @@
     <module>messaging</module>
     <module>config</module>
     <module>monitoring</module>
+    <module>test</module>
   </modules>
 
   <properties>
     <revision>0.1.0-SNAPSHOT</revision>
-    <rev>${revision}</rev>
     <lombok.version>1.18.24</lombok.version>
     <mapstruct.version>1.5.0.RC1</mapstruct.version>
     <mockito.version>4.6.0</mockito.version>
@@ -196,7 +196,7 @@
             <updatePomFile>true</updatePomFile>
             <flattenMode>resolveCiFriendliesOnly</flattenMode>
             <outputDirectory>${project.build.directory}</outputDirectory>
-            <flattenedPomFilename>pom-resolved-${rev}.xml</flattenedPomFilename>
+            <flattenedPomFilename>pom-resolved-${revision}.xml</flattenedPomFilename>
           </configuration>
           <executions>
             <execution>

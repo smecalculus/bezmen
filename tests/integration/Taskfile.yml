@@ -4,11 +4,12 @@ set: [pipefail]
 
 vars:
   TEST_INTEGRATION_REVISION:
-    sh: git write-tree --prefix=test/integration
-  TEST_INTEGRATION_REV: '{{.TEST_INTEGRATION_REVISION | trunc 7 }}'
+    sh: git write-tree --prefix=tests/integration
+  TEST_INTEGRATION_REV: '{{.TEST_INTEGRATION_REVISION | trunc 7}}'
 
 tasks:
   run:
+    run: once
     deps:
       - task: ::app:binary
     cmds:

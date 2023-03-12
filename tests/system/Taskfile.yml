@@ -5,23 +5,22 @@ set: [pipefail]
 vars:
   TEST_SYSTEM_STAGE: system
   TEST_SYSTEM_REVISION:
-    sh: git write-tree --prefix=test/system
-  TEST_SYSTEM_REV: '{{.TEST_SYSTEM_REVISION | trunc 7 }}'
+    sh: git write-tree --prefix=tests/system
+  TEST_SYSTEM_REV: '{{.TEST_SYSTEM_REVISION | trunc 7}}'
 
 tasks:
   run:
+    run: once
     vars:
       COMMAND: '{{if eq .REGISTRY "localhost"}}inspect{{else}}pull{{end}}'
     status:
       - docker image {{.COMMAND}} {{.APP_FOO_REF}}-{{.TEST_SYSTEM_STAGE}}
+      - docker image {{.COMMAND}} {{.SCHEMA_REF}}-{{.TEST_SYSTEM_STAGE}}
     deps:
       - task: ::stand:toy:mk
     cmds:
       - cmd: >
           mvn test
-      - task: ::app:foo:tag
-        vars:
-          STAGE: '{{.TEST_SYSTEM_STAGE}}'
-      - task: ::shared:schema:tag
+      - task: ::stand:toy:tag
         vars:
           STAGE: '{{.TEST_SYSTEM_STAGE}}'

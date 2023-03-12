@@ -10,7 +10,7 @@ toc::[]
 
 == app
 
-include::app/README.adoc[]
+include::apps/README.adoc[]
 
 == shared
 
@@ -22,11 +22,11 @@ include::env/README.adoc[]
 
 == stand
 
-include::stand/README.adoc[]
+include::stands/README.adoc[]
 
 == test
 
-include::test/README.adoc[]
+include::tests/README.adoc[]
 
 == build
 

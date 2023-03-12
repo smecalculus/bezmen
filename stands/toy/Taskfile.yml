@@ -4,11 +4,12 @@ set: [pipefail]
 
 vars:
   STAND_TOY_REVISION:
-    sh: git write-tree --prefix=stand/toy
-  STAND_TOY_REV: '{{.STAND_TOY_REVISION | trunc 7 }}'
+    sh: git write-tree --prefix=stands/toy
+  STAND_TOY_REV: '{{.STAND_TOY_REVISION | trunc 7}}'
 
 tasks:
   mk:
+    run: once
     deps:
       - task: ::shared:schema:image
       - task: ::app:foo:image
@@ -22,7 +23,14 @@ tasks:
           --profile {{.DB_VENDOR}}
           up
           --detach
+  tag:
+    run: once
+    internal: true
+    cmds:
+      - docker tag {{.SCHEMA_REF}} {{.SCHEMA_REF}}-{{.STAGE}}
+      - docker tag {{.APP_FOO_REF}} {{.APP_FOO_REF}}-{{.STAGE}}
   rm:
+    run: once
     env:
       REGISTRY: '{{.REGISTRY}}'
       SCHEMA_TAG: '{{.SCHEMA_REV}}'

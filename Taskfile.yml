@@ -3,6 +3,8 @@ version: '3'
 vars:
   DB_VENDOR: postgres
   REGISTRY: localhost
+  ROOT_REVISION:
+    sh: git add -A && git write-tree
 
 includes:
   shared:
@@ -12,20 +14,16 @@ includes:
     taskfile: env/Taskfile.yml
     dir: env
   app:
-    taskfile: app/Taskfile.yml
-    dir: app
+    taskfile: apps/Taskfile.yml
+    dir: apps
   stand:
-    taskfile: stand/Taskfile.yml
-    dir: stand
+    taskfile: stands/Taskfile.yml
+    dir: stands
   test:
-    taskfile: test/Taskfile.yml
-    dir: test
+    taskfile: tests/Taskfile.yml
+    dir: tests
 
 tasks:
-  source:
-    run: once
-    cmds:
-      - git add .
   clean:
     cmds:
       - docker image prune -f
