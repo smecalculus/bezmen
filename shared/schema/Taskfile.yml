@@ -22,12 +22,6 @@ tasks:
       - cmd: docker build . -t {{.SCHEMA_REF}}
     dir: '{{.SCHEMA_DIR}}'
 
-  push:
-    preconditions:
-      - sh: '[ "{{.REGISTRY}}" != "localhost" ]'
-    cmds:
-      - docker push {{.SCHEMA_REF}}
-
   reset:
     internal: true
     cmds:

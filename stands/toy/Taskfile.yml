@@ -23,12 +23,6 @@ tasks:
           --profile {{.DB_VENDOR}}
           up
           --detach
-  tag:
-    run: once
-    internal: true
-    cmds:
-      - docker tag {{.SCHEMA_REF}} {{.SCHEMA_REF}}-{{.STAGE}}
-      - docker tag {{.APP_FOO_REF}} {{.APP_FOO_REF}}-{{.STAGE}}
   rm:
     run: once
     env:

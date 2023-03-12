@@ -19,8 +19,19 @@ tasks:
     deps:
       - task: ::stand:toy:mk
     cmds:
-      - cmd: >
-          mvn test
-      - task: ::stand:toy:tag
-        vars:
-          STAGE: '{{.TEST_SYSTEM_STAGE}}'
+      - cmd: mvn test
+      - task: approve
+  approve:
+    run: once
+    internal: true
+    cmds:
+      - docker tag {{.SCHEMA_REF}} {{.SCHEMA_REF}}-{{.TEST_SYSTEM_STAGE}}
+      - docker tag {{.APP_FOO_REF}} {{.APP_FOO_REF}}-{{.TEST_SYSTEM_STAGE}}
+  publish:
+    run: once
+    internal: true
+    preconditions:
+      - sh: '[ "{{.REGISTRY}}" != "localhost" ]'
+    cmds:
+      - docker push {{.SCHEMA_REF}}-{{.TEST_SYSTEM_STAGE}}
+      - docker push {{.APP_FOO_REF}}-{{.TEST_SYSTEM_STAGE}}

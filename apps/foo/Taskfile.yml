@@ -35,12 +35,6 @@ tasks:
           docker build target/docker-context
           -f Dockerfile
           -t {{.APP_FOO_REF}}
-  push:
-    internal: true
-    preconditions:
-      - sh: '[ "{{.REGISTRY}}" != "localhost" ]'
-    cmds:
-      - docker push {{.APP_FOO_REF}}
   reset-1:
     run: once
     internal: true
