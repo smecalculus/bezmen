@@ -20,7 +20,7 @@ tasks:
       # deps
       - task: ::shared:binary
       - task: reset-1
-      # cmds
+      # actions
       - mvn package -am -T1C -Drevision={{.APP_FOO_VERSION}} -Dshared.version={{.SHARED_VERSION}}
   image:
     run: once
@@ -48,8 +48,6 @@ tasks:
     internal: true
     cmds:
       - cmd: docker rm -f $(docker ps -aq -f label=bezmen.image={{.APP_FOO_IMAGE}}) 2> /dev/null
-#      - cmd: docker rm -f $(docker ps -aq -f label=bezmen.image={{.APP_FOO_IMAGE}})
         ignore_error: true
       - cmd: docker rmi -f $(docker images -q -f reference={{.APP_FOO_REPO}}) 2> /dev/null
-#      - cmd: docker rmi -f $(docker images -q -f reference={{.APP_FOO_REPO}})
         ignore_error: true
