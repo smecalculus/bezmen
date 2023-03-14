@@ -38,5 +38,5 @@ jobs:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-      - run: task test:system:run REGISTRY=${{ env.REGISTRY }}
+      - run: task --verbose test:system:run REGISTRY=${{ env.REGISTRY }}
       - run: task test:system:publish REGISTRY=${{ env.REGISTRY }}
