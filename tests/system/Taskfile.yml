@@ -16,10 +16,12 @@ tasks:
     status:
       - docker image {{.COMMAND}} {{.APP_FOO_REF}}-{{.TEST_SYSTEM_STAGE}}
       - docker image {{.COMMAND}} {{.SCHEMA_REF}}-{{.TEST_SYSTEM_STAGE}}
-    deps:
-      - task: ::stand:toy:mk
     cmds:
+      # deps
+      - task: ::stand:toy:mk
+      # actions
       - cmd: mvn test
+      # proofs
       - task: approve
   approve:
     run: once

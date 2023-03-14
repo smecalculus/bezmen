@@ -29,3 +29,9 @@ tasks:
       - docker image prune -f
       - docker volume rm $(docker volume ls -q -f dangling=true)
       - docker network prune -f
+  test:
+    status:
+      - true
+      - false
+    cmds:
+      - echo fired

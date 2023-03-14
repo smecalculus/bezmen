@@ -14,11 +14,13 @@ vars:
 tasks:
   image:
     vars:
-      OP: '{{if eq .REGISTRY "localhost"}}inspect{{else}}pull{{end}}'
+      COMMAND: '{{if eq .REGISTRY "localhost"}}inspect{{else}}pull{{end}}'
     status:
-      - docker image {{.OP}} {{.SCHEMA_REF}}
+      - docker image {{.COMMAND}} {{.SCHEMA_REF}}
     cmds:
+      # deps
       - task: reset
+      # actions
       - cmd: docker build . -t {{.SCHEMA_REF}}
     dir: '{{.SCHEMA_DIR}}'
 

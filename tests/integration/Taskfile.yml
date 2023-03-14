@@ -10,8 +10,8 @@ vars:
 tasks:
   run:
     run: once
-    deps:
-      - task: ::app:binary
     cmds:
-      - cmd: >
-          mvn test
+      # deps
+      - task: ::app:binary
+      # actions
+      - cmd: mvn test

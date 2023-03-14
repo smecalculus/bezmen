@@ -20,8 +20,9 @@ tasks:
     run: once
     status:
       - test -f target/pom-resolved-{{.TEST_REV}}.xml
-    deps:
-      - task: :app:binary
     cmds:
+      # deps
+      - task: :app:binary
+      # actions
       - find . -name "pom-resolved*.xml" -type f -delete
       - mvn package -am -T1C -Drevision={{.TEST_REV}}

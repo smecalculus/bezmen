@@ -10,14 +10,15 @@ vars:
 tasks:
   mk:
     run: once
-    deps:
-      - task: ::shared:schema:image
-      - task: ::app:foo:image
     env:
       REGISTRY: '{{.REGISTRY}}'
       SCHEMA_TAG: '{{.SCHEMA_REV}}'
       FOO_TAG: '{{.APP_FOO_REV}}'
     cmds:
+      # deps
+      - task: ::shared:schema:image
+      - task: ::app:foo:image
+      # actions
       - cmd: >
           docker compose
           --profile {{.DB_VENDOR}}

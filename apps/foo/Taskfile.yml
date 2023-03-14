@@ -16,10 +16,11 @@ tasks:
     run: once
     status:
       - test -f target/app-foo-{{.APP_FOO_VERSION}}.jar
-    deps:
-      - task: ::shared:binary
     cmds:
+      # deps
+      - task: ::shared:binary
       - task: reset-1
+      # cmds
       - mvn package -am -T1C -Drevision={{.APP_FOO_VERSION}} -Dshared.version={{.SHARED_VERSION}}
   image:
     run: once
@@ -27,10 +28,11 @@ tasks:
       COMMAND: '{{if eq .REGISTRY "localhost"}}inspect{{else}}pull{{end}}'
     status:
       - docker image {{.COMMAND}} {{.APP_FOO_REF}}
-    deps:
-      - task: binary
     cmds:
+      # deps
+      - task: binary
       - task: reset-2
+      # actions
       - cmd: >
           docker build target/docker-context
           -f Dockerfile
