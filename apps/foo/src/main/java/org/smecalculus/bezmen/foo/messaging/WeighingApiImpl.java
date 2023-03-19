@@ -1,8 +1,8 @@
 package org.smecalculus.bezmen.foo.messaging;
 
 import lombok.NonNull;
-import org.smecalculus.bezmen.api.WeighingRm;
-import org.smecalculus.bezmen.api.WeighingSpecRm;
+import org.smecalculus.bezmen.client.WeighingRm;
+import org.smecalculus.bezmen.client.WeighingSpecRm;
 import org.smecalculus.bezmen.core.validation.BezmenValidator;
 import org.smecalculus.bezmen.foo.WeighingModelMapper;
 import org.smecalculus.bezmen.foo.service.Weighing;

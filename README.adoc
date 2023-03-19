@@ -8,19 +8,19 @@
 
 toc::[]
 
-== app
+== apps
 
 include::apps/README.adoc[]
 
-== shared
+== libs
 
-include::shared/README.adoc[]
+include::libs/README.adoc[]
 
 == env
 
 include::env/README.adoc[]
 
-== stand
+== stands
 
 include::stands/README.adoc[]
 

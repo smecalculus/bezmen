@@ -1,8 +1,8 @@
 package org.smecalculus.bezmen.foo.messaging;
 
-import org.smecalculus.bezmen.api.WeighingErrorRm;
-import org.smecalculus.bezmen.api.WeighingRm;
-import org.smecalculus.bezmen.api.WeighingSpecRm;
+import org.smecalculus.bezmen.client.WeighingErrorRm;
+import org.smecalculus.bezmen.client.WeighingRm;
+import org.smecalculus.bezmen.client.WeighingSpecRm;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

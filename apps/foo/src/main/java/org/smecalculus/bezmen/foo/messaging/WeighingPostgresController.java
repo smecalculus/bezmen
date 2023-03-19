@@ -1,6 +1,6 @@
 package org.smecalculus.bezmen.foo.messaging;
 
-import org.smecalculus.bezmen.api.WeighingSpecRm;
+import org.smecalculus.bezmen.client.WeighingSpecRm;
 
 import java.util.List;
 

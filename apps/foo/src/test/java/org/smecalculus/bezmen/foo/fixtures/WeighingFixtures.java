@@ -1,8 +1,8 @@
 package org.smecalculus.bezmen.foo.fixtures;
 
-import org.smecalculus.bezmen.api.WeighingErrorRm;
-import org.smecalculus.bezmen.api.WeighingRm;
-import org.smecalculus.bezmen.api.WeighingSpecRm;
+import org.smecalculus.bezmen.client.WeighingErrorRm;
+import org.smecalculus.bezmen.client.WeighingRm;
+import org.smecalculus.bezmen.client.WeighingSpecRm;
 import org.smecalculus.bezmen.foo.messaging.harness.WeighingRequest;
 import org.smecalculus.bezmen.foo.messaging.harness.WeighingResponse;
 import org.smecalculus.bezmen.foo.service.Weighing;
