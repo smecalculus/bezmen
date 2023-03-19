@@ -40,29 +40,6 @@
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-maven-plugin</artifactId>
       </plugin>
-      <plugin>
-        <groupId>io.fabric8</groupId>
-        <artifactId>docker-maven-plugin</artifactId>
-        <configuration>
-          <images>
-            <image>
-              <name>localhost/%g/%a:%l</name>
-              <build>
-                <contextDir>${project.basedir}/src/main/docker</contextDir>
-                <assemblies>
-                  <assembly>
-                    <descriptorRef>dependencies</descriptorRef>
-                    <name>deps</name>
-                  </assembly>
-                  <assembly>
-                    <descriptorRef>artifact</descriptorRef>
-                  </assembly>
-                </assemblies>
-              </build>
-            </image>
-          </images>
-        </configuration>
-      </plugin>
     </plugins>
   </build>
 </project>

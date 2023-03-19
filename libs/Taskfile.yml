@@ -4,7 +4,7 @@ set: [pipefail]
 
 vars:
   SHARED_REVISION:
-    sh: git write-tree --prefix=shared
+    sh: git write-tree --prefix=libs
   SHARED_REV: '{{.SHARED_REVISION | trunc 7}}'
   SHARED_VERSION: 0.1.0-{{.SHARED_REV}}
 

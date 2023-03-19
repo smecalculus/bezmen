@@ -1,10 +1,11 @@
-package com.smecalculus.bezmen.messaging.model;
+package org.smecalculus.bezmen.configuration;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
+import lombok.ToString;
 
 @Data
-public class PostgresProtocolPropsCm {
+public class PostgresPropsDTO {
 
     @NotBlank
     String url;
@@ -13,8 +14,6 @@ public class PostgresProtocolPropsCm {
     String username;
 
     @NotBlank
+    @ToString.Exclude
     String password;
-
-    @NotBlank
-    String table;
 }

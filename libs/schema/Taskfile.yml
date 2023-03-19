@@ -5,7 +5,7 @@ set: [pipefail]
 vars:
   SCHEMA_DIR: src/main/resources/{{.DB_VENDOR}}
   SCHEMA_REVISION:
-    sh: git write-tree --prefix=shared/schema/{{.SCHEMA_DIR}}
+    sh: git write-tree --prefix=libs/schema/{{.SCHEMA_DIR}}
   SCHEMA_REV: '{{.SCHEMA_REVISION | trunc 7}}'
   SCHEMA_IMAGE: schema-{{.DB_VENDOR}}
   SCHEMA_REPO: '{{.REGISTRY}}/smecalculus/{{.SCHEMA_IMAGE}}'

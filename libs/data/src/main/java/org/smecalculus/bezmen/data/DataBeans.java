@@ -1,11 +1,6 @@
 package org.smecalculus.bezmen.data;
 
-import com.typesafe.config.Config;
-import org.smecalculus.bezmen.core.CoreBeans;
-import org.smecalculus.bezmen.core.validation.BezmenValidator;
-import org.smecalculus.bezmen.data.model.DataProps;
-import org.smecalculus.bezmen.data.model.H2Props;
-import org.smecalculus.bezmen.data.model.PostgresProps;
+import org.smecalculus.bezmen.configuration.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
@@ -15,19 +10,9 @@ import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
 import javax.sql.DataSource;
 
-@Import(CoreBeans.class)
+@Import(DataConfigBeans.class)
 @Configuration(proxyBeanMethods = false)
 public class DataBeans extends AbstractJdbcConfiguration {
-
-    @Bean
-    DataMapper dataMapper() {
-        return new DataMapperImpl();
-    }
-
-    @Bean
-    DataConfig dataConfig(Config config, BezmenValidator validator, DataMapper mapper) {
-        return new DataConfigImpl(config, validator, mapper);
-    }
 
     @Bean
     DataProps dataProps(DataConfig dataConfig) {
