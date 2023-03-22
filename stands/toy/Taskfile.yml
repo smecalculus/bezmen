@@ -16,7 +16,7 @@ tasks:
       FOO_TAG: '{{.APP_FOO_REV}}'
     cmds:
       # deps
-      - task: ::shared:schema:image
+      - task: ::lib:schema:image
       - task: ::app:foo:image
       # actions
       - cmd: >

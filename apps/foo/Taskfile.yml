@@ -18,10 +18,10 @@ tasks:
       - test -f target/app-foo-{{.APP_FOO_VERSION}}.jar
     cmds:
       # deps
-      - task: ::shared:binary
+      - task: ::lib:binary
       - task: reset-1
       # actions
-      - mvn package -am -T1C -Drevision={{.APP_FOO_VERSION}} -Dshared.version={{.SHARED_VERSION}}
+      - mvn package -am -T1C -Drevision={{.APP_FOO_VERSION}} -Dlibs.version={{.SHARED_VERSION}}
   image:
     run: once
     vars:

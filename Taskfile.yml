@@ -7,9 +7,9 @@ vars:
     sh: git add -A && git write-tree
 
 includes:
-  shared:
-    taskfile: shared/Taskfile.yml
-    dir: shared
+  lib:
+    taskfile: libs/Taskfile.yml
+    dir: libs
   env:
     taskfile: env/Taskfile.yml
     dir: env
