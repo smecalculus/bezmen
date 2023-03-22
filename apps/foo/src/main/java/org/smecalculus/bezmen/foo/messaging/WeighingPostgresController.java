@@ -5,12 +5,12 @@ import org.smecalculus.bezmen.client.WeighingSpecRm;
 import java.util.List;
 
 public record WeighingPostgresController(
-        WeighingApi weighingApi
+        SepulkaClient sepulkaClient
 ) {
 
     void handle(List<WeighingSpecRm> weighingSpecRms) {
         try {
-            weighingApi.register(weighingSpecRms);
+            sepulkaClient.register(weighingSpecRms);
         } catch (Exception e) {
             System.out.println(e);
         }

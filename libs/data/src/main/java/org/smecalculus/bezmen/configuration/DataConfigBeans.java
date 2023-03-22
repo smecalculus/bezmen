@@ -1,8 +1,7 @@
 package org.smecalculus.bezmen.configuration;
 
-import com.typesafe.config.Config;
 import org.smecalculus.bezmen.core.CoreBeans;
-import org.smecalculus.bezmen.core.validation.BezmenValidator;
+import org.smecalculus.bezmen.validation.BezmenValidator;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
@@ -17,7 +16,7 @@ public class DataConfigBeans {
     }
 
     @Bean
-    DataConfig dataConfig(Config config, BezmenValidator validator, DataMapper mapper) {
-        return new DataConfigLightbendConfig(config, validator, mapper);
+    DataConfig dataConfig(ConfigKeeper keeper, BezmenValidator validator, DataMapper mapper) {
+        return new DataConfigImpl(keeper, validator, mapper);
     }
 }

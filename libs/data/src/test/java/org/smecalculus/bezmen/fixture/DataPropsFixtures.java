@@ -2,9 +2,8 @@ package org.smecalculus.bezmen.fixture;
 
 import org.smecalculus.bezmen.configuration.DataMode;
 import org.smecalculus.bezmen.configuration.DataProps;
+import org.smecalculus.bezmen.configuration.DataPropsCfg;
 import org.smecalculus.bezmen.configuration.H2Props;
-
-import java.util.Map;
 
 public class DataPropsFixtures {
     public static DataProps.Builder dataPropsPojo() {
@@ -18,8 +17,9 @@ public class DataPropsFixtures {
                 .postgresProps(null);
     }
 
-    public static Map<String, Object> dataPropsMap() {
-        DataProps dataProps = dataPropsPojo().build();
-        return Map.of("mode", dataProps.mode().toString());
+    public static DataPropsCfg dataPropsDTO() {
+        DataPropsCfg dataPropsCfg = new DataPropsCfg();
+        dataPropsCfg.setMode(DataMode.H2.name());
+        return dataPropsCfg;
     }
 }

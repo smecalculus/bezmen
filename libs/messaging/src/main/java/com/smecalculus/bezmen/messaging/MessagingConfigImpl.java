@@ -5,7 +5,7 @@ import com.smecalculus.bezmen.messaging.model.MessagingPropsCm;
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigBeanFactory;
 import lombok.NonNull;
-import org.smecalculus.bezmen.core.validation.BezmenValidator;
+import org.smecalculus.bezmen.validation.BezmenValidator;
 
 record MessagingConfigImpl(
         @NonNull Config config,

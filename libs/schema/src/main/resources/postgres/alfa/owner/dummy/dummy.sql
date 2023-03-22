@@ -1,4 +1,4 @@
-CREATE TABLE weighings (
+CREATE TABLE sepulkas (
 	ID text,
 	VERSION integer
 );
