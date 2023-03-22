@@ -17,6 +17,7 @@ public record SepulkaClientSpringWeb(
         SepulkaRegResMsg response = client.post()
                 .uri("/sepulkas")
                 .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
                 .bodyValue(mapper.toMsg(request))
                 .exchange()
                 .expectBody(SepulkaRegResMsg.class)

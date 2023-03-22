@@ -1,4 +1,6 @@
 package org.smecalculus.bezmen.client;
 
-public record SepulkaRegReq() {
+public record SepulkaRegReq(
+        String foo
+) {
 }

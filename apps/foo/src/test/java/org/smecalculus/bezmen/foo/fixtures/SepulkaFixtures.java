@@ -8,16 +8,24 @@ import java.util.UUID;
 
 public class SepulkaFixtures {
 
+    public static SepulkaRegReq newSepulkaRegReq() {
+        return new SepulkaRegReq("foo");
+    }
+
     public static Sepulka.Builder newSepulka() {
         return Sepulka.builder()
                 .id(UUID.randomUUID());
     }
 
-    public static SepulkaRegRes newSepulkaRegRes() {
-        return new SepulkaRegRes("foo");
+    public static Sepulka.Builder newSepulka(UUID id) {
+        return newSepulka().id(id);
     }
 
-    public static SepulkaRegReq newSepulkaRegReq() {
-        return new SepulkaRegReq();
+    public static SepulkaRegRes newSepulkaRegRes() {
+        return new SepulkaRegRes(UUID.randomUUID());
+    }
+
+    public static SepulkaRegRes newSepulkaRegRes(UUID id) {
+        return new SepulkaRegRes(id);
     }
 }

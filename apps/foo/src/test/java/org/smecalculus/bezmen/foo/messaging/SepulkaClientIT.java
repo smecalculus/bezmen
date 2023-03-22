@@ -1,45 +1,45 @@
 package org.smecalculus.bezmen.foo.messaging;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.smecalculus.bezmen.client.SepulkaClient;
 import org.smecalculus.bezmen.client.SepulkaRegReq;
 import org.smecalculus.bezmen.client.SepulkaRegRes;
+import org.smecalculus.bezmen.foo.messaging.beans.SepulkaClientBeans;
+import org.smecalculus.bezmen.foo.service.SepulkaService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
+
+import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
-import static org.smecalculus.bezmen.foo.fixtures.SepulkaFixtures.newSepulkaRegReq;
-import static org.smecalculus.bezmen.foo.fixtures.SepulkaFixtures.newSepulkaRegRes;
+import static org.smecalculus.bezmen.foo.fixtures.SepulkaFixtures.*;
 
-@ExtendWith(MockitoExtension.class)
+@ExtendWith(SpringExtension.class)
+@ContextConfiguration(classes = SepulkaClientBeans.class)
 abstract class SepulkaClientIT {
 
-    protected SepulkaClient webClient;
+    @Autowired
+    protected SepulkaClient externalClient;
 
-    @Mock
-    private SepulkaClient appClient;
-
-    @BeforeEach
-    void setUp() {
-        setupClient(appClient);
-    }
-
-    abstract void setupClient(SepulkaClient sepulkaClient);
+    @Autowired
+    private SepulkaService serviceMock;
 
     @Test
     void shouldRegisterOneSepulka() {
         // given
+        UUID id = UUID.randomUUID();
+        // and
         SepulkaRegReq request = newSepulkaRegReq();
         // and
-        SepulkaRegRes expectedResponse = newSepulkaRegRes();
+        when(serviceMock.register(any(SepulkaRegReq.class))).thenReturn(newSepulka(id).build());
         // and
-        when(appClient.register(any(SepulkaRegReq.class))).thenReturn(newSepulkaRegRes());
+        SepulkaRegRes expectedResponse = newSepulkaRegRes(id);
         // when
-        SepulkaRegRes actualResponse = webClient.register(request);
+        SepulkaRegRes actualResponse = externalClient.register(request);
         // then
         assertThat(actualResponse)
                 .usingRecursiveComparison()

@@ -38,6 +38,11 @@ public class SepulkaBeans {
     }
 
     @Bean
+    SepulkaConverter converter() {
+        return new SepulkaConverter();
+    }
+
+    @Bean
     SepulkaClient client(BezmenValidator validator,
                          SepulkaService service,
                          SepulkaConverter converter) {
