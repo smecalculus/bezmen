@@ -1,4 +1,4 @@
-package com.smecalculus.bezmen.messaging.model;
+package com.smecalculus.bezmen.configuration;
 
 import com.typesafe.config.Optional;
 import jakarta.validation.constraints.NotNull;
@@ -9,15 +9,15 @@ import org.smecalculus.bezmen.validation.ValueOfEnum;
 import java.util.Set;
 
 @Data
-public class ReceptionPropsCm {
+public class ReceptionPropsCfg {
 
     @NotNull
     @Size(min = 1)
     Set<@ValueOfEnum(MessagingProtocol.class) String> protocols;
 
     @Optional
-    HttpProtocolPropsCm http;
+    HttpProtocolPropsCfg http;
 
     @Optional
-    PostgresProtocolPropsCm postgres;
+    PostgresProtocolPropsCfg postgres;
 }

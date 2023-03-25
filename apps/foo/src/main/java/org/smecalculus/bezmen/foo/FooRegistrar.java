@@ -1,6 +1,6 @@
 package org.smecalculus.bezmen.foo;
 
-import com.smecalculus.bezmen.messaging.model.MessagingProtocol;
+import com.smecalculus.bezmen.configuration.MessagingProtocol;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
@@ -8,7 +8,7 @@ import org.springframework.beans.factory.support.BeanDefinitionRegistryPostProce
 
 import java.util.Set;
 
-record WeighingRegistrar(
+record FooRegistrar(
         Set<MessagingProtocol> protocols
 ) implements BeanDefinitionRegistryPostProcessor {
 

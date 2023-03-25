@@ -18,7 +18,6 @@
     <module>core</module>
     <module>client</module>
     <module>messaging</module>
-    <module>monitoring</module>
     <module>test</module>
   </modules>
 
@@ -27,6 +26,7 @@
     <lombok.version>1.18.24</lombok.version>
     <mapstruct.version>1.5.0.RC1</mapstruct.version>
     <mockito.version>4.6.0</mockito.version>
+    <spring.version>5.3.26</spring.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
 
@@ -144,6 +144,10 @@
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>flatten-maven-plugin</artifactId>
       </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
+      </plugin>
     </plugins>
 
     <pluginManagement>
@@ -211,7 +215,8 @@
               </goals>
               <configuration>
                 <summaryFiles>
-                  <summaryFile>${project.build.directory}/failsafe-reports/failsafe-integration-summary.xml</summaryFile>
+                  <summaryFile>${project.build.directory}/failsafe-reports/failsafe-integration-summary.xml
+                  </summaryFile>
                   <summaryFile>${project.build.directory}/failsafe-reports/failsafe-contract-summary.xml</summaryFile>
                 </summaryFiles>
               </configuration>
@@ -247,6 +252,27 @@
               <goals>
                 <goal>clean</goal>
               </goals>
+            </execution>
+          </executions>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-dependency-plugin</artifactId>
+          <version>3.5.0</version>
+          <executions>
+            <execution>
+              <id>reset</id>
+              <phase>clean</phase>
+              <goals>
+                <goal>purge-local-repository</goal>
+              </goals>
+              <configuration>
+                <verbose>true</verbose>
+                <resolutionFuzziness>artifactId</resolutionFuzziness>
+                <manualIncludes>
+                  <manualInclude>${project.groupId}:${project.artifactId}</manualInclude>
+                </manualIncludes>
+              </configuration>
             </execution>
           </executions>
         </plugin>

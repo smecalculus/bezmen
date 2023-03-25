@@ -19,9 +19,8 @@ tasks:
     cmds:
       # deps
       - task: ::lib:binary
-      - task: reset-1
       # actions
-      - mvn package -am -T1C -Drevision={{.APP_FOO_VERSION}} -Dlibs.version={{.SHARED_VERSION}}
+      - mvn clean package -am -T1C -Drevision={{.APP_FOO_VERSION}} -Dlibs.version={{.LIBS_VERSION}}
   image:
     run: once
     vars:
@@ -31,19 +30,13 @@ tasks:
     cmds:
       # deps
       - task: binary
-      - task: reset-2
+      - task: reset
       # actions
       - cmd: >
           docker build target/docker-context
           -f Dockerfile
           -t {{.APP_FOO_REF}}
-  reset-1:
-    run: once
-    internal: true
-    cmds:
-      - cmd: find . -name "*.jar" -type f -delete
-        ignore_error: true
-  reset-2:
+  reset:
     run: once
     internal: true
     cmds:

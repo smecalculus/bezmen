@@ -1,7 +1,10 @@
 package com.smecalculus.bezmen.messaging;
 
-import com.smecalculus.bezmen.messaging.model.MessagingProps;
-import com.typesafe.config.Config;
+import com.smecalculus.bezmen.configuration.MessagingCfgMapper;
+import com.smecalculus.bezmen.configuration.MessagingConfig;
+import com.smecalculus.bezmen.configuration.MessagingConfigImpl;
+import com.smecalculus.bezmen.configuration.MessagingProps;
+import org.smecalculus.bezmen.configuration.ConfigKeeper;
 import org.smecalculus.bezmen.core.CoreBeans;
 import org.smecalculus.bezmen.validation.BezmenValidator;
 import org.springframework.context.annotation.Bean;
@@ -11,14 +14,14 @@ import org.springframework.context.annotation.Import;
 
 @Configuration(proxyBeanMethods = false)
 @Import({CoreBeans.class})
-@ComponentScan(basePackageClasses = {MessagingMapper.class})
+@ComponentScan(basePackageClasses = {MessagingCfgMapper.class})
 public class MessagingBeans {
 
     @Bean
-    MessagingConfig messagingConfig(Config config,
+    MessagingConfig messagingConfig(ConfigKeeper keeper,
                                     BezmenValidator validator,
-                                    MessagingMapper mapper) {
-        return new MessagingConfigImpl(config, validator, mapper);
+                                    MessagingCfgMapper mapper) {
+        return new MessagingConfigImpl(keeper, validator, mapper);
     }
 
     @Bean

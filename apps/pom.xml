@@ -62,6 +62,11 @@
         <artifactId>schema</artifactId>
         <version>${libs.version}</version>
       </dependency>
+      <dependency>
+        <groupId>${project.groupId}</groupId>
+        <artifactId>test</artifactId>
+        <version>${libs.version}</version>
+      </dependency>
       <!-- external-->
       <dependency>
         <groupId>org.springframework</groupId>
@@ -231,7 +236,8 @@
               </goals>
               <configuration>
                 <summaryFiles>
-                  <summaryFile>${project.build.directory}/failsafe-reports/failsafe-integration-summary.xml</summaryFile>
+                  <summaryFile>${project.build.directory}/failsafe-reports/failsafe-integration-summary.xml
+                  </summaryFile>
                   <summaryFile>${project.build.directory}/failsafe-reports/failsafe-contract-summary.xml</summaryFile>
                 </summaryFiles>
               </configuration>
@@ -255,6 +261,11 @@
               </goals>
             </execution>
           </executions>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-dependency-plugin</artifactId>
+          <version>3.5.0</version>
         </plugin>
       </plugins>
     </pluginManagement>

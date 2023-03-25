@@ -3,10 +3,10 @@ version: '3'
 set: [pipefail]
 
 vars:
-  SHARED_REVISION:
+  LIBS_REVISION:
     sh: git write-tree --prefix=libs
-  SHARED_REV: '{{.SHARED_REVISION | trunc 7}}'
-  SHARED_VERSION: 0.1.0-{{.SHARED_REV}}
+  LIBS_REV: '{{.LIBS_REVISION | trunc 7}}'
+  LIBS_VERSION: 0.1.0-{{.LIBS_REV}}
 
 includes:
   schema:
@@ -17,8 +17,6 @@ tasks:
   binary:
     run: once
     status:
-      - test -f target/pom-resolved-{{.SHARED_VERSION}}.xml
+      - test -f target/pom-resolved-{{.LIBS_VERSION}}.xml
     cmds:
-      - find . -name "*.jar" -type f -delete
-      - find . -name "pom-resolved*.xml" -type f -delete
-      - mvn install -am -T1C -Drevision={{.SHARED_VERSION}}
+      - mvn clean install -am -T1C -Drevision={{.LIBS_VERSION}}

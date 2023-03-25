@@ -15,7 +15,7 @@ tasks:
       COMMAND: '{{if eq .REGISTRY "localhost"}}inspect{{else}}pull{{end}}'
     status:
       - docker image {{.COMMAND}} {{.APP_FOO_REF}}-{{.TEST_SYSTEM_STAGE}}
-      - docker image {{.COMMAND}} {{.SCHEMA_REF}}-{{.TEST_SYSTEM_STAGE}}
+      - docker image {{.COMMAND}} {{.LIBS_SCHEMA_REF}}-{{.TEST_SYSTEM_STAGE}}
     cmds:
       # deps
       - task: ::stand:toy:mk
@@ -27,12 +27,12 @@ tasks:
     run: once
     internal: true
     cmds:
-      - docker tag {{.SCHEMA_REF}} {{.SCHEMA_REF}}-{{.TEST_SYSTEM_STAGE}}
+      - docker tag {{.LIBS_SCHEMA_REF}} {{.LIBS_SCHEMA_REF}}-{{.TEST_SYSTEM_STAGE}}
       - docker tag {{.APP_FOO_REF}} {{.APP_FOO_REF}}-{{.TEST_SYSTEM_STAGE}}
   publish:
     run: once
     preconditions:
       - sh: '[ "{{.REGISTRY}}" != "localhost" ]'
     cmds:
-      - docker push {{.SCHEMA_REF}}-{{.TEST_SYSTEM_STAGE}}
+      - docker push {{.LIBS_SCHEMA_REF}}-{{.TEST_SYSTEM_STAGE}}
       - docker push {{.APP_FOO_REF}}-{{.TEST_SYSTEM_STAGE}}

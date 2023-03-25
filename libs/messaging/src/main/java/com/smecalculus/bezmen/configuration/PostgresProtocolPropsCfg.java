@@ -1,10 +1,10 @@
-package com.smecalculus.bezmen.messaging.model;
+package com.smecalculus.bezmen.configuration;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
 @Data
-public class PostgresProtocolPropsCm {
+public class PostgresProtocolPropsCfg {
 
     @NotBlank
     String url;

@@ -1,6 +1,6 @@
 package org.smecalculus.bezmen.data;
 
-import org.smecalculus.bezmen.service.Sepulka;
+import org.smecalculus.bezmen.domain.Sepulka;
 
 import java.util.List;
 import java.util.UUID;

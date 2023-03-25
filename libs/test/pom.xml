@@ -15,7 +15,7 @@
     <!-- internal-->
     <dependency>
       <groupId>${project.groupId}</groupId>
-      <artifactId>client</artifactId>
+      <artifactId>core</artifactId>
       <version>${project.version}</version>
     </dependency>
     <!-- external -->

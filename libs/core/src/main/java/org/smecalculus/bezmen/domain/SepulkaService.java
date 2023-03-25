@@ -1,4 +1,4 @@
-package org.smecalculus.bezmen.service;
+package org.smecalculus.bezmen.domain;
 
 import org.smecalculus.bezmen.client.SepulkaRegReq;
 

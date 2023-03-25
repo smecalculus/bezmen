@@ -12,7 +12,7 @@ tasks:
     run: once
     env:
       REGISTRY: '{{.REGISTRY}}'
-      SCHEMA_TAG: '{{.SCHEMA_REV}}'
+      LIBS_SCHEMA_TAG: '{{.LIBS_SCHEMA_REV}}'
       FOO_TAG: '{{.APP_FOO_REV}}'
     cmds:
       # deps
@@ -24,11 +24,19 @@ tasks:
           --profile {{.DB_VENDOR}}
           up
           --detach
+  test:
+    run: once
+    cmds:
+      # deps
+      - task: mk
+      # actions
+      - cmd: >
+          mvn clean test
   rm:
     run: once
     env:
       REGISTRY: '{{.REGISTRY}}'
-      SCHEMA_TAG: '{{.SCHEMA_REV}}'
+      LIBS_SCHEMA_TAG: '{{.LIBS_SCHEMA_REV}}'
       FOO_TAG: '{{.APP_FOO_REV}}'
     cmds:
       - cmd: >

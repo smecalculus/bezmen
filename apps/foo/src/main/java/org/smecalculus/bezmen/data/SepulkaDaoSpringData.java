@@ -2,7 +2,7 @@ package org.smecalculus.bezmen.data;
 
 import lombok.NonNull;
 import org.smecalculus.bezmen.data.springdata.SepulkaRepository;
-import org.smecalculus.bezmen.service.Sepulka;
+import org.smecalculus.bezmen.domain.Sepulka;
 
 import java.util.List;
 import java.util.UUID;
