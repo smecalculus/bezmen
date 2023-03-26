@@ -3,12 +3,13 @@ version: '3'
 set: [pipefail]
 
 vars:
+  STAND_TOY_PASSED: toy
   STAND_TOY_REVISION:
     sh: git write-tree --prefix=stands/toy
   STAND_TOY_REV: '{{.STAND_TOY_REVISION | trunc 7}}'
 
 tasks:
-  mk:
+  build:
     run: once
     env:
       REGISTRY: '{{.REGISTRY}}'
@@ -28,12 +29,32 @@ tasks:
           --detach
   test:
     run: once
+    vars:
+      COMMAND: '{{if eq .REGISTRY "localhost"}}inspect{{else}}pull{{end}}'
+    status:
+      - docker image {{.COMMAND}} {{.APP_FOO_REF}}-{{.STAND_TOY_PASSED}}
+      - docker image {{.COMMAND}} {{.LIB_SCHEMA_REF}}-{{.STAND_TOY_PASSED}}
     cmds:
       # deps
-      - task: mk
+      - task: ::lib:binary
+      - task: build
       # actions
-      - cmd: >
-          mvn clean test
+      - cmd: mvn test -Dlibs.version={{.LIBS_VERSION}}
+      # proofs
+      - task: approve
+  approve:
+    run: once
+    internal: true
+    cmds:
+      - docker tag {{.LIB_SCHEMA_REF}} {{.LIB_SCHEMA_REF}}-{{.STAND_TOY_PASSED}}
+      - docker tag {{.APP_FOO_REF}} {{.APP_FOO_REF}}-{{.STAND_TOY_PASSED}}
+  publish:
+    run: once
+    preconditions:
+      - sh: '[ "{{.REGISTRY}}" != "localhost" ]'
+    cmds:
+      - docker push {{.LIB_SCHEMA_REF}}-{{.STAND_TOY_PASSED}}
+      - docker push {{.APP_FOO_REF}}-{{.STAND_TOY_PASSED}}
   wipe:
     run: once
     env:

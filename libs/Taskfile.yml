@@ -17,6 +17,7 @@ tasks:
   binary:
     run: once
     status:
+      - echo {{.LIBS_VERSION}}
       - test -f target/pom-resolved-{{.LIBS_VERSION}}.xml
     cmds:
       - mvn clean install -am -T1C -Drevision={{.LIBS_VERSION}}
