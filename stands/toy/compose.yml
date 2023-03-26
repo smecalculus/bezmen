@@ -16,8 +16,8 @@ services:
       retries: 5
 
   schema-dba:
-    image: ${REGISTRY}/smecalculus/schema-postgres:${LIBS_SCHEMA_TAG}
-    container_name: schema-dba
+    image: ${REGISTRY}/smecalculus/schema-postgres:${SCHEMA_TAG}
+    container_name: schema-dba-${SCHEMA_TAG}
     profiles:
       - postgres
     depends_on:
@@ -25,7 +25,7 @@ services:
         condition: service_healthy
     labels:
       bezmen.image: schema-postgres
-      bezmen.revision: ${LIBS_SCHEMA_TAG}
+      bezmen.revision: ${SCHEMA_TAG}
     command: >
       --show-banner=false
       --changelog-file=alfa/dba/changelog.yml
@@ -40,8 +40,8 @@ services:
       -Dbezmen.password=bezmen
 
   schema-owner:
-    image: ${REGISTRY}/smecalculus/schema-postgres:${LIBS_SCHEMA_TAG}
-    container_name: schema-owner
+    image: ${REGISTRY}/smecalculus/schema-postgres:${SCHEMA_TAG}
+    container_name: schema-owner-${SCHEMA_TAG}
     profiles:
       - postgres
     depends_on:
@@ -49,7 +49,7 @@ services:
         condition: service_completed_successfully
     labels:
       bezmen.image: schema-postgres
-      bezmen.revision: ${LIBS_SCHEMA_TAG}
+      bezmen.revision: ${SCHEMA_TAG}
     command: >
       --show-banner=false
       --changelog-file=alfa/owner/changelog.yml
@@ -64,6 +64,8 @@ services:
     container_name: app-foo
     ports:
       - "8080:8080"
+    volumes:
+      - "./stand.conf:/home/bezmen/app/application.conf"
     depends_on:
       db:
         condition: service_healthy

@@ -4,4 +4,4 @@ USER bezmen:bezmen
 WORKDIR /home/bezmen
 COPY app-foo*.jar app/foo.jar
 COPY libs app/libs
-ENTRYPOINT ["java", "-cp", "app/foo.jar:app/libs/*", "org.smecalculus.bezmen.foo.App"]
+ENTRYPOINT ["java", "-cp", "app/foo.jar:app/libs/*", "-Dconfig.file=app/application.conf", "org.smecalculus.bezmen.foo.App"]

@@ -3,30 +3,30 @@ version: '3'
 set: [pipefail]
 
 vars:
-  LIBS_SCHEMA_DIR: src/main/resources/{{.DB_VENDOR}}
-  LIBS_SCHEMA_REVISION:
-    sh: git write-tree --prefix=libs/schema/{{.LIBS_SCHEMA_DIR}}
-  LIBS_SCHEMA_REV: '{{.LIBS_SCHEMA_REVISION | trunc 7}}'
-  LIBS_SCHEMA_IMAGE: schema-{{.DB_VENDOR}}
-  LIBS_SCHEMA_REPO: '{{.REGISTRY}}/smecalculus/{{.LIBS_SCHEMA_IMAGE}}'
-  LIBS_SCHEMA_REF: '{{.LIBS_SCHEMA_REPO}}:{{.LIBS_SCHEMA_REV}}'
+  LIB_SCHEMA_DIR: src/main/resources/{{.DB_VENDOR}}
+  LIB_SCHEMA_REVISION:
+    sh: git write-tree --prefix=libs/schema/{{.LIB_SCHEMA_DIR}}
+  LIB_SCHEMA_REV: '{{.LIB_SCHEMA_REVISION | trunc 7}}'
+  LIB_SCHEMA_IMAGE: schema-{{.DB_VENDOR}}
+  LIB_SCHEMA_REPO: '{{.REGISTRY}}/smecalculus/{{.LIB_SCHEMA_IMAGE}}'
+  LIB_SCHEMA_REF: '{{.LIB_SCHEMA_REPO}}:{{.LIB_SCHEMA_REV}}'
 
 tasks:
   image:
     vars:
       COMMAND: '{{if eq .REGISTRY "localhost"}}inspect{{else}}pull{{end}}'
     status:
-      - docker image {{.COMMAND}} {{.LIBS_SCHEMA_REF}}
+      - docker image {{.COMMAND}} {{.LIB_SCHEMA_REF}}
     cmds:
       # deps
       - task: reset
       # actions
-      - cmd: docker build . -t {{.LIBS_SCHEMA_REF}}
-    dir: '{{.LIBS_SCHEMA_DIR}}'
+      - cmd: docker build . -t {{.LIB_SCHEMA_REF}}
+    dir: '{{.LIB_SCHEMA_DIR}}'
   reset:
     internal: true
     cmds:
-      - cmd: docker rm -f $(docker ps -aq -f label=bezmen.image={{.LIBS_SCHEMA_IMAGE}}) 2> /dev/null
+      - cmd: docker rm -f $(docker ps -aq -f label=bezmen.image={{.LIB_SCHEMA_IMAGE}}) 2> /dev/null
         ignore_error: true
-      - cmd: docker rmi -f $(docker images -q -f reference={{.LIBS_SCHEMA_REPO}}) 2> /dev/null
+      - cmd: docker rmi -f $(docker images -q -f reference={{.LIB_SCHEMA_REPO}}) 2> /dev/null
         ignore_error: true

@@ -4,5 +4,5 @@ import lombok.Data;
 
 @Data
 public class SepulkaRegReqMsg {
-    private String foo;
+    private String name;
 }

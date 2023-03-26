@@ -10,13 +10,16 @@ import java.util.List;
 
 import static java.util.UUID.randomUUID;
 
-public record SepulkaServiceImpl(
+public record SepulkaServiceDefault(
         @NonNull SepulkaDao sepulkaDao
 ) implements SepulkaService {
 
     @Override
     public Sepulka register(SepulkaRegReq sepulkaRegReq) {
-        Sepulka sepulka = Sepulka.builder().id(randomUUID()).build();
+        Sepulka sepulka = Sepulka.builder()
+                .id(randomUUID())
+                .name(sepulkaRegReq.name())
+                .build();
         return sepulkaDao.save(sepulka);
     }
 

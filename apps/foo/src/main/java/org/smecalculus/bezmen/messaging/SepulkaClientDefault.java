@@ -5,11 +5,11 @@ import org.smecalculus.bezmen.client.SepulkaClient;
 import org.smecalculus.bezmen.client.SepulkaRegReq;
 import org.smecalculus.bezmen.client.SepulkaRegRes;
 import org.smecalculus.bezmen.domain.Sepulka;
+import org.smecalculus.bezmen.domain.SepulkaConverter;
 import org.smecalculus.bezmen.domain.SepulkaService;
-import org.smecalculus.bezmen.service.SepulkaConverter;
 import org.smecalculus.bezmen.validation.BezmenValidator;
 
-public record SepulkaClientImpl(
+public record SepulkaClientDefault(
         @NonNull BezmenValidator validator,
         @NonNull SepulkaService service,
         @NonNull SepulkaConverter converter

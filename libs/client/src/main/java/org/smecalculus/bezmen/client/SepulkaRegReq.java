@@ -1,6 +1,8 @@
 package org.smecalculus.bezmen.client;
 
+import lombok.NonNull;
+
 public record SepulkaRegReq(
-        String foo
+        @NonNull String name
 ) {
 }

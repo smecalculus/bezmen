@@ -12,4 +12,5 @@ public class SepulkaRec {
     String id;
     @Version
     Integer version;
+    String name;
 }

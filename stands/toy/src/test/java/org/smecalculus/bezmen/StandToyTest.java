@@ -18,7 +18,7 @@ import static org.smecalculus.bezmen.fixture.SepulkaFixtures.sepulkaRegResPojo;
 public class StandToyTest {
 
     @Autowired
-    BezmenClient bezmenClient;
+    private BezmenClient bezmenClient;
 
     @Test
     void shouldRegisterSepulka() {
@@ -30,6 +30,8 @@ public class StandToyTest {
         SepulkaRegRes actualResponse = bezmenClient.register(request);
         // then
         assertThat(actualResponse)
+                .usingRecursiveComparison()
+                .ignoringFields("id")
                 .isEqualTo(expectedResponse);
     }
 }

@@ -12,12 +12,14 @@ tasks:
     run: once
     env:
       REGISTRY: '{{.REGISTRY}}'
-      LIBS_SCHEMA_TAG: '{{.LIBS_SCHEMA_REV}}'
+      SCHEMA_TAG: '{{.LIB_SCHEMA_REV}}'
       FOO_TAG: '{{.APP_FOO_REV}}'
     cmds:
       # deps
       - task: ::lib:schema:image
       - task: ::app:foo:image
+      # wipes
+      - task: wipe-db
       # actions
       - cmd: >
           docker compose
@@ -32,11 +34,11 @@ tasks:
       # actions
       - cmd: >
           mvn clean test
-  rm:
+  wipe:
     run: once
     env:
       REGISTRY: '{{.REGISTRY}}'
-      LIBS_SCHEMA_TAG: '{{.LIBS_SCHEMA_REV}}'
+      SCHEMA_TAG: '{{.LIB_SCHEMA_REV}}'
       FOO_TAG: '{{.APP_FOO_REV}}'
     cmds:
       - cmd: >
@@ -44,3 +46,10 @@ tasks:
           --profile {{.DB_VENDOR}}
           down
           --volumes
+  wipe-db:
+    run: once
+    internal: true
+    status:
+      - docker inspect schema-owner-{{.LIB_SCHEMA_REV}}
+    cmds:
+      - docker rm -f env-db

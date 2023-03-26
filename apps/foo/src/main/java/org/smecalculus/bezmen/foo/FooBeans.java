@@ -8,10 +8,11 @@ import org.smecalculus.bezmen.data.SepulkaDao;
 import org.smecalculus.bezmen.data.SepulkaDaoSpringData;
 import org.smecalculus.bezmen.data.SepulkaRecMapper;
 import org.smecalculus.bezmen.data.springdata.SepulkaRepository;
+import org.smecalculus.bezmen.domain.SepulkaConverter;
 import org.smecalculus.bezmen.domain.SepulkaService;
-import org.smecalculus.bezmen.messaging.SepulkaClientImpl;
-import org.smecalculus.bezmen.service.SepulkaConverter;
-import org.smecalculus.bezmen.service.SepulkaServiceImpl;
+import org.smecalculus.bezmen.messaging.SepulkaClientDefault;
+import org.smecalculus.bezmen.service.SepulkaConverterDefault;
+import org.smecalculus.bezmen.service.SepulkaServiceDefault;
 import org.smecalculus.bezmen.service.ServiceBeans;
 import org.smecalculus.bezmen.validation.BezmenValidator;
 import org.springframework.context.annotation.Bean;
@@ -22,7 +23,7 @@ import org.springframework.data.jdbc.repository.config.EnableJdbcRepositories;
 
 @Configuration(proxyBeanMethods = false)
 @Import({MessagingBeans.class, ServiceBeans.class, DataBeans.class})
-@ComponentScan(basePackageClasses = {SepulkaClientImpl.class, SepulkaDao.class})
+@ComponentScan(basePackageClasses = {SepulkaClientDefault.class, SepulkaDao.class})
 @EnableJdbcRepositories(basePackageClasses = SepulkaDao.class)
 public class FooBeans {
 
@@ -34,19 +35,19 @@ public class FooBeans {
 
     @Bean
     SepulkaService service(SepulkaDao sepulkaDao) {
-        return new SepulkaServiceImpl(sepulkaDao);
+        return new SepulkaServiceDefault(sepulkaDao);
     }
 
     @Bean
     SepulkaConverter converter() {
-        return new SepulkaConverter();
+        return new SepulkaConverterDefault();
     }
 
     @Bean
     SepulkaClient client(BezmenValidator validator,
                          SepulkaService service,
                          SepulkaConverter converter) {
-        return new SepulkaClientImpl(validator, service, converter);
+        return new SepulkaClientDefault(validator, service, converter);
     }
 
     @Bean
