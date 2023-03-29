@@ -3,13 +3,29 @@ version: '3'
 set: [pipefail]
 
 vars:
-  STAND_TOY_PASSED: toy
   STAND_TOY_REVISION:
     sh: git write-tree --prefix=stands/toy
   STAND_TOY_REV: '{{.STAND_TOY_REVISION | trunc 7}}'
+  STAND_TOY_IMAGE: stand-toy
+  STAND_TOY_REPO: '{{.REGISTRY}}/smecalculus/{{.STAND_TOY_IMAGE}}'
+  STAND_TOY_REF: '{{.STAND_TOY_REPO}}:{{.STAND_TOY_REV}}'
 
 tasks:
-  build:
+  image:
+    run: once
+    vars:
+      COMMAND: '{{if eq .REGISTRY "localhost"}}inspect{{else}}pull{{end}}'
+    status:
+      - docker image {{.COMMAND}} {{.STAND_TOY_REF}}
+    cmds:
+      # deps
+      - task: reset
+      # actions
+      - cmd: >
+          docker build .
+          -f Dockerfile
+          -t {{.STAND_TOY_REF}}
+  run:
     run: once
     env:
       REGISTRY: '{{.REGISTRY}}'
@@ -19,6 +35,7 @@ tasks:
       # deps
       - task: ::lib:schema:image
       - task: ::app:foo:image
+      - task: image
       # wipes
       - task: wipe-db
       # actions
@@ -27,34 +44,6 @@ tasks:
           --profile {{.DB_VENDOR}}
           up
           --detach
-  test:
-    run: once
-    vars:
-      COMMAND: '{{if eq .REGISTRY "localhost"}}inspect{{else}}pull{{end}}'
-    status:
-      - docker image {{.COMMAND}} {{.APP_FOO_REF}}-{{.STAND_TOY_PASSED}}
-      - docker image {{.COMMAND}} {{.LIB_SCHEMA_REF}}-{{.STAND_TOY_PASSED}}
-    cmds:
-      # deps
-      - task: ::lib:binary
-      - task: build
-      # actions
-      - cmd: mvn test -Dlibs.version={{.LIBS_VERSION}}
-      # proofs
-      - task: approve
-  approve:
-    run: once
-    internal: true
-    cmds:
-      - docker tag {{.LIB_SCHEMA_REF}} {{.LIB_SCHEMA_REF}}-{{.STAND_TOY_PASSED}}
-      - docker tag {{.APP_FOO_REF}} {{.APP_FOO_REF}}-{{.STAND_TOY_PASSED}}
-  publish:
-    run: once
-    preconditions:
-      - sh: '[ "{{.REGISTRY}}" != "localhost" ]'
-    cmds:
-      - docker push {{.LIB_SCHEMA_REF}}-{{.STAND_TOY_PASSED}}
-      - docker push {{.APP_FOO_REF}}-{{.STAND_TOY_PASSED}}
   wipe:
     run: once
     env:
@@ -74,3 +63,9 @@ tasks:
       - docker inspect schema-owner-{{.LIB_SCHEMA_REV}}
     cmds:
       - docker rm -f env-db
+  reset:
+    run: once
+    internal: true
+    cmds:
+      - cmd: docker rmi -f $(docker images -q -f reference={{.STAND_TOY_REPO}}) 2> /dev/null
+        ignore_error: true

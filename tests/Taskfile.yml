@@ -2,11 +2,6 @@ version: '3'
 
 set: [pipefail]
 
-vars:
-  TEST_REVISION:
-    sh: git write-tree --prefix=tests
-  TEST_REV: '{{.TEST_REVISION | trunc 7}}'
-
 includes:
   integration:
     taskfile: integration/Taskfile.yml
@@ -14,15 +9,3 @@ includes:
   system:
     taskfile: system/Taskfile.yml
     dir: system
-
-tasks:
-  binary:
-    run: once
-    status:
-      - test -f target/pom-resolved-{{.TEST_REV}}.xml
-    cmds:
-      # deps
-      - task: :app:binary
-      # actions
-      - find . -name "pom-resolved*.xml" -type f -delete
-      - mvn package -am -T1C -Drevision={{.TEST_REV}}

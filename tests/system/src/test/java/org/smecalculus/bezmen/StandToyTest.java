@@ -1,5 +1,6 @@
 package org.smecalculus.bezmen;
 
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.smecalculus.bezmen.client.BezmenClient;
@@ -21,6 +22,7 @@ public class StandToyTest {
     private BezmenClient bezmenClient;
 
     @Test
+    @Tag("smoke")
     void shouldRegisterSepulka() {
         // given
         SepulkaRegReq request = sepulkaRegReqPojo();

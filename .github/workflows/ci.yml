@@ -10,7 +10,7 @@ env:
   REGISTRY: ghcr.io
 
 jobs:
-  toy:
+  verification:
     timeout-minutes: 15
     runs-on: ubuntu-latest
     steps:
@@ -26,4 +26,4 @@ jobs:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-      - run: task --verbose stand:toy:test REGISTRY=${{ env.REGISTRY }}
+      - run: task --verbose stage:verification:run REGISTRY=${{ env.REGISTRY }}

@@ -1,0 +1,8 @@
+version: '3'
+
+set: [pipefail]
+
+includes:
+  verification:
+    taskfile: verification/Taskfile.yml
+    dir: verification

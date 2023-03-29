@@ -22,6 +22,9 @@ includes:
   test:
     taskfile: tests/Taskfile.yml
     dir: tests
+  stage:
+    taskfile: stages/Taskfile.yml
+    dir: stages
 
 tasks:
   clean:

@@ -1,0 +1,42 @@
+version: '3'
+
+set: [pipefail]
+
+vars:
+  STAGE_VERIFICATION: verified
+
+tasks:
+  run:
+    run: once
+    vars:
+      COMMAND: '{{if eq .REGISTRY "localhost"}}inspect{{else}}pull{{end}}'
+    status:
+      - docker image {{.COMMAND}} {{.APP_FOO_REF}}-{{.STAGE_VERIFICATION}}
+      - docker image {{.COMMAND}} {{.LIB_SCHEMA_REF}}-{{.STAGE_VERIFICATION}}
+      - docker image {{.COMMAND}} {{.TEST_SYSTEM_REF}}-{{.STAGE_VERIFICATION}}
+      - docker image {{.COMMAND}} {{.STAND_TOY_REF}}-{{.STAGE_VERIFICATION}}
+    cmds:
+      # deps
+      - task: ::stand:toy:run
+      - task: ::test:system:run
+        vars:
+          TEST_SYSTEM_GROUPS: smoke
+      # actions
+      - task: approve
+  approve:
+    run: once
+    internal: true
+    cmds:
+      - docker tag {{.APP_FOO_REF}} {{.APP_FOO_REF}}-{{.STAGE_VERIFICATION}}
+      - docker tag {{.LIB_SCHEMA_REF}} {{.LIB_SCHEMA_REF}}-{{.STAGE_VERIFICATION}}
+      - docker tag {{.TEST_SYSTEM_REF}} {{.TEST_SYSTEM_REF}}-{{.STAGE_VERIFICATION}}
+      - docker tag {{.STAND_TOY_REF}} {{.STAND_TOY_REF}}-{{.STAGE_VERIFICATION}}
+  publish:
+    run: once
+    preconditions:
+      - sh: '[ "{{.REGISTRY}}" != "localhost" ]'
+    cmds:
+      - docker push {{.LIB_SCHEMA_REF}}-{{.STAGE_VERIFICATION}}
+      - docker push {{.APP_FOO_REF}}-{{.STAGE_VERIFICATION}}
+      - docker push {{.TEST_SYSTEM_REF}}-{{.STAGE_VERIFICATION}}
+      - docker push {{.STAND_TOY_REF}}-{{.STAGE_VERIFICATION}}

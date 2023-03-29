@@ -3,36 +3,38 @@ version: '3'
 set: [pipefail]
 
 vars:
-  TEST_SYSTEM_STAGE: system
   TEST_SYSTEM_REVISION:
     sh: git write-tree --prefix=tests/system
   TEST_SYSTEM_REV: '{{.TEST_SYSTEM_REVISION | trunc 7}}'
+  TEST_SYSTEM_IMAGE: test-system
+  TEST_SYSTEM_REPO: '{{.REGISTRY}}/smecalculus/{{.TEST_SYSTEM_IMAGE}}'
+  TEST_SYSTEM_REF: '{{.TEST_SYSTEM_REPO}}:{{.TEST_SYSTEM_REV}}'
+  TEST_SYSTEM_GROUPS: smoke
 
 tasks:
-  run:
+  image:
     run: once
     vars:
       COMMAND: '{{if eq .REGISTRY "localhost"}}inspect{{else}}pull{{end}}'
     status:
-      - docker image {{.COMMAND}} {{.APP_FOO_REF}}-{{.TEST_SYSTEM_STAGE}}
-      - docker image {{.COMMAND}} {{.LIB_SCHEMA_REF}}-{{.TEST_SYSTEM_STAGE}}
+      - docker image {{.COMMAND}} {{.TEST_SYSTEM_REF}}
     cmds:
       # deps
-      - task: ::stand:toy:mk
+      - task: reset
       # actions
-      - cmd: mvn test
-      # proofs
-      - task: approve
-  approve:
+      - cmd: >
+          docker build .
+          -f Dockerfile
+          -t {{.TEST_SYSTEM_REF}}
+  run:
+    cmds:
+      # deps
+      - task: image
+      # actions
+      - cmd: mvn test -Dlibs.version={{.LIBS_VERSION}} -Dgroups={{.TEST_SYSTEM_GROUPS}}
+  reset:
     run: once
     internal: true
     cmds:
-      - docker tag {{.LIB_SCHEMA_REF}} {{.LIB_SCHEMA_REF}}-{{.TEST_SYSTEM_STAGE}}
-      - docker tag {{.APP_FOO_REF}} {{.APP_FOO_REF}}-{{.TEST_SYSTEM_STAGE}}
-  publish:
-    run: once
-    preconditions:
-      - sh: '[ "{{.REGISTRY}}" != "localhost" ]'
-    cmds:
-      - docker push {{.LIB_SCHEMA_REF}}-{{.TEST_SYSTEM_STAGE}}
-      - docker push {{.APP_FOO_REF}}-{{.TEST_SYSTEM_STAGE}}
+      - cmd: docker rmi -f $(docker images -q -f reference={{.TEST_SYSTEM_REPO}}) 2> /dev/null
+        ignore_error: true
