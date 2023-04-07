@@ -3,9 +3,6 @@ version: '3'
 set: [pipefail]
 
 includes:
-  integration:
-    taskfile: integration/Taskfile.yml
-    dir: integration
   system:
     taskfile: system/Taskfile.yml
     dir: system

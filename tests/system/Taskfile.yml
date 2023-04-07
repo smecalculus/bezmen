@@ -17,11 +17,12 @@ tasks:
     vars:
       COMMAND: '{{if eq .REGISTRY "localhost"}}inspect{{else}}pull{{end}}'
     status:
+      - task --dir {{.ROOT_DIR}} --status lib:binary
       - docker image {{.COMMAND}} {{.TEST_SYSTEM_REF}}
+    deps:
+      - task: ::lib:binary
     cmds:
-      # deps
       - task: reset
-      # actions
       - cmd: >
           docker build .
           -f Dockerfile

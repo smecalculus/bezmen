@@ -19,8 +19,6 @@ tasks:
       # deps
       - task: ::stand:toy:run
       - task: ::test:system:run
-        vars:
-          TEST_SYSTEM_GROUPS: smoke
       # actions
       - task: approve
   approve:

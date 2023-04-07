@@ -15,11 +15,11 @@ tasks:
   binary:
     run: once
     status:
+      - task --dir {{.ROOT_DIR}} --status lib:binary
       - test -f target/app-foo-{{.APP_FOO_VERSION}}.jar
-    cmds:
-      # deps
+    deps:
       - task: ::lib:binary
-      # actions
+    cmds:
       - mvn clean package -am -T1C -Drevision={{.APP_FOO_VERSION}} -Dlibs.version={{.LIBS_VERSION}}
   image:
     run: once

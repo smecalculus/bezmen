@@ -17,7 +17,6 @@ tasks:
   binary:
     run: once
     status:
-      - echo {{.LIBS_VERSION}}
-      - test -f target/pom-resolved-{{.LIBS_VERSION}}.xml
+      - mvn -o -N dependency:get -Dartifact=org.smecalculus.bezmen:libs:{{.LIBS_VERSION}}:pom
     cmds:
       - mvn clean install -am -T1C -Drevision={{.LIBS_VERSION}}

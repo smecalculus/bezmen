@@ -34,4 +34,18 @@ public record BezmenClientJavaHttp(
             throw new RuntimeException(e);
         }
     }
+
+    @Override
+    public boolean isReady() {
+        try {
+            HttpRequest httpRequest = HttpRequest.newBuilder()
+                    .uri(URI.create("http://localhost:8080/actuator/health"))
+                    .GET()
+                    .build();
+            HttpResponse<Void> httpResponse = client.send(httpRequest, BodyHandlers.discarding());
+            return httpResponse.statusCode() == 200;
+        } catch (IOException | InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
