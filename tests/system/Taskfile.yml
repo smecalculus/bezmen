@@ -5,10 +5,10 @@ set: [pipefail]
 vars:
   TEST_SYSTEM_REVISION:
     sh: git write-tree --prefix=tests/system
-  TEST_SYSTEM_REV: '{{.TEST_SYSTEM_REVISION | trunc 7}}'
-  TEST_SYSTEM_IMAGE: test-system
-  TEST_SYSTEM_REPO: '{{.REGISTRY}}/smecalculus/{{.TEST_SYSTEM_IMAGE}}'
-  TEST_SYSTEM_REF: '{{.TEST_SYSTEM_REPO}}:{{.TEST_SYSTEM_REV}}'
+  TEST_SYSTEM_CID: '{{.TEST_SYSTEM_REVISION | trunc 7}}'
+  TEST_SYSTEM_IMAGE: 'test-system'
+  TEST_SYSTEM_REPO: '{{.PROJECT_REPO}}/{{.TEST_SYSTEM_IMAGE}}'
+  TEST_SYSTEM_REF: '{{.TEST_SYSTEM_REPO}}:{{.TEST_SYSTEM_CID}}'
   TEST_SYSTEM_GROUPS: smoke
 
 tasks:

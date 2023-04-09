@@ -5,11 +5,11 @@ set: [pipefail]
 vars:
   APP_FOO_REVISION:
     sh: git write-tree --prefix=apps/foo
-  APP_FOO_REV: '{{.APP_FOO_REVISION | trunc 7}}'
-  APP_FOO_VERSION: '{{.APP_VERSION}}-{{.APP_FOO_REV}}'
-  APP_FOO_IMAGE: app-foo
-  APP_FOO_REPO: '{{.REGISTRY}}/smecalculus/{{.APP_FOO_IMAGE}}'
-  APP_FOO_REF: '{{.APP_FOO_REPO}}:{{.APP_FOO_REV}}'
+  APP_FOO_CID: '{{.APP_FOO_REVISION | trunc 7}}'
+  APP_FOO_VERSION: '{{.APP_VERSION}}-{{.APP_FOO_CID}}'
+  APP_FOO_IMAGE: 'app-foo'
+  APP_FOO_REPO: '{{.PROJECT_REPO}}/{{.APP_FOO_IMAGE}}'
+  APP_FOO_REF: '{{.APP_FOO_REPO}}:{{.APP_FOO_CID}}'
 
 tasks:
   binary:
@@ -17,9 +17,10 @@ tasks:
     status:
       - task --dir {{.ROOT_DIR}} --status lib:binary
       - test -f target/app-foo-{{.APP_FOO_VERSION}}.jar
-    deps:
-      - task: ::lib:binary
     cmds:
+      # deps
+      - task: ::lib:binary
+      # cmds
       - mvn clean package -am -T1C -Drevision={{.APP_FOO_VERSION}} -Dlibs.version={{.LIBS_VERSION}}
   image:
     run: once

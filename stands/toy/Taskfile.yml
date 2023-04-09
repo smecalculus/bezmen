@@ -5,10 +5,20 @@ set: [pipefail]
 vars:
   STAND_TOY_REVISION:
     sh: git write-tree --prefix=stands/toy
-  STAND_TOY_REV: '{{.STAND_TOY_REVISION | trunc 7}}'
-  STAND_TOY_IMAGE: stand-toy
-  STAND_TOY_REPO: '{{.REGISTRY}}/smecalculus/{{.STAND_TOY_IMAGE}}'
-  STAND_TOY_REF: '{{.STAND_TOY_REPO}}:{{.STAND_TOY_REV}}'
+  STAND_TOY_CID: '{{.STAND_TOY_REVISION | trunc 7}}'
+  STAND_TOY_IMAGE: 'stand-toy'
+  STAND_TOY_REPO: '{{.PROJECT_REPO}}/{{.STAND_TOY_IMAGE}}'
+  STAND_TOY_REF: '{{.STAND_TOY_REPO}}:{{.STAND_TOY_CID}}'
+
+env:
+  SCHEMA_CID: '{{.LIB_SCHEMA_CID}}'
+  SCHEMA_IMAGE: '{{.LIB_SCHEMA_IMAGE}}'
+  SCHEMA_REPO: '{{.LIB_SCHEMA_REPO}}'
+  SCHEMA_REF: '{{.LIB_SCHEMA_REF}}'
+  FOO_CID: '{{.APP_FOO_CID}}'
+  FOO_IMAGE: '{{.APP_FOO_IMAGE}}'
+  FOO_REPO: '{{.APP_FOO_REPO}}'
+  FOO_REF: '{{.APP_FOO_REF}}'
 
 tasks:
   image:
@@ -18,19 +28,13 @@ tasks:
     status:
       - docker image {{.COMMAND}} {{.STAND_TOY_REF}}
     cmds:
-      # deps
       - task: reset
-      # actions
       - cmd: >
           docker build .
           -f Dockerfile
           -t {{.STAND_TOY_REF}}
   run:
     run: once
-    env:
-      REGISTRY: '{{.REGISTRY}}'
-      SCHEMA_TAG: '{{.LIB_SCHEMA_REV}}'
-      FOO_TAG: '{{.APP_FOO_REV}}'
     cmds:
       # deps
       - task: ::lib:schema:image
@@ -41,26 +45,22 @@ tasks:
       # actions
       - cmd: >
           docker compose
-          --profile {{.DB_VENDOR}}
+          --profile {{.ENV_DB_VENDOR}}
           up
           --detach
   wipe:
     run: once
-    env:
-      REGISTRY: '{{.REGISTRY}}'
-      SCHEMA_TAG: '{{.LIB_SCHEMA_REV}}'
-      FOO_TAG: '{{.APP_FOO_REV}}'
     cmds:
       - cmd: >
           docker compose
-          --profile {{.DB_VENDOR}}
+          --profile {{.ENV_DB_VENDOR}}
           down
           --volumes
   wipe-db:
     run: once
     internal: true
     status:
-      - docker inspect schema-owner-{{.LIB_SCHEMA_REV}}
+      - docker inspect schema-owner-{{.LIB_SCHEMA_CID}}
     cmds:
       - docker rm -f env-db
   reset:

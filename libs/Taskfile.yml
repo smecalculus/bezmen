@@ -5,8 +5,8 @@ set: [pipefail]
 vars:
   LIBS_REVISION:
     sh: git write-tree --prefix=libs
-  LIBS_REV: '{{.LIBS_REVISION | trunc 7}}'
-  LIBS_VERSION: 0.1.0-{{.LIBS_REV}}
+  LIBS_CID: '{{.LIBS_REVISION | trunc 7}}'
+  LIBS_VERSION: 0.1.0-{{.LIBS_CID}}
 
 includes:
   schema:

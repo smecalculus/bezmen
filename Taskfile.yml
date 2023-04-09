@@ -1,10 +1,12 @@
 version: '3'
 
 vars:
-  DB_VENDOR: postgres
+  PROJECT: bezmen
   REGISTRY: localhost
-  ROOT_REVISION:
-    sh: git add -A && git write-tree
+  PROJECT_REPO: '{{.REGISTRY}}/smecalculus/{{.PROJECT}}'
+  GIT_ADD_ALL:
+    sh: git add -A
+  ENV_DB_VENDOR: postgres
 
 includes:
   lib:

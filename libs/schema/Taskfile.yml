@@ -3,13 +3,13 @@ version: '3'
 set: [pipefail]
 
 vars:
-  LIB_SCHEMA_DIR: src/main/resources/{{.DB_VENDOR}}
+  LIB_SCHEMA_DIR: src/main/resources/{{.ENV_DB_VENDOR}}
   LIB_SCHEMA_REVISION:
     sh: git write-tree --prefix=libs/schema/{{.LIB_SCHEMA_DIR}}
-  LIB_SCHEMA_REV: '{{.LIB_SCHEMA_REVISION | trunc 7}}'
-  LIB_SCHEMA_IMAGE: schema-{{.DB_VENDOR}}
-  LIB_SCHEMA_REPO: '{{.REGISTRY}}/smecalculus/{{.LIB_SCHEMA_IMAGE}}'
-  LIB_SCHEMA_REF: '{{.LIB_SCHEMA_REPO}}:{{.LIB_SCHEMA_REV}}'
+  LIB_SCHEMA_CID: '{{.LIB_SCHEMA_REVISION | trunc 7}}'
+  LIB_SCHEMA_IMAGE: 'schema-{{.ENV_DB_VENDOR}}'
+  LIB_SCHEMA_REPO: '{{.PROJECT_REPO}}/{{.LIB_SCHEMA_IMAGE}}'
+  LIB_SCHEMA_REF: '{{.LIB_SCHEMA_REPO}}:{{.LIB_SCHEMA_CID}}'
 
 tasks:
   image:
