@@ -3,7 +3,7 @@ package com.smecalculus.bezmen.configuration;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
-@Mapper(componentModel = "spring")
+@Mapper
 public interface MessagingCfgMapper {
 
     @Mapping(target = "receptionProps", source = "reception")

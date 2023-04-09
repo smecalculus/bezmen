@@ -15,8 +15,8 @@
     <dependency>
       <groupId>${project.groupId}</groupId>
       <artifactId>client</artifactId>
-      <version>${project.version}</version>
     </dependency>
+    <!-- VALIDATION-->
     <dependency>
       <groupId>jakarta.validation</groupId>
       <artifactId>jakarta.validation-api</artifactId>
@@ -29,9 +29,45 @@
       <groupId>org.glassfish.expressly</groupId>
       <artifactId>expressly</artifactId>
     </dependency>
+    <!-- CONFIGURATION-->
     <dependency>
       <groupId>com.typesafe</groupId>
       <artifactId>config</artifactId>
     </dependency>
+    <!-- OBSERVABILITY-->
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+    </dependency>
+    <!-- UNCATEGORIZED-->
+    <dependency>
+      <groupId>org.projectlombok</groupId>
+      <artifactId>lombok</artifactId>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-context</artifactId>
+    </dependency>
   </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>analyze</id>
+            <configuration>
+              <usedDependencies>
+                <usedDependency>org.hibernate.validator:hibernate-validator</usedDependency>
+                <usedDependency>org.glassfish.expressly:expressly</usedDependency>
+                <usedDependency>org.slf4j:slf4j-api</usedDependency>
+              </usedDependencies>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
 </project>

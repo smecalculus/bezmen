@@ -1,6 +1,10 @@
 package org.smecalculus.bezmen.data;
 
-import org.smecalculus.bezmen.configuration.*;
+import org.smecalculus.bezmen.configuration.DataConfig;
+import org.smecalculus.bezmen.configuration.DataConfigBeans;
+import org.smecalculus.bezmen.configuration.DataProps;
+import org.smecalculus.bezmen.configuration.H2Props;
+import org.smecalculus.bezmen.configuration.PostgresProps;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;

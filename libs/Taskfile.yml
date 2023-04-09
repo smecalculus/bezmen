@@ -17,6 +17,6 @@ tasks:
   binary:
     run: once
     status:
-      - mvn -o -N dependency:get -Dartifact=org.smecalculus.bezmen:libs:{{.LIBS_VERSION}}:pom
+      - mvn -o dependency:get -Dartifact=org.smecalculus.bezmen:libs:{{.LIBS_VERSION}}:pom
     cmds:
       - mvn clean install -am -T1C -Drevision={{.LIBS_VERSION}}

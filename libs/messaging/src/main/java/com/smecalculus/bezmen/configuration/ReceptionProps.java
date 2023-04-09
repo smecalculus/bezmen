@@ -1,8 +1,8 @@
 package com.smecalculus.bezmen.configuration;
 
+import edu.umd.cs.findbugs.annotations.Nullable;
 import lombok.Builder;
 import lombok.NonNull;
-import org.springframework.lang.Nullable;
 
 import java.util.Set;
 

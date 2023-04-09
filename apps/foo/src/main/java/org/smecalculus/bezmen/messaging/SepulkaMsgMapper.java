@@ -4,7 +4,7 @@ import org.mapstruct.Mapper;
 import org.smecalculus.bezmen.client.SepulkaRegReq;
 import org.smecalculus.bezmen.client.SepulkaRegRes;
 
-@Mapper(componentModel = "spring")
+@Mapper
 public interface SepulkaMsgMapper {
     SepulkaRegReqMsg toMsg(SepulkaRegReq sepulkaRegReq);
     SepulkaRegReq toDomain(SepulkaRegReqMsg sepulkaRegReqMsg);

@@ -3,7 +3,7 @@ package org.smecalculus.bezmen.configuration;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
-@Mapper(componentModel = "spring")
+@Mapper
 public interface DataMapper {
 
     @Mapping(target = "h2Props", source = "h2")

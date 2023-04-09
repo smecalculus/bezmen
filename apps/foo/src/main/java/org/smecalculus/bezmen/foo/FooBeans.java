@@ -7,10 +7,13 @@ import org.smecalculus.bezmen.data.DataBeans;
 import org.smecalculus.bezmen.data.SepulkaDao;
 import org.smecalculus.bezmen.data.SepulkaDaoSpringData;
 import org.smecalculus.bezmen.data.SepulkaRecMapper;
+import org.smecalculus.bezmen.data.SepulkaRecMapperImpl;
 import org.smecalculus.bezmen.data.springdata.SepulkaRepository;
 import org.smecalculus.bezmen.domain.SepulkaConverter;
 import org.smecalculus.bezmen.domain.SepulkaService;
 import org.smecalculus.bezmen.messaging.SepulkaClientDefault;
+import org.smecalculus.bezmen.messaging.SepulkaMsgMapper;
+import org.smecalculus.bezmen.messaging.SepulkaMsgMapperImpl;
 import org.smecalculus.bezmen.service.SepulkaConverterDefault;
 import org.smecalculus.bezmen.service.SepulkaServiceDefault;
 import org.smecalculus.bezmen.service.ServiceBeans;
@@ -26,6 +29,16 @@ import org.springframework.data.jdbc.repository.config.EnableJdbcRepositories;
 @ComponentScan(basePackageClasses = {SepulkaClientDefault.class, SepulkaDao.class})
 @EnableJdbcRepositories(basePackageClasses = SepulkaDao.class)
 public class FooBeans {
+
+    @Bean
+    public SepulkaRecMapper recMapper() {
+        return new SepulkaRecMapperImpl();
+    }
+
+    @Bean
+    public SepulkaMsgMapper msgMapper() {
+        return new SepulkaMsgMapperImpl();
+    }
 
     @Bean
     public SepulkaDao dao(SepulkaRecMapper mapper,

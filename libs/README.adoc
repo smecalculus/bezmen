@@ -6,7 +6,7 @@ include::client/README.adoc[]
 
 === process
 
-include::process/README.adoc[]
+include::booting/README.adoc[]
 
 === messaging
 
