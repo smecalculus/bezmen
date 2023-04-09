@@ -21,6 +21,7 @@ tasks:
       - task: ::test:system:run
       # actions
       - task: approve
+      - task: '{{if eq .REGISTRY "localhost"}}noop{{else}}publish{{end}}'
   approve:
     run: once
     internal: true
@@ -31,6 +32,7 @@ tasks:
       - docker tag {{.STAND_TOY_REF}} {{.STAND_TOY_REF}}-{{.STAGE_VERIFICATION}}
   publish:
     run: once
+    internal: true
     preconditions:
       - sh: '[ "{{.REGISTRY}}" != "localhost" ]'
     cmds:
@@ -38,3 +40,6 @@ tasks:
       - docker push {{.APP_FOO_REF}}-{{.STAGE_VERIFICATION}}
       - docker push {{.TEST_SYSTEM_REF}}-{{.STAGE_VERIFICATION}}
       - docker push {{.STAND_TOY_REF}}-{{.STAGE_VERIFICATION}}
+  noop:
+    run: once
+    internal: true
