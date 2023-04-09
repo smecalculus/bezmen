@@ -11,6 +11,7 @@ tasks:
     vars:
       COMMAND: '{{if eq .REGISTRY "localhost"}}inspect{{else}}pull{{end}}'
     status:
+      - task --dir {{.ROOT_DIR}} --status lib:binary
       - docker image {{.COMMAND}} {{.APP_FOO_REF}}-{{.STAGE_VERIFICATION}}
       - docker image {{.COMMAND}} {{.LIB_SCHEMA_REF}}-{{.STAGE_VERIFICATION}}
       - docker image {{.COMMAND}} {{.TEST_SYSTEM_REF}}-{{.STAGE_VERIFICATION}}

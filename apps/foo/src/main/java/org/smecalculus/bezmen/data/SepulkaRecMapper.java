@@ -1,7 +1,7 @@
 package org.smecalculus.bezmen.data;
 
 import org.mapstruct.Mapper;
-import org.smecalculus.bezmen.domain.Sepulka;
+import org.smecalculus.bezmen.modeling.Sepulka;
 
 @Mapper
 public interface SepulkaRecMapper {

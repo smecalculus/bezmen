@@ -1,4 +1,4 @@
-package org.smecalculus.bezmen.domain;
+package org.smecalculus.bezmen.modeling;
 
 import lombok.Builder;
 import lombok.NonNull;

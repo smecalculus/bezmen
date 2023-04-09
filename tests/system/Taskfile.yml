@@ -19,9 +19,10 @@ tasks:
     status:
       - task --dir {{.ROOT_DIR}} --status lib:binary
       - docker image {{.COMMAND}} {{.TEST_SYSTEM_REF}}
-    deps:
-      - task: ::lib:binary
     cmds:
+      # deps
+      - task: ::lib:binary
+      # cmds
       - task: reset
       - cmd: >
           docker build .
@@ -32,7 +33,7 @@ tasks:
       # deps
       - task: image
       # actions
-      - cmd: mvn test -Dlibs.version={{.LIBS_VERSION}} -Dgroups={{.TEST_SYSTEM_GROUPS}}
+      - cmd: mvn clean test -Dlibs.version={{.LIBS_VERSION}} -Dgroups={{.TEST_SYSTEM_GROUPS}}
   reset:
     run: once
     internal: true

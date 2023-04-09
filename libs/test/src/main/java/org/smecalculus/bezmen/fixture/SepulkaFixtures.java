@@ -2,7 +2,7 @@ package org.smecalculus.bezmen.fixture;
 
 import org.smecalculus.bezmen.client.SepulkaRegReq;
 import org.smecalculus.bezmen.client.SepulkaRegRes;
-import org.smecalculus.bezmen.domain.Sepulka;
+import org.smecalculus.bezmen.modeling.Sepulka;
 
 import java.util.UUID;
 

@@ -3,8 +3,8 @@ package org.smecalculus.bezmen.service;
 import lombok.NonNull;
 import org.smecalculus.bezmen.client.SepulkaRegReq;
 import org.smecalculus.bezmen.data.SepulkaDao;
-import org.smecalculus.bezmen.domain.Sepulka;
-import org.smecalculus.bezmen.domain.SepulkaService;
+import org.smecalculus.bezmen.modeling.Sepulka;
+import org.smecalculus.bezmen.modeling.SepulkaService;
 
 import java.util.List;
 

@@ -1,12 +1,12 @@
 package org.smecalculus.bezmen.messaging.beans;
 
 import org.smecalculus.bezmen.client.SepulkaClient;
-import org.smecalculus.bezmen.domain.SepulkaService;
 import org.smecalculus.bezmen.messaging.SepulkaClientDefault;
 import org.smecalculus.bezmen.messaging.SepulkaClientSpringWeb;
 import org.smecalculus.bezmen.messaging.SepulkaMsgMapper;
 import org.smecalculus.bezmen.messaging.SepulkaMsgMapperImpl;
 import org.smecalculus.bezmen.messaging.springweb.SepulkaController;
+import org.smecalculus.bezmen.modeling.SepulkaService;
 import org.smecalculus.bezmen.service.SepulkaConverterDefault;
 import org.smecalculus.bezmen.validation.BezmenValidator;
 import org.smecalculus.bezmen.validation.ValidationBeans;
