@@ -6,7 +6,7 @@ vars:
   STAND_TOY_REVISION:
     sh: git write-tree --prefix=stands/toy
   STAND_TOY_CID: '{{.STAND_TOY_REVISION | trunc 7}}'
-  STAND_TOY_IMAGE: 'stand-toy'
+  STAND_TOY_IMAGE: '{{.PROJECT}}-stand-toy'
   STAND_TOY_REPO: '{{.PROJECT_REPO}}/{{.STAND_TOY_IMAGE}}'
   STAND_TOY_REF: '{{.STAND_TOY_REPO}}:{{.STAND_TOY_CID}}'
 

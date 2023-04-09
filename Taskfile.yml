@@ -3,7 +3,7 @@ version: '3'
 vars:
   PROJECT: bezmen
   REGISTRY: localhost
-  PROJECT_REPO: '{{.REGISTRY}}/smecalculus/{{.PROJECT}}'
+  PROJECT_REPO: '{{.REGISTRY}}/smecalculus'
   GIT_ADD_ALL:
     sh: git add -A
   ENV_DB_VENDOR: postgres
