@@ -11,14 +11,14 @@
   <version>${revision}</version>
 
   <modules>
-    <module>booting</module>
+    <module>loading</module>
     <module>service</module>
     <module>data</module>
     <module>schema</module>
     <module>core</module>
     <module>client</module>
     <module>messaging</module>
-    <module>test</module>
+    <module>testing</module>
   </modules>
 
   <properties>
@@ -27,6 +27,7 @@
     <mapstruct.version>1.5.0.RC1</mapstruct.version>
     <mockito.version>4.6.0</mockito.version>
     <spring.version>5.3.26</spring.version>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
 
   <dependencies>
@@ -41,7 +42,7 @@
     <dependencies>
       <dependency>
         <groupId>${project.groupId}</groupId>
-        <artifactId>booting</artifactId>
+        <artifactId>loading</artifactId>
         <version>${project.version}</version>
       </dependency>
       <dependency>
@@ -76,7 +77,7 @@
       </dependency>
       <dependency>
         <groupId>${project.groupId}</groupId>
-        <artifactId>test</artifactId>
+        <artifactId>testing</artifactId>
         <version>${project.version}</version>
       </dependency>
 
@@ -184,6 +185,11 @@
         <groupId>org.assertj</groupId>
         <artifactId>assertj-core</artifactId>
         <version>3.22.0</version>
+      </dependency>
+      <dependency>
+        <groupId>org.awaitility</groupId>
+        <artifactId>awaitility</artifactId>
+        <version>4.2.0</version>
       </dependency>
     </dependencies>
   </dependencyManagement>

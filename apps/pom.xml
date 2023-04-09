@@ -19,10 +19,16 @@
     <libs.version>0.1.0-SNAPSHOT</libs.version>
     <lombok.version>1.18.24</lombok.version>
     <mapstruct.version>1.5.3.Final</mapstruct.version>
-    <mockito.version>4.6.0</mockito.version>
-    <spring.version>5.3.26</spring.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.projectlombok</groupId>
+      <artifactId>lombok</artifactId>
+      <scope>provided</scope>
+    </dependency>
+  </dependencies>
 
   <dependencyManagement>
     <dependencies>
@@ -151,6 +157,20 @@
                 <ignoredUnusedDeclaredDependencies combine.children="append">
                   <ignoredUnusedDeclaredDependency>org.junit.jupiter:junit-jupiter-engine</ignoredUnusedDeclaredDependency>
                 </ignoredUnusedDeclaredDependencies>
+                <ignoredUsedUndeclaredDependencies combine.children="append">
+                  <!--Ignore core dependencies here-->
+                  <ignoredUsedUndeclaredDependency>com.typesafe:config</ignoredUsedUndeclaredDependency>
+                  <ignoredUsedUndeclaredDependency>org.mapstruct:mapstruct</ignoredUsedUndeclaredDependency>
+                  <ignoredUsedUndeclaredDependency>com.github.spotbugs:spotbugs-annotations</ignoredUsedUndeclaredDependency>
+                  <ignoredUsedUndeclaredDependency>org.springframework:spring-context</ignoredUsedUndeclaredDependency>
+                  <ignoredUsedUndeclaredDependency>jakarta.validation:jakarta.validation-api</ignoredUsedUndeclaredDependency>
+                  <ignoredUsedUndeclaredDependency>org.slf4j:slf4j-api</ignoredUsedUndeclaredDependency>
+                  <!--Ignore testing dependencies here-->
+                  <ignoredUsedUndeclaredDependency>org.mockito:mockito-core</ignoredUsedUndeclaredDependency>
+                  <ignoredUsedUndeclaredDependency>org.springframework:spring-test</ignoredUsedUndeclaredDependency>
+                  <ignoredUsedUndeclaredDependency>org.assertj:assertj-core</ignoredUsedUndeclaredDependency>
+                  <ignoredUsedUndeclaredDependency>org.smecalculus.bezmen:schema</ignoredUsedUndeclaredDependency>
+                </ignoredUsedUndeclaredDependencies>
               </configuration>
             </execution>
           </executions>

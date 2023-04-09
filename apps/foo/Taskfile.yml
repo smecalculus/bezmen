@@ -22,7 +22,7 @@ tasks:
       - task: ::lib:binary
       # cmds
       - cmd: >
-          mvn clean package -am -T1C
+          mvn clean verify -am -T1C
           -Drevision={{.APP_FOO_VERSION}}
           -Dlibs.version={{.LIBS_VERSION}}
   image:

@@ -12,6 +12,16 @@ vars:
   TEST_SYSTEM_GROUPS: smoke
 
 tasks:
+  binary:
+    run: once
+    cmds:
+      # deps
+      - task: ::lib:binary
+      # cmds
+      - cmd: >
+          mvn clean verify
+          -DskipTests
+          -Dlibs.version={{.LIBS_VERSION}}
   image:
     run: once
     vars:

@@ -6,3 +6,8 @@ includes:
   system:
     taskfile: system/Taskfile.yml
     dir: system
+
+tasks:
+  binary:
+    cmds:
+      - task: system:binary
