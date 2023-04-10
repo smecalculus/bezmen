@@ -43,7 +43,10 @@ tasks:
       # deps
       - task: image
       # actions
-      - cmd: mvn clean test -Dlibs.version={{.LIBS_VERSION}} -Dgroups={{.TEST_SYSTEM_GROUPS}}
+      - cmd: >
+          mvn clean test
+          -Dlibs.version={{.LIBS_VERSION}}
+          -Dgroups={{.TEST_SYSTEM_GROUPS}}
   reset:
     run: once
     internal: true

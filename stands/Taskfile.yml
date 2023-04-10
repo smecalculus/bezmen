@@ -6,3 +6,9 @@ includes:
   toy:
     taskfile: toy/Taskfile.yml
     dir: toy
+
+tasks:
+  wipe:
+    aliases: [rm, prune, down]
+    cmds:
+      - task: toy:wipe

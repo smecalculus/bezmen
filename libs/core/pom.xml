@@ -5,8 +5,8 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <artifactId>libs</artifactId>
     <groupId>org.smecalculus.bezmen</groupId>
+    <artifactId>libs</artifactId>
     <version>${revision}</version>
   </parent>
 
@@ -63,7 +63,7 @@
       <groupId>org.mapstruct</groupId>
       <artifactId>mapstruct</artifactId>
     </dependency>
-    <!--BOOTING-->
+    <!--LOADING-->
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-context</artifactId>
