@@ -1,0 +1,19 @@
+name: toy
+
+on: workflow_dispatch
+
+permissions:
+  packages: write
+
+jobs:
+  verification:
+    timeout-minutes: 15
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3.5.0
+      - uses: docker/login-action@v2.1.0
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - run: docker pull ghcr.io/smecalculus/bezmen-schema-postgres:d187f2f-verified
