@@ -9,7 +9,7 @@ permissions:
   packages: write
 
 jobs:
-  verification:
+  playground:
     timeout-minutes: 15
     runs-on: ubuntu-latest
     steps:
