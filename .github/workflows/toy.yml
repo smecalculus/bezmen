@@ -1,4 +1,4 @@
-name: toy
+name: Toy
 
 on:
   workflow_dispatch:
@@ -19,5 +19,4 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-      - run: echo ${{ jobs.verification.permissions }}
       - run: docker pull ghcr.io/smecalculus/bezmen-schema-postgres:d187f2f-verified
