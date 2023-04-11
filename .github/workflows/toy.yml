@@ -1,6 +1,9 @@
 name: toy
 
-on: workflow_dispatch
+on:
+  workflow_dispatch:
+  pull_request:
+    branches: [main]
 
 permissions:
   packages: write
@@ -16,4 +19,5 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
+      - run: echo ${{ jobs.verification.permissions }}
       - run: docker pull ghcr.io/smecalculus/bezmen-schema-postgres:d187f2f-verified
