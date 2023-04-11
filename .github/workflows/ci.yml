@@ -6,9 +6,6 @@ on:
   pull_request:
     branches: [main]
 
-permissions:
-  packages: write
-
 env:
   REGISTRY: ghcr.io
 
@@ -30,3 +27,5 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
       - run: task --verbose stage:verification:run REGISTRY=${{ env.REGISTRY }}
+        permissions:
+          packages: write
