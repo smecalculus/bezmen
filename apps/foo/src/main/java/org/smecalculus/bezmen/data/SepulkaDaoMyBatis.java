@@ -10,21 +10,21 @@ import java.util.UUID;
 import static java.util.Collections.emptyList;
 
 public record SepulkaDaoMyBatis(
-        @NonNull SepulkaRecMapper mapper,
+        @NonNull SepulkaRecMapper recMapper,
         @NonNull SepulkaSqlMapper sqlMapper
 ) implements SepulkaDao {
 
     @Override
     public Sepulka getById(@NonNull UUID id) {
         return sqlMapper.findById(id.toString())
-                .map(mapper::toDomain)
+                .map(recMapper::toDomain)
                 .orElse(null);
     }
 
     @Override
     public Sepulka save(@NonNull Sepulka sepulka) {
-        SepulkaRec newSepulkaRec = mapper.toRec(sepulka);
-        sqlMapper.insert(newSepulkaRec);
+        SepulkaRec sepulkaRec = recMapper.toRec(sepulka);
+        sqlMapper.insert(sepulkaRec);
         return sepulka;
     }
 

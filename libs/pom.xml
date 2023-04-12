@@ -11,7 +11,7 @@
   <version>${revision}</version>
 
   <modules>
-    <module>loading</module>
+    <module>operation</module>
     <module>service</module>
     <module>data</module>
     <module>schema</module>
@@ -42,7 +42,7 @@
     <dependencies>
       <dependency>
         <groupId>${project.groupId}</groupId>
-        <artifactId>loading</artifactId>
+        <artifactId>operation</artifactId>
         <version>${project.version}</version>
       </dependency>
       <dependency>

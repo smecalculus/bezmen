@@ -4,9 +4,13 @@
 
 include::client/README.adoc[]
 
-=== process
+=== core
 
-include::loading/README.adoc[]
+include::core/README.adoc[]
+
+=== operation
+
+include::operation/README.adoc[]
 
 === messaging
 
@@ -19,3 +23,7 @@ include::data/README.adoc[]
 === schema
 
 include::schema/README.adoc[]
+
+=== testing
+
+include::testing/README.adoc[]

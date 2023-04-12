@@ -6,7 +6,7 @@ import com.smecalculus.bezmen.configuration.MessagingConfig;
 import com.smecalculus.bezmen.configuration.MessagingConfigImpl;
 import com.smecalculus.bezmen.configuration.MessagingProps;
 import org.smecalculus.bezmen.configuration.ConfigKeeper;
-import org.smecalculus.bezmen.core.CoreBeans;
+import org.smecalculus.bezmen.operation.CoreBeans;
 import org.smecalculus.bezmen.validation.BezmenValidator;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

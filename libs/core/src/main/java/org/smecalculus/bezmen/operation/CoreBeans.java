@@ -1,7 +1,5 @@
-package org.smecalculus.bezmen.core;
+package org.smecalculus.bezmen.operation;
 
-import org.smecalculus.bezmen.configuration.ConfigBeans;
-import org.smecalculus.bezmen.validation.ValidationBeans;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 

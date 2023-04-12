@@ -7,7 +7,7 @@ import lombok.NonNull;
 
 import java.util.Set;
 
-record BezmenValidatorHibernateValidator(
+public record BezmenValidatorHibernateValidator(
         @NonNull Validator validator
 ) implements BezmenValidator {
 

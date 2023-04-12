@@ -3,7 +3,7 @@ package org.smecalculus.bezmen.configuration;
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigBeanFactory;
 
-record LightbendConfigKeeper(
+public record ConfigKeeperLightbendConfig(
         Config config
 ) implements ConfigKeeper {
 

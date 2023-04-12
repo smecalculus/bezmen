@@ -19,6 +19,6 @@ public record SepulkaClientDefault(
     public SepulkaRegRes register(SepulkaRegReq request) {
         validator.validate(request);
         Sepulka sepulka = service.register(request);
-        return converter.convert(sepulka);
+        return converter.toRegRes(sepulka);
     }
 }

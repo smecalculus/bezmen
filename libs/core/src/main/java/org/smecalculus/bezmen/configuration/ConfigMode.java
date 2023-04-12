@@ -1,5 +1,5 @@
 package org.smecalculus.bezmen.configuration;
 
-enum ConfigMode {
+public enum ConfigMode {
     FILE_SYSTEM
 }

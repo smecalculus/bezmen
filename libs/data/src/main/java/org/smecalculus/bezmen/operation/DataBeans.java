@@ -1,10 +1,9 @@
-package org.smecalculus.bezmen.data;
+package org.smecalculus.bezmen.operation;
 
-import org.smecalculus.bezmen.configuration.DataConfig;
-import org.smecalculus.bezmen.configuration.DataConfigBeans;
-import org.smecalculus.bezmen.configuration.DataProps;
-import org.smecalculus.bezmen.configuration.H2Props;
-import org.smecalculus.bezmen.configuration.PostgresProps;
+import org.smecalculus.bezmen.modeling.DataConfig;
+import org.smecalculus.bezmen.modeling.H2Props;
+import org.smecalculus.bezmen.modeling.PostgresProps;
+import org.smecalculus.bezmen.modeling.VendorProps;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
@@ -14,22 +13,18 @@ import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
 import javax.sql.DataSource;
 
-@Import(DataConfigBeans.class)
 @Configuration(proxyBeanMethods = false)
+@Import({CoreBeans.class, DataConfigBeans.class})
 public class DataBeans extends AbstractJdbcConfiguration {
 
     @Bean
-    DataProps dataProps(DataConfig dataConfig) {
-        return dataConfig.getDataProps();
-    }
-
-    @Bean
-    public DataSource dataSource(DataProps dataProps) {
+    public DataSource dataSource(DataConfig dataConfig) {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
 
-        switch (dataProps.mode()) {
-            case H2 -> configure(dataSource, dataProps.h2Props());
-            case POSTGRES -> configure(dataSource, dataProps.postgresProps());
+        VendorProps vendorProps = dataConfig.getDataProps().vendorProps();
+        switch (vendorProps.mode()) {
+            case H2 -> configure(dataSource, vendorProps.h2Props());
+            case POSTGRES -> configure(dataSource, vendorProps.postgresProps());
         }
 
         return dataSource;

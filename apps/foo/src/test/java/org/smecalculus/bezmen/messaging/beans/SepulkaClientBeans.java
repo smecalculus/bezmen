@@ -7,9 +7,9 @@ import org.smecalculus.bezmen.messaging.SepulkaMsgMapper;
 import org.smecalculus.bezmen.messaging.SepulkaMsgMapperImpl;
 import org.smecalculus.bezmen.messaging.springweb.SepulkaController;
 import org.smecalculus.bezmen.modeling.SepulkaService;
-import org.smecalculus.bezmen.service.SepulkaConverterDefault;
+import org.smecalculus.bezmen.operation.ValidationBeans;
+import org.smecalculus.bezmen.service.SepulkaConverterImpl;
 import org.smecalculus.bezmen.validation.BezmenValidator;
-import org.smecalculus.bezmen.validation.ValidationBeans;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
@@ -28,14 +28,14 @@ public class SepulkaClientBeans {
     }
 
     @Bean
-    SepulkaConverterDefault converter() {
-        return new SepulkaConverterDefault();
+    SepulkaConverterImpl converter() {
+        return new SepulkaConverterImpl();
     }
 
     @Bean
     SepulkaClient internalClient(BezmenValidator validator,
                          SepulkaService service,
-                         SepulkaConverterDefault converter) {
+                         SepulkaConverterImpl converter) {
         return new SepulkaClientDefault(validator, service, converter);
     }
 

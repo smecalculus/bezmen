@@ -1,4 +1,4 @@
-package org.smecalculus.bezmen.configuration;
+package org.smecalculus.bezmen.modeling;
 
 public interface DataConfig {
     DataProps getDataProps();

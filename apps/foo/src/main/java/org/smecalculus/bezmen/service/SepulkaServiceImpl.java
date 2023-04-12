@@ -10,7 +10,7 @@ import java.util.List;
 
 import static java.util.UUID.randomUUID;
 
-public record SepulkaServiceDefault(
+public record SepulkaServiceImpl(
         @NonNull SepulkaDao sepulkaDao
 ) implements SepulkaService {
 

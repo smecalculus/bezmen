@@ -19,7 +19,7 @@
     </dependency>
     <dependency>
       <groupId>${project.groupId}</groupId>
-      <artifactId>loading</artifactId>
+      <artifactId>operation</artifactId>
     </dependency>
     <dependency>
       <groupId>${project.groupId}</groupId>
@@ -92,7 +92,7 @@
             <id>analyze</id>
             <configuration>
               <usedDependencies>
-                <usedDependency>org.smecalculus.bezmen:loading</usedDependency>
+                <usedDependency>org.smecalculus.bezmen:operation</usedDependency>
                 <usedDependency>org.postgresql:postgresql</usedDependency>
                 <usedDependency>com.h2database:h2</usedDependency>
               </usedDependencies>
