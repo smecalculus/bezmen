@@ -1,6 +1,6 @@
 package org.smecalculus.bezmen.modeling;
 
-import org.smecalculus.bezmen.client.SepulkaRegReq;
+import org.smecalculus.bezmen.messaging.SepulkaRegReq;
 
 import java.util.List;
 

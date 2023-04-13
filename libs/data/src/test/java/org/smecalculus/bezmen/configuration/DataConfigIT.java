@@ -2,8 +2,9 @@ package org.smecalculus.bezmen.configuration;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.smecalculus.bezmen.construction.CoreBeans;
+import org.smecalculus.bezmen.construction.ConfigBeans;
 import org.smecalculus.bezmen.construction.DataConfigBeans;
+import org.smecalculus.bezmen.construction.ValidationBeans;
 import org.smecalculus.bezmen.modeling.DataConfig;
 import org.smecalculus.bezmen.modeling.DataProps;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +15,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.smecalculus.bezmen.fixture.DataPropsFixture.dataProps;
 
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = {CoreBeans.class, DataConfigBeans.class})
+@ContextConfiguration(classes = {
+        ConfigBeans.class, ValidationBeans.class, DataConfigBeans.class
+})
 abstract class DataConfigIT {
 
     @Autowired

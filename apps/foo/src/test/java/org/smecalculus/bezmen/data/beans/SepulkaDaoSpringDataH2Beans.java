@@ -21,7 +21,7 @@ import javax.sql.DataSource;
 @Import(SchemaBeans.class)
 @Configuration(proxyBeanMethods = false)
 @EnableTransactionManagement
-@EnableJdbcRepositories(basePackages = "org.smecalculus.bezmen.foo.data.springdata")
+@EnableJdbcRepositories(basePackages = "org.smecalculus.bezmen.data.springdata")
 public class SepulkaDaoSpringDataH2Beans extends AbstractJdbcConfiguration {
 
     @Bean
@@ -33,7 +33,7 @@ public class SepulkaDaoSpringDataH2Beans extends AbstractJdbcConfiguration {
     public DataSource dataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName("org.h2.Driver");
-        dataSource.setUrl("jdbc:h2:mem:springdata;DB_CLOSE_DELAY=-1;DATABASE_TO_UPPER=false");
+        dataSource.setUrl("jdbc:h2:mem:springdata;DB_CLOSE_DELAY=-1;DATABASE_TO_UPPER=false;CASE_INSENSITIVE_IDENTIFIERS=true");
         dataSource.setUsername("sa");
         dataSource.setPassword("");
         return dataSource;

@@ -1,14 +1,12 @@
-package org.smecalculus.bezmen.foo;
+package org.smecalculus.bezmen.construction;
 
-import com.smecalculus.bezmen.configuration.MessagingProps;
-import com.smecalculus.bezmen.messaging.MessagingBeans;
-import org.smecalculus.bezmen.client.SepulkaClient;
-import org.smecalculus.bezmen.construction.DataBeans;
+import com.smecalculus.bezmen.construction.MessagingBeans;
 import org.smecalculus.bezmen.data.SepulkaDao;
 import org.smecalculus.bezmen.data.SepulkaDaoSpringData;
 import org.smecalculus.bezmen.data.SepulkaRecMapper;
 import org.smecalculus.bezmen.data.SepulkaRecMapperImpl;
 import org.smecalculus.bezmen.data.springdata.SepulkaRepository;
+import org.smecalculus.bezmen.messaging.SepulkaClient;
 import org.smecalculus.bezmen.messaging.SepulkaClientImpl;
 import org.smecalculus.bezmen.messaging.SepulkaMsgMapper;
 import org.smecalculus.bezmen.messaging.SepulkaMsgMapperImpl;
@@ -16,31 +14,38 @@ import org.smecalculus.bezmen.modeling.SepulkaConverter;
 import org.smecalculus.bezmen.modeling.SepulkaService;
 import org.smecalculus.bezmen.service.SepulkaConverterImpl;
 import org.smecalculus.bezmen.service.SepulkaServiceImpl;
-import org.smecalculus.bezmen.service.ServiceBeans;
 import org.smecalculus.bezmen.validation.BezmenValidator;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.liquibase.LiquibaseAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 
 @Configuration(proxyBeanMethods = false)
-@Import({MessagingBeans.class, ServiceBeans.class, DataBeans.class})
+@Import({ConfigBeans.class, ValidationBeans.class, MessagingBeans.class, DataBeans.class})
 @ComponentScan(basePackageClasses = {SepulkaClientImpl.class})
-public class FooBeans {
+@SpringBootApplication(exclude = LiquibaseAutoConfiguration.class)
+public class App {
+
+    public static void main(String[] args) {
+        SpringApplication.run(App.class, args);
+    }
 
     @Bean
-    public SepulkaRecMapper recMapper() {
+    public SepulkaRecMapper sepulkaRecMapper() {
         return new SepulkaRecMapperImpl();
     }
 
     @Bean
-    public SepulkaMsgMapper msgMapper() {
+    public SepulkaMsgMapper sepulkaMsgMapper() {
         return new SepulkaMsgMapperImpl();
     }
 
     @Bean
     public SepulkaDao sepulkaDao(SepulkaRecMapper mapper,
-                          SepulkaRepository repository) {
+                                 SepulkaRepository repository) {
         return new SepulkaDaoSpringData(mapper, repository);
     }
 
@@ -56,13 +61,8 @@ public class FooBeans {
 
     @Bean
     SepulkaClient sepulkaClient(BezmenValidator validator,
-                         SepulkaService service,
-                         SepulkaConverter converter) {
+                                SepulkaService service,
+                                SepulkaConverter converter) {
         return new SepulkaClientImpl(validator, service, converter);
-    }
-
-    @Bean
-    FooRegistrar registrar(MessagingProps messagingProps) {
-        return new FooRegistrar(messagingProps.receptionProps().protocols());
     }
 }

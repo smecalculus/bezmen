@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Configuration;
 public class SepulkaDaoBeans {
 
     @Bean
-    public SepulkaRecMapper mapper() {
+    public SepulkaRecMapper sepulkaRecMapper() {
         return new SepulkaRecMapperImpl();
     }
 }

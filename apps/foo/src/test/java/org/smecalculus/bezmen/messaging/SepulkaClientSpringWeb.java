@@ -1,9 +1,6 @@
 package org.smecalculus.bezmen.messaging;
 
 import lombok.NonNull;
-import org.smecalculus.bezmen.client.SepulkaClient;
-import org.smecalculus.bezmen.client.SepulkaRegReq;
-import org.smecalculus.bezmen.client.SepulkaRegRes;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.reactive.server.WebTestClient;
 

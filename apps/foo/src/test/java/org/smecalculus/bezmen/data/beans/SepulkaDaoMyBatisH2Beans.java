@@ -29,7 +29,7 @@ public class SepulkaDaoMyBatisH2Beans {
     public DataSource dataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName("org.h2.Driver");
-        dataSource.setUrl("jdbc:h2:mem:mybatis;DB_CLOSE_DELAY=-1;DATABASE_TO_UPPER=false");
+        dataSource.setUrl("jdbc:h2:mem:mybatis;DB_CLOSE_DELAY=-1;DATABASE_TO_UPPER=false;CASE_INSENSITIVE_IDENTIFIERS=true");
         dataSource.setUsername("sa");
         dataSource.setPassword("");
         return dataSource;

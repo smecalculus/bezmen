@@ -9,9 +9,9 @@ import java.util.Optional;
 
 public interface SepulkaSqlMapper {
 
-    @Insert("INSERT INTO sepulkas (ID, VERSION) VALUES (#{id}, #{version})")
+    @Insert("INSERT INTO sepulkas (id, version, name) VALUES (#{id}, #{version}, #{name})")
     void insert(SepulkaRec sepulkaRec);
 
-    @Select("SELECT ID, VERSION FROM sepulkas WHERE ID = #{id}")
+    @Select("SELECT id, version, name FROM sepulkas WHERE id = #{id}")
     Optional<SepulkaRec> findById(@Param("id") String id);
 }

@@ -13,19 +13,17 @@ import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import javax.sql.DataSource;
 
 @Configuration(proxyBeanMethods = false)
-@Import({CoreBeans.class, DataConfigBeans.class, OrmMyBatisBeans.class, OrmSpringDataBeans.class})
+@Import({DataConfigBeans.class, OrmMyBatisBeans.class, OrmSpringDataBeans.class})
 public class DataBeans {
 
     @Bean
     public DataSource dataSource(DataConfig dataConfig) {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
-
         VendorProps vendorProps = dataConfig.getDataProps().vendorProps();
         switch (vendorProps.mode()) {
             case H2 -> configure(dataSource, vendorProps.h2Props());
             case POSTGRES -> configure(dataSource, vendorProps.postgresProps());
         }
-
         return dataSource;
     }
 

@@ -1,4 +1,4 @@
-package org.smecalculus.bezmen.client;
+package org.smecalculus.bezmen.messaging;
 
 public interface SepulkaClient {
     SepulkaRegRes register(SepulkaRegReq request);

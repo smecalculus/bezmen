@@ -16,7 +16,7 @@ import static org.smecalculus.bezmen.fixture.SepulkaFixtures.sepulkaBuilder;
 abstract class SepulkaDaoIT {
 
     @Autowired
-    private SepulkaDao sepulkaDao;
+    SepulkaDao sepulkaDao;
 
     @Test
     void shouldSaveOneSepulka() {

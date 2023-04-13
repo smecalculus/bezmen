@@ -1,6 +1,6 @@
 package org.smecalculus.bezmen.service;
 
-import org.smecalculus.bezmen.client.SepulkaRegRes;
+import org.smecalculus.bezmen.messaging.SepulkaRegRes;
 import org.smecalculus.bezmen.modeling.Sepulka;
 import org.smecalculus.bezmen.modeling.SepulkaConverter;
 

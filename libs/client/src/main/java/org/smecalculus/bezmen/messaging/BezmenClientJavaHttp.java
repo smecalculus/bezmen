@@ -1,4 +1,4 @@
-package org.smecalculus.bezmen.client;
+package org.smecalculus.bezmen.messaging;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;

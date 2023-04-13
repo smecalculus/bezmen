@@ -12,7 +12,6 @@
 
   <modules>
     <module>construction</module>
-    <module>service</module>
     <module>data</module>
     <module>schema</module>
     <module>core</module>
@@ -58,11 +57,6 @@
       <dependency>
         <groupId>${project.groupId}</groupId>
         <artifactId>messaging</artifactId>
-        <version>${project.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>${project.groupId}</groupId>
-        <artifactId>service</artifactId>
         <version>${project.version}</version>
       </dependency>
       <dependency>
@@ -142,7 +136,7 @@
       <dependency>
         <groupId>org.yaml</groupId>
         <artifactId>snakeyaml</artifactId>
-        <version>2.0</version>
+        <version>1.30</version>
       </dependency>
 
       <dependency>

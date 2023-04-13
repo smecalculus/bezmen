@@ -27,6 +27,19 @@
     </dependency>
 
     <dependency>
+      <groupId>org.reactivestreams</groupId>
+      <artifactId>reactive-streams</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>io.projectreactor</groupId>
+      <artifactId>reactor-core</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-webflux</artifactId>
+    </dependency>
+
+    <dependency>
       <groupId>org.junit.jupiter</groupId>
       <artifactId>junit-jupiter-engine</artifactId>
     </dependency>
@@ -62,6 +75,9 @@
                 <usedDependency>org.springframework:spring-test</usedDependency>
                 <usedDependency>org.mockito:mockito-core</usedDependency>
                 <usedDependency>org.awaitility:awaitility</usedDependency>
+                <usedDependency>org.springframework:spring-webflux</usedDependency>
+                <usedDependency>io.projectreactor:reactor-core</usedDependency>
+                <usedDependency>org.reactivestreams:reactive-streams</usedDependency>
               </usedDependencies>
             </configuration>
           </execution>

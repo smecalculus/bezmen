@@ -27,11 +27,6 @@
     </dependency>
     <dependency>
       <groupId>${project.groupId}</groupId>
-      <artifactId>service</artifactId>
-    </dependency>
-
-    <dependency>
-      <groupId>${project.groupId}</groupId>
       <artifactId>messaging</artifactId>
     </dependency>
 
@@ -111,6 +106,7 @@
                 <ignoredUsedUndeclaredDependency>org.junit.jupiter:junit-jupiter-api</ignoredUsedUndeclaredDependency>
               </ignoredUsedUndeclaredDependencies>
               <ignoredNonTestScopedDependencies>
+                <ignoredNonTestScopedDependency>org.springframework:spring-beans</ignoredNonTestScopedDependency>
                 <ignoredNonTestScopedDependency>org.springframework:spring-jdbc</ignoredNonTestScopedDependency>
                 <ignoredNonTestScopedDependency>org.springframework:spring-tx</ignoredNonTestScopedDependency>
                 <ignoredNonTestScopedDependency>org.mybatis:mybatis-spring</ignoredNonTestScopedDependency>

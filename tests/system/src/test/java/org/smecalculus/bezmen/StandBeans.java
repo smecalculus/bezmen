@@ -1,8 +1,8 @@
 package org.smecalculus.bezmen;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.smecalculus.bezmen.client.BezmenClient;
-import org.smecalculus.bezmen.client.BezmenClientJavaHttp;
+import org.smecalculus.bezmen.messaging.BezmenClient;
+import org.smecalculus.bezmen.messaging.BezmenClientJavaHttp;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 

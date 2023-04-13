@@ -1,5 +1,5 @@
 CREATE TABLE sepulkas (
-	ID text,
-	VERSION integer,
-	NAME text
+	id text,
+	version integer,
+	name text
 );

@@ -1,8 +1,8 @@
 package org.smecalculus.bezmen.service;
 
 import lombok.NonNull;
-import org.smecalculus.bezmen.client.SepulkaRegReq;
 import org.smecalculus.bezmen.data.SepulkaDao;
+import org.smecalculus.bezmen.messaging.SepulkaRegReq;
 import org.smecalculus.bezmen.modeling.Sepulka;
 import org.smecalculus.bezmen.modeling.SepulkaService;
 

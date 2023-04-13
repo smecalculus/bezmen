@@ -2,9 +2,6 @@ package org.smecalculus.bezmen.messaging;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.smecalculus.bezmen.client.SepulkaClient;
-import org.smecalculus.bezmen.client.SepulkaRegReq;
-import org.smecalculus.bezmen.client.SepulkaRegRes;
 import org.smecalculus.bezmen.messaging.beans.SepulkaClientBeans;
 import org.smecalculus.bezmen.modeling.SepulkaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,9 +13,7 @@ import java.util.UUID;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
-import static org.smecalculus.bezmen.fixture.SepulkaFixtures.sepulkaPojo;
-import static org.smecalculus.bezmen.fixture.SepulkaFixtures.sepulkaRegReqPojo;
-import static org.smecalculus.bezmen.fixture.SepulkaFixtures.sepulkaRegResPojo;
+import static org.smecalculus.bezmen.fixture.SepulkaFixtures.*;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = SepulkaClientBeans.class)

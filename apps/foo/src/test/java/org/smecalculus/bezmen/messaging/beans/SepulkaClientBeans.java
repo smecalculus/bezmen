@@ -1,11 +1,7 @@
 package org.smecalculus.bezmen.messaging.beans;
 
-import org.smecalculus.bezmen.client.SepulkaClient;
 import org.smecalculus.bezmen.construction.ValidationBeans;
-import org.smecalculus.bezmen.messaging.SepulkaClientImpl;
-import org.smecalculus.bezmen.messaging.SepulkaClientSpringWeb;
-import org.smecalculus.bezmen.messaging.SepulkaMsgMapper;
-import org.smecalculus.bezmen.messaging.SepulkaMsgMapperImpl;
+import org.smecalculus.bezmen.messaging.*;
 import org.smecalculus.bezmen.messaging.springweb.SepulkaController;
 import org.smecalculus.bezmen.modeling.SepulkaService;
 import org.smecalculus.bezmen.service.SepulkaConverterImpl;
@@ -23,12 +19,12 @@ import static org.mockito.Mockito.mock;
 public class SepulkaClientBeans {
 
     @Bean
-    public SepulkaService service() {
+    public SepulkaService sepulkaService() {
         return mock(SepulkaService.class);
     }
 
     @Bean
-    SepulkaConverterImpl converter() {
+    SepulkaConverterImpl sepulkaConverter() {
         return new SepulkaConverterImpl();
     }
 
