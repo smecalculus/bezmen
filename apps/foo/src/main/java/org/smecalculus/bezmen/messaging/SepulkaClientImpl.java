@@ -9,7 +9,7 @@ import org.smecalculus.bezmen.modeling.SepulkaConverter;
 import org.smecalculus.bezmen.modeling.SepulkaService;
 import org.smecalculus.bezmen.validation.BezmenValidator;
 
-public record SepulkaClientDefault(
+public record SepulkaClientImpl(
         @NonNull BezmenValidator validator,
         @NonNull SepulkaService service,
         @NonNull SepulkaConverter converter

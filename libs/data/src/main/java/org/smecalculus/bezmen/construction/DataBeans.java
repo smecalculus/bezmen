@@ -1,4 +1,4 @@
-package org.smecalculus.bezmen.operation;
+package org.smecalculus.bezmen.construction;
 
 import org.smecalculus.bezmen.modeling.DataConfig;
 import org.smecalculus.bezmen.modeling.H2Props;
@@ -7,15 +7,14 @@ import org.smecalculus.bezmen.modeling.VendorProps;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
-import org.springframework.data.jdbc.repository.config.AbstractJdbcConfiguration;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
 import javax.sql.DataSource;
 
 @Configuration(proxyBeanMethods = false)
-@Import({CoreBeans.class, DataConfigBeans.class})
-public class DataBeans extends AbstractJdbcConfiguration {
+@Import({CoreBeans.class, DataConfigBeans.class, OrmMyBatisBeans.class, OrmSpringDataBeans.class})
+public class DataBeans {
 
     @Bean
     public DataSource dataSource(DataConfig dataConfig) {

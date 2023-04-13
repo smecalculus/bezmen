@@ -2,10 +2,10 @@ package org.smecalculus.bezmen.configuration;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.smecalculus.bezmen.construction.CoreBeans;
+import org.smecalculus.bezmen.construction.DataConfigBeans;
 import org.smecalculus.bezmen.modeling.DataConfig;
 import org.smecalculus.bezmen.modeling.DataProps;
-import org.smecalculus.bezmen.operation.CoreBeans;
-import org.smecalculus.bezmen.operation.DataConfigBeans;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;

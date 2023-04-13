@@ -11,7 +11,7 @@
   <version>${revision}</version>
 
   <modules>
-    <module>operation</module>
+    <module>construction</module>
     <module>service</module>
     <module>data</module>
     <module>schema</module>
@@ -42,7 +42,7 @@
     <dependencies>
       <dependency>
         <groupId>${project.groupId}</groupId>
-        <artifactId>operation</artifactId>
+        <artifactId>construction</artifactId>
         <version>${project.version}</version>
       </dependency>
       <dependency>
@@ -334,6 +334,7 @@
                   <ignoredUsedUndeclaredDependency>org.mapstruct:mapstruct</ignoredUsedUndeclaredDependency>
                   <ignoredUsedUndeclaredDependency>com.github.spotbugs:spotbugs-annotations</ignoredUsedUndeclaredDependency>
                   <ignoredUsedUndeclaredDependency>org.springframework:spring-context</ignoredUsedUndeclaredDependency>
+                  <ignoredUsedUndeclaredDependency>org.springframework:spring-core</ignoredUsedUndeclaredDependency>
                   <ignoredUsedUndeclaredDependency>jakarta.validation:jakarta.validation-api</ignoredUsedUndeclaredDependency>
                   <ignoredUsedUndeclaredDependency>org.slf4j:slf4j-api</ignoredUsedUndeclaredDependency>
                 </ignoredUsedUndeclaredDependencies>

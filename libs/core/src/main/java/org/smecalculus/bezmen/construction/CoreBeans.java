@@ -1,4 +1,4 @@
-package org.smecalculus.bezmen.operation;
+package org.smecalculus.bezmen.construction;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;

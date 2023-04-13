@@ -17,7 +17,7 @@ import javax.sql.DataSource;
 
 @Import(SchemaBeans.class)
 @Configuration(proxyBeanMethods = false)
-@MapperScan("org.smecalculus.bezmen.foo.data.mybatis")
+@MapperScan("org.smecalculus.bezmen.data.mybatis")
 public class SepulkaDaoMyBatisH2Beans {
 
     @Bean

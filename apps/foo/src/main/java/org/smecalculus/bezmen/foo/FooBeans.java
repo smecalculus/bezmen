@@ -3,17 +3,17 @@ package org.smecalculus.bezmen.foo;
 import com.smecalculus.bezmen.configuration.MessagingProps;
 import com.smecalculus.bezmen.messaging.MessagingBeans;
 import org.smecalculus.bezmen.client.SepulkaClient;
+import org.smecalculus.bezmen.construction.DataBeans;
 import org.smecalculus.bezmen.data.SepulkaDao;
 import org.smecalculus.bezmen.data.SepulkaDaoSpringData;
 import org.smecalculus.bezmen.data.SepulkaRecMapper;
 import org.smecalculus.bezmen.data.SepulkaRecMapperImpl;
 import org.smecalculus.bezmen.data.springdata.SepulkaRepository;
-import org.smecalculus.bezmen.messaging.SepulkaClientDefault;
+import org.smecalculus.bezmen.messaging.SepulkaClientImpl;
 import org.smecalculus.bezmen.messaging.SepulkaMsgMapper;
 import org.smecalculus.bezmen.messaging.SepulkaMsgMapperImpl;
 import org.smecalculus.bezmen.modeling.SepulkaConverter;
 import org.smecalculus.bezmen.modeling.SepulkaService;
-import org.smecalculus.bezmen.operation.DataBeans;
 import org.smecalculus.bezmen.service.SepulkaConverterImpl;
 import org.smecalculus.bezmen.service.SepulkaServiceImpl;
 import org.smecalculus.bezmen.service.ServiceBeans;
@@ -22,12 +22,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
-import org.springframework.data.jdbc.repository.config.EnableJdbcRepositories;
 
 @Configuration(proxyBeanMethods = false)
 @Import({MessagingBeans.class, ServiceBeans.class, DataBeans.class})
-@ComponentScan(basePackageClasses = {SepulkaClientDefault.class, SepulkaDao.class})
-@EnableJdbcRepositories(basePackageClasses = SepulkaDao.class)
+@ComponentScan(basePackageClasses = {SepulkaClientImpl.class})
 public class FooBeans {
 
     @Bean
@@ -41,26 +39,26 @@ public class FooBeans {
     }
 
     @Bean
-    public SepulkaDao dao(SepulkaRecMapper mapper,
+    public SepulkaDao sepulkaDao(SepulkaRecMapper mapper,
                           SepulkaRepository repository) {
         return new SepulkaDaoSpringData(mapper, repository);
     }
 
     @Bean
-    SepulkaService service(SepulkaDao sepulkaDao) {
+    SepulkaService sepulkaService(SepulkaDao sepulkaDao) {
         return new SepulkaServiceImpl(sepulkaDao);
     }
 
     @Bean
-    SepulkaConverter converter() {
+    SepulkaConverter sepulkaConverter() {
         return new SepulkaConverterImpl();
     }
 
     @Bean
-    SepulkaClient client(BezmenValidator validator,
+    SepulkaClient sepulkaClient(BezmenValidator validator,
                          SepulkaService service,
                          SepulkaConverter converter) {
-        return new SepulkaClientDefault(validator, service, converter);
+        return new SepulkaClientImpl(validator, service, converter);
     }
 
     @Bean

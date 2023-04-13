@@ -1,4 +1,4 @@
-package org.smecalculus.bezmen.operation;
+package org.smecalculus.bezmen.construction;
 
 import jakarta.validation.Validation;
 import jakarta.validation.ValidatorFactory;

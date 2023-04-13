@@ -8,9 +8,9 @@ include::client/README.adoc[]
 
 include::core/README.adoc[]
 
-=== operation
+=== construction
 
-include::operation/README.adoc[]
+include::construction/README.adoc[]
 
 === messaging
 

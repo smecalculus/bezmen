@@ -19,7 +19,7 @@
     </dependency>
     <dependency>
       <groupId>${project.groupId}</groupId>
-      <artifactId>operation</artifactId>
+      <artifactId>construction</artifactId>
     </dependency>
     <dependency>
       <groupId>${project.groupId}</groupId>
@@ -92,7 +92,7 @@
             <id>analyze</id>
             <configuration>
               <usedDependencies>
-                <usedDependency>org.smecalculus.bezmen:operation</usedDependency>
+                <usedDependency>org.smecalculus.bezmen:construction</usedDependency>
                 <usedDependency>org.postgresql:postgresql</usedDependency>
                 <usedDependency>com.h2database:h2</usedDependency>
               </usedDependencies>
@@ -114,6 +114,7 @@
                 <ignoredNonTestScopedDependency>org.springframework:spring-jdbc</ignoredNonTestScopedDependency>
                 <ignoredNonTestScopedDependency>org.springframework:spring-tx</ignoredNonTestScopedDependency>
                 <ignoredNonTestScopedDependency>org.mybatis:mybatis-spring</ignoredNonTestScopedDependency>
+                <ignoredNonTestScopedDependency>org.springframework.data:spring-data-jdbc</ignoredNonTestScopedDependency>
               </ignoredNonTestScopedDependencies>
             </configuration>
           </execution>

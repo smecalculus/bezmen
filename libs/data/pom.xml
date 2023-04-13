@@ -92,7 +92,6 @@
             <configuration>
               <usedDependencies>
                 <usedDependency>org.mybatis:mybatis</usedDependency>
-                <usedDependency>org.mybatis:mybatis-spring</usedDependency>
                 <usedDependency>com.h2database:h2</usedDependency>
                 <usedDependency>org.postgresql:postgresql</usedDependency>
               </usedDependencies>

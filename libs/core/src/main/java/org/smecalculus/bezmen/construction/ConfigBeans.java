@@ -1,4 +1,4 @@
-package org.smecalculus.bezmen.operation;
+package org.smecalculus.bezmen.construction;
 
 import com.typesafe.config.ConfigFactory;
 import org.smecalculus.bezmen.configuration.ConfigKeeper;
