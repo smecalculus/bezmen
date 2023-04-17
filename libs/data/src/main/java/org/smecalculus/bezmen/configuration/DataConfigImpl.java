@@ -17,9 +17,9 @@ public record DataConfigImpl(
 
     @Override
     public DataProps getDataProps() {
-        DataPropsCfg dataPropsCfg = configKeeper.read("bezmen.data", DataPropsCfg.class);
-        validator.validate(dataPropsCfg);
-        LOG.info("Read props: {}", dataPropsCfg);
-        return mapper.toDomain(dataPropsCfg);
+        DataPropsCfg propsCfg = configKeeper.read("bezmen.data", DataPropsCfg.class);
+        validator.validate(propsCfg);
+        LOG.info("Read {}", propsCfg);
+        return mapper.toDomain(propsCfg);
     }
 }

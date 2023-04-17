@@ -1,4 +1,4 @@
-package com.smecalculus.bezmen.configuration;
+package org.smecalculus.bezmen.configuration;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
@@ -7,5 +7,5 @@ import lombok.Data;
 public class MessagingPropsCfg {
 
     @NotNull
-    ReceptionPropsCfg reception;
+    ProtocolPropsCfg protocol;
 }

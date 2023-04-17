@@ -19,12 +19,14 @@ public class DataConfigBeans {
     }
 
     @Bean
-    DataConfig dataConfig(ConfigKeeper keeper, BezmenValidator validator, DataCfgMapper mapper) {
+    DataConfig dataConfig(ConfigKeeper keeper,
+                          BezmenValidator validator,
+                          DataCfgMapper mapper) {
         return new DataConfigImpl(keeper, validator, mapper);
     }
 
     @Bean
-    DataProps dataProps(DataConfig dataConfig) {
-        return dataConfig.getDataProps();
+    DataProps dataProps(DataConfig config) {
+        return config.getDataProps();
     }
 }

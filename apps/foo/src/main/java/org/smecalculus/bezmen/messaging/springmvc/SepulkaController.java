@@ -1,6 +1,11 @@
-package org.smecalculus.bezmen.messaging.springweb;
+package org.smecalculus.bezmen.messaging.springmvc;
 
-import org.smecalculus.bezmen.messaging.*;
+import org.smecalculus.bezmen.messaging.SepulkaClient;
+import org.smecalculus.bezmen.messaging.SepulkaMsgMapper;
+import org.smecalculus.bezmen.messaging.SepulkaRegReq;
+import org.smecalculus.bezmen.messaging.SepulkaRegReqMsg;
+import org.smecalculus.bezmen.messaging.SepulkaRegRes;
+import org.smecalculus.bezmen.messaging.SepulkaRegResMsg;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;

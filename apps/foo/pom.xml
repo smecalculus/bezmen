@@ -91,20 +91,6 @@
                 <usedDependency>org.postgresql:postgresql</usedDependency>
                 <usedDependency>com.h2database:h2</usedDependency>
               </usedDependencies>
-              <ignoredUsedUndeclaredDependencies>
-                <ignoredUsedUndeclaredDependency>org.mybatis:mybatis</ignoredUsedUndeclaredDependency>
-                <ignoredUsedUndeclaredDependency>org.mybatis:mybatis-spring</ignoredUsedUndeclaredDependency>
-                <ignoredUsedUndeclaredDependency>org.springframework:spring-tx</ignoredUsedUndeclaredDependency>
-                <ignoredUsedUndeclaredDependency>org.springframework:spring-web</ignoredUsedUndeclaredDependency>
-                <ignoredUsedUndeclaredDependency>org.springframework:spring-beans</ignoredUsedUndeclaredDependency>
-                <ignoredUsedUndeclaredDependency>org.springframework:spring-jdbc</ignoredUsedUndeclaredDependency>
-                <ignoredUsedUndeclaredDependency>org.springframework.data:spring-data-commons</ignoredUsedUndeclaredDependency>
-                <ignoredUsedUndeclaredDependency>org.springframework.data:spring-data-relational</ignoredUsedUndeclaredDependency>
-                <ignoredUsedUndeclaredDependency>org.springframework.data:spring-data-jdbc</ignoredUsedUndeclaredDependency>
-                <ignoredUsedUndeclaredDependency>org.springframework.boot:spring-boot</ignoredUsedUndeclaredDependency>
-                <ignoredUsedUndeclaredDependency>org.springframework.boot:spring-boot-autoconfigure</ignoredUsedUndeclaredDependency>
-                <ignoredUsedUndeclaredDependency>org.junit.jupiter:junit-jupiter-api</ignoredUsedUndeclaredDependency>
-              </ignoredUsedUndeclaredDependencies>
               <ignoredNonTestScopedDependencies>
                 <ignoredNonTestScopedDependency>org.springframework:spring-beans</ignoredNonTestScopedDependency>
                 <ignoredNonTestScopedDependency>org.springframework:spring-jdbc</ignoredNonTestScopedDependency>

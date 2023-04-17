@@ -3,33 +3,31 @@ package org.smecalculus.bezmen.configuration;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.smecalculus.bezmen.construction.ConfigBeans;
-import org.smecalculus.bezmen.construction.DataConfigBeans;
+import org.smecalculus.bezmen.construction.MessagingConfigBeans;
 import org.smecalculus.bezmen.construction.ValidationBeans;
-import org.smecalculus.bezmen.modeling.DataConfig;
-import org.smecalculus.bezmen.modeling.DataProps;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.smecalculus.bezmen.fixture.DataPropsFixture.dataProps;
+import static org.smecalculus.bezmen.fixture.MessagingPropsFixture.messagingProps;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = {
-        ConfigBeans.class, ValidationBeans.class, DataConfigBeans.class
+        ConfigBeans.class, ValidationBeans.class, MessagingConfigBeans.class
 })
-abstract class DataConfigIT {
+abstract class MessagingConfigIT {
 
     @Autowired
-    DataConfig dataConfig;
+    MessagingConfig messagingConfig;
 
     @Test
     void defaultConfShouldBeBackwardCompatible() {
         // given
-        DataProps expectedDataProps = dataProps().build();
+        MessagingProps expectedMessagingProps = messagingProps().build();
         // when
-        DataProps actualDataProps = dataConfig.getDataProps();
+        MessagingProps actualMessagingProps = messagingConfig.getMessagingProps();
         // then
-        assertThat(actualDataProps).isEqualTo(expectedDataProps);
+        assertThat(actualMessagingProps).isEqualTo(expectedMessagingProps);
     }
 }

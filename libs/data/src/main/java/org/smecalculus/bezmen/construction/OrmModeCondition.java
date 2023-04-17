@@ -15,9 +15,9 @@ class OrmModeCondition implements ConfigurationCondition {
     @Override
     public boolean matches(ConditionContext context, AnnotatedTypeMetadata metadata) {
         Map<String, Object> attributes = metadata.getAnnotationAttributes(ConditionalOnOrmMode.class.getName());
-        OrmMode ormMode = (OrmMode) attributes.get("value");
-        DataProps dataProps = context.getBeanFactory().getBean(DataProps.class);
-        return dataProps.ormProps().mode() == ormMode;
+        OrmMode mode = (OrmMode) attributes.get("value");
+        DataProps props = context.getBeanFactory().getBean(DataProps.class);
+        return mode == props.ormProps().mode();
     }
 
     @Override

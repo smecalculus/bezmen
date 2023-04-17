@@ -1,6 +1,6 @@
 package org.smecalculus.bezmen.construction;
 
-import org.smecalculus.bezmen.modeling.DataConfig;
+import org.smecalculus.bezmen.modeling.DataProps;
 import org.smecalculus.bezmen.modeling.H2Props;
 import org.smecalculus.bezmen.modeling.PostgresProps;
 import org.smecalculus.bezmen.modeling.VendorProps;
@@ -17,9 +17,9 @@ import javax.sql.DataSource;
 public class DataBeans {
 
     @Bean
-    public DataSource dataSource(DataConfig dataConfig) {
+    public DataSource dataSource(DataProps dataProps) {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        VendorProps vendorProps = dataConfig.getDataProps().vendorProps();
+        VendorProps vendorProps = dataProps.vendorProps();
         switch (vendorProps.mode()) {
             case H2 -> configure(dataSource, vendorProps.h2Props());
             case POSTGRES -> configure(dataSource, vendorProps.postgresProps());

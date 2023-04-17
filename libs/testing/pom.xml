@@ -56,8 +56,16 @@
       <artifactId>mockito-core</artifactId>
     </dependency>
     <dependency>
+      <groupId>org.mockito</groupId>
+      <artifactId>mockito-junit-jupiter</artifactId>
+    </dependency>
+    <dependency>
       <groupId>org.awaitility</groupId>
       <artifactId>awaitility</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.instancio</groupId>
+      <artifactId>instancio-junit</artifactId>
     </dependency>
   </dependencies>
 
@@ -78,6 +86,8 @@
                 <usedDependency>org.springframework:spring-webflux</usedDependency>
                 <usedDependency>io.projectreactor:reactor-core</usedDependency>
                 <usedDependency>org.reactivestreams:reactive-streams</usedDependency>
+                <usedDependency>org.instancio:instancio-junit</usedDependency>
+                <usedDependency>org.mockito:mockito-junit-jupiter</usedDependency>
               </usedDependencies>
             </configuration>
           </execution>

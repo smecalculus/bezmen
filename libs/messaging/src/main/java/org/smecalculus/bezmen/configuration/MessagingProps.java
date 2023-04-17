@@ -1,10 +1,10 @@
-package com.smecalculus.bezmen.configuration;
+package org.smecalculus.bezmen.configuration;
 
 import lombok.Builder;
 import lombok.NonNull;
 
 @Builder
 public record MessagingProps(
-        @NonNull ReceptionProps receptionProps
+        @NonNull ProtocolProps protocolProps
 ) {
 }

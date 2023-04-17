@@ -161,19 +161,8 @@
                 <ignoredUnusedDeclaredDependencies combine.children="append">
                   <ignoredUnusedDeclaredDependency>org.junit.jupiter:junit-jupiter-engine</ignoredUnusedDeclaredDependency>
                 </ignoredUnusedDeclaredDependencies>
-                <ignoredUsedUndeclaredDependencies combine.children="append">
-                  <!--Ignore core dependencies here-->
-                  <ignoredUsedUndeclaredDependency>com.typesafe:config</ignoredUsedUndeclaredDependency>
-                  <ignoredUsedUndeclaredDependency>org.mapstruct:mapstruct</ignoredUsedUndeclaredDependency>
-                  <ignoredUsedUndeclaredDependency>com.github.spotbugs:spotbugs-annotations</ignoredUsedUndeclaredDependency>
-                  <ignoredUsedUndeclaredDependency>org.springframework:spring-context</ignoredUsedUndeclaredDependency>
-                  <ignoredUsedUndeclaredDependency>jakarta.validation:jakarta.validation-api</ignoredUsedUndeclaredDependency>
-                  <ignoredUsedUndeclaredDependency>org.slf4j:slf4j-api</ignoredUsedUndeclaredDependency>
-                  <!--Ignore testing dependencies here-->
-                  <ignoredUsedUndeclaredDependency>org.mockito:mockito-core</ignoredUsedUndeclaredDependency>
-                  <ignoredUsedUndeclaredDependency>org.springframework:spring-test</ignoredUsedUndeclaredDependency>
-                  <ignoredUsedUndeclaredDependency>org.assertj:assertj-core</ignoredUsedUndeclaredDependency>
-                  <ignoredUsedUndeclaredDependency>org.smecalculus.bezmen:schema</ignoredUsedUndeclaredDependency>
+                <ignoredUsedUndeclaredDependencies>
+                  <ignoredUsedUndeclaredDependency>*:*</ignoredUsedUndeclaredDependency>
                 </ignoredUsedUndeclaredDependencies>
               </configuration>
             </execution>

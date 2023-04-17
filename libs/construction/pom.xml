@@ -27,9 +27,9 @@
           <execution>
             <id>analyze</id>
             <configuration>
-              <ignoredUnusedDeclaredDependencies>
-                <ignoredUnusedDeclaredDependency>org.springframework.boot:spring-boot-autoconfigure</ignoredUnusedDeclaredDependency>
-              </ignoredUnusedDeclaredDependencies>
+              <usedDependencies>
+                <usedDependency>org.springframework.boot:spring-boot-autoconfigure</usedDependency>
+              </usedDependencies>
             </configuration>
           </execution>
         </executions>

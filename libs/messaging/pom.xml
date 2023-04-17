@@ -44,6 +44,12 @@
         </exclusion>
       </exclusions>
     </dependency>
+
+    <dependency>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>testing</artifactId>
+      <scope>test</scope>
+    </dependency>
   </dependencies>
 
   <build>
@@ -55,12 +61,15 @@
             <id>analyze</id>
             <configuration>
               <usedDependencies>
-                <usedDependency>org.springframework:spring-webmvc</usedDependency>
                 <usedDependency>org.eclipse.jetty:jetty-servlets</usedDependency>
                 <usedDependency>org.eclipse.jetty:jetty-webapp</usedDependency>
                 <usedDependency>org.springframework.boot:spring-boot-actuator</usedDependency>
                 <usedDependency>org.springframework.boot:spring-boot-actuator-autoconfigure</usedDependency>
+                <usedDependency>org.smecalculus.bezmen:testing</usedDependency>
               </usedDependencies>
+              <ignoredNonTestScopedDependencies>
+                <ignoredNonTestScopedDependency>org.springframework:spring-beans</ignoredNonTestScopedDependency>
+              </ignoredNonTestScopedDependencies>
             </configuration>
           </execution>
         </executions>
