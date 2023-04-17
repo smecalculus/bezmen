@@ -12,7 +12,7 @@ public interface MessagingCfgMapper {
     @Mapping(source = "http", target = "httpProps")
     ProtocolProps toDomain(ProtocolPropsCfg protocolPropsCfg);
 
-    @Mapping(source = "mvc", target = "webProps")
+    @Mapping(source = "web", target = "webProps")
     HttpProps toDomain(HttpPropsCfg httpPropsCfg);
 
     @Mapping(source = "mode", target = "webMode")

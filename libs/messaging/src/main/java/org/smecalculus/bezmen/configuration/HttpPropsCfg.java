@@ -7,5 +7,5 @@ import lombok.Data;
 public class HttpPropsCfg {
 
     @NotNull
-    WebPropsCfg mvc;
+    WebPropsCfg web;
 }
