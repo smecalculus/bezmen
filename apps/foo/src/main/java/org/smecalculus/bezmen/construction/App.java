@@ -38,33 +38,30 @@ import org.springframework.context.annotation.Import;
 
 import static org.smecalculus.bezmen.configuration.WebMode.SPRING_MVC;
 
-@Configuration(proxyBeanMethods = false)
 @Import({
-        ConfigBeans.class, ValidationBeans.class, MessagingBeans.class, DataBeans.class
+        ConfigBeans.class,
+        ValidationBeans.class,
+        MessagingBeans.class,
+        DataBeans.class
 })
-//@EnableAutoConfiguration(exclude = LiquibaseAutoConfiguration.class)
-@EnableAutoConfiguration(
-        exclude = {LiquibaseAutoConfiguration.class,
-                AopAutoConfiguration.class,
-                DataSourceHealthContributorAutoConfiguration.class,
-                DiskSpaceHealthContributorAutoConfiguration.class,
-                EmbeddedWebServerFactoryCustomizerAutoConfiguration.class,
-                PersistenceExceptionTranslationAutoConfiguration.class,
-                SpringDataWebAutoConfiguration.class,
-                HealthContributorAutoConfiguration.class,
-                HttpMessageConvertersAutoConfiguration.class,
-                LifecycleAutoConfiguration.class,
-                MultipartAutoConfiguration.class,
-                PropertyPlaceholderAutoConfiguration.class,
-                RestTemplateAutoConfiguration.class,
-                TaskExecutionAutoConfiguration.class,
-                TaskSchedulingAutoConfiguration.class,
-//                ErrorMvcAutoConfiguration.class,
-//                EndpointAutoConfiguration.class,
-//                WebEndpointAutoConfiguration.class,
-//                ServletEndpointManagementContextConfiguration.class,
-        }
-)
+@EnableAutoConfiguration(exclude = {
+        LiquibaseAutoConfiguration.class,
+        AopAutoConfiguration.class,
+        DataSourceHealthContributorAutoConfiguration.class,
+        DiskSpaceHealthContributorAutoConfiguration.class,
+        EmbeddedWebServerFactoryCustomizerAutoConfiguration.class,
+        PersistenceExceptionTranslationAutoConfiguration.class,
+        SpringDataWebAutoConfiguration.class,
+        HealthContributorAutoConfiguration.class,
+        HttpMessageConvertersAutoConfiguration.class,
+        LifecycleAutoConfiguration.class,
+        MultipartAutoConfiguration.class,
+        PropertyPlaceholderAutoConfiguration.class,
+        RestTemplateAutoConfiguration.class,
+        TaskExecutionAutoConfiguration.class,
+        TaskSchedulingAutoConfiguration.class
+})
+@Configuration(proxyBeanMethods = false)
 public class App {
 
     public static void main(String[] args) {
