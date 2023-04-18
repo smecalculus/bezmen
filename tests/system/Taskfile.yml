@@ -47,6 +47,7 @@ tasks:
           mvn clean test
           -Dlibs.version={{.LIBS_VERSION}}
           -Dgroups={{.TEST_SYSTEM_GROUPS}}
+          {{.CLI_ARGS}}
   reset:
     run: once
     internal: true

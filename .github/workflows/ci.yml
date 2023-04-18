@@ -1,6 +1,7 @@
 name: CI
 
 on:
+  workflow_dispatch:
   push:
     branches: [main]
   pull_request:
@@ -15,6 +16,9 @@ jobs:
     timeout-minutes: 15
     permissions:
       packages: write
+    strategy:
+      matrix:
+        shard-index: [0, 1]
     steps:
       - uses: actions/checkout@v3.5.2
       - uses: actions/setup-java@v3.11.0
@@ -28,4 +32,8 @@ jobs:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-      - run: task --verbose stage:verification:run REGISTRY=${{ env.REGISTRY }}
+      - run: >
+          task --verbose stage:verification:run REGISTRY=${{ env.REGISTRY }}
+          --
+          -Dbezmen.testing.reminder=${{ matrix.shard-index }}
+          -Dbezmen.testing.modulus=${{ strategy.job-total }}
