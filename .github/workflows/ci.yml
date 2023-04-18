@@ -35,5 +35,5 @@ jobs:
       - run: >
           task --verbose stage:verification:run REGISTRY=${{ env.REGISTRY }}
           --
-          -Dbezmen.testing.reminder=${{ strategy.shard-index }}
+          -Dbezmen.testing.reminder=${{ matrix.shard-index }}
           -Dbezmen.testing.modulus=${{ strategy.job-total }}
