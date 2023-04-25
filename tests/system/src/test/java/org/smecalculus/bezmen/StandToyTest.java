@@ -3,6 +3,7 @@ package org.smecalculus.bezmen;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.condition.EnabledIfSystemProperty;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.smecalculus.bezmen.messaging.BezmenClient;
 import org.smecalculus.bezmen.messaging.SepulkaRegReq;
@@ -43,5 +44,17 @@ public class StandToyTest {
                 .usingRecursiveComparison()
                 .ignoringFields("id")
                 .isEqualTo(expectedResponse);
+    }
+
+    @Test
+    @EnabledIfSystemProperty(named = "data.vendor.mode", matches = "postgres")
+    void postgresSpecificTest() {
+        // empty
+    }
+
+    @Test
+    @EnabledIfSystemProperty(named = "data.vendor.mode", matches = "sqlite")
+    void sqliteSpecificTest() {
+        // empty
     }
 }

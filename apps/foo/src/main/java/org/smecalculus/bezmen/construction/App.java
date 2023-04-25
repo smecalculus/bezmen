@@ -1,9 +1,11 @@
 package org.smecalculus.bezmen.construction;
 
 import org.smecalculus.bezmen.data.SepulkaDao;
+import org.smecalculus.bezmen.data.SepulkaDaoMyBatis;
 import org.smecalculus.bezmen.data.SepulkaDaoSpringData;
 import org.smecalculus.bezmen.data.SepulkaRecMapper;
 import org.smecalculus.bezmen.data.SepulkaRecMapperImpl;
+import org.smecalculus.bezmen.data.mybatis.SepulkaSqlMapper;
 import org.smecalculus.bezmen.data.springdata.SepulkaRepository;
 import org.smecalculus.bezmen.messaging.SepulkaClient;
 import org.smecalculus.bezmen.messaging.SepulkaClientImpl;
@@ -37,6 +39,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 
 import static org.smecalculus.bezmen.configuration.WebMode.SPRING_MVC;
+import static org.smecalculus.bezmen.modeling.OrmMode.MY_BATIS;
+import static org.smecalculus.bezmen.modeling.OrmMode.SPRING_DATA;
 
 @Import({
         ConfigBeans.class,
@@ -76,7 +80,7 @@ public class App {
     }
 
     @Bean
-    public SepulkaMsgMapper sepulkaMsgMapper() {
+    SepulkaMsgMapper sepulkaMsgMapper() {
         return new SepulkaMsgMapperImpl();
     }
 
@@ -98,13 +102,21 @@ public class App {
     }
 
     @Bean
-    public SepulkaDao sepulkaDao(SepulkaRecMapper mapper,
-                                 SepulkaRepository repository) {
+    @ConditionalOnOrmMode(SPRING_DATA)
+    SepulkaDaoSpringData sepulkaDao(SepulkaRecMapper mapper,
+                                    SepulkaRepository repository) {
         return new SepulkaDaoSpringData(mapper, repository);
     }
 
     @Bean
-    public SepulkaRecMapper sepulkaRecMapper() {
+    @ConditionalOnOrmMode(MY_BATIS)
+    SepulkaDaoMyBatis sepulkaDao(SepulkaRecMapper recMapper,
+                                 SepulkaSqlMapper sqlMapper) {
+        return new SepulkaDaoMyBatis(recMapper, sqlMapper);
+    }
+
+    @Bean
+    SepulkaRecMapper sepulkaRecMapper() {
         return new SepulkaRecMapperImpl();
     }
 }

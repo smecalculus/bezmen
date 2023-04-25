@@ -1,0 +1,7 @@
+configs:
+  stand_conf:
+    file: ./configs/stand.conf
+  alfa_conf:
+    file: ./configs/alfa.conf
+  bravo_conf:
+    file: ./configs/bravo.conf
