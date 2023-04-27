@@ -3,12 +3,10 @@ version: '3'
 set: [pipefail]
 
 vars:
-  STAND_TYPE: '{{.STAND_TYPE | default "toy"}}'
-  STAND_PROPS: '{{.STAND_PROPS | default "turing"}}'
   STAND_REVISION:
     sh: git write-tree --prefix=stands
   STAND_CID: '{{.STAND_REVISION | trunc 7}}'
-  STAND_IMAGE: '{{.PROJECT}}-stand-{{.STAND_TYPE}}'
+  STAND_IMAGE: '{{.PROJECT}}-stand-{{.USAGE}}'
   STAND_REPO: '{{.PROJECT_REPO}}/{{.STAND_IMAGE}}'
   STAND_REF: '{{.STAND_REPO}}:{{.STAND_CID}}'
 
@@ -21,7 +19,7 @@ env:
   FOO_IMAGE: '{{.APP_FOO_IMAGE}}'
   FOO_REPO: '{{.APP_FOO_REPO}}'
   FOO_REF: '{{.APP_FOO_REF}}'
-  PROPS_COMBO: '{{.STAND_PROPS}}'
+  PROPS_COMBO: '{{.PROPS}}'
 
 tasks:
   image:
@@ -46,8 +44,8 @@ tasks:
       - cmd: >
           docker compose
           --file compose.yml
-          --file types/compose.{{.STAND_TYPE}}.yml
-          --profile {{.STAND_PROPS}}
+          --file types/compose.{{.USAGE}}.yml
+          --profile {{.PROPS}}
           up
           --detach
   wipe:
@@ -57,8 +55,8 @@ tasks:
       - cmd: >
           docker compose
           --file compose.yml
-          --file types/compose.{{.STAND_TYPE}}.yml
-          --profile {{.STAND_PROPS}}
+          --file types/compose.{{.USAGE}}.yml
+          --profile {{.PROPS}}
           down
           --volumes
   wipe-db:

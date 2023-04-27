@@ -2,18 +2,11 @@ version: '3'
 
 set: [pipefail]
 
-includes:
-  system:
-    taskfile: system/Taskfile.yml
-    dir: system
-
 vars:
-  TEST_TYPE: '{{.TEST_TYPE | default "func"}}'
-  TEST_PROPS: '{{.TEST_PROPS | default "turing"}}'
   TEST_REVISION:
     sh: git write-tree --prefix=tests
   TEST_CID: '{{.TEST_REVISION | trunc 7}}'
-  TEST_IMAGE: '{{.PROJECT}}-test-{{.TEST_TYPE}}'
+  TEST_IMAGE: '{{.PROJECT}}-test-{{.USAGE}}'
   TEST_REPO: '{{.PROJECT_REPO}}/{{.TEST_IMAGE}}'
   TEST_REF: '{{.TEST_REPO}}:{{.TEST_CID}}'
 
@@ -45,8 +38,8 @@ tasks:
       - cmd: >
           mvn clean test
           -Dlibs.version={{.LIBS_VERSION}}
-          -Dtests.type={{.TEST_TYPE | title}}
-          -Dprops.combo={{.TEST_PROPS}}
+          -Dtests.type={{.USAGE | title}}
+          -Dprops.combo={{.PROPS}}
           {{.CLI_ARGS}}
     dir: system
   reset:

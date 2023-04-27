@@ -4,6 +4,8 @@ vars:
   PROJECT: bezmen
   REGISTRY: localhost
   PROJECT_REPO: '{{.REGISTRY}}/smecalculus'
+  USAGE: '{{.USAGE | default "toy"}}'
+  PROPS: '{{.PROPS | default "turing"}}'
   GIT_ADD_ALL:
     sh: git add -A
   ENV_DB_VENDOR: postgres

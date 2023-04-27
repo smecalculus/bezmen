@@ -14,13 +14,11 @@ jobs:
   verification:
     runs-on: ubuntu-latest
     timeout-minutes: 15
-    permissions:
-      packages: write
     strategy:
       matrix:
-        type: [func]
-        props-combo: [turing, church]
-        shard-index: [0, 1]
+        usage: [func]
+        props: [turing, church]
+        shard: [0, 1]
     steps:
       - uses: actions/checkout@v3.5.2
       - uses: actions/setup-java@v3.11.0
@@ -37,7 +35,8 @@ jobs:
       - run: >
           task --verbose stage:verification:run
           REGISTRY=${{ env.REGISTRY }}
+          USAGE=${{ matrix.usage }}
+          PROPS=${{ matrix.props }}
           --
-          -Dprops.combo=${{ matrix.props-combo }}
-          -Dbezmen.sharding.reminder=${{ matrix.shard-index }}
+          -Dbezmen.sharding.reminder=${{ matrix.shard }}
           -Dbezmen.sharding.modulus=2
