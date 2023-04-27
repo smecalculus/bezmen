@@ -7,7 +7,51 @@ includes:
     taskfile: system/Taskfile.yml
     dir: system
 
+vars:
+  TEST_TYPE: '{{.TEST_TYPE | default "func"}}'
+  TEST_PROPS: '{{.TEST_PROPS | default "turing"}}'
+  TEST_REVISION:
+    sh: git write-tree --prefix=tests
+  TEST_CID: '{{.TEST_REVISION | trunc 7}}'
+  TEST_IMAGE: '{{.PROJECT}}-test-{{.TEST_TYPE}}'
+  TEST_REPO: '{{.PROJECT_REPO}}/{{.TEST_IMAGE}}'
+  TEST_REF: '{{.TEST_REPO}}:{{.TEST_CID}}'
+
 tasks:
   binary:
     cmds:
       - task: system:binary
+  image:
+    run: once
+    vars:
+      COMMAND: '{{if eq .REGISTRY "localhost"}}inspect{{else}}pull{{end}}'
+    status:
+      - task --dir {{.ROOT_DIR}} --status lib:binary
+      - docker image {{.COMMAND}} {{.TEST_REF}}
+    cmds:
+      # deps
+      - task: :lib:binary
+      # cmds
+      - task: reset
+      - cmd: >
+          docker build .
+          -f Dockerfile
+          -t {{.TEST_REF}}
+  run:
+    cmds:
+      # deps
+      - task: image
+      # actions
+      - cmd: >
+          mvn clean test
+          -Dlibs.version={{.LIBS_VERSION}}
+          -Dtests.type={{.TEST_TYPE | title}}
+          -Dprops.combo={{.TEST_PROPS}}
+          {{.CLI_ARGS}}
+    dir: system
+  reset:
+    run: once
+    internal: true
+    cmds:
+      - cmd: docker rmi -f $(docker images -q -f reference={{.TEST_REPO}}) 2> /dev/null
+        ignore_error: true

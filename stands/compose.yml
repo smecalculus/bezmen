@@ -1,10 +1,10 @@
-name: toy
 services:
   db:
     image: postgres:15-alpine
     container_name: env-db
     profiles:
-      - postgres
+      - turing
+      - church
     ports:
       - "5432:5432"
     environment:
@@ -16,12 +16,12 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
-
   schema-dba:
     image: ${SCHEMA_REF}
     container_name: schema-dba-${SCHEMA_CID}
     profiles:
-      - postgres
+      - turing
+      - church
     depends_on:
       db:
         condition: service_healthy
@@ -40,12 +40,12 @@ services:
       -Dbezmen.schema=bezmen
       -Dbezmen.owner=bezmen
       -Dbezmen.password=bezmen
-
   schema-owner:
     image: ${SCHEMA_REF}
     container_name: schema-owner-${SCHEMA_CID}
     profiles:
-      - postgres
+      - turing
+      - church
     depends_on:
       schema-dba:
         condition: service_completed_successfully
@@ -60,14 +60,14 @@ services:
       --username=bezmen
       --password=bezmen
       update
-
   foo:
     image: ${FOO_REF}
     container_name: app-foo
     ports:
       - "8080:8080"
     volumes:
-      - "./stand.conf:/home/bezmen/app/application.conf"
+      - ./props/all.conf:/home/bezmen/app/all.conf
+      - ./props/${PROPS_COMBO}.conf:/home/bezmen/app/application.conf
     depends_on:
       db:
         condition: service_healthy

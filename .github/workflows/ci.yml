@@ -18,7 +18,8 @@ jobs:
       packages: write
     strategy:
       matrix:
-        config-combo: [alfa, bravo]
+        type: [func]
+        props-combo: [turing, church]
         shard-index: [0, 1]
     steps:
       - uses: actions/checkout@v3.5.2
@@ -34,8 +35,9 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
       - run: >
-          task --verbose stage:verification:run REGISTRY=${{ env.REGISTRY }}
+          task --verbose stage:verification:run
+          REGISTRY=${{ env.REGISTRY }}
           --
-          -P${{ matrix.config-combo }}
+          -Dprops.combo=${{ matrix.props-combo }}
           -Dbezmen.sharding.reminder=${{ matrix.shard-index }}
           -Dbezmen.sharding.modulus=2

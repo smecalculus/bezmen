@@ -12,7 +12,7 @@ import java.net.http.HttpClient;
 public class StandBeans {
 
     @Bean
-    BezmenClient client() {
+    BezmenClient bezmenClient() {
         ObjectMapper mapper = new ObjectMapper();
         HttpClient client = HttpClient.newHttpClient();
         return new BezmenClientJavaHttp(mapper, client);
