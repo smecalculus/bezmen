@@ -42,3 +42,9 @@ jobs:
           --
           -Dbezmen.sharding.reminder=${{ matrix.shard }}
           -Dbezmen.sharding.modulus=2
+  publishing:
+    needs: verification
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v3.5.2

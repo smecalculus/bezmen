@@ -103,14 +103,14 @@ public class App {
 
     @Bean
     @ConditionalOnOrmMode(SPRING_DATA)
-    SepulkaDaoSpringData sepulkaDao(SepulkaRecMapper mapper,
+    SepulkaDaoSpringData sepulkaDaoSpringData(SepulkaRecMapper mapper,
                                     SepulkaRepository repository) {
         return new SepulkaDaoSpringData(mapper, repository);
     }
 
     @Bean
     @ConditionalOnOrmMode(MY_BATIS)
-    SepulkaDaoMyBatis sepulkaDao(SepulkaRecMapper recMapper,
+    SepulkaDaoMyBatis sepulkaDaoMyBatis(SepulkaRecMapper recMapper,
                                  SepulkaSqlMapper sqlMapper) {
         return new SepulkaDaoMyBatis(recMapper, sqlMapper);
     }
