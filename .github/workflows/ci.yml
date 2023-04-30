@@ -31,10 +31,10 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
       - run: >
-          task --verbose stage:building:perform
+          task --verbose stage:building:run
           REGISTRY=${{ env.REGISTRY }}
   verification:
-    name: Verification Run
+    name: Verification (Start)
     runs-on: ubuntu-latest
     timeout-minutes: 15
     needs: building
@@ -66,7 +66,7 @@ jobs:
           path: tests/system/target/surefire-reports/*.xml
           if-no-files-found: error
   publishing:
-    name: Verification Transit
+    name: Verification (Finish)
     needs: verification
     if: ${{ always() }}
     runs-on: ubuntu-latest
