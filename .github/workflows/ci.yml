@@ -35,8 +35,7 @@ jobs:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-      - continue-on-error: true
-        run: >
+      - run: >
           task --verbose stage:verification:run
           REGISTRY=${{ env.REGISTRY }}
           USAGE=${{ matrix.usage }}
@@ -44,6 +43,7 @@ jobs:
           --
           -Dbezmen.sharding.reminder=${{ matrix.shard }}
           -Dbezmen.sharding.modulus=2
+#        continue-on-error: true
       - uses: actions/upload-artifact@v3.1.2
         if: always()
         with:
@@ -52,6 +52,7 @@ jobs:
           if-no-files-found: error
   publishing:
     needs: verification
+    if: ${{ always() }}
     runs-on: ubuntu-latest
     timeout-minutes: 5
     permissions:
@@ -63,18 +64,18 @@ jobs:
 #      - uses: test-summary/action@v2.1
 #        with:
 #          paths: reports/**/TEST-*.xml
-      - uses: scacap/action-surefire-report@v1.7.0
-        with:
-          report_paths: reports/**/TEST-*.xml
-          fail_on_test_failures: true
-          fail_if_no_tests: true
-          create_check: false
-#      - uses: mikepenz/action-junit-report@v3
+#      - uses: scacap/action-surefire-report@v1.7.0
 #        with:
 #          report_paths: reports/**/TEST-*.xml
-#          fail_on_failure: true
-#          require_tests: true
-#          job_summary: true
+#          fail_on_test_failures: true
+#          fail_if_no_tests: true
+#          create_check: false
+      - uses: mikepenz/action-junit-report@v3
+        with:
+          report_paths: reports/**/TEST-*.xml
+          fail_on_failure: true
+          require_tests: true
+          job_summary: true
 #      - uses: EnricoMi/publish-unit-test-result-action@v2
 #        with:
 #          files: reports/**/TEST-*.xml
