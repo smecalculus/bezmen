@@ -50,7 +50,7 @@ public class SepulkaTest {
     @Test
     @EnabledIfSystemProperty(named = "data.vendor.mode", matches = "postgres")
     void postgresSpecificTest() {
-        // empty
+        assertThat(1).isEqualTo(2);
     }
 
     @Test
