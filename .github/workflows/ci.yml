@@ -54,6 +54,8 @@ jobs:
     needs: verification
     runs-on: ubuntu-latest
     timeout-minutes: 5
+    permissions:
+      checks: write
     steps:
       - uses: actions/download-artifact@v3.0.2
         with:
@@ -61,15 +63,23 @@ jobs:
 #      - uses: test-summary/action@v2.1
 #        with:
 #          paths: reports/**/TEST-*.xml
-#      - uses: scacap/action-surefire-report@v1.7.0
-#        with:
-#          report_paths: reports/**/TEST-*.xml
-#          fail_on_test_failures: true
-#          fail_if_no_tests: true
-#          create_check: false
-      - uses: mikepenz/action-junit-report@v3
+      - uses: scacap/action-surefire-report@v1.7.0
         with:
           report_paths: reports/**/TEST-*.xml
-          fail_on_failure: true
-          require_tests: true
-          job_summary: true
+          fail_on_test_failures: true
+          fail_if_no_tests: true
+          create_check: false
+#      - uses: mikepenz/action-junit-report@v3
+#        with:
+#          report_paths: reports/**/TEST-*.xml
+#          fail_on_failure: true
+#          require_tests: true
+#          job_summary: true
+#      - uses: EnricoMi/publish-unit-test-result-action@v2
+#        with:
+#          files: reports/**/TEST-*.xml
+#          comment_mode: off
+#          job_summary: true
+#          compare_to_earlier_commit: false
+#          action_fail: true
+#          action_fail_on_inconclusive: true
