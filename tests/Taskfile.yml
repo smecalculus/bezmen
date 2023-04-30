@@ -37,6 +37,7 @@ tasks:
       # actions
       - cmd: >
           mvn clean test
+          --batch-mode
           -Dlibs.version={{.LIBS_VERSION}}
           -Dtests.type={{.USAGE | title}}
           -Dprops.combo={{.PROPS}}
