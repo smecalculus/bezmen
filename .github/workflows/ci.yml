@@ -35,7 +35,8 @@ jobs:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-      - run: >
+      - continue-on-error: true
+        run: >
           task --verbose stage:verification:run
           REGISTRY=${{ env.REGISTRY }}
           USAGE=${{ matrix.usage }}
@@ -57,6 +58,12 @@ jobs:
       - uses: actions/download-artifact@v3.0.2
         with:
           path: reports
-      - uses: test-summary/action@v2.1
+#      - uses: test-summary/action@v2.1
+#        with:
+#          paths: reports/**/TEST-*.xml
+      - uses: scacap/action-surefire-report@v1.7.0
         with:
-          paths: reports/**/TEST-*.xml
+          report_paths: reports/**/TEST-*.xml
+          fail_on_test_failures: true
+          fail_if_no_tests: true
+          create_check: false

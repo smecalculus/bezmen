@@ -51,7 +51,6 @@
           <includes>
             <include>**/${tests.type}Suite.java</include>
           </includes>
-          <testFailureIgnore>true</testFailureIgnore>
           <systemPropertiesFile>${project.parent.basedir}/props/${props.combo}.properties</systemPropertiesFile>
         </configuration>
       </plugin>
