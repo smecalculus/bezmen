@@ -22,14 +22,14 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
           cache: 'maven'
-      - uses: arduino/setup-task@v1.0.3
-        with:
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
       - uses: docker/login-action@v2.1.0
         with:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
+      - uses: arduino/setup-task@v1.0.3
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
       - run: >
           task --verbose stage:building:run
           REGISTRY=${{ env.REGISTRY }}
@@ -51,6 +51,14 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
           cache: 'maven'
+      - uses: docker/login-action@v2.1.0
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - uses: arduino/setup-task@v1.0.3
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
       - run: >
           task --verbose stage:verification:run
           REGISTRY=${{ env.REGISTRY }}
