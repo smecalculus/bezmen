@@ -48,15 +48,16 @@ jobs:
         with:
           name: test-reports-${{ matrix.usage }}-${{ matrix.props }}-${{ matrix.shard }}
           path: tests/system/target/surefire-reports/*.xml
+          if-no-files-found: error
   publishing:
     needs: verification
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
-      - uses: actions/checkout@v3.5.2
-      - uses: dorny/test-reporter@v1.6.0
+#      - uses: actions/checkout@v3.5.2
+      - uses: actions/download-artifact@v3.0.2
         with:
-          artifact: /test-reports-(.*)-(.*)-(.*)/
-          name: $1 $2 $3 tests
-          path: tests/system/target/surefire-reports/*.xml
-          reporter: java-junit
+          path: reports
+      - uses: test-summary/action@v2.1
+        with:
+          paths: "reports/**/TEST-*.xml"
