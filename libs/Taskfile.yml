@@ -7,6 +7,12 @@ vars:
     sh: git write-tree --prefix=libs
   LIBS_CID: '{{.LIBS_REVISION | trunc 7}}'
   LIBS_VERSION: 0.1.0-{{.LIBS_CID}}
+  LIB_BINARIES_STATUS: >
+    {{if eq .REGISTRY "localhost" -}}
+      task --dir {{.ROOT_DIR}} --status lib:binaries
+    {{- else -}}
+      true
+    {{- end -}}
 
 includes:
   schema:
@@ -14,9 +20,13 @@ includes:
     dir: schema
 
 tasks:
-  binary:
+  binaries:
     run: once
     status:
       - mvn -o dependency:get -Dartifact=org.smecalculus.bezmen:libs:{{.LIBS_VERSION}}:pom
     cmds:
       - mvn clean install -am -T1C -Drevision={{.LIBS_VERSION}}
+  images:
+    run: once
+    cmds:
+      - task: schema:image

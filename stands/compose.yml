@@ -1,3 +1,5 @@
+name: bezmen
+
 services:
   db:
     image: postgres:15-alpine

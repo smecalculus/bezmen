@@ -1,0 +1,34 @@
+version: '3'
+
+set: [pipefail]
+
+tasks:
+  reset:
+    run: once
+    cmds:
+      - docker rm -f $(docker ps -aq)
+      - docker image prune -f
+      - docker network prune -f
+      - docker volume rm $(docker volume ls -q -f dangling=true)
+  image:reset:
+    run: when_changed
+    internal: true
+    vars:
+      DOCKER_IMAGE: '{{.DOCKER_IMAGE}}'
+    cmds:
+      - cmd: docker container rm -f $(docker ps -aq -f label=bezmen.image={{.DOCKER_IMAGE}})
+        ignore_error: true
+      - cmd: docker image rm -f $(docker images -q -f reference={{.DOCKER_IMAGE}})
+        ignore_error: true
+  image:push:
+    run: when_changed
+    internal: true
+    vars:
+      DOCKER_IMAGE: '{{.DOCKER_IMAGE}}'
+    cmds:
+      - cmd: >
+          {{if eq .REGISTRY "localhost" -}}
+            true
+          {{- else -}}
+            docker push {{.DOCKER_IMAGE}}
+          {{- end -}}

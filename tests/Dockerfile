@@ -1,2 +1,3 @@
 FROM scratch
-COPY README.adoc /
+ARG TEST_TYPE
+COPY README.adoc /${TEST_TYPE}.adoc

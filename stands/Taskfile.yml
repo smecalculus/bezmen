@@ -6,34 +6,46 @@ vars:
   STAND_REVISION:
     sh: git write-tree --prefix=stands
   STAND_CID: '{{.STAND_REVISION | trunc 7}}'
-  STAND_IMAGE: '{{.PROJECT}}-stand-{{.USAGE}}'
-  STAND_REPO: '{{.PROJECT_REPO}}/{{.STAND_IMAGE}}'
-  STAND_REF: '{{.STAND_REPO}}:{{.STAND_CID}}'
+
+includes:
+  toy:
+    taskfile: types/Taskfile.toy.yml
+    dir: types
+  func:
+    taskfile: types/Taskfile.func.yml
+    dir: types
 
 env:
   SCHEMA_CID: '{{.LIB_SCHEMA_CID}}'
   SCHEMA_IMAGE: '{{.LIB_SCHEMA_IMAGE}}'
-  SCHEMA_REPO: '{{.LIB_SCHEMA_REPO}}'
   SCHEMA_REF: '{{.LIB_SCHEMA_REF}}'
   FOO_CID: '{{.APP_FOO_CID}}'
   FOO_IMAGE: '{{.APP_FOO_IMAGE}}'
-  FOO_REPO: '{{.APP_FOO_REPO}}'
   FOO_REF: '{{.APP_FOO_REF}}'
   PROPS_COMBO: '{{.PROPS}}'
 
 tasks:
   image:
-    run: once
+    run: when_changed
     vars:
       COMMAND: '{{if eq .REGISTRY "localhost"}}inspect{{else}}pull{{end}}'
+      STAND_TYPE: '{{.STAND_TYPE | default .USAGE}}'
+      STAND_IMAGE: '{{.PROJECT_REPO}}/{{.PROJECT}}-stand-{{.STAND_TYPE}}'
+      STAND_REF: '{{.STAND_IMAGE}}:{{.STAND_CID}}'
     status:
       - docker image {{.COMMAND}} {{.STAND_REF}}
     cmds:
-      - task: reset
+      - task: :docker:image:reset
+        vars:
+          DOCKER_IMAGE: '{{.STAND_IMAGE}}'
       - cmd: >
           docker build .
           -f Dockerfile
           -t {{.STAND_REF}}
+          --build-arg STAND_TYPE={{.STAND_TYPE}}
+      - task: :docker:image:push
+        vars:
+          DOCKER_IMAGE: '{{.STAND_REF}}'
   run:
     run: once
     cmds:
@@ -44,9 +56,9 @@ tasks:
       - cmd: >
           docker compose
           --file compose.yml
-          --file types/compose.{{.USAGE}}.yml
           --profile {{.PROPS}}
           up
+          --remove-orphans
           --detach
   wipe:
     run: once
@@ -66,9 +78,3 @@ tasks:
       - docker inspect schema-owner-{{.LIB_SCHEMA_CID}}
     cmds:
       - docker rm -f env-db
-  reset:
-    run: once
-    internal: true
-    cmds:
-      - cmd: docker rmi -f $(docker images -q -f reference={{.STAND_REPO}}) 2> /dev/null
-        ignore_error: true

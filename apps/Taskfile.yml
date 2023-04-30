@@ -11,9 +11,11 @@ includes:
     dir: foo
 
 tasks:
-  binary:
+  binaries:
+    run: once
     deps:
       - task: foo:binary
-  image:
+  images:
+    run: once
     deps:
       - task: foo:image

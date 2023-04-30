@@ -1,0 +1,6 @@
+version: '3'
+
+vars:
+  TEST_FUNC_CID: '{{.TEST_CID}}'
+  TEST_FUNC_IMAGE: '{{.PROJECT_REPO}}/{{.PROJECT}}-test-func'
+  TEST_FUNC_REF: '{{.TEST_FUNC_IMAGE}}:{{.TEST_FUNC_CID}}'
