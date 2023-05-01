@@ -6,6 +6,7 @@ vars:
   STAND_REVISION:
     sh: git write-tree --prefix=stands
   STAND_CID: '{{.STAND_REVISION | trunc 7}}'
+  STAND_X_REF: '{{.PROJECT_REPO}}/{{.PROJECT}}-stand-{{.USAGE}}:{{.STAND_CID}}'
 
 includes:
   toy:
