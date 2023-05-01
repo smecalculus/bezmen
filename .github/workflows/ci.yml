@@ -35,8 +35,8 @@ jobs:
       - run: >
           task --verbose stage:building:run
           REGISTRY=${{ env.REGISTRY }}
-  verification:
-    name: Verification (Start)
+  verification-fire:
+    name: Verification (Fire)
     runs-on: ubuntu-latest
     timeout-minutes: 15
     needs: building
@@ -75,12 +75,12 @@ jobs:
           name: test-reports-${{ matrix.usage }}-${{ matrix.props }}-${{ matrix.shard }}
           path: tests/system/target/surefire-reports/*.xml
           if-no-files-found: error
-  publishing:
-    name: Verification (Finish)
-    needs: verification
+  verification-complete:
+    name: Verification (Complete)
     if: ${{ always() }}
     runs-on: ubuntu-latest
     timeout-minutes: 5
+    needs: verification-fire
     permissions:
       checks: write
       packages: write
