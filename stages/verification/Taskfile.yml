@@ -29,15 +29,24 @@ tasks:
       - task: ::test:run
   transit:
     run: once
+    vars:
+      COMMAND: '{{if eq .REGISTRY "localhost"}}inspect{{else}}pull{{end}}'
+    preconditions:
+      - docker image {{.COMMAND}} {{.LIB_SCHEMA_REF}}
+      - docker image {{.COMMAND}} {{.APP_FOO_REF}}
+      - docker image {{.COMMAND}} {{.STAND_TOY_REF}}
+      - docker image {{.COMMAND}} {{.STAND_FUNC_REF}}
+      - docker image {{.COMMAND}} {{.TEST_TOY_REF}}
+      - docker image {{.COMMAND}} {{.TEST_FUNC_REF}}
     cmds:
-      - docker tag {{.TEST_TOY_REF}} {{.TEST_TOY_REF}}-{{.STAGE_VERIFICATION_STATUS}}
+      - docker tag {{.LIB_SCHEMA_REF}} {{.LIB_SCHEMA_REF}}-{{.STAGE_VERIFICATION_STATUS}}
       - task: ::docker:image:push
         vars:
-          DOCKER_IMAGE: '{{.TEST_TOY_REF}}-{{.STAGE_VERIFICATION_STATUS}}'
-      - docker tag {{.TEST_FUNC_REF}} {{.TEST_FUNC_REF}}-{{.STAGE_VERIFICATION_STATUS}}
+          DOCKER_IMAGE: '{{.LIB_SCHEMA_REF}}-{{.STAGE_VERIFICATION_STATUS}}'
+      - docker tag {{.APP_FOO_REF}} {{.APP_FOO_REF}}-{{.STAGE_VERIFICATION_STATUS}}
       - task: ::docker:image:push
         vars:
-          DOCKER_IMAGE: '{{.TEST_FUNC_REF}}-{{.STAGE_VERIFICATION_STATUS}}'
+          DOCKER_IMAGE: '{{.APP_FOO_REF}}-{{.STAGE_VERIFICATION_STATUS}}'
       - docker tag {{.STAND_TOY_REF}} {{.STAND_TOY_REF}}-{{.STAGE_VERIFICATION_STATUS}}
       - task: ::docker:image:push
         vars:
@@ -46,11 +55,11 @@ tasks:
       - task: ::docker:image:push
         vars:
           DOCKER_IMAGE: '{{.STAND_FUNC_REF}}-{{.STAGE_VERIFICATION_STATUS}}'
-      - docker tag {{.APP_FOO_REF}} {{.APP_FOO_REF}}-{{.STAGE_VERIFICATION_STATUS}}
+      - docker tag {{.TEST_TOY_REF}} {{.TEST_TOY_REF}}-{{.STAGE_VERIFICATION_STATUS}}
       - task: ::docker:image:push
         vars:
-          DOCKER_IMAGE: '{{.APP_FOO_REF}}-{{.STAGE_VERIFICATION_STATUS}}'
-      - docker tag {{.LIB_SCHEMA_REF}} {{.LIB_SCHEMA_REF}}-{{.STAGE_VERIFICATION_STATUS}}
+          DOCKER_IMAGE: '{{.TEST_TOY_REF}}-{{.STAGE_VERIFICATION_STATUS}}'
+      - docker tag {{.TEST_FUNC_REF}} {{.TEST_FUNC_REF}}-{{.STAGE_VERIFICATION_STATUS}}
       - task: ::docker:image:push
         vars:
-          DOCKER_IMAGE: '{{.LIB_SCHEMA_REF}}-{{.STAGE_VERIFICATION_STATUS}}'
+          DOCKER_IMAGE: '{{.TEST_FUNC_REF}}-{{.STAGE_VERIFICATION_STATUS}}'
