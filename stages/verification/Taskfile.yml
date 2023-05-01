@@ -23,6 +23,9 @@ tasks:
       - docker image {{.COMMAND}} {{.TEST_X_REF}}
     cmds:
       - task: ::stand:run
+      - task: ::lib:binaries
+        vars:
+          SKIP_TESTS: true
       - task: ::test:run
   transit:
     run: once

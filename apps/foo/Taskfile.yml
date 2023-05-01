@@ -21,7 +21,9 @@ tasks:
       - task: ::lib:binaries
       # cmds
       - cmd: >
-          mvn clean verify -am -T1C
+          mvn clean verify
+          -am -T1C
+          --batch-mode
           -Drevision={{.APP_FOO_VERSION}}
           -Dlibs.version={{.LIBS_VERSION}}
   image:

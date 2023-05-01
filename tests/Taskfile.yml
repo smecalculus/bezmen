@@ -47,6 +47,7 @@ tasks:
         vars:
           DOCKER_IMAGE: '{{.TEST_REF}}'
   run:
+    dir: system
     cmds:
       # deps
       - task: image
@@ -58,4 +59,3 @@ tasks:
           -Dtests.type={{.USAGE | title}}
           -Dprops.combo={{.PROPS}}
           {{.CLI_ARGS}}
-    dir: system

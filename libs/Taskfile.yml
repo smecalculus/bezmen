@@ -22,10 +22,17 @@ includes:
 tasks:
   binaries:
     run: once
+    vars:
+      SKIP_TESTS: false
     status:
       - mvn -o dependency:get -Dartifact=org.smecalculus.bezmen:libs:{{.LIBS_VERSION}}:pom
     cmds:
-      - mvn clean install -am -T1C -Drevision={{.LIBS_VERSION}}
+      - cmd: >
+          mvn clean install
+          -am -T1C
+          --batch-mode
+          -DskipTests={{.SKIP_TESTS}}
+          -Drevision={{.LIBS_VERSION}}
   images:
     run: once
     cmds:
