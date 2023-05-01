@@ -17,9 +17,12 @@ tasks:
       COMMAND: '{{if eq .REGISTRY "localhost"}}inspect{{else}}pull{{end}}'
     status:
       - docker image {{.COMMAND}} {{.LIB_SCHEMA_REF}}
+    dir: '{{.LIB_SCHEMA_DIR}}'
     cmds:
       - task: ::docker:image:reset
         vars:
           DOCKER_IMAGE: '{{.LIB_SCHEMA_IMAGE}}'
       - cmd: docker build . -t {{.LIB_SCHEMA_REF}}
-    dir: '{{.LIB_SCHEMA_DIR}}'
+      - task: ::docker:image:push
+        vars:
+          DOCKER_IMAGE: '{{.LIB_SCHEMA_REF}}'
