@@ -1,9 +1,11 @@
-package org.smecalculus.bezmen;
+package org.smecalculus.bezmen.func;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.condition.EnabledIfSystemProperty;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.smecalculus.bezmen.StandBeans;
 import org.smecalculus.bezmen.messaging.BezmenClient;
 import org.smecalculus.bezmen.messaging.SepulkaRegReq;
 import org.smecalculus.bezmen.messaging.SepulkaRegRes;
@@ -19,7 +21,7 @@ import static org.smecalculus.bezmen.fixture.SepulkaFixtures.sepulkaRegResPojo;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = StandBeans.class)
-public class StandToyTest {
+public class SepulkaTest {
 
     @Autowired
     private BezmenClient bezmenClient;
@@ -43,5 +45,17 @@ public class StandToyTest {
                 .usingRecursiveComparison()
                 .ignoringFields("id")
                 .isEqualTo(expectedResponse);
+    }
+
+    @Test
+    @EnabledIfSystemProperty(named = "data.vendor.mode", matches = "postgres")
+    void postgresSpecificTest() {
+        // empty
+    }
+
+    @Test
+    @EnabledIfSystemProperty(named = "data.vendor.mode", matches = "sqlite")
+    void sqliteSpecificTest() {
+        // empty
     }
 }

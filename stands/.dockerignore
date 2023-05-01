@@ -1,0 +1,6 @@
+props/
+types/
+
+Dockerfile
+compose.yml
+Taskfile.yml

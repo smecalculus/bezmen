@@ -4,6 +4,8 @@ vars:
   PROJECT: bezmen
   REGISTRY: localhost
   PROJECT_REPO: '{{.REGISTRY}}/smecalculus'
+  USAGE: '{{.USAGE | default "toy"}}'
+  PROPS: '{{.PROPS | default "turing"}}'
   GIT_ADD_ALL:
     sh: git add -A
   ENV_DB_VENDOR: postgres
@@ -27,10 +29,6 @@ includes:
   stage:
     taskfile: stages/Taskfile.yml
     dir: stages
-
-tasks:
-  clean:
-    cmds:
-      - docker image prune -f
-      - docker volume rm $(docker volume ls -q -f dangling=true)
-      - docker network prune -f
+  docker:
+    taskfile: tools/Taskfile.docker.yml
+    dir: tools

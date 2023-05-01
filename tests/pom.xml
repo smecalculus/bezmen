@@ -15,6 +15,8 @@
   <version>latest</version>
 
   <properties>
+    <tests.type>Func</tests.type>
+    <props.combo>turing</props.combo>
     <libs.version>0.1.0-SNAPSHOT</libs.version>
     <lombok.version>1.18.24</lombok.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -45,6 +47,12 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
+        <configuration>
+          <includes>
+            <include>**/${tests.type}Suite.java</include>
+          </includes>
+          <systemPropertiesFile>${project.parent.basedir}/props/${props.combo}.properties</systemPropertiesFile>
+        </configuration>
       </plugin>
     </plugins>
 

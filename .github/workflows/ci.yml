@@ -1,24 +1,22 @@
 name: CI
 
 on:
-  workflow_dispatch:
   push:
     branches: [main]
   pull_request:
     branches: [main]
+  workflow_dispatch:
 
 env:
   REGISTRY: ghcr.io
 
 jobs:
-  verification:
+  building:
+    name: Building
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 10
     permissions:
       packages: write
-    strategy:
-      matrix:
-        shard-index: [0, 1]
     steps:
       - uses: actions/checkout@v3.5.2
       - uses: actions/setup-java@v3.11.0
@@ -26,14 +24,89 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
           cache: 'maven'
-      - uses: arduino/setup-task@v1.0.3
       - uses: docker/login-action@v2.1.0
         with:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
+      - uses: arduino/setup-task@v1.0.3
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
       - run: >
-          task --verbose stage:verification:run REGISTRY=${{ env.REGISTRY }}
+          task --verbose stage:building:run
+          REGISTRY=${{ env.REGISTRY }}
+  verification-fire:
+    name: Verification (Fire)
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    needs: building
+    strategy:
+      fail-fast: false
+      matrix:
+        usage: [func]
+        props: [turing, church]
+        shard: [0, 1]
+    steps:
+      - uses: actions/checkout@v3.5.2
+      - uses: actions/setup-java@v3.11.0
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+          cache: 'maven'
+      - uses: docker/login-action@v2.1.0
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - uses: arduino/setup-task@v1.0.3
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+      - run: >
+          task --verbose stage:verification:run
+          REGISTRY=${{ env.REGISTRY }}
+          USAGE=${{ matrix.usage }}
+          PROPS=${{ matrix.props }}
           --
-          -Dbezmen.testing.reminder=${{ matrix.shard-index }}
-          -Dbezmen.testing.modulus=${{ strategy.job-total }}
+          -Dbezmen.sharding.reminder=${{ matrix.shard }}
+          -Dbezmen.sharding.modulus=2
+      - uses: actions/upload-artifact@v3.1.2
+        if: always()
+        with:
+          name: test-reports-${{ matrix.usage }}-${{ matrix.props }}-${{ matrix.shard }}
+          path: tests/system/target/surefire-reports/*.xml
+          if-no-files-found: error
+  verification-complete:
+    name: Verification (Complete)
+    if: ${{ always() }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    needs: verification-fire
+    permissions:
+      checks: write
+      packages: write
+    steps:
+      - uses: actions/checkout@v3.5.2
+      - uses: actions/download-artifact@v3.0.2
+        with:
+          path: reports
+      - uses: EnricoMi/publish-unit-test-result-action@v2.7.0
+        with:
+          check_name: End-to-End Tests
+          check_run_annotations: none
+          compare_to_earlier_commit: false
+          action_fail_on_inconclusive: true
+          action_fail: true
+          job_summary: true
+          comment_mode: off
+          files: reports/**/TEST-*.xml
+      - uses: docker/login-action@v2.1.0
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - uses: arduino/setup-task@v1.0.3
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+      - run: >
+          task --verbose stage:verification:transit
+          REGISTRY=${{ env.REGISTRY }}

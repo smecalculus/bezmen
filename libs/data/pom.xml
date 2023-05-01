@@ -71,7 +71,6 @@
             <id>analyze</id>
             <configuration>
               <usedDependencies>
-                <usedDependency>org.mybatis:mybatis</usedDependency>
                 <usedDependency>com.h2database:h2</usedDependency>
                 <usedDependency>org.postgresql:postgresql</usedDependency>
                 <usedDependency>org.smecalculus.bezmen:testing</usedDependency>

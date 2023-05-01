@@ -1,5 +1,5 @@
-src
-target
-pom.xml
+props/
+system/
+
 Dockerfile
 Taskfile.yml

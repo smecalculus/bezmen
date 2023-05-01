@@ -44,6 +44,10 @@
       <artifactId>junit-jupiter-engine</artifactId>
     </dependency>
     <dependency>
+      <groupId>org.junit.platform</groupId>
+      <artifactId>junit-platform-suite</artifactId>
+    </dependency>
+    <dependency>
       <groupId>org.assertj</groupId>
       <artifactId>assertj-core</artifactId>
     </dependency>
@@ -88,6 +92,7 @@
                 <usedDependency>org.reactivestreams:reactive-streams</usedDependency>
                 <usedDependency>org.instancio:instancio-junit</usedDependency>
                 <usedDependency>org.mockito:mockito-junit-jupiter</usedDependency>
+                <usedDependency>org.junit.platform:junit-platform-suite</usedDependency>
               </usedDependencies>
             </configuration>
           </execution>

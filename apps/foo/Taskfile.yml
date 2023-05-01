@@ -7,22 +7,23 @@ vars:
     sh: git write-tree --prefix=apps/foo
   APP_FOO_CID: '{{.APP_FOO_REVISION | trunc 7}}'
   APP_FOO_VERSION: '{{.APP_VERSION}}-{{.APP_FOO_CID}}'
-  APP_FOO_IMAGE: '{{.PROJECT}}-app-foo'
-  APP_FOO_REPO: '{{.PROJECT_REPO}}/{{.APP_FOO_IMAGE}}'
-  APP_FOO_REF: '{{.APP_FOO_REPO}}:{{.APP_FOO_CID}}'
+  APP_FOO_IMAGE: '{{.PROJECT_REPO}}/{{.PROJECT}}-app-foo'
+  APP_FOO_REF: '{{.APP_FOO_IMAGE}}:{{.APP_FOO_CID}}'
 
 tasks:
   binary:
     run: once
     status:
-      - task --dir {{.ROOT_DIR}} --status lib:binary
       - test -f target/app-foo-{{.APP_FOO_VERSION}}.jar
+      - '{{.LIB_BINARIES_STATUS}}'
     cmds:
       # deps
-      - task: ::lib:binary
+      - task: ::lib:binaries
       # cmds
       - cmd: >
-          mvn clean verify -am -T1C
+          mvn clean verify
+          -am -T1C
+          --batch-mode
           -Drevision={{.APP_FOO_VERSION}}
           -Dlibs.version={{.LIBS_VERSION}}
   image:
@@ -30,22 +31,17 @@ tasks:
     vars:
       COMMAND: '{{if eq .REGISTRY "localhost"}}inspect{{else}}pull{{end}}'
     status:
-      - task --dir {{.ROOT_DIR}} --status lib:binary
       - docker image {{.COMMAND}} {{.APP_FOO_REF}}
+      - '{{.LIB_BINARIES_STATUS}}'
     cmds:
-      # deps
       - task: binary
-      # cmds
-      - task: reset
+      - task: ::docker:image:reset
+        vars:
+          DOCKER_IMAGE: '{{.APP_FOO_IMAGE}}'
       - cmd: >
           docker build target/docker-context
           -f Dockerfile
           -t {{.APP_FOO_REF}}
-  reset:
-    run: once
-    internal: true
-    cmds:
-      - cmd: docker rm -f $(docker ps -aq -f label=bezmen.image={{.APP_FOO_IMAGE}}) 2> /dev/null
-        ignore_error: true
-      - cmd: docker rmi -f $(docker images -q -f reference={{.APP_FOO_REPO}}) 2> /dev/null
-        ignore_error: true
+      - task: ::docker:image:push
+        vars:
+          DOCKER_IMAGE: '{{.APP_FOO_REF}}'

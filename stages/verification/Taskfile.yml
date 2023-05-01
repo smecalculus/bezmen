@@ -3,7 +3,7 @@ version: '3'
 set: [pipefail]
 
 vars:
-  STAGE_VERIFICATION: verified
+  STAGE_VERIFICATION_STATUS: verified
 
 tasks:
   run:
@@ -11,36 +11,55 @@ tasks:
     vars:
       COMMAND: '{{if eq .REGISTRY "localhost"}}inspect{{else}}pull{{end}}'
     status:
-      - task --dir {{.ROOT_DIR}} --status lib:binary
-      - docker image {{.COMMAND}} {{.APP_FOO_REF}}-{{.STAGE_VERIFICATION}}
-      - docker image {{.COMMAND}} {{.LIB_SCHEMA_REF}}-{{.STAGE_VERIFICATION}}
-      - docker image {{.COMMAND}} {{.TEST_SYSTEM_REF}}-{{.STAGE_VERIFICATION}}
-      - docker image {{.COMMAND}} {{.STAND_TOY_REF}}-{{.STAGE_VERIFICATION}}
-    cmds:
-      # deps
-      - task: ::stand:toy:run
-      - task: ::test:system:run
-      # actions
-      - task: approve
-      - task: '{{if eq .REGISTRY "localhost"}}noop{{else}}publish{{end}}'
-  approve:
-    run: once
-    internal: true
-    cmds:
-      - docker tag {{.APP_FOO_REF}} {{.APP_FOO_REF}}-{{.STAGE_VERIFICATION}}
-      - docker tag {{.LIB_SCHEMA_REF}} {{.LIB_SCHEMA_REF}}-{{.STAGE_VERIFICATION}}
-      - docker tag {{.TEST_SYSTEM_REF}} {{.TEST_SYSTEM_REF}}-{{.STAGE_VERIFICATION}}
-      - docker tag {{.STAND_TOY_REF}} {{.STAND_TOY_REF}}-{{.STAGE_VERIFICATION}}
-  publish:
-    run: once
-    internal: true
+      - docker image {{.COMMAND}} {{.LIB_SCHEMA_REF}}-{{.STAGE_VERIFICATION_STATUS}}
+      - docker image {{.COMMAND}} {{.APP_FOO_REF}}-{{.STAGE_VERIFICATION_STATUS}}
+      - docker image {{.COMMAND}} {{.STAND_X_REF}}-{{.STAGE_VERIFICATION_STATUS}}
+      - docker image {{.COMMAND}} {{.TEST_X_REF}}-{{.STAGE_VERIFICATION_STATUS}}
+      - '{{.LIB_BINARIES_STATUS}}'
     preconditions:
-      - sh: '[ "{{.REGISTRY}}" != "localhost" ]'
+      - docker image {{.COMMAND}} {{.LIB_SCHEMA_REF}}
+      - docker image {{.COMMAND}} {{.APP_FOO_REF}}
+      - docker image {{.COMMAND}} {{.STAND_X_REF}}
+      - docker image {{.COMMAND}} {{.TEST_X_REF}}
     cmds:
-      - docker push {{.LIB_SCHEMA_REF}}-{{.STAGE_VERIFICATION}}
-      - docker push {{.APP_FOO_REF}}-{{.STAGE_VERIFICATION}}
-      - docker push {{.TEST_SYSTEM_REF}}-{{.STAGE_VERIFICATION}}
-      - docker push {{.STAND_TOY_REF}}-{{.STAGE_VERIFICATION}}
-  noop:
+      - task: ::stand:run
+      - task: ::lib:binaries
+        vars:
+          SKIP_TESTS: true
+      - task: ::test:run
+  transit:
     run: once
-    internal: true
+    vars:
+      COMMAND: '{{if eq .REGISTRY "localhost"}}inspect{{else}}pull{{end}}'
+    preconditions:
+      - docker image {{.COMMAND}} {{.LIB_SCHEMA_REF}}
+      - docker image {{.COMMAND}} {{.APP_FOO_REF}}
+      - docker image {{.COMMAND}} {{.STAND_TOY_REF}}
+      - docker image {{.COMMAND}} {{.STAND_FUNC_REF}}
+      - docker image {{.COMMAND}} {{.TEST_TOY_REF}}
+      - docker image {{.COMMAND}} {{.TEST_FUNC_REF}}
+    cmds:
+      - docker tag {{.LIB_SCHEMA_REF}} {{.LIB_SCHEMA_REF}}-{{.STAGE_VERIFICATION_STATUS}}
+      - task: ::docker:image:push
+        vars:
+          DOCKER_IMAGE: '{{.LIB_SCHEMA_REF}}-{{.STAGE_VERIFICATION_STATUS}}'
+      - docker tag {{.APP_FOO_REF}} {{.APP_FOO_REF}}-{{.STAGE_VERIFICATION_STATUS}}
+      - task: ::docker:image:push
+        vars:
+          DOCKER_IMAGE: '{{.APP_FOO_REF}}-{{.STAGE_VERIFICATION_STATUS}}'
+      - docker tag {{.STAND_TOY_REF}} {{.STAND_TOY_REF}}-{{.STAGE_VERIFICATION_STATUS}}
+      - task: ::docker:image:push
+        vars:
+          DOCKER_IMAGE: '{{.STAND_TOY_REF}}-{{.STAGE_VERIFICATION_STATUS}}'
+      - docker tag {{.STAND_FUNC_REF}} {{.STAND_FUNC_REF}}-{{.STAGE_VERIFICATION_STATUS}}
+      - task: ::docker:image:push
+        vars:
+          DOCKER_IMAGE: '{{.STAND_FUNC_REF}}-{{.STAGE_VERIFICATION_STATUS}}'
+      - docker tag {{.TEST_TOY_REF}} {{.TEST_TOY_REF}}-{{.STAGE_VERIFICATION_STATUS}}
+      - task: ::docker:image:push
+        vars:
+          DOCKER_IMAGE: '{{.TEST_TOY_REF}}-{{.STAGE_VERIFICATION_STATUS}}'
+      - docker tag {{.TEST_FUNC_REF}} {{.TEST_FUNC_REF}}-{{.STAGE_VERIFICATION_STATUS}}
+      - task: ::docker:image:push
+        vars:
+          DOCKER_IMAGE: '{{.TEST_FUNC_REF}}-{{.STAGE_VERIFICATION_STATUS}}'
