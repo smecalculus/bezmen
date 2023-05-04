@@ -8,19 +8,20 @@ vars:
 tasks:
   run:
     run: once
-    vars:
-      COMMAND: '{{if eq .REGISTRY "localhost"}}inspect{{else}}pull{{end}}'
     status:
       - docker image {{.COMMAND}} {{.LIB_SCHEMA_REF}}-{{.STAGE_VERIFICATION_STATUS}}
       - docker image {{.COMMAND}} {{.APP_FOO_REF}}-{{.STAGE_VERIFICATION_STATUS}}
-      - docker image {{.COMMAND}} {{.STAND_X_REF}}-{{.STAGE_VERIFICATION_STATUS}}
-      - docker image {{.COMMAND}} {{.TEST_X_REF}}-{{.STAGE_VERIFICATION_STATUS}}
-      - '{{.LIB_BINARIES_STATUS}}'
+      - docker image {{.COMMAND}} {{.STAND_TOY_REF}}-{{.STAGE_VERIFICATION_STATUS}}
+      - docker image {{.COMMAND}} {{.STAND_FUNC_REF}}-{{.STAGE_VERIFICATION_STATUS}}
+      - docker image {{.COMMAND}} {{.TEST_TOY_REF}}-{{.STAGE_VERIFICATION_STATUS}}
+      - docker image {{.COMMAND}} {{.TEST_FUNC_REF}}-{{.STAGE_VERIFICATION_STATUS}}
     preconditions:
       - docker image {{.COMMAND}} {{.LIB_SCHEMA_REF}}
       - docker image {{.COMMAND}} {{.APP_FOO_REF}}
-      - docker image {{.COMMAND}} {{.STAND_X_REF}}
-      - docker image {{.COMMAND}} {{.TEST_X_REF}}
+      - docker image {{.COMMAND}} {{.STAND_TOY_REF}}
+      - docker image {{.COMMAND}} {{.STAND_FUNC_REF}}
+      - docker image {{.COMMAND}} {{.TEST_TOY_REF}}
+      - docker image {{.COMMAND}} {{.TEST_FUNC_REF}}
     cmds:
       - task: ::stand:run
       - task: ::lib:binaries
@@ -29,8 +30,6 @@ tasks:
       - task: ::test:run
   transit:
     run: once
-    vars:
-      COMMAND: '{{if eq .REGISTRY "localhost"}}inspect{{else}}pull{{end}}'
     preconditions:
       - docker image {{.COMMAND}} {{.LIB_SCHEMA_REF}}
       - docker image {{.COMMAND}} {{.APP_FOO_REF}}

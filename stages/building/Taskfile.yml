@@ -8,9 +8,3 @@ tasks:
       - task: ::app:images
       - task: ::stand:images
       - task: ::test:images
-#      - task: ::test:image
-#        vars:
-#          TEST_TYPE: toy
-#      - task: ::test:image
-#        vars:
-#          TEST_TYPE: func

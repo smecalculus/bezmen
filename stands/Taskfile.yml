@@ -29,6 +29,13 @@ env:
   PROPS_COMBO: '{{.PROPS}}'
 
 tasks:
+  images:
+    run: once
+    internal: true
+    cmds:
+      - task: :stand:basis:image
+      - task: :stand:toy:image
+      - task: :stand:func:image
   run:
     run: once
     cmds:
@@ -63,10 +70,3 @@ tasks:
       - docker inspect schema-owner-{{.LIB_SCHEMA_CID}}
     cmds:
       - docker rm -f env-db
-  images:
-    run: once
-    internal: true
-    cmds:
-      - task: :stand:basis:image
-      - task: :stand:toy:image
-      - task: :stand:func:image
