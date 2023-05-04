@@ -4,58 +4,40 @@ set: [ pipefail ]
 
 includes:
   toy:
-    taskfile: system/Taskfile.toy.yml
-    dir: system
+    taskfile: toy/Taskfile.yml
+    dir: toy
   func:
-    taskfile: system/Taskfile.func.yml
-    dir: system
+    taskfile: func/Taskfile.yml
+    dir: func
 
 vars:
   TEST_REVISION:
     sh: git write-tree --prefix=tests
   TEST_CID: '{{.TEST_REVISION | trunc 7}}'
-  TEST_X_REF: '{{.PROJECT_REPO}}/{{.PROJECT}}-test-{{.USAGE}}:{{.TEST_CID}}'
+  TEST_X_REF: '{{.PROJECT_REPO}}/{{.PROJECT_NAME}}-test-{{.USAGE}}:{{.TEST_CID}}'
 
 tasks:
   binaries:
     run: once
+    internal: true
     cmds:
-      - task: system:binary
-  image:
-    run: when_changed
-    vars:
-      COMMAND: '{{if eq .REGISTRY "localhost"}}inspect{{else}}pull{{end}}'
-      TEST_TYPE: '{{.TEST_TYPE | default .USAGE}}'
-      TEST_IMAGE: '{{.PROJECT_REPO}}/{{.PROJECT}}-test-{{.TEST_TYPE}}'
-      TEST_REF: '{{.TEST_IMAGE}}:{{.TEST_CID}}'
-    status:
-      - docker image {{.COMMAND}} {{.TEST_REF}}
-      - '{{.LIB_BINARIES_STATUS}}'
-    cmds:
-      # deps
-      - task: :lib:binaries
-      # cmds
-      - task: :docker:image:reset
-        vars:
-          DOCKER_IMAGE: '{{.TEST_IMAGE}}'
       - cmd: >
-          docker build .
-          -f Dockerfile
-          -t {{.TEST_REF}}
-          --build-arg TEST_TYPE={{.TEST_TYPE}}
-      - task: :docker:image:push
-        vars:
-          DOCKER_IMAGE: '{{.TEST_REF}}'
-  run:
-    dir: system
+          mvn clean install
+          -am -T1C
+  images:
+    run: once
+    internal: true
     cmds:
-      # deps
-      - task: image
-      # actions
+      - task: :test:toy:image
+      - task: :test:func:image
+  run:
+    cmds:
+      - task: :lib:binaries
+      - task: :test:{{.USAGE}}:image
       - cmd: >
           mvn clean test
+          --projects {{.USAGE}}
           --batch-mode
           -Dlibs.version={{.LIBS_VERSION}}
-          -Dtests.type={{.USAGE | title}}
           -Dprops.combo={{.PROPS}}
           {{.CLI_ARGS}}

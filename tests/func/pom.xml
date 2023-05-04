@@ -10,7 +10,7 @@
     <version>latest</version>
   </parent>
 
-  <artifactId>system</artifactId>
+  <artifactId>func</artifactId>
 
   <dependencies>
     <dependency>

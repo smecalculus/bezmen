@@ -42,24 +42,24 @@ tasks:
       - docker tag {{.LIB_SCHEMA_REF}} {{.LIB_SCHEMA_REF}}-{{.STAGE_VERIFICATION_STATUS}}
       - task: ::docker:image:push
         vars:
-          DOCKER_IMAGE: '{{.LIB_SCHEMA_REF}}-{{.STAGE_VERIFICATION_STATUS}}'
+          REF: '{{.LIB_SCHEMA_REF}}-{{.STAGE_VERIFICATION_STATUS}}'
       - docker tag {{.APP_FOO_REF}} {{.APP_FOO_REF}}-{{.STAGE_VERIFICATION_STATUS}}
       - task: ::docker:image:push
         vars:
-          DOCKER_IMAGE: '{{.APP_FOO_REF}}-{{.STAGE_VERIFICATION_STATUS}}'
+          REF: '{{.APP_FOO_REF}}-{{.STAGE_VERIFICATION_STATUS}}'
       - docker tag {{.STAND_TOY_REF}} {{.STAND_TOY_REF}}-{{.STAGE_VERIFICATION_STATUS}}
       - task: ::docker:image:push
         vars:
-          DOCKER_IMAGE: '{{.STAND_TOY_REF}}-{{.STAGE_VERIFICATION_STATUS}}'
+          REF: '{{.STAND_TOY_REF}}-{{.STAGE_VERIFICATION_STATUS}}'
       - docker tag {{.STAND_FUNC_REF}} {{.STAND_FUNC_REF}}-{{.STAGE_VERIFICATION_STATUS}}
       - task: ::docker:image:push
         vars:
-          DOCKER_IMAGE: '{{.STAND_FUNC_REF}}-{{.STAGE_VERIFICATION_STATUS}}'
+          REF: '{{.STAND_FUNC_REF}}-{{.STAGE_VERIFICATION_STATUS}}'
       - docker tag {{.TEST_TOY_REF}} {{.TEST_TOY_REF}}-{{.STAGE_VERIFICATION_STATUS}}
       - task: ::docker:image:push
         vars:
-          DOCKER_IMAGE: '{{.TEST_TOY_REF}}-{{.STAGE_VERIFICATION_STATUS}}'
+          REF: '{{.TEST_TOY_REF}}-{{.STAGE_VERIFICATION_STATUS}}'
       - docker tag {{.TEST_FUNC_REF}} {{.TEST_FUNC_REF}}-{{.STAGE_VERIFICATION_STATUS}}
       - task: ::docker:image:push
         vars:
-          DOCKER_IMAGE: '{{.TEST_FUNC_REF}}-{{.STAGE_VERIFICATION_STATUS}}'
+          REF: '{{.TEST_FUNC_REF}}-{{.STAGE_VERIFICATION_STATUS}}'

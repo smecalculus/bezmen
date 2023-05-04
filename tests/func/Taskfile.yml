@@ -1,0 +1,26 @@
+version: '3'
+
+vars:
+  TEST_FUNC_REVISION:
+    sh: git write-tree --prefix=tests/func
+  TEST_FUNC_CID: '{{.TEST_FUNC_REVISION | trunc 7}}'
+  TEST_FUNC_IMAGE: '{{.PROJECT_REPO}}/{{.PROJECT_NAME}}-test-func'
+  TEST_FUNC_REF: '{{.TEST_FUNC_IMAGE}}:{{.TEST_FUNC_CID}}'
+
+tasks:  
+  image:
+    run: once
+    internal: true
+    status:
+      - docker image {{.COMMAND}} {{.TEST_FUNC_REF}}
+    cmds:
+      - task: ::docker:image:reset
+        vars:
+          IMAGE: '{{.TEST_FUNC_IMAGE}}'
+      - cmd: >
+          docker build .
+          -f Dockerfile
+          -t {{.TEST_FUNC_REF}}
+      - task: ::docker:image:push
+        vars:
+          REF: '{{.TEST_FUNC_REF}}'

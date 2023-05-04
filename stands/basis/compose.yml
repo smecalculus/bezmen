@@ -68,8 +68,8 @@ services:
     ports:
       - "8080:8080"
     volumes:
-      - ./props/all.conf:/home/bezmen/app/all.conf
-      - ./props/${PROPS_COMBO}.conf:/home/bezmen/app/application.conf
+      - ./all.conf:/home/bezmen/app/all.conf
+      - ./${PROPS_COMBO}.conf:/home/bezmen/app/application.conf
     depends_on:
       db:
         condition: service_healthy
