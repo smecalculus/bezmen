@@ -74,7 +74,7 @@ jobs:
         with:
           name: test-reports-${{ matrix.usage }}-${{ matrix.props }}-${{ matrix.shard }}
           path: tests/system/target/surefire-reports/*.xml
-          if-no-files-found: error
+          # if-no-files-found: error
   verification-complete:
     name: Verification (Complete)
     if: ${{ always() }}

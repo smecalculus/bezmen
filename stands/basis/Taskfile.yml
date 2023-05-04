@@ -1,25 +1,26 @@
 version: '3'
 
 vars:
-  STAND_BACKBONE_CID:
+  STAND_BASIS_REVISION:
     sh: git write-tree --prefix=stands/basis
-  STAND_BACKBONE_IMAGE: '{{.PROJECT_REPO}}/{{.PROJECT_NAME}}-stand-basis'
-  STAND_BACKBONE_REF: '{{.STAND_BACKBONE_IMAGE}}:{{.STAND_BACKBONE_CID}}'
+  STAND_BASIS_CID: '{{.STAND_BASIS_REVISION | trunc 7}}'
+  STAND_BASIS_IMAGE: '{{.PROJECT_REPO}}/{{.PROJECT_NAME}}-stand-basis'
+  STAND_BASIS_REF: '{{.STAND_BASIS_IMAGE}}:{{.STAND_BASIS_CID}}'
 
 tasks:
   image:
     run: once
     internal: true
     status:
-      - docker image {{.COMMAND}} {{.STAND_BACKBONE_REF}}
+      - docker image {{.COMMAND}} {{.STAND_BASIS_REF}}
     cmds:
       - task: ::docker:image:reset
         vars:
-          IMAGE: '{{.STAND_BACKBONE_IMAGE}}'
+          IMAGE: '{{.STAND_BASIS_IMAGE}}'
       - cmd: >
           docker build .
           -f Dockerfile
-          -t {{.STAND_BACKBONE_REF}}
+          -t {{.STAND_BASIS_REF}}
       - task: ::docker:image:push
         vars:
-          REF: '{{.STAND_BACKBONE_REF}}'
+          REF: '{{.STAND_BASIS_REF}}'
