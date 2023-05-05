@@ -13,10 +13,8 @@ vars:
 tasks:
   image:
     run: once
-    vars:
-      COMMAND: '{{if eq .REGISTRY "localhost"}}inspect{{else}}pull{{end}}'
     status:
-      - docker image {{.COMMAND}} {{.LIB_SCHEMA_REF}}
+      - docker {{.ENTITY}} inspect {{.LIB_SCHEMA_REF}}
     dir: '{{.LIB_SCHEMA_DIR}}'
     cmds:
       - task: ::docker:image:reset

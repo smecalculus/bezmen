@@ -9,13 +9,13 @@ tasks:
   run:
     run: once
     status:
-      - docker image {{.COMMAND}} {{.LIB_SCHEMA_REF}}-{{.STAGE_VERIFICATION_STATUS}}
-      - docker image {{.COMMAND}} {{.APP_FOO_REF}}-{{.STAGE_VERIFICATION_STATUS}}
-      - docker image {{.COMMAND}} {{.STAND_BASIS_REF}}-{{.STAGE_VERIFICATION_STATUS}}
-      - docker image {{.COMMAND}} {{.STAND_TOY_REF}}-{{.STAGE_VERIFICATION_STATUS}}
-      - docker image {{.COMMAND}} {{.STAND_FUNC_REF}}-{{.STAGE_VERIFICATION_STATUS}}
-      - docker image {{.COMMAND}} {{.TEST_TOY_REF}}-{{.STAGE_VERIFICATION_STATUS}}
-      - docker image {{.COMMAND}} {{.TEST_FUNC_REF}}-{{.STAGE_VERIFICATION_STATUS}}
+      - docker {{.ENTITY}} inspect {{.LIB_SCHEMA_REF}}-{{.STAGE_VERIFICATION_STATUS}}
+      - docker {{.ENTITY}} inspect {{.APP_FOO_REF}}-{{.STAGE_VERIFICATION_STATUS}}
+      - docker {{.ENTITY}} inspect {{.STAND_BASIS_REF}}-{{.STAGE_VERIFICATION_STATUS}}
+      - docker {{.ENTITY}} inspect {{.STAND_TOY_REF}}-{{.STAGE_VERIFICATION_STATUS}}
+      - docker {{.ENTITY}} inspect {{.STAND_FUNC_REF}}-{{.STAGE_VERIFICATION_STATUS}}
+      - docker {{.ENTITY}} inspect {{.TEST_TOY_REF}}-{{.STAGE_VERIFICATION_STATUS}}
+      - docker {{.ENTITY}} inspect {{.TEST_FUNC_REF}}-{{.STAGE_VERIFICATION_STATUS}}
     preconditions:
       - docker image {{.COMMAND}} {{.LIB_SCHEMA_REF}}
       - docker image {{.COMMAND}} {{.APP_FOO_REF}}

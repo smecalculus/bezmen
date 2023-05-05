@@ -12,7 +12,7 @@ tasks:
     run: once
     internal: true
     status:
-      - docker image {{.COMMAND}} {{.STAND_TOY_REF}}
+      - docker {{.ENTITY}} inspect {{.STAND_TOY_REF}}
     cmds:
       - task: ::docker:image:reset
         vars:

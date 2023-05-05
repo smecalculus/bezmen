@@ -28,10 +28,8 @@ tasks:
           -Dlibs.version={{.LIBS_VERSION}}
   image:
     run: once
-    vars:
-      COMMAND: '{{if eq .REGISTRY "localhost"}}inspect{{else}}pull{{end}}'
     status:
-      - docker image {{.COMMAND}} {{.APP_FOO_REF}}
+      - docker {{.ENTITY}} inspect {{.APP_FOO_REF}}
       - '{{.LIB_BINARIES_STATUS}}'
     cmds:
       - task: binary
