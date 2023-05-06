@@ -27,8 +27,21 @@ tasks:
       REF: '{{.REF}}'
     cmds:
       - cmd: >
-          {{if eq .REGISTRY "localhost" -}}
+          {{- if eq .REGISTRY "localhost" -}}
             true
           {{- else -}}
-            docker push {{.REF}}
+            docker {{.ENTITY}} push {{.REF}}
+          {{- end -}}
+  image:tag:
+    run: when_changed
+    internal: true
+    vars:
+      OLD: '{{.OLD}}'
+      NEW: '{{.NEW}}'
+    cmds:
+      - cmd: >
+          {{- if eq .REGISTRY "localhost" -}}
+            docker image tag {{.OLD}} {{.NEW}}
+          {{- else -}}
+            docker manifest create {{.NEW}} {{.OLD}}
           {{- end -}}

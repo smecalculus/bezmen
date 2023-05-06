@@ -108,5 +108,5 @@ jobs:
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
       - run: >
-          task --verbose stage:verification:transit
+          task --verbose stage:verification:transit2
           REGISTRY=${{ env.REGISTRY }}
