@@ -74,6 +74,7 @@ tasks:
           --profile {{.PROPS}}
           up
           --remove-orphans
+          --quiet-pull
           --detach
   wipe:
     run: once
