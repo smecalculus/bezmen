@@ -1,12 +1,5 @@
 version: '3'
 
-vars:
-  TEST_TOY_REVISION:
-    sh: git write-tree --prefix=tests/toy
-  TEST_TOY_CID: '{{.TEST_TOY_REVISION | trunc 7}}'
-  TEST_TOY_IMAGE: '{{.PROJECT_REPO}}/{{.PROJECT_NAME}}-test-toy'
-  TEST_TOY_REF: '{{.TEST_TOY_IMAGE}}:{{.TEST_TOY_CID}}'
-
 tasks:
   image:
     run: once

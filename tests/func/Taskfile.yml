@@ -1,12 +1,5 @@
 version: '3'
 
-vars:
-  TEST_FUNC_REVISION:
-    sh: git write-tree --prefix=tests/func
-  TEST_FUNC_CID: '{{.TEST_FUNC_REVISION | trunc 7}}'
-  TEST_FUNC_IMAGE: '{{.PROJECT_REPO}}/{{.PROJECT_NAME}}-test-func'
-  TEST_FUNC_REF: '{{.TEST_FUNC_IMAGE}}:{{.TEST_FUNC_CID}}'
-
 tasks:  
   image:
     run: once

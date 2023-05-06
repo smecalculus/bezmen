@@ -1,12 +1,5 @@
 version: '3'
 
-vars:
-  STAND_FUNC_REVISION:
-    sh: git write-tree --prefix=stands/func
-  STAND_FUNC_CID: '{{.STAND_FUNC_REVISION | trunc 7}}'
-  STAND_FUNC_IMAGE: '{{.PROJECT_REPO}}/{{.PROJECT_NAME}}-stand-func'
-  STAND_FUNC_REF: '{{.STAND_FUNC_IMAGE}}:{{.STAND_FUNC_CID}}'
-
 tasks:
   image:
     run: once

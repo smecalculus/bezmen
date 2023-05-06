@@ -14,7 +14,27 @@ vars:
   TEST_REVISION:
     sh: git write-tree --prefix=tests
   TEST_CID: '{{.TEST_REVISION | trunc 7}}'
-  TEST_X_REF: '{{.PROJECT_REPO}}/{{.PROJECT_NAME}}-test-{{.USAGE}}:{{.TEST_CID}}'
+  # toy
+  TEST_TOY_REVISION:
+    sh: git write-tree --prefix=tests/toy
+  TEST_TOY_CID: '{{.TEST_TOY_REVISION | trunc 7}}'
+  TEST_TOY_IMAGE: '{{.PROJECT_REPO}}/{{.PROJECT_NAME}}-test-toy'
+  TEST_TOY_REF: '{{.TEST_TOY_IMAGE}}:{{.TEST_TOY_CID}}'
+  # func
+  TEST_FUNC_REVISION:
+    sh: git write-tree --prefix=tests/func
+  TEST_FUNC_CID: '{{.TEST_FUNC_REVISION | trunc 7}}'
+  TEST_FUNC_IMAGE: '{{.PROJECT_REPO}}/{{.PROJECT_NAME}}-test-func'
+  TEST_FUNC_REF: '{{.TEST_FUNC_IMAGE}}:{{.TEST_FUNC_CID}}'
+  # usage
+  TEST_USAGE_REFS: >
+    {{- if eq .USAGE "toy" -}}
+      {{.TEST_TOY_REF}}
+    {{- else if eq .USAGE "func" -}}
+      {{.TEST_FUNC_REF}}
+    {{- else -}}
+      {{fail}}
+    {{- end -}}
 
 tasks:
   binaries:

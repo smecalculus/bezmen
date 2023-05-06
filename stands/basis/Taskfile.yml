@@ -1,12 +1,5 @@
 version: '3'
 
-vars:
-  STAND_BASIS_REVISION:
-    sh: git write-tree --prefix=stands/basis
-  STAND_BASIS_CID: '{{.STAND_BASIS_REVISION | trunc 7}}'
-  STAND_BASIS_IMAGE: '{{.PROJECT_REPO}}/{{.PROJECT_NAME}}-stand-basis'
-  STAND_BASIS_REF: '{{.STAND_BASIS_IMAGE}}:{{.STAND_BASIS_CID}}'
-
 tasks:
   image:
     run: once

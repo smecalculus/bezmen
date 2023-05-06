@@ -2,14 +2,6 @@ version: '3'
 
 set: [pipefail]
 
-vars:
-  APP_FOO_REVISION:
-    sh: git write-tree --prefix=apps/foo
-  APP_FOO_CID: '{{.APP_FOO_REVISION | trunc 7}}'
-  APP_FOO_VERSION: '{{.APP_VERSION}}-{{.APP_FOO_CID}}'
-  APP_FOO_IMAGE: '{{.PROJECT_REPO}}/{{.PROJECT_NAME}}-app-foo'
-  APP_FOO_REF: '{{.APP_FOO_IMAGE}}:{{.APP_FOO_CID}}'
-
 tasks:
   binary:
     run: once
