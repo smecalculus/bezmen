@@ -24,11 +24,6 @@ tasks:
         {{- range .TEST_USAGE_REFS | splitList " " -}}
           {{.}}-{{$status}}
         {{- end -}}
-    preconditions:
-      - docker image {{.COMMAND}} {{.LIB_SCHEMA_REF}}
-      - docker image {{.COMMAND}} {{.APP_USAGE_REFS}}
-      - docker image {{.COMMAND}} {{.STAND_USAGE_REFS}}
-      - docker image {{.COMMAND}} {{.TEST_USAGE_REFS}}
     status:
       - docker {{.ENTITY}} inspect {{.LIB_SCHEMA_REF}}-{{.STAGE_VERIFICATION_STATUS}}
       - docker {{.ENTITY}} inspect {{.APP_VERIFIED_REFS}}
