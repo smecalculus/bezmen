@@ -8,21 +8,20 @@ vars:
 tasks:
   run:
     run: once
-    vars:
-      APP_VERIFIED_REFS: >-
-        {{- $status := .STAGE_VERIFICATION_STATUS}}
-        {{- range .APP_USAGE_REFS | splitList " "}}{{printf "%s-%s " . $status}}{{end}}
-      STAND_VERIFIED_REFS: >-
-        {{- $status := .STAGE_VERIFICATION_STATUS}}
-        {{- range .STAND_USAGE_REFS | splitList " "}}{{printf "%s-%s " . $status}}{{end}}
-      TEST_VERIFIED_REFS: >-
-        {{- $status := .STAGE_VERIFICATION_STATUS}}
-        {{- range .TEST_USAGE_REFS | splitList " "}}{{printf "%s-%s " . $status}}{{end}}
     status:
       - docker {{.ENTITY}} inspect {{.LIB_SCHEMA_REF}}-{{.STAGE_VERIFICATION_STATUS}}
-      - docker {{.ENTITY}} inspect {{.APP_VERIFIED_REFS}}
-      - docker {{.ENTITY}} inspect {{.STAND_VERIFIED_REFS}}
-      - docker {{.ENTITY}} inspect {{.TEST_VERIFIED_REFS}}
+      - >
+        for ref in {{.APP_USAGE_REFS}}; do
+          docker {{.ENTITY}} inspect $ref-{{.STAGE_VERIFICATION_STATUS}}
+        done
+      - >
+        for ref in {{.TEST_USAGE_REFS}}; do
+          docker {{.ENTITY}} inspect $ref-{{.STAGE_VERIFICATION_STATUS}}
+        done
+      - >
+        for ref in {{.STAND_USAGE_REFS}}; do
+          docker {{.ENTITY}} inspect $ref-{{.STAGE_VERIFICATION_STATUS}}
+        done
     cmds:
       - task: ::stand:run
         # TODO: ::lib:testing:binary
