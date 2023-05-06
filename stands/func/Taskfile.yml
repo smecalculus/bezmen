@@ -5,7 +5,7 @@ tasks:
     run: once
     internal: true
     status:
-      - docker {{.ENTITY}} inspect {{.STAND_FUNC_REF}}
+      - docker image {{.COMMAND}} {{.STAND_FUNC_REF}}
     cmds:
       - task: ::docker:image:reset
         vars:

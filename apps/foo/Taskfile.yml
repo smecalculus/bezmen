@@ -21,7 +21,7 @@ tasks:
   image:
     run: once
     status:
-      - docker {{.ENTITY}} inspect {{.APP_FOO_REF}}
+      - docker image {{.COMMAND}} {{.APP_FOO_REF}}
       - '{{.LIB_BINARIES_STATUS}}'
     cmds:
       - task: binary

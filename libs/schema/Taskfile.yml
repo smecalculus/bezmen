@@ -14,7 +14,7 @@ tasks:
   image:
     run: once
     status:
-      - docker {{.ENTITY}} inspect {{.LIB_SCHEMA_REF}}
+      - docker image {{.COMMAND}} {{.LIB_SCHEMA_REF}}
     dir: '{{.LIB_SCHEMA_DIR}}'
     cmds:
       - task: ::docker:image:reset
