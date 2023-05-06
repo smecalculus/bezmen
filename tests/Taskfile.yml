@@ -11,9 +11,6 @@ includes:
     dir: func
 
 vars:
-  TEST_REVISION:
-    sh: git write-tree --prefix=tests
-  TEST_CID: '{{.TEST_REVISION | trunc 7}}'
   # toy
   TEST_TOY_REVISION:
     sh: git write-tree --prefix=tests/toy

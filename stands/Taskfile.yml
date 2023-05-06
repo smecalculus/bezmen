@@ -14,9 +14,6 @@ includes:
     dir: func
 
 vars:
-  STAND_REVISION:
-    sh: git write-tree --prefix=stands
-  STAND_CID: '{{.STAND_REVISION | trunc 7}}'
   # basis
   STAND_BASIS_REVISION:
     sh: git write-tree --prefix=stands/basis
@@ -37,12 +34,12 @@ vars:
   STAND_FUNC_REF: '{{.STAND_FUNC_IMAGE}}:{{.STAND_FUNC_CID}}'
   # usage
   STAND_USAGE_REFS: >
-    {{if eq .USAGE "toy" -}}
+    {{- if eq .USAGE "toy" -}}
       {{.STAND_BASIS_REF}} {{.STAND_TOY_REF}}
     {{- else if eq .USAGE "func" -}}
       {{.STAND_BASIS_REF}} {{.STAND_FUNC_REF}}
     {{- else -}}
-      {{.STAND_BASIS_REF}}
+      {{fail}}
     {{- end -}}
 
 env:
