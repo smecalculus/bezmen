@@ -1,3 +1,0 @@
-FROM scratch
-ARG STAND_TYPE
-COPY README.adoc /${STAND_TYPE}.adoc

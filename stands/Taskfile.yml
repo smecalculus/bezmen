@@ -2,19 +2,45 @@ version: '3'
 
 set: [pipefail]
 
-vars:
-  STAND_REVISION:
-    sh: git write-tree --prefix=stands
-  STAND_CID: '{{.STAND_REVISION | trunc 7}}'
-  STAND_X_REF: '{{.PROJECT_REPO}}/{{.PROJECT}}-stand-{{.USAGE}}:{{.STAND_CID}}'
-
 includes:
+  basis:
+    taskfile: basis/Taskfile.yml
+    dir: basis
   toy:
-    taskfile: types/Taskfile.toy.yml
-    dir: types
+    taskfile: toy/Taskfile.yml
+    dir: toy
   func:
-    taskfile: types/Taskfile.func.yml
-    dir: types
+    taskfile: func/Taskfile.yml
+    dir: func
+
+vars:
+  # basis
+  STAND_BASIS_REVISION:
+    sh: git write-tree --prefix=stands/basis
+  STAND_BASIS_CID: '{{.STAND_BASIS_REVISION | trunc 7}}'
+  STAND_BASIS_IMAGE: '{{.PROJECT_REPO}}/{{.PROJECT_NAME}}-stand-basis'
+  STAND_BASIS_REF: '{{.STAND_BASIS_IMAGE}}:{{.STAND_BASIS_CID}}'
+  # toy
+  STAND_TOY_REVISION:
+    sh: git write-tree --prefix=stands/toy
+  STAND_TOY_CID: '{{.STAND_TOY_REVISION | trunc 7}}'
+  STAND_TOY_IMAGE: '{{.PROJECT_REPO}}/{{.PROJECT_NAME}}-stand-toy'
+  STAND_TOY_REF: '{{.STAND_TOY_IMAGE}}:{{.STAND_TOY_CID}}'
+  # func
+  STAND_FUNC_REVISION:
+    sh: git write-tree --prefix=stands/func
+  STAND_FUNC_CID: '{{.STAND_FUNC_REVISION | trunc 7}}'
+  STAND_FUNC_IMAGE: '{{.PROJECT_REPO}}/{{.PROJECT_NAME}}-stand-func'
+  STAND_FUNC_REF: '{{.STAND_FUNC_IMAGE}}:{{.STAND_FUNC_CID}}'
+  # usage
+  STAND_USAGE_REFS: >
+    {{- if eq .USAGE "toy" -}}
+      {{.STAND_BASIS_REF}} {{.STAND_TOY_REF}}
+    {{- else if eq .USAGE "func" -}}
+      {{.STAND_BASIS_REF}} {{.STAND_FUNC_REF}}
+    {{- else -}}
+      {{fail}}
+    {{- end -}}
 
 env:
   SCHEMA_CID: '{{.LIB_SCHEMA_CID}}'
@@ -26,40 +52,29 @@ env:
   PROPS_COMBO: '{{.PROPS}}'
 
 tasks:
-  image:
-    run: when_changed
-    vars:
-      COMMAND: '{{if eq .REGISTRY "localhost"}}inspect{{else}}pull{{end}}'
-      STAND_TYPE: '{{.STAND_TYPE | default .USAGE}}'
-      STAND_IMAGE: '{{.PROJECT_REPO}}/{{.PROJECT}}-stand-{{.STAND_TYPE}}'
-      STAND_REF: '{{.STAND_IMAGE}}:{{.STAND_CID}}'
-    status:
-      - docker image {{.COMMAND}} {{.STAND_REF}}
+  images:
+    run: once
+    internal: true
     cmds:
-      - task: :docker:image:reset
-        vars:
-          DOCKER_IMAGE: '{{.STAND_IMAGE}}'
-      - cmd: >
-          docker build .
-          -f Dockerfile
-          -t {{.STAND_REF}}
-          --build-arg STAND_TYPE={{.STAND_TYPE}}
-      - task: :docker:image:push
-        vars:
-          DOCKER_IMAGE: '{{.STAND_REF}}'
+      - task: :stand:basis:image
+      - task: :stand:toy:image
+      - task: :stand:func:image
   run:
     run: once
     cmds:
       - task: :lib:schema:image
       - task: :app:foo:image
-      - task: image
+      - task: :stand:basis:image
+      - task: :stand:{{.USAGE}}:image
       - task: wipe-db
       - cmd: >
           docker compose
-          --file compose.yml
+          --file basis/compose.yml
+          --file {{.USAGE}}/compose.yml
           --profile {{.PROPS}}
           up
           --remove-orphans
+          --quiet-pull
           --detach
   wipe:
     run: once
@@ -67,8 +82,8 @@ tasks:
     cmds:
       - cmd: >
           docker compose
-          --file compose.yml
-          --file types/compose.{{.USAGE}}.yml
+          --file basis/compose.yml
+          --file {{.USAGE}}/compose.yml
           --profile {{.PROPS}}
           down
           --volumes

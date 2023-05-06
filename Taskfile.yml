@@ -1,7 +1,7 @@
 version: '3'
 
 vars:
-  PROJECT: bezmen
+  PROJECT_NAME: bezmen
   REGISTRY: localhost
   PROJECT_REPO: '{{.REGISTRY}}/smecalculus'
   USAGE: '{{.USAGE | default "toy"}}'
@@ -9,6 +9,8 @@ vars:
   GIT_ADD_ALL:
     sh: git add -A
   ENV_DB_VENDOR: postgres
+  ENTITY: '{{if eq .REGISTRY "localhost"}}image{{else}}manifest{{end}}'
+  COMMAND: '{{if eq .REGISTRY "localhost"}}inspect{{else}}pull{{end}}'
 
 includes:
   lib:

@@ -14,21 +14,46 @@ tasks:
     run: when_changed
     internal: true
     vars:
-      DOCKER_IMAGE: '{{.DOCKER_IMAGE}}'
+      IMAGE: '{{.IMAGE}}'
     cmds:
-      - cmd: docker container rm -f $(docker ps -aq -f label=bezmen.image={{.DOCKER_IMAGE}})
+      - cmd: docker container rm -f $(docker ps -aq -f label=bezmen.image={{.IMAGE}})
         ignore_error: true
-      - cmd: docker image rm -f $(docker images -q -f reference={{.DOCKER_IMAGE}})
+      - cmd: docker image rm -f $(docker images -q -f reference={{.IMAGE}})
         ignore_error: true
   image:push:
     run: when_changed
     internal: true
     vars:
-      DOCKER_IMAGE: '{{.DOCKER_IMAGE}}'
+      REF: '{{.REF}}'
     cmds:
       - cmd: >
-          {{if eq .REGISTRY "localhost" -}}
+          {{- if eq .REGISTRY "localhost" -}}
             true
           {{- else -}}
-            docker push {{.DOCKER_IMAGE}}
+            docker image push {{.REF}}
+          {{- end -}}
+  image:tag:
+    run: when_changed
+    internal: true
+    vars:
+      OLD: '{{.OLD}}'
+      NEW: '{{.NEW}}'
+    cmds:
+      - cmd: >
+          {{- if eq .REGISTRY "localhost" -}}
+            docker image tag {{.OLD}} {{.NEW}}
+          {{- else -}}
+            docker manifest create {{.NEW}} {{.OLD}}
+          {{- end -}}
+  manifest:push:
+    run: when_changed
+    internal: true
+    vars:
+      REF: '{{.REF}}'
+    cmds:
+      - cmd: >
+          {{- if eq .REGISTRY "localhost" -}}
+            true
+          {{- else -}}
+            docker manifest push {{.REF}}
           {{- end -}}

@@ -4,58 +4,57 @@ set: [ pipefail ]
 
 includes:
   toy:
-    taskfile: system/Taskfile.toy.yml
-    dir: system
+    taskfile: toy/Taskfile.yml
+    dir: toy
   func:
-    taskfile: system/Taskfile.func.yml
-    dir: system
+    taskfile: func/Taskfile.yml
+    dir: func
 
 vars:
-  TEST_REVISION:
-    sh: git write-tree --prefix=tests
-  TEST_CID: '{{.TEST_REVISION | trunc 7}}'
-  TEST_X_REF: '{{.PROJECT_REPO}}/{{.PROJECT}}-test-{{.USAGE}}:{{.TEST_CID}}'
+  # toy
+  TEST_TOY_REVISION:
+    sh: git write-tree --prefix=tests/toy
+  TEST_TOY_CID: '{{.TEST_TOY_REVISION | trunc 7}}'
+  TEST_TOY_IMAGE: '{{.PROJECT_REPO}}/{{.PROJECT_NAME}}-test-toy'
+  TEST_TOY_REF: '{{.TEST_TOY_IMAGE}}:{{.TEST_TOY_CID}}'
+  # func
+  TEST_FUNC_REVISION:
+    sh: git write-tree --prefix=tests/func
+  TEST_FUNC_CID: '{{.TEST_FUNC_REVISION | trunc 7}}'
+  TEST_FUNC_IMAGE: '{{.PROJECT_REPO}}/{{.PROJECT_NAME}}-test-func'
+  TEST_FUNC_REF: '{{.TEST_FUNC_IMAGE}}:{{.TEST_FUNC_CID}}'
+  # usage
+  TEST_USAGE_REFS: >
+    {{- if eq .USAGE "toy" -}}
+      {{.TEST_TOY_REF}}
+    {{- else if eq .USAGE "func" -}}
+      {{.TEST_FUNC_REF}}
+    {{- else -}}
+      {{fail}}
+    {{- end -}}
 
 tasks:
   binaries:
     run: once
+    internal: true
     cmds:
-      - task: system:binary
-  image:
-    run: when_changed
-    vars:
-      COMMAND: '{{if eq .REGISTRY "localhost"}}inspect{{else}}pull{{end}}'
-      TEST_TYPE: '{{.TEST_TYPE | default .USAGE}}'
-      TEST_IMAGE: '{{.PROJECT_REPO}}/{{.PROJECT}}-test-{{.TEST_TYPE}}'
-      TEST_REF: '{{.TEST_IMAGE}}:{{.TEST_CID}}'
-    status:
-      - docker image {{.COMMAND}} {{.TEST_REF}}
-      - '{{.LIB_BINARIES_STATUS}}'
-    cmds:
-      # deps
-      - task: :lib:binaries
-      # cmds
-      - task: :docker:image:reset
-        vars:
-          DOCKER_IMAGE: '{{.TEST_IMAGE}}'
       - cmd: >
-          docker build .
-          -f Dockerfile
-          -t {{.TEST_REF}}
-          --build-arg TEST_TYPE={{.TEST_TYPE}}
-      - task: :docker:image:push
-        vars:
-          DOCKER_IMAGE: '{{.TEST_REF}}'
-  run:
-    dir: system
+          mvn clean install
+          -am -T1C
+  images:
+    run: once
+    internal: true
     cmds:
-      # deps
-      - task: image
-      # actions
+      - task: :test:toy:image
+      - task: :test:func:image
+  run:
+    cmds:
+      - task: :lib:binaries
+      - task: :test:{{.USAGE}}:image
       - cmd: >
           mvn clean test
+          --projects {{.USAGE}}
           --batch-mode
           -Dlibs.version={{.LIBS_VERSION}}
-          -Dtests.type={{.USAGE | title}}
           -Dprops.combo={{.PROPS}}
           {{.CLI_ARGS}}

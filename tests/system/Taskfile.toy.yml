@@ -1,6 +1,0 @@
-version: '3'
-
-vars:
-  TEST_TOY_CID: '{{.TEST_CID}}'
-  TEST_TOY_IMAGE: '{{.PROJECT_REPO}}/{{.PROJECT}}-test-toy'
-  TEST_TOY_REF: '{{.TEST_TOY_IMAGE}}:{{.TEST_TOY_CID}}'

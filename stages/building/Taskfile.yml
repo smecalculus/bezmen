@@ -6,15 +6,5 @@ tasks:
     cmds:
       - task: ::lib:images
       - task: ::app:images
-      - task: ::stand:image
-        vars:
-          STAND_TYPE: toy
-      - task: ::stand:image
-        vars:
-          STAND_TYPE: func
-      - task: ::test:image
-        vars:
-          TEST_TYPE: toy
-      - task: ::test:image
-        vars:
-          TEST_TYPE: func
+      - task: ::stand:images
+      - task: ::test:images

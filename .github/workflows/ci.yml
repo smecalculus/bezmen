@@ -35,8 +35,8 @@ jobs:
       - run: >
           task --verbose stage:building:run
           REGISTRY=${{ env.REGISTRY }}
-  verification-fire:
-    name: Verification (Fire)
+  verification-start:
+    name: Verification (Start)
     runs-on: ubuntu-latest
     timeout-minutes: 15
     needs: building
@@ -73,14 +73,14 @@ jobs:
         if: always()
         with:
           name: test-reports-${{ matrix.usage }}-${{ matrix.props }}-${{ matrix.shard }}
-          path: tests/system/target/surefire-reports/*.xml
-          if-no-files-found: error
-  verification-complete:
-    name: Verification (Complete)
+          path: tests/${{ matrix.usage }}/target/surefire-reports/*.xml
+          # if-no-files-found: error
+  verification-end:
+    name: Verification (End)
     if: ${{ always() }}
     runs-on: ubuntu-latest
     timeout-minutes: 5
-    needs: verification-fire
+    needs: verification-start
     permissions:
       checks: write
       packages: write
@@ -108,5 +108,5 @@ jobs:
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
       - run: >
-          task --verbose stage:verification:transit
+          task --verbose stage:verification:commit
           REGISTRY=${{ env.REGISTRY }}

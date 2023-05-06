@@ -1,0 +1,19 @@
+version: '3'
+
+tasks:
+  image:
+    run: once
+    internal: true
+    status:
+      - docker image {{.COMMAND}} {{.STAND_BASIS_REF}}
+    cmds:
+      - task: ::docker:image:reset
+        vars:
+          IMAGE: '{{.STAND_BASIS_IMAGE}}'
+      - cmd: >
+          docker build .
+          -f Dockerfile
+          -t {{.STAND_BASIS_REF}}
+      - task: ::docker:image:push
+        vars:
+          REF: '{{.STAND_BASIS_REF}}'

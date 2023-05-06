@@ -1,6 +1,0 @@
-version: '3'
-
-vars:
-  STAND_FUNC_CID: '{{.STAND_CID}}'
-  STAND_FUNC_IMAGE: '{{.PROJECT_REPO}}/{{.PROJECT}}-stand-func'
-  STAND_FUNC_REF: '{{.STAND_FUNC_IMAGE}}:{{.STAND_FUNC_CID}}'

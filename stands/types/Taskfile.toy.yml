@@ -1,6 +1,0 @@
-version: '3'
-
-vars:
-  STAND_TOY_CID: '{{.STAND_CID}}'
-  STAND_TOY_IMAGE: '{{.PROJECT_REPO}}/{{.PROJECT}}-stand-toy'
-  STAND_TOY_REF: '{{.STAND_TOY_IMAGE}}:{{.STAND_TOY_CID}}'

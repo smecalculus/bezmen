@@ -1,3 +1,0 @@
-FROM scratch
-ARG TEST_TYPE
-COPY README.adoc /${TEST_TYPE}.adoc

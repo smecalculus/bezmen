@@ -2,14 +2,6 @@ version: '3'
 
 set: [pipefail]
 
-vars:
-  APP_FOO_REVISION:
-    sh: git write-tree --prefix=apps/foo
-  APP_FOO_CID: '{{.APP_FOO_REVISION | trunc 7}}'
-  APP_FOO_VERSION: '{{.APP_VERSION}}-{{.APP_FOO_CID}}'
-  APP_FOO_IMAGE: '{{.PROJECT_REPO}}/{{.PROJECT}}-app-foo'
-  APP_FOO_REF: '{{.APP_FOO_IMAGE}}:{{.APP_FOO_CID}}'
-
 tasks:
   binary:
     run: once
@@ -28,8 +20,6 @@ tasks:
           -Dlibs.version={{.LIBS_VERSION}}
   image:
     run: once
-    vars:
-      COMMAND: '{{if eq .REGISTRY "localhost"}}inspect{{else}}pull{{end}}'
     status:
       - docker image {{.COMMAND}} {{.APP_FOO_REF}}
       - '{{.LIB_BINARIES_STATUS}}'
@@ -37,11 +27,11 @@ tasks:
       - task: binary
       - task: ::docker:image:reset
         vars:
-          DOCKER_IMAGE: '{{.APP_FOO_IMAGE}}'
+          IMAGE: '{{.APP_FOO_IMAGE}}'
       - cmd: >
           docker build target/docker-context
           -f Dockerfile
           -t {{.APP_FOO_REF}}
       - task: ::docker:image:push
         vars:
-          DOCKER_IMAGE: '{{.APP_FOO_REF}}'
+          REF: '{{.APP_FOO_REF}}'
