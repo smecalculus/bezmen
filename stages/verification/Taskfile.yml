@@ -46,48 +46,48 @@ tasks:
         vars:
           OLD: '{{.LIB_SCHEMA_REF}}'
           NEW: '{{.LIB_SCHEMA_REF}}-{{.STAGE_VERIFICATION_STATUS}}'
-      - task: ::docker:image:push
+      - task: ::docker:manifest:push
         vars:
           REF: '{{.LIB_SCHEMA_REF}}-{{.STAGE_VERIFICATION_STATUS}}'
       - task: ::docker:image:tag
         vars:
           OLD: '{{.APP_FOO_REF}}'
           NEW: '{{.APP_FOO_REF}}-{{.STAGE_VERIFICATION_STATUS}}'
-      - task: ::docker:image:push
+      - task: ::docker:manifest:push
         vars:
           REF: '{{.APP_FOO_REF}}-{{.STAGE_VERIFICATION_STATUS}}'
       - task: ::docker:image:tag
         vars:
           OLD: '{{.STAND_BASIS_REF}}'
           NEW: '{{.STAND_BASIS_REF}}-{{.STAGE_VERIFICATION_STATUS}}'
-      - task: ::docker:image:push
+      - task: ::docker:manifest:push
         vars:
           REF: '{{.STAND_BASIS_REF}}-{{.STAGE_VERIFICATION_STATUS}}'
       - task: ::docker:image:tag
         vars:
           OLD: '{{.STAND_TOY_REF}}'
           NEW: '{{.STAND_TOY_REF}}-{{.STAGE_VERIFICATION_STATUS}}'
-      - task: ::docker:image:push
+      - task: ::docker:manifest:push
         vars:
           REF: '{{.STAND_TOY_REF}}-{{.STAGE_VERIFICATION_STATUS}}'
       - task: ::docker:image:tag
         vars:
           OLD: '{{.STAND_FUNC_REF}}'
           NEW: '{{.STAND_FUNC_REF}}-{{.STAGE_VERIFICATION_STATUS}}'
-      - task: ::docker:image:push
+      - task: ::docker:manifest:push
         vars:
           REF: '{{.STAND_FUNC_REF}}-{{.STAGE_VERIFICATION_STATUS}}'
       - task: ::docker:image:tag
         vars:
           OLD: '{{.TEST_TOY_REF}}'
           NEW: '{{.TEST_TOY_REF}}-{{.STAGE_VERIFICATION_STATUS}}'
-      - task: ::docker:image:push
+      - task: ::docker:manifest:push
         vars:
           REF: '{{.TEST_TOY_REF}}-{{.STAGE_VERIFICATION_STATUS}}'
       - task: ::docker:image:tag
         vars:
           OLD: '{{.TEST_FUNC_REF}}'
           NEW: '{{.TEST_FUNC_REF}}-{{.STAGE_VERIFICATION_STATUS}}'
-      - task: ::docker:image:push
+      - task: ::docker:manifest:push
         vars:
           REF: '{{.TEST_FUNC_REF}}-{{.STAGE_VERIFICATION_STATUS}}'

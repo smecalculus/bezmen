@@ -30,7 +30,7 @@ tasks:
           {{- if eq .REGISTRY "localhost" -}}
             true
           {{- else -}}
-            docker {{.ENTITY}} push {{.REF}}
+            docker image push {{.REF}}
           {{- end -}}
   image:tag:
     run: when_changed
@@ -44,4 +44,16 @@ tasks:
             docker image tag {{.OLD}} {{.NEW}}
           {{- else -}}
             docker manifest create {{.NEW}} {{.OLD}}
+          {{- end -}}
+  manifest:push:
+    run: when_changed
+    internal: true
+    vars:
+      REF: '{{.REF}}'
+    cmds:
+      - cmd: >
+          {{- if eq .REGISTRY "localhost" -}}
+            true
+          {{- else -}}
+            docker manifest push {{.REF}}
           {{- end -}}
