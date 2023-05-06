@@ -21,10 +21,7 @@ vars:
         "{{.APP_FOO_REF}}"
       ]
     }
-  APP_USAGE_REFS: >
-    {{- range index (mustFromJson .APP_USAGE_SPEC) .USAGE -}}
-      {{.}}
-    {{- end -}}
+  APP_USAGE_REFS: '{{index (mustFromJson .APP_USAGE_SPEC) .USAGE | join " "}}'
 
 includes:
   foo:
