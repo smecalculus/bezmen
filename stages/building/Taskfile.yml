@@ -5,6 +5,7 @@ tasks:
     run: once
     cmds:
       - task: ::lib:images
+      - task: ::schema:images
       - task: ::app:images
       - task: ::stand:images
       - task: ::test:images
