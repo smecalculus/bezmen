@@ -1,0 +1,28 @@
+version: '3'
+
+set: [ pipefail ]
+
+includes:
+  h2:
+    taskfile: h2/Taskfile.yml
+    dir: h2
+  postgres:
+    taskfile: postgres/Taskfile.yml
+    aliases: [pg]
+    dir: postgres
+
+vars:
+  SCHEMA_REVISION:
+    sh: git write-tree --prefix=schemas
+  SCHEMA_CID: '{{.SCHEMA_REVISION | trunc 7}}'
+
+tasks:
+  binaries:
+    run: once
+    internal: true
+    # TODO
+  images:
+    run: once
+    internal: true
+    cmds:
+      - task: :schema:postgres:image

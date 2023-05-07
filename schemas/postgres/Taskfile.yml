@@ -1,0 +1,24 @@
+version: '3'
+
+set: [pipefail]
+
+vars:
+  SCHEMA_PG_REVISION:
+    sh: git write-tree --prefix=schemas/postgres
+  SCHEMA_PG_CID: '{{.SCHEMA_PG_REVISION | trunc 7}}'
+  SCHEMA_PG_IMAGE: '{{.PROJECT_REPO}}/{{.PROJECT_NAME}}-schema-postgres'
+  SCHEMA_PG_REF: '{{.SCHEMA_PG_IMAGE}}:{{.SCHEMA_PG_CID}}'
+
+tasks:
+  image:
+    run: once
+    status:
+      - docker image {{.COMMAND}} {{.SCHEMA_PG_REF}}
+    cmds:
+      - task: ::docker:image:reset
+        vars:
+          IMAGE: '{{.SCHEMA_PG_IMAGE}}'
+      - cmd: docker build . -t {{.SCHEMA_PG_REF}}
+      - task: ::docker:image:push
+        vars:
+          REF: '{{.SCHEMA_PG_REF}}'

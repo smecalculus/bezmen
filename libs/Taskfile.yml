@@ -14,11 +14,6 @@ vars:
       true
     {{- end -}}
 
-includes:
-  schema:
-    taskfile: schema/Taskfile.yml
-    dir: schema
-
 tasks:
   binaries:
     run: once
@@ -35,5 +30,3 @@ tasks:
           -Drevision={{.LIBS_VERSION}}
   images:
     run: once
-    cmds:
-      - task: schema:image

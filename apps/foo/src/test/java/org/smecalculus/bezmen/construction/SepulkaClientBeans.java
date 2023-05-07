@@ -1,6 +1,5 @@
-package org.smecalculus.bezmen.messaging.beans;
+package org.smecalculus.bezmen.construction;
 
-import org.smecalculus.bezmen.construction.ValidationBeans;
 import org.smecalculus.bezmen.messaging.SepulkaClient;
 import org.smecalculus.bezmen.messaging.SepulkaClientImpl;
 import org.smecalculus.bezmen.messaging.SepulkaClientSpringWeb;

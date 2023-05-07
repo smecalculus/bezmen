@@ -19,6 +19,9 @@ includes:
   env:
     taskfile: env/Taskfile.yml
     dir: env
+  schema:
+    taskfile: schemas/Taskfile.yml
+    dir: schemas
   app:
     taskfile: apps/Taskfile.yml
     dir: apps

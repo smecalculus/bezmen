@@ -7,7 +7,8 @@ import org.smecalculus.bezmen.modeling.Sepulka;
 import java.util.List;
 import java.util.UUID;
 
-import static java.util.Collections.emptyList;
+import static java.util.stream.Collectors.toList;
+import static java.util.stream.StreamSupport.stream;
 
 public record SepulkaDaoSpringData(
         @NonNull SepulkaRecMapper mapper,
@@ -30,6 +31,8 @@ public record SepulkaDaoSpringData(
 
     @Override
     public List<Sepulka> getSepulkas() {
-        return emptyList();
+        return stream(repository.findAll().spliterator(), false)
+                .map(mapper::toDomain)
+                .collect(toList());
     }
 }
