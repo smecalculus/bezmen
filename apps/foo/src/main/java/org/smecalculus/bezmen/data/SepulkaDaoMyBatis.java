@@ -7,7 +7,7 @@ import org.smecalculus.bezmen.modeling.Sepulka;
 import java.util.List;
 import java.util.UUID;
 
-import static java.util.Collections.emptyList;
+import static java.util.stream.Collectors.toList;
 
 public record SepulkaDaoMyBatis(
         @NonNull SepulkaRecMapper recMapper,
@@ -30,6 +30,8 @@ public record SepulkaDaoMyBatis(
 
     @Override
     public List<Sepulka> getSepulkas() {
-        return emptyList();
+        return sqlMapper.selectAll().stream()
+                .map(recMapper::toDomain)
+                .collect(toList());
     }
 }

@@ -1,0 +1,8 @@
+version: '3'
+
+vars:
+  SCHEMA_H2_REVISION:
+    sh: git write-tree --prefix=schemas/h2
+  SCHEMA_H2_CID: '{{.SCHEMA_H2_REVISION | trunc 7}}'
+
+tasks: {}

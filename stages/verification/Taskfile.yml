@@ -9,7 +9,10 @@ tasks:
   run:
     run: once
     status:
-      - docker {{.ENTITY}} inspect {{.LIB_SCHEMA_REF}}-{{.STAGE_VERIFICATION_STATUS}}
+      - >
+        for ref in {{.SCHEMA_USAGE_REFS}}; do
+          docker {{.ENTITY}} inspect $ref-{{.STAGE_VERIFICATION_STATUS}}
+        done
       - >
         for ref in {{.APP_USAGE_REFS}}; do
           docker {{.ENTITY}} inspect $ref-{{.STAGE_VERIFICATION_STATUS}}
@@ -33,7 +36,7 @@ tasks:
     run: once
     aliases: [ commit ]
     preconditions:
-      - docker {{.ENTITY}} inspect {{.LIB_SCHEMA_REF}}
+      - docker {{.ENTITY}} inspect {{.SCHEMA_PG_REF}}
       - docker {{.ENTITY}} inspect {{.APP_FOO_REF}}
       - docker {{.ENTITY}} inspect {{.STAND_BASIS_REF}}
       - docker {{.ENTITY}} inspect {{.STAND_TOY_REF}}
@@ -43,11 +46,11 @@ tasks:
     cmds:
       - task: ::docker:image:tag
         vars:
-          OLD: '{{.LIB_SCHEMA_REF}}'
-          NEW: '{{.LIB_SCHEMA_REF}}-{{.STAGE_VERIFICATION_STATUS}}'
+          OLD: '{{.SCHEMA_PG_REF}}'
+          NEW: '{{.SCHEMA_PG_REF}}-{{.STAGE_VERIFICATION_STATUS}}'
       - task: ::docker:manifest:push
         vars:
-          REF: '{{.LIB_SCHEMA_REF}}-{{.STAGE_VERIFICATION_STATUS}}'
+          REF: '{{.SCHEMA_PG_REF}}-{{.STAGE_VERIFICATION_STATUS}}'
       - task: ::docker:image:tag
         vars:
           OLD: '{{.APP_FOO_REF}}'

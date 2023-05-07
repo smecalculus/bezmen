@@ -21,9 +21,18 @@
       <groupId>${project.groupId}</groupId>
       <artifactId>client</artifactId>
     </dependency>
+
     <dependency>
-      <groupId>${project.groupId}</groupId>
-      <artifactId>schema</artifactId>
+      <groupId>org.liquibase</groupId>
+      <artifactId>liquibase-core</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.yaml</groupId>
+      <artifactId>snakeyaml</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-jdbc</artifactId>
     </dependency>
 
     <dependency>
@@ -74,7 +83,19 @@
   </dependencies>
 
   <build>
+    <resources>
+      <resource>
+        <directory>${project.basedir}/../../schemas/h2</directory>
+        <targetPath>schemas</targetPath>
+        <includes>
+          <include>alfa/**</include>
+        </includes>
+      </resource>
+    </resources>
     <plugins>
+      <plugin>
+        <artifactId>maven-resources-plugin</artifactId>
+      </plugin>
       <plugin>
         <artifactId>maven-dependency-plugin</artifactId>
         <executions>
@@ -82,7 +103,8 @@
             <id>analyze</id>
             <configuration>
               <usedDependencies>
-                <usedDependency>org.smecalculus.bezmen:schema</usedDependency>
+                <usedDependency>org.yaml:snakeyaml</usedDependency>
+                <usedDependency>org.liquibase:liquibase-core</usedDependency>
                 <usedDependency>org.assertj:assertj-core</usedDependency>
                 <usedDependency>org.springframework:spring-test</usedDependency>
                 <usedDependency>org.mockito:mockito-core</usedDependency>

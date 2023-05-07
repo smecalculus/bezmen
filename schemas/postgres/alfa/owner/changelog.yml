@@ -4,10 +4,10 @@ databaseChangeLog:
       name: author
       value: bezmen
   - changeSet:
-      id: dummy
+      id: sepulkas
       author: ${author}
       changes:
         - sqlFile:
-            path: dummy/dummy.sql
+            path: sepulkas.sql
             relativeToChangeLogFile: true
             splitStatements: true

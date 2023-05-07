@@ -55,6 +55,6 @@ tasks:
           mvn clean test
           --projects {{.USAGE}}
           --batch-mode
-          -Dlibs.version={{.LIBS_VERSION}}
+          -Dlibs.version={{.LIB_VERSION}}
           -Dprops.combo={{.PROPS}}
           {{.CLI_ARGS}}

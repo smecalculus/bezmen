@@ -3,10 +3,10 @@ version: '3'
 set: [pipefail]
 
 vars:
-  LIBS_REVISION:
+  LIB_REVISION:
     sh: git write-tree --prefix=libs
-  LIBS_CID: '{{.LIBS_REVISION | trunc 7}}'
-  LIBS_VERSION: 0.1.0-{{.LIBS_CID}}
+  LIB_CID: '{{.LIB_REVISION | trunc 7}}'
+  LIB_VERSION: 0.1.0-{{.LIB_CID}}
   LIB_BINARIES_STATUS: >
     {{if eq .REGISTRY "localhost" -}}
       task --dir {{.ROOT_DIR}} --status lib:binaries
@@ -14,26 +14,19 @@ vars:
       true
     {{- end -}}
 
-includes:
-  schema:
-    taskfile: schema/Taskfile.yml
-    dir: schema
-
 tasks:
   binaries:
     run: once
     vars:
       SKIP_TESTS: false
     status:
-      - mvn -o dependency:get -Dartifact=org.smecalculus.bezmen:libs:{{.LIBS_VERSION}}:pom
+      - mvn -o dependency:get -Dartifact=org.smecalculus.bezmen:libs:{{.LIB_VERSION}}:pom
     cmds:
       - cmd: >
           mvn clean install
           -am -T1C
           --batch-mode
           -DskipTests={{.SKIP_TESTS}}
-          -Drevision={{.LIBS_VERSION}}
+          -Drevision={{.LIB_VERSION}}
   images:
     run: once
-    cmds:
-      - task: schema:image

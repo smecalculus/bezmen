@@ -43,9 +43,9 @@ vars:
     {{- end -}}
 
 env:
-  SCHEMA_CID: '{{.LIB_SCHEMA_CID}}'
-  SCHEMA_IMAGE: '{{.LIB_SCHEMA_IMAGE}}'
-  SCHEMA_REF: '{{.LIB_SCHEMA_REF}}'
+  SCHEMA_CID: '{{.SCHEMA_PG_CID}}'
+  SCHEMA_IMAGE: '{{.SCHEMA_PG_IMAGE}}'
+  SCHEMA_REF: '{{.SCHEMA_PG_REF}}'
   FOO_CID: '{{.APP_FOO_CID}}'
   FOO_IMAGE: '{{.APP_FOO_IMAGE}}'
   FOO_REF: '{{.APP_FOO_REF}}'
@@ -62,7 +62,8 @@ tasks:
   run:
     run: once
     cmds:
-      - task: :lib:schema:image
+#      - task: :lib:schema:image
+      - task: :schema:postgres:image
       - task: :app:foo:image
       - task: :stand:basis:image
       - task: :stand:{{.USAGE}}:image
@@ -91,6 +92,6 @@ tasks:
     run: once
     internal: true
     status:
-      - docker inspect schema-owner-{{.LIB_SCHEMA_CID}}
+      - docker inspect schema-owner-{{.SCHEMA_PG_CID}}
     cmds:
       - docker rm -f env-db
