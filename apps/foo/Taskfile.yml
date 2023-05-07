@@ -17,7 +17,7 @@ tasks:
           -am -T1C
           --batch-mode
           -Drevision={{.APP_FOO_VERSION}}
-          -Dlibs.version={{.LIBS_VERSION}}
+          -Dlibs.version={{.LIB_VERSION}}
   image:
     run: once
     status:
