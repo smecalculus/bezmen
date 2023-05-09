@@ -8,40 +8,51 @@ import org.smecalculus.bezmen.data.SepulkaRecMapperImpl;
 import org.smecalculus.bezmen.data.mybatis.SepulkaSqlMapper;
 import org.smecalculus.bezmen.data.springdata.SepulkaRepository;
 import org.smecalculus.bezmen.modeling.DataProps;
-import org.smecalculus.bezmen.modeling.OrmMode;
 import org.smecalculus.bezmen.modeling.OrmProps;
-import org.smecalculus.bezmen.modeling.VendorMode;
 import org.smecalculus.bezmen.modeling.VendorProps;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
+import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 
 import javax.sql.DataSource;
+import java.util.Collection;
+import java.util.List;
+import java.util.stream.Stream;
 
-import static java.lang.String.format;
-import static org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType.H2;
+import static java.util.stream.Collectors.joining;
+import static org.smecalculus.bezmen.modeling.OrmMode.MY_BATIS;
+import static org.smecalculus.bezmen.modeling.OrmMode.SPRING_DATA;
+import static org.smecalculus.bezmen.modeling.VendorMode.POSTGRES;
 
 @Configuration(proxyBeanMethods = false)
 public class SepulkaDaoBeans {
 
+    public static final String DB = "testdb";
+
     @Bean
     public DataSource dataSource(DataProps dataProps) {
-        String h2mode = switch (dataProps.vendorProps().mode()) {
-            case H2 -> "STRICT";
-            case POSTGRES -> "PostgreSQL";
-        };
-        String nameWithParams = String.join(";",
-                "testdb",
-                format("MODE=%s", h2mode),
-                "DB_CLOSE_DELAY=-1",
-                "DATABASE_TO_LOWER=TRUE",
-                "DEFAULT_NULL_ORDERING=HIGH"
+        List<String> common = List.of(
+                "DB_CLOSE_DELAY=-1"
         );
+        List<String> specific = switch (dataProps.vendorProps().mode()) {
+            case H2 -> List.of(
+                    "MODE=STRICT"
+            );
+            case POSTGRES -> List.of(
+                    "MODE=PostgreSQL",
+                    "DATABASE_TO_LOWER=TRUE",
+                    "DEFAULT_NULL_ORDERING=HIGH"
+            );
+        };
+        String nameWithSettings = Stream.of(List.of(DB), common, specific)
+                .flatMap(Collection::stream)
+                .collect(joining(";"));
         return new EmbeddedDatabaseBuilder()
-                .setType(H2)
-                .setName(nameWithParams)
-                .addScript("schemas/alfa/wipe.sql")
-                .addScript("schemas/alfa/schema.sql")
+                .setType(EmbeddedDatabaseType.H2)
+                .setName(nameWithSettings)
+                .addScript("schemas/alfa/drop.sql")
+                .addScript("schemas/alfa/create.sql")
                 .build();
     }
 
@@ -62,10 +73,10 @@ public class SepulkaDaoBeans {
         public DataProps dataProps() {
             return DataProps.builder()
                     .ormProps(OrmProps.builder()
-                            .mode(OrmMode.SPRING_DATA)
+                            .mode(SPRING_DATA)
                             .build())
                     .vendorProps(VendorProps.builder()
-                            .mode(VendorMode.POSTGRES)
+                            .mode(POSTGRES)
                             .build())
                     .build();
         }
@@ -83,10 +94,10 @@ public class SepulkaDaoBeans {
         public DataProps dataProps() {
             return DataProps.builder()
                     .ormProps(OrmProps.builder()
-                            .mode(OrmMode.MY_BATIS)
+                            .mode(MY_BATIS)
                             .build())
                     .vendorProps(VendorProps.builder()
-                            .mode(VendorMode.POSTGRES)
+                            .mode(POSTGRES)
                             .build())
                     .build();
         }
