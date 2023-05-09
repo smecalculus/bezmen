@@ -6,6 +6,7 @@ import org.smecalculus.bezmen.construction.SepulkaDaoBeans;
 import org.smecalculus.bezmen.modeling.Sepulka;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -13,6 +14,7 @@ import static org.smecalculus.bezmen.fixture.SepulkaFixtures.sepulkaBuilder;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = SepulkaDaoBeans.class)
+@Sql("/schemas/alfa/truncate.sql")
 abstract class SepulkaDaoIT {
 
     @Autowired
