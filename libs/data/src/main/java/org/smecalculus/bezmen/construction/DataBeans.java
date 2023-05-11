@@ -7,7 +7,6 @@ import org.smecalculus.bezmen.modeling.VendorProps;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
 import javax.sql.DataSource;
@@ -25,11 +24,6 @@ public class DataBeans {
             case POSTGRES -> configure(dataSource, vendorProps.postgresProps());
         }
         return dataSource;
-    }
-
-    @Bean
-    public NamedParameterJdbcTemplate namedParameterJdbcTemplate(DataSource dataSource) {
-        return new NamedParameterJdbcTemplate(dataSource);
     }
 
     private void configure(DriverManagerDataSource dataSource, H2Props props) {
