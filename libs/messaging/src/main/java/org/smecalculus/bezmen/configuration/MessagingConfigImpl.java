@@ -6,10 +6,8 @@ import org.slf4j.LoggerFactory;
 import org.smecalculus.bezmen.validation.BezmenValidator;
 
 public record MessagingConfigImpl(
-        @NonNull ConfigKeeper keeper,
-        @NonNull BezmenValidator validator,
-        @NonNull MessagingCfgMapper mapper
-) implements MessagingConfig {
+        @NonNull ConfigKeeper keeper, @NonNull BezmenValidator validator, @NonNull MessagingCfgMapper mapper)
+        implements MessagingConfig {
 
     private static final Logger LOG = LoggerFactory.getLogger(MessagingConfigImpl.class);
 

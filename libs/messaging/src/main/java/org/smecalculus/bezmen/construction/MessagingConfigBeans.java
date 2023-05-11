@@ -19,9 +19,7 @@ public class MessagingConfigBeans {
     }
 
     @Bean
-    MessagingConfig messagingConfig(ConfigKeeper keeper,
-                                    BezmenValidator validator,
-                                    MessagingCfgMapper mapper) {
+    MessagingConfig messagingConfig(ConfigKeeper keeper, BezmenValidator validator, MessagingCfgMapper mapper) {
         return new MessagingConfigImpl(keeper, validator, mapper);
     }
 

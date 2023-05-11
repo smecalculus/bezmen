@@ -6,5 +6,6 @@ import org.smecalculus.bezmen.modeling.Sepulka;
 @Mapper
 public interface SepulkaRecMapper {
     SepulkaRec toRec(Sepulka sepulka);
+
     Sepulka toDomain(SepulkaRec sepulkaRec);
 }

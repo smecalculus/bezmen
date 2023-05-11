@@ -1,5 +1,0 @@
-Поддерживаемые хранилища данных
-
-==== postgres
-
-include::postgres/README.adoc[]

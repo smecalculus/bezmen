@@ -7,10 +7,8 @@ import org.smecalculus.bezmen.modeling.SepulkaService;
 import org.smecalculus.bezmen.validation.BezmenValidator;
 
 public record SepulkaClientImpl(
-        @NonNull BezmenValidator validator,
-        @NonNull SepulkaService service,
-        @NonNull SepulkaConverter converter
-) implements SepulkaClient {
+        @NonNull BezmenValidator validator, @NonNull SepulkaService service, @NonNull SepulkaConverter converter)
+        implements SepulkaClient {
 
     @Override
     public SepulkaRegRes register(SepulkaRegReq request) {

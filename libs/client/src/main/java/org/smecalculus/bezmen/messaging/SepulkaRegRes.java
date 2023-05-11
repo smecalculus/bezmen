@@ -1,11 +1,6 @@
 package org.smecalculus.bezmen.messaging;
 
+import java.util.UUID;
 import lombok.NonNull;
 
-import java.util.UUID;
-
-public record SepulkaRegRes(
-        @NonNull UUID id,
-        @NonNull String name
-) {
-}
+public record SepulkaRegRes(@NonNull UUID id, @NonNull String name) {}

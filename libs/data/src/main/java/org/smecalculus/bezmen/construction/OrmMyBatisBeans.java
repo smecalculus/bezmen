@@ -1,14 +1,13 @@
 package org.smecalculus.bezmen.construction;
 
+import static org.smecalculus.bezmen.modeling.OrmMode.MY_BATIS;
+
+import javax.sql.DataSource;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
-import javax.sql.DataSource;
-
-import static org.smecalculus.bezmen.modeling.OrmMode.MY_BATIS;
 
 @Configuration(proxyBeanMethods = false)
 @ConditionalOnOrmMode(MY_BATIS)

@@ -5,5 +5,4 @@ import org.smecalculus.bezmen.construction.SepulkaDaoBeans;
 import org.springframework.test.context.ContextConfiguration;
 
 @ContextConfiguration(classes = {SepulkaDaoBeans.SpringDataPostgres.class, OrmSpringDataBeans.class})
-public class SepulkaDaoSpringDataPostgresIT extends SepulkaDaoIT {
-}
+public class SepulkaDaoSpringDataPostgresIT extends SepulkaDaoIT {}

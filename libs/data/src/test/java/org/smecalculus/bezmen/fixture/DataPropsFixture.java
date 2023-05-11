@@ -1,12 +1,12 @@
 package org.smecalculus.bezmen.fixture;
 
-import org.smecalculus.bezmen.configuration.DataPropsCfg;
-import org.smecalculus.bezmen.modeling.DataProps;
-
 import static org.smecalculus.bezmen.fixture.OrmPropsFixture.ormProps;
 import static org.smecalculus.bezmen.fixture.OrmPropsFixture.ormPropsCfg;
 import static org.smecalculus.bezmen.fixture.VendorPropsFixture.vendorProps;
 import static org.smecalculus.bezmen.fixture.VendorPropsFixture.vendorPropsCfg;
+
+import org.smecalculus.bezmen.configuration.DataPropsCfg;
+import org.smecalculus.bezmen.modeling.DataProps;
 
 public class DataPropsFixture {
 

@@ -15,15 +15,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("sepulkas")
-public record SepulkaController(
-        SepulkaClient client,
-        SepulkaMsgMapper mapper
-) {
+public record SepulkaController(SepulkaClient client, SepulkaMsgMapper mapper) {
     @PostMapping
     ResponseEntity<SepulkaRegResMsg> register(@RequestBody SepulkaRegReqMsg sepulkaRegReqMsg) {
         SepulkaRegReq sepulkaRegReq = mapper.toDomain(sepulkaRegReqMsg);
         SepulkaRegRes sepulkaRegRes = client.register(sepulkaRegReq);
-        return ResponseEntity.status(HttpStatus.CREATED)
-                .body(mapper.toMsg(sepulkaRegRes));
+        return ResponseEntity.status(HttpStatus.CREATED).body(mapper.toMsg(sepulkaRegRes));
     }
 }

@@ -3,7 +3,4 @@ package org.smecalculus.bezmen.configuration;
 import lombok.Builder;
 
 @Builder
-public record WebProps(
-        WebMode webMode
-) {
-}
+public record WebProps(WebMode webMode) {}

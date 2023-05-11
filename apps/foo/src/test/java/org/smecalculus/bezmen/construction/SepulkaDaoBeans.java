@@ -1,5 +1,14 @@
 package org.smecalculus.bezmen.construction;
 
+import static java.util.stream.Collectors.joining;
+import static org.smecalculus.bezmen.modeling.OrmMode.MY_BATIS;
+import static org.smecalculus.bezmen.modeling.OrmMode.SPRING_DATA;
+import static org.smecalculus.bezmen.modeling.VendorMode.POSTGRES;
+
+import java.util.Collection;
+import java.util.List;
+import java.util.stream.Stream;
+import javax.sql.DataSource;
 import org.smecalculus.bezmen.data.SepulkaDao;
 import org.smecalculus.bezmen.data.SepulkaDaoMyBatis;
 import org.smecalculus.bezmen.data.SepulkaDaoSpringData;
@@ -15,16 +24,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 
-import javax.sql.DataSource;
-import java.util.Collection;
-import java.util.List;
-import java.util.stream.Stream;
-
-import static java.util.stream.Collectors.joining;
-import static org.smecalculus.bezmen.modeling.OrmMode.MY_BATIS;
-import static org.smecalculus.bezmen.modeling.OrmMode.SPRING_DATA;
-import static org.smecalculus.bezmen.modeling.VendorMode.POSTGRES;
-
 @Configuration(proxyBeanMethods = false)
 public class SepulkaDaoBeans {
 
@@ -32,19 +31,12 @@ public class SepulkaDaoBeans {
 
     @Bean
     public DataSource dataSource(DataProps dataProps) {
-        List<String> common = List.of(
-                "DB_CLOSE_DELAY=-1"
-        );
-        List<String> specific = switch (dataProps.vendorProps().mode()) {
-            case H2 -> List.of(
-                    "MODE=STRICT"
-            );
-            case POSTGRES -> List.of(
-                    "MODE=PostgreSQL",
-                    "DATABASE_TO_LOWER=TRUE",
-                    "DEFAULT_NULL_ORDERING=HIGH"
-            );
-        };
+        List<String> common = List.of("DB_CLOSE_DELAY=-1");
+        List<String> specific =
+                switch (dataProps.vendorProps().mode()) {
+                    case H2 -> List.of("MODE=STRICT");
+                    case POSTGRES -> List.of("MODE=PostgreSQL", "DATABASE_TO_LOWER=TRUE", "DEFAULT_NULL_ORDERING=HIGH");
+                };
         String nameWithSettings = Stream.of(List.of(DB), common, specific)
                 .flatMap(Collection::stream)
                 .collect(joining(";"));
@@ -72,12 +64,8 @@ public class SepulkaDaoBeans {
         @Bean
         public DataProps dataProps() {
             return DataProps.builder()
-                    .ormProps(OrmProps.builder()
-                            .mode(SPRING_DATA)
-                            .build())
-                    .vendorProps(VendorProps.builder()
-                            .mode(POSTGRES)
-                            .build())
+                    .ormProps(OrmProps.builder().mode(SPRING_DATA).build())
+                    .vendorProps(VendorProps.builder().mode(POSTGRES).build())
                     .build();
         }
     }
@@ -93,12 +81,8 @@ public class SepulkaDaoBeans {
         @Bean
         public DataProps dataProps() {
             return DataProps.builder()
-                    .ormProps(OrmProps.builder()
-                            .mode(MY_BATIS)
-                            .build())
-                    .vendorProps(VendorProps.builder()
-                            .mode(POSTGRES)
-                            .build())
+                    .ormProps(OrmProps.builder().mode(MY_BATIS).build())
+                    .vendorProps(VendorProps.builder().mode(POSTGRES).build())
                     .build();
         }
     }

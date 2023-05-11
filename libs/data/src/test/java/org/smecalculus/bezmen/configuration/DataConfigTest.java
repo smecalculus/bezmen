@@ -1,5 +1,9 @@
 package org.smecalculus.bezmen.configuration;
 
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+import static org.smecalculus.bezmen.fixture.DataPropsFixture.dataPropsCfg;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -8,10 +12,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.smecalculus.bezmen.modeling.DataConfig;
 import org.smecalculus.bezmen.validation.BezmenValidator;
 
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-import static org.smecalculus.bezmen.fixture.DataPropsFixture.dataPropsCfg;
-
 @ExtendWith(MockitoExtension.class)
 abstract class DataConfigTest {
 
@@ -19,6 +19,7 @@ abstract class DataConfigTest {
 
     @Mock
     private BezmenValidator validator;
+
     @Mock
     private ConfigKeeper keeper;
 

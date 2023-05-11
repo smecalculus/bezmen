@@ -1,17 +1,16 @@
 package org.smecalculus.bezmen.construction;
 
+import static java.util.Objects.nonNull;
+import static org.smecalculus.bezmen.configuration.MessagingProtocol.HTTP;
+import static org.springframework.context.annotation.ConfigurationCondition.ConfigurationPhase.REGISTER_BEAN;
+
+import java.util.Map;
 import org.smecalculus.bezmen.configuration.HttpProps;
 import org.smecalculus.bezmen.configuration.MessagingProps;
 import org.smecalculus.bezmen.configuration.WebMode;
 import org.springframework.context.annotation.ConditionContext;
 import org.springframework.context.annotation.ConfigurationCondition;
 import org.springframework.core.type.AnnotatedTypeMetadata;
-
-import java.util.Map;
-
-import static java.util.Objects.nonNull;
-import static org.smecalculus.bezmen.configuration.MessagingProtocol.HTTP;
-import static org.springframework.context.annotation.ConfigurationCondition.ConfigurationPhase.REGISTER_BEAN;
 
 class WebModeCondition implements ConfigurationCondition {
 

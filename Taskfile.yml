@@ -16,9 +16,6 @@ includes:
   lib:
     taskfile: libs/Taskfile.yml
     dir: libs
-  env:
-    taskfile: env/Taskfile.yml
-    dir: env
   schema:
     taskfile: schemas/Taskfile.yml
     dir: schemas

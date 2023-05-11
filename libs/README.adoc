@@ -20,10 +20,6 @@ include::messaging/README.adoc[]
 
 include::data/README.adoc[]
 
-=== schema
-
-include::schema/README.adoc[]
-
 === testing
 
 include::testing/README.adoc[]

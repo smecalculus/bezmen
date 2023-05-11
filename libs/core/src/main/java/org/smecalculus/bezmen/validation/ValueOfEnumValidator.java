@@ -1,13 +1,12 @@
 package org.smecalculus.bezmen.validation;
 
-import jakarta.validation.ConstraintValidator;
-import jakarta.validation.ConstraintValidatorContext;
-
-import java.util.Set;
-import java.util.stream.Stream;
-
 import static java.lang.String.format;
 import static java.util.stream.Collectors.toSet;
+
+import jakarta.validation.ConstraintValidator;
+import jakarta.validation.ConstraintValidatorContext;
+import java.util.Set;
+import java.util.stream.Stream;
 
 public class ValueOfEnumValidator implements ConstraintValidator<ValueOfEnum, String> {
     private Set<String> allowedValues;

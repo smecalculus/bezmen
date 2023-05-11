@@ -2,7 +2,6 @@ package org.smecalculus.bezmen.messaging;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
 import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -11,10 +10,7 @@ import java.net.http.HttpRequest.BodyPublishers;
 import java.net.http.HttpResponse;
 import java.net.http.HttpResponse.BodyHandlers;
 
-public record BezmenClientJavaHttp(
-        ObjectMapper mapper,
-        HttpClient client
-) implements BezmenClient {
+public record BezmenClientJavaHttp(ObjectMapper mapper, HttpClient client) implements BezmenClient {
 
     @Override
     public SepulkaRegRes register(SepulkaRegReq request) {
