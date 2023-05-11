@@ -29,6 +29,10 @@ includes:
     dir: foo
 
 tasks:
+  code:
+    run: once
+    cmds:
+      - task: foo:code
   binaries:
     run: once
     deps:
