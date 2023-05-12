@@ -1,4 +1,3 @@
 package org.smecalculus.bezmen.messaging;
 
-public class SepulkaClientSpringWebIT extends SepulkaClientIT {
-}
+public class SepulkaClientSpringWebIT extends SepulkaClientIT {}

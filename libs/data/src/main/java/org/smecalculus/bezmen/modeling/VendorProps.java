@@ -5,9 +5,4 @@ import lombok.Builder;
 import lombok.NonNull;
 
 @Builder
-public record VendorProps(
-        @NonNull VendorMode mode,
-        @Nullable H2Props h2Props,
-        @Nullable PostgresProps postgresProps
-) {
-}
+public record VendorProps(@NonNull VendorMode mode, @Nullable H2Props h2Props, @Nullable PostgresProps postgresProps) {}

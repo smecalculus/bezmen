@@ -1,5 +1,0 @@
-Приложения в окружении
-
-=== db
-
-include::db/README.adoc[]

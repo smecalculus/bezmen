@@ -1,5 +1,6 @@
 package org.smecalculus.bezmen.construction;
 
+import javax.sql.DataSource;
 import org.smecalculus.bezmen.modeling.DataProps;
 import org.smecalculus.bezmen.modeling.H2Props;
 import org.smecalculus.bezmen.modeling.PostgresProps;
@@ -8,8 +9,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
-
-import javax.sql.DataSource;
 
 @Configuration(proxyBeanMethods = false)
 @Import({DataConfigBeans.class, OrmMyBatisBeans.class, OrmSpringDataBeans.class})

@@ -16,10 +16,6 @@ include::apps/README.adoc[]
 
 include::libs/README.adoc[]
 
-== env
-
-include::env/README.adoc[]
-
 == stands
 
 include::stands/README.adoc[]
@@ -36,7 +32,6 @@ include::tools/README.adoc[]
 
 . Поддержка двух версий JDK
 . Заморозка версий, которые могут обновляться автоматически
-. Тестовые отчеты
 . Линтинг и/или форматирование, статический анализ, тестовое покрытие
 . Клиентский инсталлятор
 . Релизная сборка

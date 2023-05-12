@@ -15,18 +15,22 @@ vars:
     {{- end -}}
 
 tasks:
+  code:
+    run: once
+    cmds:
+      - mvn spotless:apply -Drevision={{.LIB_VERSION}}
   binaries:
     run: once
     vars:
       SKIP_TESTS: false
     status:
-      - mvn -o dependency:get -Dartifact=org.smecalculus.bezmen:libs:{{.LIB_VERSION}}:pom
+      - mvn --offline dependency:get -Dartifact=org.smecalculus.bezmen:libs:{{.LIB_VERSION}}:pom
     cmds:
       - cmd: >
           mvn clean install
-          -am -T1C
+          --threads 2C
           --batch-mode
-          -DskipTests={{.SKIP_TESTS}}
           -Drevision={{.LIB_VERSION}}
+          -DskipTests={{.SKIP_TESTS}}
   images:
     run: once

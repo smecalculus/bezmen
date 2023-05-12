@@ -1,5 +1,11 @@
 package org.smecalculus.bezmen.func;
 
+import static java.time.Duration.ofSeconds;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.awaitility.Awaitility.await;
+import static org.smecalculus.bezmen.fixture.SepulkaFixtures.sepulkaRegReqPojo;
+import static org.smecalculus.bezmen.fixture.SepulkaFixtures.sepulkaRegResPojo;
+
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
@@ -12,12 +18,6 @@ import org.smecalculus.bezmen.messaging.SepulkaRegRes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-
-import static java.time.Duration.ofSeconds;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.awaitility.Awaitility.await;
-import static org.smecalculus.bezmen.fixture.SepulkaFixtures.sepulkaRegReqPojo;
-import static org.smecalculus.bezmen.fixture.SepulkaFixtures.sepulkaRegResPojo;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = StandBeans.class)

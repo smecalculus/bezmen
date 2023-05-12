@@ -1,11 +1,11 @@
 package org.smecalculus.bezmen.testing;
 
+import static org.junit.jupiter.api.extension.ConditionEvaluationResult.disabled;
+import static org.junit.jupiter.api.extension.ConditionEvaluationResult.enabled;
+
 import org.junit.jupiter.api.extension.ConditionEvaluationResult;
 import org.junit.jupiter.api.extension.ExecutionCondition;
 import org.junit.jupiter.api.extension.ExtensionContext;
-
-import static org.junit.jupiter.api.extension.ConditionEvaluationResult.disabled;
-import static org.junit.jupiter.api.extension.ConditionEvaluationResult.enabled;
 
 public class ShardingExtension implements ExecutionCondition {
 

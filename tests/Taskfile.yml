@@ -34,13 +34,17 @@ vars:
     {{- end -}}
 
 tasks:
+  code:
+    run: once
+    cmds:
+      - mvn spotless:apply -Dlibs.version={{.LIB_VERSION}}
   binaries:
     run: once
     internal: true
     cmds:
       - cmd: >
           mvn clean install
-          -am -T1C
+          --threads 1C
   images:
     run: once
     internal: true

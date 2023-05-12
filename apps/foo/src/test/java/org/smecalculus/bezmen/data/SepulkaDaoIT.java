@@ -1,5 +1,8 @@
 package org.smecalculus.bezmen.data;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.smecalculus.bezmen.fixture.SepulkaFixtures.sepulkaBuilder;
+
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.smecalculus.bezmen.construction.SepulkaDaoBeans;
@@ -8,9 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.smecalculus.bezmen.fixture.SepulkaFixtures.sepulkaBuilder;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = SepulkaDaoBeans.class)

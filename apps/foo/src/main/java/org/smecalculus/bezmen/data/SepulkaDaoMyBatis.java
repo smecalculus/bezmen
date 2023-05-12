@@ -1,24 +1,19 @@
 package org.smecalculus.bezmen.data;
 
+import static java.util.stream.Collectors.toList;
+
+import java.util.List;
+import java.util.UUID;
 import lombok.NonNull;
 import org.smecalculus.bezmen.data.mybatis.SepulkaSqlMapper;
 import org.smecalculus.bezmen.modeling.Sepulka;
 
-import java.util.List;
-import java.util.UUID;
-
-import static java.util.stream.Collectors.toList;
-
-public record SepulkaDaoMyBatis(
-        @NonNull SepulkaRecMapper recMapper,
-        @NonNull SepulkaSqlMapper sqlMapper
-) implements SepulkaDao {
+public record SepulkaDaoMyBatis(@NonNull SepulkaRecMapper recMapper, @NonNull SepulkaSqlMapper sqlMapper)
+        implements SepulkaDao {
 
     @Override
     public Sepulka getById(@NonNull UUID id) {
-        return sqlMapper.findById(id.toString())
-                .map(recMapper::toDomain)
-                .orElse(null);
+        return sqlMapper.findById(id.toString()).map(recMapper::toDomain).orElse(null);
     }
 
     @Override
@@ -30,8 +25,6 @@ public record SepulkaDaoMyBatis(
 
     @Override
     public List<Sepulka> getSepulkas() {
-        return sqlMapper.selectAll().stream()
-                .map(recMapper::toDomain)
-                .collect(toList());
+        return sqlMapper.selectAll().stream().map(recMapper::toDomain).collect(toList());
     }
 }

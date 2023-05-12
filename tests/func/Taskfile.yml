@@ -1,6 +1,6 @@
 version: '3'
 
-tasks:  
+tasks:
   image:
     run: once
     internal: true

@@ -1,10 +1,9 @@
 package org.smecalculus.bezmen.fixture;
 
+import java.util.UUID;
 import org.smecalculus.bezmen.messaging.SepulkaRegReq;
 import org.smecalculus.bezmen.messaging.SepulkaRegRes;
 import org.smecalculus.bezmen.modeling.Sepulka;
-
-import java.util.UUID;
 
 public class SepulkaFixtures {
     public static final String NAME = "foo";
@@ -14,9 +13,7 @@ public class SepulkaFixtures {
     }
 
     public static Sepulka.Builder sepulkaBuilder() {
-        return Sepulka.builder()
-                .id(UUID.randomUUID())
-                .name(NAME);
+        return Sepulka.builder().id(UUID.randomUUID()).name(NAME);
     }
 
     public static Sepulka.Builder sepulkaBuilder(UUID id) {

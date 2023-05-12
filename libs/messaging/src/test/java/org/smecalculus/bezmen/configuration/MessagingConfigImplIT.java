@@ -1,5 +1,3 @@
 package org.smecalculus.bezmen.configuration;
 
-class MessagingConfigImplIT extends MessagingConfigIT {
-
-}
+class MessagingConfigImplIT extends MessagingConfigIT {}

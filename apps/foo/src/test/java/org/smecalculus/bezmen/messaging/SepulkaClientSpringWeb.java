@@ -4,10 +4,8 @@ import lombok.NonNull;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.reactive.server.WebTestClient;
 
-public record SepulkaClientSpringWeb(
-        @NonNull WebTestClient client,
-        @NonNull SepulkaMsgMapper mapper
-) implements SepulkaClient {
+public record SepulkaClientSpringWeb(@NonNull WebTestClient client, @NonNull SepulkaMsgMapper mapper)
+        implements SepulkaClient {
 
     @Override
     public SepulkaRegRes register(SepulkaRegReq request) {

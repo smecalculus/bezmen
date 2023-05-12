@@ -8,10 +8,8 @@ import org.smecalculus.bezmen.modeling.DataProps;
 import org.smecalculus.bezmen.validation.BezmenValidator;
 
 public record DataConfigImpl(
-        @NonNull ConfigKeeper configKeeper,
-        @NonNull BezmenValidator validator,
-        @NonNull DataCfgMapper mapper
-) implements DataConfig {
+        @NonNull ConfigKeeper configKeeper, @NonNull BezmenValidator validator, @NonNull DataCfgMapper mapper)
+        implements DataConfig {
 
     private static final Logger LOG = LoggerFactory.getLogger(DataConfigImpl.class);
 

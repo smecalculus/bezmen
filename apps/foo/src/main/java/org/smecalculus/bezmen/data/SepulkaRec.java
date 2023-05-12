@@ -10,7 +10,9 @@ import org.springframework.data.relational.core.mapping.Table;
 public class SepulkaRec {
     @Id
     String id;
+
     @Version
     Integer version;
+
     String name;
 }

@@ -1,5 +1,9 @@
 package org.smecalculus.bezmen.construction;
 
+import static org.smecalculus.bezmen.configuration.WebMode.SPRING_MVC;
+import static org.smecalculus.bezmen.modeling.OrmMode.MY_BATIS;
+import static org.smecalculus.bezmen.modeling.OrmMode.SPRING_DATA;
+
 import org.smecalculus.bezmen.data.SepulkaDao;
 import org.smecalculus.bezmen.data.SepulkaDaoMyBatis;
 import org.smecalculus.bezmen.data.SepulkaDaoSpringData;
@@ -38,33 +42,25 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 
-import static org.smecalculus.bezmen.configuration.WebMode.SPRING_MVC;
-import static org.smecalculus.bezmen.modeling.OrmMode.MY_BATIS;
-import static org.smecalculus.bezmen.modeling.OrmMode.SPRING_DATA;
-
-@Import({
-        ConfigBeans.class,
-        ValidationBeans.class,
-        MessagingBeans.class,
-        DataBeans.class
-})
-@EnableAutoConfiguration(exclude = {
-        LiquibaseAutoConfiguration.class,
-        AopAutoConfiguration.class,
-        DataSourceHealthContributorAutoConfiguration.class,
-        DiskSpaceHealthContributorAutoConfiguration.class,
-        EmbeddedWebServerFactoryCustomizerAutoConfiguration.class,
-        PersistenceExceptionTranslationAutoConfiguration.class,
-        SpringDataWebAutoConfiguration.class,
-        HealthContributorAutoConfiguration.class,
-        HttpMessageConvertersAutoConfiguration.class,
-        LifecycleAutoConfiguration.class,
-        MultipartAutoConfiguration.class,
-        PropertyPlaceholderAutoConfiguration.class,
-        RestTemplateAutoConfiguration.class,
-        TaskExecutionAutoConfiguration.class,
-        TaskSchedulingAutoConfiguration.class
-})
+@Import({ConfigBeans.class, ValidationBeans.class, MessagingBeans.class, DataBeans.class})
+@EnableAutoConfiguration(
+        exclude = {
+            LiquibaseAutoConfiguration.class,
+            AopAutoConfiguration.class,
+            DataSourceHealthContributorAutoConfiguration.class,
+            DiskSpaceHealthContributorAutoConfiguration.class,
+            EmbeddedWebServerFactoryCustomizerAutoConfiguration.class,
+            PersistenceExceptionTranslationAutoConfiguration.class,
+            SpringDataWebAutoConfiguration.class,
+            HealthContributorAutoConfiguration.class,
+            HttpMessageConvertersAutoConfiguration.class,
+            LifecycleAutoConfiguration.class,
+            MultipartAutoConfiguration.class,
+            PropertyPlaceholderAutoConfiguration.class,
+            RestTemplateAutoConfiguration.class,
+            TaskExecutionAutoConfiguration.class,
+            TaskSchedulingAutoConfiguration.class
+        })
 @Configuration(proxyBeanMethods = false)
 public class App {
 
@@ -74,8 +70,7 @@ public class App {
 
     @Bean
     @ConditionalOnWebMode(SPRING_MVC)
-    SepulkaController sepulkaController(SepulkaClient client,
-                                        SepulkaMsgMapper mapper) {
+    SepulkaController sepulkaController(SepulkaClient client, SepulkaMsgMapper mapper) {
         return new SepulkaController(client, mapper);
     }
 
@@ -85,9 +80,7 @@ public class App {
     }
 
     @Bean
-    SepulkaClient sepulkaClient(BezmenValidator validator,
-                                SepulkaService service,
-                                SepulkaConverter converter) {
+    SepulkaClient sepulkaClient(BezmenValidator validator, SepulkaService service, SepulkaConverter converter) {
         return new SepulkaClientImpl(validator, service, converter);
     }
 
@@ -103,15 +96,13 @@ public class App {
 
     @Bean
     @ConditionalOnOrmMode(SPRING_DATA)
-    SepulkaDaoSpringData sepulkaDaoSpringData(SepulkaRecMapper mapper,
-                                    SepulkaRepository repository) {
+    SepulkaDaoSpringData sepulkaDaoSpringData(SepulkaRecMapper mapper, SepulkaRepository repository) {
         return new SepulkaDaoSpringData(mapper, repository);
     }
 
     @Bean
     @ConditionalOnOrmMode(MY_BATIS)
-    SepulkaDaoMyBatis sepulkaDaoMyBatis(SepulkaRecMapper recMapper,
-                                 SepulkaSqlMapper sqlMapper) {
+    SepulkaDaoMyBatis sepulkaDaoMyBatis(SepulkaRecMapper recMapper, SepulkaSqlMapper sqlMapper) {
         return new SepulkaDaoMyBatis(recMapper, sqlMapper);
     }
 

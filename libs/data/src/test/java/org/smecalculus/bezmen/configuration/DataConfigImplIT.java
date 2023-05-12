@@ -1,5 +1,3 @@
 package org.smecalculus.bezmen.configuration;
 
-class DataConfigImplIT extends DataConfigIT {
-
-}
+class DataConfigImplIT extends DataConfigIT {}

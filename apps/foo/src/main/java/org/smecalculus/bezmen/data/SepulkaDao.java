@@ -1,9 +1,8 @@
 package org.smecalculus.bezmen.data;
 
-import org.smecalculus.bezmen.modeling.Sepulka;
-
 import java.util.List;
 import java.util.UUID;
+import org.smecalculus.bezmen.modeling.Sepulka;
 
 public interface SepulkaDao {
 
