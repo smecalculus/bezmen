@@ -20,6 +20,28 @@ tasks:
           --batch-mode
           -Drevision={{.APP_FOO_VERSION}}
           -Dlibs.version={{.LIB_VERSION}}
+          -DskipTests=true
+  units:
+    run: once
+    cmds:
+      - task: ::lib:binaries
+      - cmd: >
+          mvn clean test
+          --threads 2C
+          --batch-mode
+          -Drevision={{.APP_FOO_VERSION}}
+          -Dlibs.version={{.LIB_VERSION}}
+  integrations:
+    run: once
+    cmds:
+      - task: ::lib:binaries
+      - cmd: >
+          mvn clean verify
+          --threads 2C
+          --batch-mode
+          -Drevision={{.APP_FOO_VERSION}}
+          -Dlibs.version={{.LIB_VERSION}}
+          -DskipUnits=true
   image:
     run: once
     status:

@@ -11,7 +11,7 @@ env:
   REGISTRY: ghcr.io
 
 jobs:
-  building:
+  build-artifacts:
     name: Building
     runs-on: ubuntu-latest
     timeout-minutes: 10
@@ -35,11 +35,55 @@ jobs:
       - run: >
           task --verbose stage:building:run
           REGISTRY=${{ env.REGISTRY }}
-  verification-start:
-    name: Verification (Start)
+  test-units:
+    name: Unit Testing
     runs-on: ubuntu-latest
     timeout-minutes: 15
-    needs: building
+    steps:
+      - uses: actions/checkout@v3.5.2
+      - uses: actions/setup-java@v3.11.0
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+          cache: 'maven'
+      - uses: arduino/setup-task@v1.0.3
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+      - run: task --verbose stage:testing:units
+      - uses: actions/upload-artifact@v3.1.2
+        if: always()
+        with:
+          name: unit-test-reports
+          path: |
+            libs/*/target/surefire-reports/TEST-*.xml
+            apps/*/target/surefire-reports/TEST-*.xml
+  test-integrations:
+    name: Integration Testing
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v3.5.2
+      - uses: actions/setup-java@v3.11.0
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+          cache: 'maven'
+      - uses: arduino/setup-task@v1.0.3
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+      - run: task --verbose stage:testing:integrations
+      - uses: actions/upload-artifact@v3.1.2
+        if: always()
+        with:
+          name: integration-test-reports
+          path: |
+            libs/*/target/failsafe-reports/TEST-*.xml
+            apps/*/target/failsafe-reports/TEST-*.xml
+  test-e2e:
+    name: End-to-End Testing
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    needs: [build-artifacts]
     strategy:
       fail-fast: false
       matrix:
@@ -62,7 +106,7 @@ jobs:
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
       - run: >
-          task --verbose stage:verification:run
+          task --verbose stage:testing:e2e
           REGISTRY=${{ env.REGISTRY }}
           USAGE=${{ matrix.usage }}
           PROPS=${{ matrix.props }}
@@ -72,15 +116,15 @@ jobs:
       - uses: actions/upload-artifact@v3.1.2
         if: always()
         with:
-          name: test-reports-${{ matrix.usage }}-${{ matrix.props }}-${{ matrix.shard }}
+          name: e2e-test-reports-${{ matrix.usage }}-${{ matrix.props }}-${{ matrix.shard }}
           path: tests/${{ matrix.usage }}/target/surefire-reports/*.xml
           # if-no-files-found: error
-  verification-end:
-    name: Verification (End)
+  verify:
+    name: Verifying
     if: ${{ always() }}
     runs-on: ubuntu-latest
     timeout-minutes: 5
-    needs: verification-start
+    needs: [test-units, test-integrations, test-e2e]
     permissions:
       checks: write
       packages: write
@@ -89,6 +133,8 @@ jobs:
       - uses: actions/download-artifact@v3.0.2
         with:
           path: reports
+      - run: ls -R
+        working-directory: reports
       - uses: EnricoMi/publish-unit-test-result-action@v2.7.0
         with:
           check_name: End-to-End Tests

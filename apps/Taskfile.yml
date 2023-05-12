@@ -37,6 +37,14 @@ tasks:
     run: once
     deps:
       - task: foo:binary
+  units:
+    run: once
+    deps:
+      - task: foo:units
+  integrations:
+    run: once
+    deps:
+      - task: foo:integrations
   images:
     run: once
     deps:

@@ -6,32 +6,6 @@ vars:
   STAGE_VERIFICATION_STATUS: verified
 
 tasks:
-  run:
-    run: once
-    status:
-      - >
-        for ref in {{.SCHEMA_USAGE_REFS}}; do
-          docker {{.ENTITY}} inspect $ref-{{.STAGE_VERIFICATION_STATUS}}
-        done
-      - >
-        for ref in {{.APP_USAGE_REFS}}; do
-          docker {{.ENTITY}} inspect $ref-{{.STAGE_VERIFICATION_STATUS}}
-        done
-      - >
-        for ref in {{.TEST_USAGE_REFS}}; do
-          docker {{.ENTITY}} inspect $ref-{{.STAGE_VERIFICATION_STATUS}}
-        done
-      - >
-        for ref in {{.STAND_USAGE_REFS}}; do
-          docker {{.ENTITY}} inspect $ref-{{.STAGE_VERIFICATION_STATUS}}
-        done
-    cmds:
-      - task: ::stand:run
-        # TODO: ::lib:testing:binary
-      - task: ::lib:binaries
-        vars:
-          SKIP_TESTS: true
-      - task: ::test:run
   transit:
     run: once
     aliases: [ commit ]
