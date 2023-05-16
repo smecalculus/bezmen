@@ -39,6 +39,9 @@ jobs:
     name: Unit Testing
     runs-on: ubuntu-latest
     timeout-minutes: 15
+    permissions:
+      checks: write
+      pull-requests: write
     steps:
       - uses: actions/checkout@v3.5.2
       - uses: actions/setup-java@v3.11.0
@@ -50,17 +53,39 @@ jobs:
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
       - run: task --verbose stage:testing:units
+      - uses: EnricoMi/publish-unit-test-result-action@v2.7.0
+        if: always()
+        with:
+          check_name: Unit Test Report
+          check_run_annotations: none
+          compare_to_earlier_commit: false
+          action_fail_on_inconclusive: true
+          action_fail: true
+          job_summary: false
+          comment_mode: always
+          files: |
+            libs/*/target/surefire-reports/TEST-*.xml
+            apps/*/target/surefire-reports/TEST-*.xml
+      - uses: madrapps/jacoco-report@v1.3
+        with:
+          title: Unit Coverage Report
+          update-comment: true
+          token: ${{ secrets.GITHUB_TOKEN }}
+          paths: >
+            apps/foo/target/site/jacoco/jacoco.xml
       - uses: actions/upload-artifact@v3.1.2
         if: always()
         with:
-          name: unit-test-reports
+          name: unit-coverage-report
           path: |
-            libs/*/target/surefire-reports/TEST-*.xml
-            apps/*/target/surefire-reports/TEST-*.xml
+            apps/foo/target/site/jacoco/jacoco.xml
   test-integrations:
     name: Integration Testing
     runs-on: ubuntu-latest
     timeout-minutes: 15
+    permissions:
+      checks: write
+      pull-requests: write
     steps:
       - uses: actions/checkout@v3.5.2
       - uses: actions/setup-java@v3.11.0
@@ -72,13 +97,32 @@ jobs:
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
       - run: task --verbose stage:testing:integrations
+      - uses: EnricoMi/publish-unit-test-result-action@v2.7.0
+        if: always()
+        with:
+          check_name: Integration Test Report
+          check_run_annotations: none
+          compare_to_earlier_commit: false
+          action_fail_on_inconclusive: true
+          action_fail: true
+          job_summary: false
+          comment_mode: always
+          files: |
+            libs/*/target/failsafe-reports/TEST-*.xml
+            apps/*/target/failsafe-reports/TEST-*.xml
+      - uses: madrapps/jacoco-report@v1.3
+        with:
+          title: Integration Coverage Report
+          update-comment: true
+          token: ${{ secrets.GITHUB_TOKEN }}
+          paths: >
+            apps/foo/target/site/jacoco-it/jacoco.xml
       - uses: actions/upload-artifact@v3.1.2
         if: always()
         with:
-          name: integration-test-reports
+          name: integration-coverage-report
           path: |
-            libs/*/target/failsafe-reports/TEST-*.xml
-            apps/*/target/failsafe-reports/TEST-*.xml
+            apps/foo/target/site/jacoco-it/jacoco.xml
   test-e2e:
     name: End-to-End Testing
     runs-on: ubuntu-latest
@@ -128,6 +172,7 @@ jobs:
     permissions:
       checks: write
       packages: write
+      pull-requests: write
     steps:
       - uses: actions/checkout@v3.5.2
       - uses: actions/download-artifact@v3.0.2
@@ -137,14 +182,23 @@ jobs:
         working-directory: reports
       - uses: EnricoMi/publish-unit-test-result-action@v2.7.0
         with:
-          check_name: End-to-End Tests
+          check_name: End-to-End Test Report
           check_run_annotations: none
           compare_to_earlier_commit: false
           action_fail_on_inconclusive: true
           action_fail: true
-          job_summary: true
-          comment_mode: off
+          job_summary: false
+          comment_mode: true
           files: reports/**/TEST-*.xml
+      - uses: madrapps/jacoco-report@v1.3
+        with:
+          title: Overall Coverage Report
+          update-comment: true
+          min-coverage-changed-files: 50
+          token: ${{ secrets.GITHUB_TOKEN }}
+          paths: >
+            reports/apps/foo/target/site/jacoco/jacoco.xml
+            reports/apps/foo/target/site/jacoco-it/jacoco.xml
       - uses: docker/login-action@v2.1.0
         with:
           registry: ${{ env.REGISTRY }}
