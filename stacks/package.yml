@@ -1,7 +1,5 @@
 ---
 - name: package stack
-  community.general.archive:
-    path:
-      - ../stacks/target/stack
-    dest: ../stacks/target/stack-{{ usage }}-{{ props }}-{{ stack_cid }}.zip
-    format: zip
+  command:
+    cmd: zip -jr stack-{{ usage }}-{{ props }}-{{ stack_cid }}.zip stack
+    chdir: ../stacks/target
