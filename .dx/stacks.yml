@@ -11,7 +11,7 @@
       register: stack_status
       changed_when: stack_status.rc != 0
       failed_when: false
-      no_log: true
+      # no_log: true
     - block:
         - import_tasks:
             file: ../stacks/clean.yml

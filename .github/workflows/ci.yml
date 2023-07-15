@@ -127,6 +127,7 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
       - run: >
           ansible-playbook stacks.yml
+          --skip-tags=deps
           -e registry=${{ env.REGISTRY }}
           -e usage=${{ matrix.usage }}
           -e props=${{ matrix.props }}
