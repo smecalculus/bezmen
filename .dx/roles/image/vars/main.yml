@@ -1,1 +1,2 @@
 ---
+entity: "{{ 'image' if image_name.startswith('localhost') else 'manifest' }}"
