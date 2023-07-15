@@ -56,6 +56,7 @@ jobs:
             libs/*/target/surefire-reports/TEST-*.xml
             apps/*/target/surefire-reports/TEST-*.xml
       - uses: madrapps/jacoco-report@v1.3
+        if: ${{ github.event_name != 'workflow_dispatch' }}
         with:
           title: Unit Coverage Report
           update-comment: true
@@ -83,6 +84,7 @@ jobs:
             libs/*/target/failsafe-reports/TEST-*.xml
             apps/*/target/failsafe-reports/TEST-*.xml
       - uses: madrapps/jacoco-report@v1.3
+        if: ${{ github.event_name != 'workflow_dispatch' }}
         with:
           title: Integration Coverage Report
           update-comment: true
@@ -165,6 +167,7 @@ jobs:
           comment_mode: always
           files: reports/**/TEST-*.xml
       - uses: madrapps/jacoco-report@v1.3
+        if: ${{ github.event_name != 'workflow_dispatch' }}
         with:
           title: Overall Coverage Report
           update-comment: true
