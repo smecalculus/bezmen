@@ -3,7 +3,8 @@ version: '3'
 set: [pipefail]
 
 tasks:
-  code:
+  sources:
+    aliases: [source, code]
     run: once
     cmds:
       - mvn spotless:apply -Drevision={{.APP_FOO_VERSION}} -Dlibs.version={{.LIB_VERSION}}

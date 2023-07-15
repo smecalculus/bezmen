@@ -1,0 +1,60 @@
+---
+- import_playbook: sources.yml
+  tags: deps
+
+- name: binaries
+  hosts: lib
+  tasks:
+    - command:
+        cmd: >
+          mvn dependency:get
+          --define artifact=org.smecalculus.bezmen:libs:{{ lib_version }}:pom
+          --offline
+        chdir: ../libs
+      register: binary_status
+      changed_when: binary_status.rc != 0
+      failed_when: false
+      no_log: true
+    - command:
+        cmd: >
+          mvn clean install
+          --define revision={{ lib_version }}
+          --threads 2C
+          --batch-mode
+          --fail-fast
+        chdir: ../libs
+      when: binary_status is changed
+
+- name: binaries
+  hosts: app
+  tasks:
+    - find:
+        paths:
+          - "{{ playbook_dir }}/../apps"
+        patterns:
+          - "pom.xml"
+        contains: ".*parent.*"
+        recurse: true
+        depth: 2
+      register: app_modules
+      no_log: true
+    - command:
+        cmd: test -f {{ item|dirname }}/target/app-{{ item|dirname|basename }}-{{ app_version }}.jar
+      register: app_status
+      changed_when: app_status.rc != 0
+      failed_when: false
+      no_log: true
+      loop: "{{ app_modules.files|map(attribute='path') }}"
+    - command:
+        cmd: >
+          mvn clean package
+          --projects {{ app_status.results|select('changed')|map(attribute='item')|map('dirname')|map('basename')|join(',') }}
+          --define libs.version={{ lib_version }}
+          --define revision={{ app_version }}
+          --threads 2C
+          --batch-mode
+          --also-make
+          --fail-fast
+        chdir: ../apps
+        strip_empty_ends: false
+      when: app_status is changed

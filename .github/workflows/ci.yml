@@ -11,14 +11,20 @@ env:
   REGISTRY: ghcr.io
 
 jobs:
-  build-artifacts:
-    name: Building
+  binaries-and-images:
+    name: Binaries & Images
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 15
     permissions:
-      packages: write
+      checks: write
+      pull-requests: write
     steps:
       - uses: actions/checkout@v3.5.2
+      - uses: actions/setup-python@v4.7.0
+        with:
+          python-version: '3.8.10'
+          cache: 'pip'
+      - run: pip install -r requirements.txt
       - uses: actions/setup-java@v3.11.0
         with:
           distribution: 'temurin'
@@ -29,30 +35,11 @@ jobs:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-      - uses: arduino/setup-task@v1.0.3
-        with:
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
+
       - run: >
-          task --verbose stage:building:run
-          REGISTRY=${{ env.REGISTRY }}
-  test-units:
-    name: Unit Testing
-    runs-on: ubuntu-latest
-    timeout-minutes: 15
-    permissions:
-      checks: write
-      pull-requests: write
-    steps:
-      - uses: actions/checkout@v3.5.2
-      - uses: actions/setup-java@v3.11.0
-        with:
-          distribution: 'temurin'
-          java-version: '17'
-          cache: 'maven'
-      - uses: arduino/setup-task@v1.0.3
-        with:
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
-      - run: task --verbose stage:testing:units
+          ansible-playbook images.yml
+          -e registry=${{ env.REGISTRY }}
+
       - uses: EnricoMi/publish-unit-test-result-action@v2.7.0
         if: always()
         with:
@@ -79,24 +66,7 @@ jobs:
           name: unit-coverage-report
           path: |
             apps/foo/target/site/jacoco/jacoco.xml
-  test-integrations:
-    name: Integration Testing
-    runs-on: ubuntu-latest
-    timeout-minutes: 15
-    permissions:
-      checks: write
-      pull-requests: write
-    steps:
-      - uses: actions/checkout@v3.5.2
-      - uses: actions/setup-java@v3.11.0
-        with:
-          distribution: 'temurin'
-          java-version: '17'
-          cache: 'maven'
-      - uses: arduino/setup-task@v1.0.3
-        with:
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
-      - run: task --verbose stage:testing:integrations
+
       - uses: EnricoMi/publish-unit-test-result-action@v2.7.0
         if: always()
         with:
@@ -123,11 +93,11 @@ jobs:
           name: integration-coverage-report
           path: |
             apps/foo/target/site/jacoco-it/jacoco.xml
-  test-e2e:
-    name: End-to-End Testing
+  stacks:
+    name: Stacks
     runs-on: ubuntu-latest
     timeout-minutes: 15
-    needs: [build-artifacts]
+    needs: [binaries-and-images]
     strategy:
       fail-fast: false
       matrix:
@@ -136,6 +106,11 @@ jobs:
         shard: [0, 1]
     steps:
       - uses: actions/checkout@v3.5.2
+      - uses: actions/setup-python@v4.7.0
+        with:
+          python-version: '3.8.10'
+          cache: 'pip'
+      - run: pip install -r requirements.txt
       - uses: actions/setup-java@v3.11.0
         with:
           distribution: 'temurin'
@@ -146,17 +121,13 @@ jobs:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-      - uses: arduino/setup-task@v1.0.3
-        with:
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
       - run: >
-          task --verbose stage:testing:e2e
-          REGISTRY=${{ env.REGISTRY }}
-          USAGE=${{ matrix.usage }}
-          PROPS=${{ matrix.props }}
-          --
-          -Dbezmen.sharding.reminder=${{ matrix.shard }}
-          -Dbezmen.sharding.modulus=2
+          ansible-playbook stacks.yml
+          -e registry=${{ env.REGISTRY }}
+          -e usage=${{ matrix.usage }}
+          -e props=${{ matrix.props }}
+          -e reminder=${{ matrix.shard }}
+          -e modulus=2
       - uses: actions/upload-artifact@v3.1.2
         if: always()
         with:
@@ -165,10 +136,10 @@ jobs:
           # if-no-files-found: error
   verify:
     name: Verifying
-    if: ${{ always() }}
+    if: always()
     runs-on: ubuntu-latest
     timeout-minutes: 5
-    needs: [test-units, test-integrations, test-e2e]
+    needs: [stacks]
     permissions:
       checks: write
       packages: write
@@ -182,13 +153,13 @@ jobs:
         working-directory: reports
       - uses: EnricoMi/publish-unit-test-result-action@v2.7.0
         with:
-          check_name: End-to-End Test Report
+          check_name: E2E Test Report
           check_run_annotations: none
           compare_to_earlier_commit: false
           action_fail_on_inconclusive: true
           action_fail: true
           job_summary: false
-          comment_mode: true
+          comment_mode: always
           files: reports/**/TEST-*.xml
       - uses: madrapps/jacoco-report@v1.3
         with:
@@ -199,14 +170,3 @@ jobs:
           paths: >
             reports/apps/foo/target/site/jacoco/jacoco.xml
             reports/apps/foo/target/site/jacoco-it/jacoco.xml
-      - uses: docker/login-action@v2.1.0
-        with:
-          registry: ${{ env.REGISTRY }}
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-      - uses: arduino/setup-task@v1.0.3
-        with:
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
-      - run: >
-          task --verbose stage:verification:commit
-          REGISTRY=${{ env.REGISTRY }}

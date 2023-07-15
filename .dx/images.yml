@@ -1,0 +1,47 @@
+---
+- import_playbook: binaries.yml
+  tags: deps
+
+- hosts: schema
+  tasks:
+    - name: find buildable schemas
+      find:
+        paths:
+          - "{{ playbook_dir }}/../schemas"
+        patterns:
+          - "Dockerfile"
+        recurse: true
+        depth: 2
+      register: image_spec
+      no_log: true
+    - include_role:
+        name: image
+      vars:
+        image_tag: "{{ schema_cid }}"
+        image_name: "{{ registry }}/{{ image_repo }}/bezmen-schema-{{ item|dirname|basename }}"
+        image_home: "{{ item|dirname }}"
+      loop: "{{ image_spec.files|map(attribute='path') }}"
+      no_log: true
+
+- hosts: app
+  tasks:
+    - name: find buildable apps
+      find:
+        paths:
+          - "{{ playbook_dir }}/../apps"
+        patterns:
+          - "Dockerfile"
+        recurse: true
+        depth: 2
+      register: image_spec
+      no_log: true
+    - include_role:
+        name: image
+      vars:
+        image_tag: "{{ app_cid }}"
+        image_name: "{{ registry }}/{{ image_repo }}/bezmen-app-{{ item|dirname|basename }}"
+        image_home: "{{ item|dirname }}"
+        image_context: "target/docker-context"
+        image_dependency: "{{ hostvars.lib.image_status|default({}) }}"
+      loop: "{{ image_spec.files|map(attribute='path') }}"
+      no_log: true

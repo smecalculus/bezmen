@@ -1,0 +1,25 @@
+---
+- hosts: lib
+  tasks:
+    - block:
+        - name: format
+          command:
+            cmd: >
+              mvn spotless:apply
+              --define revision={{ lib_version }}
+              --batch-mode
+            chdir: "{{ playbook_dir }}/../libs"
+            strip_empty_ends: false
+
+- hosts: app
+  tasks:
+    - block:
+        - name: format
+          command:
+            cmd: >
+              mvn spotless:apply
+              --define libs.version={{ lib_version }}
+              --define revision={{ app_version }}
+              --batch-mode
+            chdir: "{{ playbook_dir }}/../apps"
+            strip_empty_ends: false

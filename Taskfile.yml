@@ -34,3 +34,44 @@ includes:
   docker:
     taskfile: tools/Taskfile.docker.yml
     dir: tools
+  coverage:
+    taskfile: tools/Taskfile.coverage.yml
+    dir: tools
+
+tasks:
+  sources:
+    aliases: [source, code]
+    cmds:
+      - task: lib:sources
+      - task: app:sources
+      - task: test:sources
+  binaries:
+    aliases: [binary]
+    cmds:
+      - task: lib:binaries
+      - task: app:binaries
+      - task: test:binaries
+  images:
+    aliases: [image]
+    cmds:
+      - task: lib:images
+      - task: app:images
+      - task: stand:images
+      - task: schema:images
+      - task: test:images
+  units:
+    aliases: [unit]
+    cmds:
+      - task: lib:units
+      - task: app:units
+      - task: coverage:units
+  integrations:
+    aliases: [integration]
+    cmds:
+      - task: lib:integrations
+      - task: app:integrations
+      - task: coverage:integrations
+  stands:
+    cmds:
+      - task: stand:toy:run
+      - task: stand:func:run

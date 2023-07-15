@@ -1,0 +1,63 @@
+---
+- import_playbook: images.yml
+  tags: deps
+
+- hosts: app
+  run_once: yes
+  tasks:
+    - name: capture stack status
+      command:
+        cmd: test -f ../stacks/target/stack-{{ usage }}-{{ props }}-{{ stack_cid }}.zip
+      register: stack_status
+      changed_when: stack_status.rc != 0
+      failed_when: false
+      no_log: true
+    - block:
+        - import_tasks:
+            file: ../stacks/clean.yml
+        - import_tasks:
+            file: ../stacks/compile.yml
+        - name: capture schema status
+          command:
+            cmd: docker inspect schema-owner-{{ schema_cid }}
+          no_log: true
+          register: schema_status
+          changed_when: schema_status.rc != 0
+          failed_when: false
+        - name: wipe db if schema changed
+          command:
+            cmd: docker rm -f env-db
+          when: schema_status is changed
+        - name: run stack
+          command:
+            cmd: >
+              docker compose
+              --file compose.yml
+              --profile {{ props }}
+              up
+              --remove-orphans
+              --quiet-pull
+              --no-deps
+              --detach
+            chdir: ../stacks/target/stack
+            strip_empty_ends: false
+        - name: test stack
+          command:
+            cmd: >
+              mvn clean test
+              --projects {{ usage }}
+              --define props.combo={{ props }}
+              --define libs.version={{ lib_version }}
+              --batch-mode
+              {% if reminder is defined %}
+              --define bezmen.sharding.reminder={{ reminder }}
+              {% endif %}
+              {% if modulus is defined %}
+              --define bezmen.sharding.modulus={{ modulus }}
+              {% endif %}
+            chdir: ../tests
+            strip_empty_ends: false
+        - import_tasks:
+            file: ../stacks/package.yml
+      when: >
+        stack_status is changed

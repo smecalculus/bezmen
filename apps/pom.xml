@@ -163,6 +163,9 @@
             </execution>
           </executions>
           <configuration>
+            <upToDateChecking>
+              <enabled>false</enabled>
+            </upToDateChecking>
             <formats>
               <format>
                 <includes>

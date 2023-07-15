@@ -15,11 +15,13 @@ vars:
     {{- end -}}
 
 tasks:
-  code:
+  sources:
+    aliases: [source, code]
     run: once
     cmds:
       - mvn spotless:apply -Drevision={{.LIB_VERSION}}
   binaries:
+    aliases: [binary]
     run: once
     status:
       - mvn --offline dependency:get -Dartifact=org.smecalculus.bezmen:libs:{{.LIB_VERSION}}:pom
@@ -31,6 +33,7 @@ tasks:
           -Drevision={{.LIB_VERSION}}
           -DskipTests=true
   units:
+    aliases: [unit]
     run: once
     cmds:
       - cmd: >
@@ -39,6 +42,7 @@ tasks:
           --batch-mode
           -Drevision={{.LIB_VERSION}}
   integrations:
+    aliases: [integration]
     run: once
     cmds:
       - cmd: >

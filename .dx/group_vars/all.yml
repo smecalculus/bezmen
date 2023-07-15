@@ -1,0 +1,31 @@
+---
+lib_cid: "{{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=libs')[:7] }}"
+app_cid: "{{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=apps')[:7] }}"
+schema_cid: "{{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=schemas')[:7] }}"
+stack_cid: "{{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=stands')[:7] }}"
+
+lib_version: "0.1.0-{{ lib_cid }}"
+app_version: "0.1.0-{{ app_cid }}"
+
+registry: "localhost"
+image_repo: "smecalculus"
+
+app_foo_image: "{{ registry }}/{{ image_repo }}/bezmen-app-foo"
+schema_pg_image: "{{ registry }}/{{ image_repo }}/bezmen-schema-postgres"
+
+app_foo_ref: "{{ app_foo_image }}:{{ app_cid }}"
+schema_pg_ref: "{{ schema_pg_image }}:{{ schema_cid }}"
+
+# todo: rename to "stack"
+usage: toy
+# todo: rename to "prefs"
+props: turing
+
+images:
+  app:
+    foo:
+      name:
+  schema:
+    postgres:
+      name: "{{ registry }}/{{ image_repo }}/bezmen-schema-postgres"
+      ref: "{{ schema_pg_image }}:{{ schema_cid }}"

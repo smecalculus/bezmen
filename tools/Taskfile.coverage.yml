@@ -1,0 +1,26 @@
+version: '3'
+
+set: [pipefail]
+
+tasks:
+  units:
+    aliases: [unit]
+    run: once
+    cmds:
+      - cmd: >
+          mvn clean antrun:run@units
+          -Dlibs.version={{.LIB_VERSION}}
+  integrations:
+    aliases: [integration]
+    run: once
+    cmds:
+      - cmd: >
+          mvn clean antrun:run@integrations
+          -Dlibs.version={{.LIB_VERSION}}
+  overall:
+    aliases: [all]
+    run: once
+    cmds:
+      - cmd: >
+          mvn clean antrun:run@overall
+          -Dlibs.version={{.LIB_VERSION}}

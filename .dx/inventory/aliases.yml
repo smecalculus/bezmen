@@ -1,0 +1,7 @@
+all:
+  hosts:
+    lib:
+    schema:
+    app:
+  vars:
+    ansible_connection: local

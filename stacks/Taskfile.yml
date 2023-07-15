@@ -62,7 +62,6 @@ tasks:
   run:
     run: once
     cmds:
-#      - task: :lib:schema:image
       - task: :schema:postgres:image
       - task: :app:foo:image
       - task: :stand:basis:image

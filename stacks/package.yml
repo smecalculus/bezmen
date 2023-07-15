@@ -1,0 +1,7 @@
+---
+- name: package stack
+  archive:
+    path:
+      - ../stacks/target/stack
+    dest: ../stacks/target/stack-{{ usage }}-{{ props }}-{{ stack_cid }}.zip
+    format: zip

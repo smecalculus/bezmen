@@ -1,0 +1,11 @@
+---
+- name: remove artifacts
+  file:
+    path: ../stacks/target
+    state: absent
+
+- name: create directories
+  file:
+    path: ../stacks/target/stack
+    state: directory
+    recurse: true

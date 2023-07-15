@@ -1,0 +1,50 @@
+---
+- name: check vars
+  assert:
+    that:
+      - image_name is defined
+      - image_home is defined
+  no_log: true
+
+- name: capture status
+  command:
+    cmd: docker image inspect {{ image_name }}:{{ image_tag }}
+  register: image_status
+  changed_when: image_status.rc != 0
+  failed_when: false
+  no_log: true
+
+- name: remove outdated
+  block:
+    - shell:
+        cmd: docker container rm -f $(docker ps -aq -f label=image.name={{ image_name }})
+        strip_empty_ends: false
+      failed_when: false
+      no_log: true
+    - shell:
+        cmd: docker image rm -f $(docker images -q -f reference={{ image_name }})
+        strip_empty_ends: false
+      failed_when: false
+      no_log: true
+  when: image_status is changed
+
+- name: build fresh
+  command:
+    cmd: >
+      docker build {{ image_context }}
+      -f Dockerfile
+      -t {{ image_name }}:{{ image_tag }}
+    chdir: "{{ image_home }}"
+    strip_empty_ends: false
+  when: >
+    image_status is changed or
+    image_dependency is changed
+
+- name: push built
+  command:
+    cmd: >
+      docker build {{ image_context }}
+      -f Dockerfile
+      -t {{ image_name }}:{{ image_tag }}
+    strip_empty_ends: false
+  when: not image_name.startswith('localhost')

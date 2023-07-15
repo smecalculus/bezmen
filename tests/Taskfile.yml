@@ -34,7 +34,8 @@ vars:
     {{- end -}}
 
 tasks:
-  code:
+  sources:
+    aliases: [source, code]
     run: once
     cmds:
       - mvn spotless:apply -Dlibs.version={{.LIB_VERSION}}
@@ -51,7 +52,20 @@ tasks:
     cmds:
       - task: :test:toy:image
       - task: :test:func:image
-  run:
+  units:
+    aliases: [unit]
+    cmds:
+      - task: lib:units
+      - task: app:units
+      - task: coverage:units
+  integrations:
+    aliases: [integration]
+    cmds:
+      - task: lib:integrations
+      - task: app:integrations
+      - task: coverage:integrations
+  e2e:
+    aliases: [run]
     cmds:
       - task: :lib:binaries
       - task: :test:{{.USAGE}}:image
