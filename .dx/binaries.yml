@@ -5,7 +5,8 @@
 - name: binaries
   hosts: lib
   tasks:
-    - command:
+    - name: capture status
+      command:
         cmd: >
           mvn dependency:get
           --define artifact=org.smecalculus.bezmen:libs:{{ lib_version }}:pom
@@ -15,7 +16,8 @@
       changed_when: binary_status.rc != 0
       failed_when: false
       no_log: true
-    - command:
+    - name: create binary
+      command:
         cmd: >
           mvn clean install
           --define revision={{ lib_version }}
@@ -28,27 +30,20 @@
 - name: binaries
   hosts: app
   tasks:
-    - find:
-        paths:
-          - "{{ playbook_dir }}/../apps"
-        patterns:
-          - "pom.xml"
-        contains: ".*parent.*"
-        recurse: true
-        depth: 2
-      register: app_modules
-      no_log: true
-    - command:
-        cmd: test -f {{ item|dirname }}/target/app-{{ item|dirname|basename }}-{{ app_version }}.jar
+    - name: capture status
+      command:
+        cmd: test -f {{ item }}/target/app-{{ item }}-{{ app_version }}.jar
+        chdir: ../apps
       register: app_status
       changed_when: app_status.rc != 0
       failed_when: false
-      no_log: true
-      loop: "{{ app_modules.files|map(attribute='path') }}"
-    - command:
+      loop:
+        - foo
+    - name: create binary
+      command:
         cmd: >
           mvn clean verify
-          --projects {{ app_status.results|select('changed')|map(attribute='item')|map('dirname')|map('basename')|join(',') }}
+          --projects {{ app_status.results|select('changed')|map(attribute='item')|join(',') }}
           --define libs.version={{ lib_version }}
           --define revision={{ app_version }}
           --threads 2C
