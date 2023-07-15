@@ -42,9 +42,6 @@
 
 - name: push built
   command:
-    cmd: >
-      docker build {{ image_context }}
-      -f Dockerfile
-      -t {{ image_name }}:{{ image_tag }}
+    cmd: docker image push {{ image_name }}:{{ image_tag }}
     strip_empty_ends: false
   when: not image_name.startswith('localhost')
