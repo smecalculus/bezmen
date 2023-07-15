@@ -14,10 +14,8 @@
   environment:
     SCHEMA_CID: "{{ schema_cid }}"
     SCHEMA_IMAGE: "{{ schema_pg_image }}"
-    SCHEMA_REF: "{{ schema_pg_ref }}"
     FOO_CID: "{{ app_cid }}"
     FOO_IMAGE: "{{ app_foo_image }}"
-    FOO_REF: "{{ app_foo_ref }}"
 
 - name: compile conf
   command:

@@ -19,15 +19,3 @@ docker_repo: "smecalculus"
 app_foo_image: "{{ docker_registry }}/{{ docker_repo }}/bezmen-app-foo"
 schema_pg_image: "{{ docker_registry }}/{{ docker_repo }}/bezmen-schema-postgres"
 stack_image: "{{ docker_registry }}/{{ docker_repo }}/bezmen-stack-{{ usage }}-{{ props }}"
-
-app_foo_ref: "{{ app_foo_image }}:{{ app_cid }}"
-schema_pg_ref: "{{ schema_pg_image }}:{{ schema_cid }}"
-
-images:
-  app:
-    foo:
-      name:
-  schema:
-    postgres:
-      name: "{{ docker_registry }}/{{ docker_repo }}/bezmen-schema-postgres"
-      ref: "{{ schema_pg_image }}:{{ schema_cid }}"

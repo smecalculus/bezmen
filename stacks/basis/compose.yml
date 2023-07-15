@@ -31,7 +31,7 @@ services:
       bezmen: null
 
   schema-dba:
-    image: ${SCHEMA_REF}
+    image: ${SCHEMA_IMAGE}:${SCHEMA_CID}
     container_name: schema-dba-${SCHEMA_CID}
     profiles:
       - turing
@@ -41,7 +41,6 @@ services:
         condition: service_healthy
     labels:
       image.name: ${SCHEMA_IMAGE}
-      bezmen.revision: ${SCHEMA_CID}
     command: >
       --show-banner=false
       --changelog-file=alfa/dba/changelog.yml
@@ -58,7 +57,7 @@ services:
       bezmen: null
 
   schema-owner:
-    image: ${SCHEMA_REF}
+    image: ${SCHEMA_IMAGE}:${SCHEMA_CID}
     container_name: schema-owner-${SCHEMA_CID}
     profiles:
       - turing
@@ -68,7 +67,6 @@ services:
         condition: service_completed_successfully
     labels:
       image.name: ${SCHEMA_IMAGE}
-      bezmen.revision: ${SCHEMA_CID}
     command: >
       --show-banner=false
       --changelog-file=alfa/owner/changelog.yml
@@ -81,13 +79,10 @@ services:
       bezmen: null
 
   foo:
-    image: ${FOO_REF}
+    image: ${FOO_IMAGE}:${FOO_CID}
     container_name: app-foo
     ports:
       - 8080:8080
-#    volumes:
-#      - ./all.conf:/home/bezmen/app/all.conf
-#      - ./${PROPS_COMBO}.conf:/home/bezmen/app/application.conf
     configs:
       - source: bezmen
         # todo: change to /home/bezmen/application.conf
@@ -97,6 +92,5 @@ services:
         condition: service_completed_successfully
     labels:
       image.name: ${FOO_IMAGE}
-      bezmen.revision: ${FOO_CID}
     networks:
       bezmen: null
