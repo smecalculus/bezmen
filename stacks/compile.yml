@@ -7,7 +7,7 @@
       --file {{ usage }}/compose.yml
       --profile {{ props }}
       config
-      --output target/stack/compose.yml
+      --output target/context/compose.yml
       --no-path-resolution
     strip_empty_ends: false
     chdir: ../stacks
@@ -21,5 +21,5 @@
 
 - name: compile conf
   command:
-    cmd: cp basis/{{ props }}.conf target/stack/bezmen.conf
+    cmd: cp basis/{{ props }}.conf target/context/bezmen.conf
     chdir: ../stacks

@@ -39,7 +39,7 @@ jobs:
 
       - run: >
           ansible-playbook images.yml
-          -e registry=${{ env.REGISTRY }}
+          -e docker_registry=${{ env.REGISTRY }}
         working-directory: .dx
 
       - uses: EnricoMi/publish-unit-test-result-action@v2.7.0
@@ -128,7 +128,7 @@ jobs:
       - run: >
           ansible-playbook stacks.yml
           --skip-tags=deps
-          -e registry=${{ env.REGISTRY }}
+          -e docker_registry=${{ env.REGISTRY }}
           -e usage=${{ matrix.usage }}
           -e props=${{ matrix.props }}
           -e reminder=${{ matrix.shard }}

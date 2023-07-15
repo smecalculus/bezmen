@@ -7,19 +7,21 @@ stack_cid: "{{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=stacks')[
 lib_version: "0.1.0-{{ lib_cid }}"
 app_version: "0.1.0-{{ app_cid }}"
 
-registry: "localhost"
-image_repo: "smecalculus"
-
-app_foo_image: "{{ registry }}/{{ image_repo }}/bezmen-app-foo"
-schema_pg_image: "{{ registry }}/{{ image_repo }}/bezmen-schema-postgres"
-
-app_foo_ref: "{{ app_foo_image }}:{{ app_cid }}"
-schema_pg_ref: "{{ schema_pg_image }}:{{ schema_cid }}"
-
 # todo: rename to "stack"
 usage: toy
 # todo: rename to "prefs"
 props: turing
+
+docker_registry: "localhost"
+docker_entity: "{{ 'image' if docker_registry == 'localhost' else 'manifest' }}"
+docker_repo: "smecalculus"
+
+app_foo_image: "{{ docker_registry }}/{{ docker_repo }}/bezmen-app-foo"
+schema_pg_image: "{{ docker_registry }}/{{ docker_repo }}/bezmen-schema-postgres"
+stack_image: "{{ docker_registry }}/{{ docker_repo }}/bezmen-stack-{{ usage }}-{{ props }}"
+
+app_foo_ref: "{{ app_foo_image }}:{{ app_cid }}"
+schema_pg_ref: "{{ schema_pg_image }}:{{ schema_cid }}"
 
 images:
   app:
@@ -27,5 +29,5 @@ images:
       name:
   schema:
     postgres:
-      name: "{{ registry }}/{{ image_repo }}/bezmen-schema-postgres"
+      name: "{{ docker_registry }}/{{ docker_repo }}/bezmen-schema-postgres"
       ref: "{{ schema_pg_image }}:{{ schema_cid }}"

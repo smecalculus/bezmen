@@ -6,6 +6,6 @@
 
 - name: create directories
   file:
-    path: ../stacks/target/stack
+    path: ../stacks/target/context
     state: directory
     recurse: true

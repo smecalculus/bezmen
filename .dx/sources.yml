@@ -9,7 +9,7 @@
           --batch-mode
         chdir: ../libs
         strip_empty_ends: false
-      when: registry == 'localhost'
+      when: docker_registry == 'localhost'
 
 - hosts: app
   tasks:
@@ -22,4 +22,4 @@
           --batch-mode
         chdir: ../apps
         strip_empty_ends: false
-      when: registry == 'localhost'
+      when: docker_registry == 'localhost'

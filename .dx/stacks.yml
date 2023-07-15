@@ -7,11 +7,10 @@
   tasks:
     - name: capture stack status
       command:
-        cmd: test -f ../stacks/target/stack-{{ usage }}-{{ props }}-{{ stack_cid }}.zip
+        cmd: docker {{ docker_entity }} inspect {{ stack_image }}:{{ stack_cid }}
       register: stack_status
       changed_when: stack_status.rc != 0
       failed_when: false
-      # no_log: true
     - block:
         - import_tasks:
             file: ../stacks/clean.yml
@@ -39,7 +38,7 @@
               --quiet-pull
               --no-deps
               --detach
-            chdir: ../stacks/target/stack
+            chdir: ../stacks/target/context
             strip_empty_ends: false
         - name: test stack
           command:
