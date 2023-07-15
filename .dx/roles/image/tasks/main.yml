@@ -44,4 +44,6 @@
   command:
     cmd: docker image push {{ image_name }}:{{ image_tag }}
     strip_empty_ends: false
-  when: not image_name.startswith('localhost')
+  when: >
+    image_status is changed and
+    not image_name.startswith('localhost')
