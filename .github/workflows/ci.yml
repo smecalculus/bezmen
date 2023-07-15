@@ -102,6 +102,8 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     needs: [binaries-and-images]
+    permissions:
+      packages: write
     strategy:
       fail-fast: false
       matrix:
