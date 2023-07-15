@@ -47,7 +47,7 @@
       loop: "{{ app_modules.files|map(attribute='path') }}"
     - command:
         cmd: >
-          mvn clean package
+          mvn clean verify
           --projects {{ app_status.results|select('changed')|map(attribute='item')|map('dirname')|map('basename')|join(',') }}
           --define libs.version={{ lib_version }}
           --define revision={{ app_version }}
