@@ -20,7 +20,15 @@
     - name: create binary
       command:
         cmd: >
-          mvn clean {{ 'install' if docker_registry == 'localhost' else 'deploy' }}
+          mvn clean
+          {% if docker_registry == 'localhost' %}
+          install
+          {% else %}
+          deploy
+          --settings settings.xml
+          --define github.actor={{ github_actor }}
+          --define github.token={{ github_token }}
+          {% endif %}
           --define revision={{ lib_version }}
           --threads 2C
           --batch-mode

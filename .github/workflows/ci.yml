@@ -39,6 +39,8 @@ jobs:
       - run: >
           ansible-playbook images.yml
           -e docker_registry=${{ env.REGISTRY }}
+          -e github_actor=${{ github.actor }}
+          -e github_token=${{ secrets.GITHUB_TOKEN }}
         working-directory: .dx
       - uses: EnricoMi/publish-unit-test-result-action@v2.7.0
         if: always()
