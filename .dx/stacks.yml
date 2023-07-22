@@ -11,12 +11,13 @@
       register: stack_status
       changed_when: stack_status.rc != 0
       failed_when: false
+      tags: [compile, test, package]
     - block:
         - import_tasks:
             file: ../stacks/clean.yml
         - import_tasks:
             file: ../stacks/compile.yml
-          tags: compile
+          tags: [compile]
         - name: capture schema status
           command:
             cmd: docker inspect schema-owner-{{ schema_cid }}
@@ -24,12 +25,12 @@
           register: schema_status
           changed_when: schema_status.rc != 0
           failed_when: false
-          tags: test
+          tags: [test]
         - name: wipe db if schema changed
           command:
             cmd: docker rm -f env-db
           when: schema_status is changed
-          tags: test
+          tags: [test]
         - name: run stack
           command:
             cmd: >
@@ -43,7 +44,7 @@
               --detach
             chdir: ../stacks/target/context
             strip_empty_ends: false
-          tags: test
+          tags: [test]
         - name: test stack
           command:
             cmd: >
@@ -60,9 +61,9 @@
               {% endif %}
             chdir: ../tests
             strip_empty_ends: false
-          tags: test
+          tags: [test]
         - import_tasks:
             file: ../stacks/package.yml
-          tags: package
+          tags: [package]
       when: >
         stack_status is changed
