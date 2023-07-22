@@ -61,14 +61,6 @@ jobs:
           update-comment: true
           paths: >
             apps/foo/target/site/jacoco/jacoco.xml
-#      - uses: PavanMudigonda/jacoco-reporter@v4.8
-#        with:
-#          coverage_results_path: apps/foo/target/site/jacoco/jacoco.xml
-#          coverage_report_name: Unit Coverage Report
-#          github_token: ${{ secrets.GITHUB_TOKEN }}
-#          skip_check_run: false
-#          fail_below_threshold: false
-#          publish_only_summary: false
       - uses: actions/upload-artifact@v3.1.2
         if: ${{ github.event_name == 'pull_request' }}
         with:
@@ -96,14 +88,6 @@ jobs:
           update-comment: true
           paths: >
             apps/foo/target/site/jacoco-it/jacoco.xml
-#      - uses: PavanMudigonda/jacoco-reporter@v4.8
-#        with:
-#          coverage_results_path: apps/foo/target/site/jacoco-it/jacoco.xml
-#          coverage_report_name: Integration Coverage Report
-#          github_token: ${{ secrets.GITHUB_TOKEN }}
-#          skip_check_run: false
-#          fail_below_threshold: false
-#          publish_only_summary: false
       - uses: actions/upload-artifact@v3.1.2
         if: ${{ github.event_name == 'pull_request' }}
         with:
@@ -187,23 +171,16 @@ jobs:
           path: tests/${{ matrix.usage }}/target/surefire-reports/*.xml
           # if-no-files-found: error
 
-  stack-packaging:
-    name: Stack Packaging
+  stack-reporting:
+    name: Stack Reporting
     if: always()
     runs-on: ubuntu-latest
     timeout-minutes: 5
     needs: [stack-testing]
-    strategy:
-      fail-fast: false
-      matrix:
-        usage: [func]
-        props: [turing, church]
     permissions:
       checks: write
-      packages: write
       pull-requests: write
     steps:
-      - uses: actions/checkout@v3.5.2
       - uses: actions/download-artifact@v3.0.2
         with:
           path: artifacts
@@ -211,21 +188,61 @@ jobs:
         working-directory: artifacts
       - uses: EnricoMi/publish-unit-test-result-action@v2.7.0
         with:
-          check_name: E2E Test Report (${{ matrix.usage }}, ${{ matrix.props }})
+          check_name: E2E Test Report
           check_run_annotations: none
           compare_to_earlier_commit: false
           action_fail_on_inconclusive: true
           action_fail: true
           job_summary: false
           comment_mode: always
-          files: artifacts/e2e-test-report-${{ matrix.usage }}-${{ matrix.props }}*/**/TEST-*.xml
+          files: artifacts/e2e-test-report-*/**/TEST-*.xml
+      - uses: madrapps/jacoco-report@v1.4
+        if: ${{ github.event_name == 'pull_request' }}
+        with:
+          title: Overall Coverage Report
+          token: ${{ secrets.GITHUB_TOKEN }}
+          update-comment: true
+          paths: >
+            artifacts/apps/foo/target/site/jacoco/jacoco.xml
+            artifacts/apps/foo/target/site/jacoco-it/jacoco.xml
+
+  stack-packaging:
+    name: Stack Packaging
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    needs: [stack-reporting]
+    strategy:
+      fail-fast: false
+      matrix:
+        usage: [func]
+        props: [turing, church]
+    permissions:
+#      checks: write
+      packages: write
+#      pull-requests: write
+    steps:
+      - uses: actions/checkout@v3.5.2
+      - uses: actions/download-artifact@v3.0.2
+        with:
+          path: artifacts
+      - run: ls -R
+        working-directory: artifacts
+#      - uses: EnricoMi/publish-unit-test-result-action@v2.7.0
+#        with:
+#          check_name: E2E Test Report (${{ matrix.usage }}, ${{ matrix.props }})
+#          check_run_annotations: none
+#          compare_to_earlier_commit: false
+#          action_fail_on_inconclusive: true
+#          action_fail: true
+#          job_summary: false
+#          comment_mode: always
+#          files: artifacts/e2e-test-report-${{ matrix.usage }}-${{ matrix.props }}*/**/TEST-*.xml
 #      - uses: madrapps/jacoco-report@v1.4
 #        if: ${{ github.event_name == 'pull_request' }}
 #        with:
 #          title: Overall Coverage Report
-#          update-comment: true
-#          min-coverage-changed-files: 50
 #          token: ${{ secrets.GITHUB_TOKEN }}
+#          update-comment: true
 #          paths: >
 #            artifacts/apps/foo/target/site/jacoco/jacoco.xml
 #            artifacts/apps/foo/target/site/jacoco-it/jacoco.xml
