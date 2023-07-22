@@ -210,7 +210,7 @@ jobs:
     name: Stack Packaging
     runs-on: ubuntu-latest
     timeout-minutes: 5
-    needs: [stack-reporting]
+    needs: [stack-testing]
     strategy:
       fail-fast: false
       matrix:
