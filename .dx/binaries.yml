@@ -9,7 +9,9 @@
         cmd: >
           mvn dependency:get
           --define artifact=org.smecalculus.bezmen:libs:{{ lib_version }}:pom
+          {% if docker_registry == 'localhost' %}
           --offline
+          {% endif %}
         chdir: ../libs
       register: binary_status
       changed_when: binary_status.rc != 0
@@ -18,7 +20,7 @@
     - name: create binary
       command:
         cmd: >
-          mvn clean install
+          mvn clean {{ 'install' if docker_registry == 'localhost' else 'deploy' }}
           --define revision={{ lib_version }}
           --threads 2C
           --batch-mode
