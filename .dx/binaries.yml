@@ -2,8 +2,7 @@
 - import_playbook: sources.yml
   tags: deps
 
-- name: binaries
-  hosts: lib
+- hosts: lib
   tasks:
     - name: capture status
       command:
@@ -27,15 +26,14 @@
         chdir: ../libs
       when: binary_status is changed
 
-- name: binaries
-  hosts: app
+- hosts: app
   tasks:
     - name: capture status
       command:
         cmd: test -f {{ item }}/target/app-{{ item }}-{{ app_version }}.jar
         chdir: ../apps
-      register: app_status
-      changed_when: app_status.rc != 0
+      register: binary_status
+      changed_when: binary_status.rc != 0
       failed_when: false
       loop:
         - foo
@@ -43,13 +41,27 @@
       command:
         cmd: >
           mvn clean verify
-          --projects {{ app_status.results|select('changed')|map(attribute='item')|join(',') }}
+          --projects {{ binary_status.results|select('changed')|map(attribute='item')|join(',') }}
           --define libs.version={{ lib_version }}
           --define revision={{ app_version }}
           --threads 2C
           --batch-mode
-          --also-make
           --fail-fast
         chdir: ../apps
         strip_empty_ends: false
-      when: app_status is changed
+      when: binary_status is changed
+
+- name: coverage
+  hosts: lib:app
+  run_once: true
+  tasks:
+    - name: coverage
+      command:
+        cmd: >
+          mvn clean antrun:run@units antrun:run@integrations antrun:run@overall
+          --define libs.version={{ lib_version }}
+        chdir: ../tools
+        strip_empty_ends: false
+      when: >
+        hostvars.lib.binary_status is changed or
+        hostvars.app.binary_status is changed
