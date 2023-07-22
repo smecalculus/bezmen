@@ -169,7 +169,6 @@ jobs:
         with:
           name: e2e-test-report-${{ matrix.usage }}-${{ matrix.props }}-${{ matrix.shard }}
           path: tests/${{ matrix.usage }}/target/surefire-reports/*.xml
-          # if-no-files-found: error
 
   stack-packaging:
     name: Stack Packaging
@@ -238,5 +237,5 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           update-comment: true
           paths: >
-            artifacts/unit-coverage-report/jacoco.xml
+            artifacts/unit-coverage-report/jacoco.xml,
             artifacts/integration-coverage-report/jacoco.xml
