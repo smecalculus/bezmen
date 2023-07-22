@@ -64,7 +64,7 @@ jobs:
           paths: >
             apps/foo/target/site/jacoco/jacoco.xml
       - uses: actions/upload-artifact@v3.1.2
-        if: always()
+        if: ${{ github.event_name != 'workflow_dispatch' }}
         with:
           name: unit-coverage-report
           path: |
@@ -92,16 +92,43 @@ jobs:
           paths: >
             apps/foo/target/site/jacoco-it/jacoco.xml
       - uses: actions/upload-artifact@v3.1.2
-        if: always()
+        if: ${{ github.event_name != 'workflow_dispatch' }}
         with:
           name: integration-coverage-report
           path: |
             apps/foo/target/site/jacoco-it/jacoco.xml
-  stacks:
-    name: Stacks
+
+  stack-compiling:
+    name: Stack Compiling
     runs-on: ubuntu-latest
     timeout-minutes: 15
     needs: [binaries-and-images]
+    strategy:
+      fail-fast: true
+      matrix:
+        usage: [func]
+        props: [turing, church]
+    steps:
+      - uses: actions/checkout@v3.5.2
+      - uses: actions/setup-python@v4.7.0
+        with:
+          python-version: '3.8'
+          cache: 'pip'
+      - run: pip install -r requirements.txt
+      - run: >
+          ansible-playbook stacks.yml -t compile
+          -e usage=${{ matrix.usage }}
+          -e props=${{ matrix.props }}
+      - uses: actions/upload-artifact@v3.1.2
+        with:
+          name: stack-${{ matrix.usage }}-${{ matrix.props }}
+          path: stacks/target/context
+
+  stack-testing:
+    name: Stack Testing
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    needs: [stack-compiling]
     permissions:
       packages: write
     strategy:
@@ -127,9 +154,12 @@ jobs:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
+      - uses: actions/download-artifact@v3.0.2
+        with:
+          name: stack-${{ matrix.usage }}-${{ matrix.props }}
+      - run: ls -R
       - run: >
-          ansible-playbook stacks.yml
-          --skip-tags=deps
+          ansible-playbook stacks.yml -t test
           -e docker_registry=${{ env.REGISTRY }}
           -e usage=${{ matrix.usage }}
           -e props=${{ matrix.props }}
@@ -139,15 +169,21 @@ jobs:
       - uses: actions/upload-artifact@v3.1.2
         if: always()
         with:
-          name: e2e-test-reports-${{ matrix.usage }}-${{ matrix.props }}-${{ matrix.shard }}
+          name: stack-test-report-${{ matrix.usage }}-${{ matrix.props }}-${{ matrix.shard }}
           path: tests/${{ matrix.usage }}/target/surefire-reports/*.xml
           # if-no-files-found: error
-  verify:
-    name: Verifying
+
+  stack-packaging:
+    name: Stack Packaging
     if: always()
     runs-on: ubuntu-latest
     timeout-minutes: 5
-    needs: [stacks]
+    needs: [stack-testing]
+    strategy:
+      fail-fast: true
+      matrix:
+        usage: [func]
+        props: [turing, church]
     permissions:
       checks: write
       packages: write
@@ -156,19 +192,18 @@ jobs:
       - uses: actions/checkout@v3.5.2
       - uses: actions/download-artifact@v3.0.2
         with:
-          path: reports
+          path: artifacts
       - run: ls -R
-        working-directory: reports
       - uses: EnricoMi/publish-unit-test-result-action@v2.7.0
         with:
-          check_name: E2E Test Report
+          check_name: Stack Test Report (${{ matrix.usage }}, ${{ matrix.props }})
           check_run_annotations: none
           compare_to_earlier_commit: false
           action_fail_on_inconclusive: true
           action_fail: true
           job_summary: false
           comment_mode: always
-          files: reports/**/TEST-*.xml
+          files: artifacts/stack-test-report-*/**/TEST-*.xml
       - uses: madrapps/jacoco-report@v1.3
         if: ${{ github.event_name != 'workflow_dispatch' }}
         with:
@@ -177,5 +212,5 @@ jobs:
           min-coverage-changed-files: 50
           token: ${{ secrets.GITHUB_TOKEN }}
           paths: >
-            reports/apps/foo/target/site/jacoco/jacoco.xml
-            reports/apps/foo/target/site/jacoco-it/jacoco.xml
+            artifacts/apps/foo/target/site/jacoco/jacoco.xml
+            artifacts/apps/foo/target/site/jacoco-it/jacoco.xml
