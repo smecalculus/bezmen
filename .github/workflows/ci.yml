@@ -172,7 +172,7 @@ jobs:
       - uses: actions/upload-artifact@v3.1.2
         if: always()
         with:
-          name: stack-test-report-${{ matrix.usage }}-${{ matrix.props }}-${{ matrix.shard }}
+          name: e2e-test-report-${{ matrix.usage }}-${{ matrix.props }}-${{ matrix.shard }}
           path: tests/${{ matrix.usage }}/target/surefire-reports/*.xml
           # if-no-files-found: error
 
@@ -199,14 +199,14 @@ jobs:
       - run: ls -R
       - uses: EnricoMi/publish-unit-test-result-action@v2.7.0
         with:
-          check_name: Stack Test Report (${{ matrix.usage }}, ${{ matrix.props }})
+          check_name: E2E Test Report (${{ matrix.usage }}, ${{ matrix.props }})
           check_run_annotations: none
           compare_to_earlier_commit: false
           action_fail_on_inconclusive: true
           action_fail: true
           job_summary: false
           comment_mode: always
-          files: artifacts/stack-test-report-*/**/TEST-*.xml
+          files: artifacts/e2e-test-report-*/**/TEST-*.xml
       - uses: madrapps/jacoco-report@v1.3
         if: ${{ github.event_name != 'workflow_dispatch' }}
         with:
@@ -217,3 +217,14 @@ jobs:
           paths: >
             artifacts/apps/foo/target/site/jacoco/jacoco.xml
             artifacts/apps/foo/target/site/jacoco-it/jacoco.xml
+      - uses: actions/setup-python@v4.7.0
+        with:
+          python-version: '3.8'
+          cache: 'pip'
+      - run: pip install -r requirements.txt
+      - run: >
+          ansible-playbook stacks.yml -t package
+          -e docker_registry=${{ env.REGISTRY }}
+          -e usage=${{ matrix.usage }}
+          -e props=${{ matrix.props }}
+        working-directory: .dx
