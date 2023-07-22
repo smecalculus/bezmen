@@ -160,7 +160,6 @@ jobs:
         with:
           name: stack-${{ matrix.usage }}-${{ matrix.props }}
           path: stacks/target/context
-      - run: ls -R
       - run: >
           ansible-playbook stacks.yml -t test
           -e docker_registry=${{ env.REGISTRY }}
@@ -222,6 +221,10 @@ jobs:
           python-version: '3.8'
           cache: 'pip'
       - run: pip install -r requirements.txt
+      - uses: actions/download-artifact@v3.0.2
+        with:
+          name: stack-${{ matrix.usage }}-${{ matrix.props }}
+          path: stacks/target/context
       - run: >
           ansible-playbook stacks.yml -t package
           -e docker_registry=${{ env.REGISTRY }}
