@@ -53,24 +53,24 @@ jobs:
           files: |
             libs/*/target/surefire-reports/TEST-*.xml
             apps/*/target/surefire-reports/TEST-*.xml
-#      - uses: madrapps/jacoco-report@v1.3
-#        if: ${{ github.event_name != 'workflow_dispatch' }}
-#        with:
-#          title: Unit Coverage Report
-#          update-comment: true
-#          token: ${{ secrets.GITHUB_TOKEN }}
-#          paths: >
-#            apps/foo/target/site/jacoco/jacoco.xml
-      - uses: PavanMudigonda/jacoco-reporter@v4.8
+      - uses: madrapps/jacoco-report@v1.4
+        if: ${{ github.event_name == 'pull_request' }}
         with:
-          coverage_results_path: apps/foo/target/site/jacoco/jacoco.xml
-          coverage_report_name: Unit Coverage Report
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          skip_check_run: false
-          fail_below_threshold: false
-          publish_only_summary: false
+          title: Unit Coverage Report
+          token: ${{ secrets.GITHUB_TOKEN }}
+          update-comment: true
+          paths: >
+            apps/foo/target/site/jacoco/jacoco.xml
+#      - uses: PavanMudigonda/jacoco-reporter@v4.8
+#        with:
+#          coverage_results_path: apps/foo/target/site/jacoco/jacoco.xml
+#          coverage_report_name: Unit Coverage Report
+#          github_token: ${{ secrets.GITHUB_TOKEN }}
+#          skip_check_run: false
+#          fail_below_threshold: false
+#          publish_only_summary: false
       - uses: actions/upload-artifact@v3.1.2
-        if: ${{ github.event_name != 'workflow_dispatch' }}
+        if: ${{ github.event_name == 'pull_request' }}
         with:
           name: unit-coverage-report
           path: |
@@ -88,24 +88,24 @@ jobs:
           files: |
             libs/*/target/failsafe-reports/TEST-*.xml
             apps/*/target/failsafe-reports/TEST-*.xml
-#      - uses: madrapps/jacoco-report@v1.3
-#        if: ${{ github.event_name != 'workflow_dispatch' }}
-#        with:
-#          title: Integration Coverage Report
-#          update-comment: true
-#          token: ${{ secrets.GITHUB_TOKEN }}
-#          paths: >
-#            apps/foo/target/site/jacoco-it/jacoco.xml
-      - uses: PavanMudigonda/jacoco-reporter@v4.8
+      - uses: madrapps/jacoco-report@v1.4
+        if: ${{ github.event_name == 'pull_request' }}
         with:
-          coverage_results_path: apps/foo/target/site/jacoco-it/jacoco.xml
-          coverage_report_name: Integration Coverage Report
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          skip_check_run: false
-          fail_below_threshold: false
-          publish_only_summary: false
+          title: Integration Coverage Report
+          token: ${{ secrets.GITHUB_TOKEN }}
+          update-comment: true
+          paths: >
+            apps/foo/target/site/jacoco-it/jacoco.xml
+#      - uses: PavanMudigonda/jacoco-reporter@v4.8
+#        with:
+#          coverage_results_path: apps/foo/target/site/jacoco-it/jacoco.xml
+#          coverage_report_name: Integration Coverage Report
+#          github_token: ${{ secrets.GITHUB_TOKEN }}
+#          skip_check_run: false
+#          fail_below_threshold: false
+#          publish_only_summary: false
       - uses: actions/upload-artifact@v3.1.2
-        if: ${{ github.event_name != 'workflow_dispatch' }}
+        if: ${{ github.event_name == 'pull_request' }}
         with:
           name: integration-coverage-report
           path: |
@@ -219,8 +219,8 @@ jobs:
           job_summary: false
           comment_mode: always
           files: artifacts/e2e-test-report-${{ matrix.usage }}-${{ matrix.props }}*/**/TEST-*.xml
-#      - uses: madrapps/jacoco-report@v1.3
-#        if: ${{ github.event_name != 'workflow_dispatch' }}
+#      - uses: madrapps/jacoco-report@v1.4
+#        if: ${{ github.event_name == 'pull_request' }}
 #        with:
 #          title: Overall Coverage Report
 #          update-comment: true
