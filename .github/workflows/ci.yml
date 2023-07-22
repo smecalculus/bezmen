@@ -36,12 +36,10 @@ jobs:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-
       - run: >
           ansible-playbook images.yml
           -e docker_registry=${{ env.REGISTRY }}
         working-directory: .dx
-
       - uses: EnricoMi/publish-unit-test-result-action@v2.7.0
         if: always()
         with:
@@ -69,7 +67,6 @@ jobs:
           name: unit-coverage-report
           path: |
             apps/foo/target/site/jacoco/jacoco.xml
-
       - uses: EnricoMi/publish-unit-test-result-action@v2.7.0
         if: always()
         with:
@@ -125,14 +122,13 @@ jobs:
         with:
           name: stack-${{ matrix.usage }}-${{ matrix.props }}
           path: stacks/target/context
+          if-no-files-found: error
 
   stack-testing:
     name: Stack Testing
     runs-on: ubuntu-latest
     timeout-minutes: 15
     needs: [stack-compiling]
-    permissions:
-      packages: write
     strategy:
       fail-fast: false
       matrix:
@@ -196,6 +192,7 @@ jobs:
         with:
           path: artifacts
       - run: ls -R
+        working-directory: artifacts
       - uses: EnricoMi/publish-unit-test-result-action@v2.7.0
         with:
           check_name: E2E Test Report (${{ matrix.usage }}, ${{ matrix.props }})
