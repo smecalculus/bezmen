@@ -71,22 +71,16 @@ jobs:
         with:
           title: Unit Coverage Report
           token: ${{ secrets.GITHUB_TOKEN }}
-#          skip-if-no-changes: true
+          skip-if-no-changes: false
           update-comment: true
           paths: >
             tools/target/coverage/units/jacoco.xml
-#      - uses: actions/upload-artifact@v3.1.2
-#        if: ${{ github.event_name == 'pull_request' }}
-#        with:
-#          name: unit-coverage-report
-#          path: |
-#            apps/foo/target/site/jacoco/jacoco.xml
       - uses: madrapps/jacoco-report@v1.4
         if: ${{ github.event_name == 'pull_request' }}
         with:
           title: Integration Coverage Report
           token: ${{ secrets.GITHUB_TOKEN }}
-#          skip-if-no-changes: true
+          skip-if-no-changes: false
           update-comment: true
           paths: >
             tools/target/coverage/integrations/jacoco.xml
@@ -95,16 +89,10 @@ jobs:
         with:
           title: Overall Coverage Report
           token: ${{ secrets.GITHUB_TOKEN }}
-#          skip-if-no-changes: true
+          skip-if-no-changes: false
           update-comment: true
           paths: >
             tools/target/coverage/overall/jacoco.xml
-#      - uses: actions/upload-artifact@v3.1.2
-#        if: ${{ github.event_name == 'pull_request' }}
-#        with:
-#          name: integration-coverage-report
-#          path: |
-#            apps/foo/target/site/jacoco-it/jacoco.xml
 
   stack-compiling:
     name: Stack Compiling
@@ -241,13 +229,3 @@ jobs:
           job_summary: false
           comment_mode: always
           files: artifacts/e2e-test-report-*/**/TEST-*.xml
-#      - uses: madrapps/jacoco-report@v1.4
-#        if: ${{ github.event_name == 'pull_request' }}
-#        with:
-#          title: Overall Coverage Report
-#          token: ${{ secrets.GITHUB_TOKEN }}
-#          skip-if-no-changes: true
-#          update-comment: true
-#          paths: >
-#            artifacts/unit-coverage-report/jacoco.xml,
-#            artifacts/integration-coverage-report/jacoco.xml

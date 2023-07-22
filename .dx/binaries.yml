@@ -55,7 +55,7 @@
   hosts: lib:app
   run_once: true
   tasks:
-    - name: coverage
+    - name: create reports
       command:
         cmd: >
           mvn clean antrun:run@units antrun:run@integrations antrun:run@overall
