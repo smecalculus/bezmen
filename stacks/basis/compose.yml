@@ -1,5 +1,14 @@
 name: bezmen
 
+networks:
+  bezmen:
+    name: bezmen
+
+configs:
+  bezmen:
+    name: bezmen
+    file: ./bezmen.conf
+
 services:
   db:
     image: postgres:15-alpine
@@ -8,7 +17,7 @@ services:
       - turing
       - church
     ports:
-      - "5432:5432"
+      - 5432:5432
     environment:
       POSTGRES_DB: bezmen
       POSTGRES_USER: postgres
@@ -18,8 +27,11 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+    networks:
+      bezmen: null
+
   schema-dba:
-    image: ${SCHEMA_REF}
+    image: ${SCHEMA_IMAGE}:${SCHEMA_CID}
     container_name: schema-dba-${SCHEMA_CID}
     profiles:
       - turing
@@ -28,8 +40,7 @@ services:
       db:
         condition: service_healthy
     labels:
-      bezmen.image: ${SCHEMA_IMAGE}
-      bezmen.revision: ${SCHEMA_CID}
+      image.name: ${SCHEMA_IMAGE}
     command: >
       --show-banner=false
       --changelog-file=alfa/dba/changelog.yml
@@ -42,8 +53,11 @@ services:
       -Dbezmen.schema=bezmen
       -Dbezmen.owner=bezmen
       -Dbezmen.password=bezmen
+    networks:
+      bezmen: null
+
   schema-owner:
-    image: ${SCHEMA_REF}
+    image: ${SCHEMA_IMAGE}:${SCHEMA_CID}
     container_name: schema-owner-${SCHEMA_CID}
     profiles:
       - turing
@@ -52,8 +66,7 @@ services:
       schema-dba:
         condition: service_completed_successfully
     labels:
-      bezmen.image: ${SCHEMA_IMAGE}
-      bezmen.revision: ${SCHEMA_CID}
+      image.name: ${SCHEMA_IMAGE}
     command: >
       --show-banner=false
       --changelog-file=alfa/owner/changelog.yml
@@ -62,17 +75,22 @@ services:
       --username=bezmen
       --password=bezmen
       update
+    networks:
+      bezmen: null
+
   foo:
-    image: ${FOO_REF}
+    image: ${FOO_IMAGE}:${FOO_CID}
     container_name: app-foo
     ports:
-      - "8080:8080"
-    volumes:
-      - ./all.conf:/home/bezmen/app/all.conf
-      - ./${PROPS_COMBO}.conf:/home/bezmen/app/application.conf
+      - 8080:8080
+    configs:
+      - source: bezmen
+        # todo: change to /home/bezmen/application.conf
+        target: /home/bezmen/app/application.conf
     depends_on:
       schema-owner:
         condition: service_completed_successfully
     labels:
-      bezmen.image: ${FOO_IMAGE}
-      bezmen.revision: ${FOO_CID}
+      image.name: ${FOO_IMAGE}
+    networks:
+      bezmen: null

@@ -11,14 +11,21 @@ env:
   REGISTRY: ghcr.io
 
 jobs:
-  building:
-    name: Building
+  binaries-and-images:
+    name: Binaries & Images
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 15
     permissions:
+      checks: write
       packages: write
+      pull-requests: write
     steps:
       - uses: actions/checkout@v3.5.2
+      - uses: actions/setup-python@v4.7.0
+        with:
+          python-version: '3.8'
+          cache: 'pip'
+      - run: pip install -r requirements.txt
       - uses: actions/setup-java@v3.11.0
         with:
           distribution: 'temurin'
@@ -29,17 +36,100 @@ jobs:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-      - uses: arduino/setup-task@v1.0.3
-        with:
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
       - run: >
-          task --verbose stage:building:run
-          REGISTRY=${{ env.REGISTRY }}
-  verification-start:
-    name: Verification (Start)
+          ansible-playbook images.yml
+          -e docker_registry=${{ env.REGISTRY }}
+          -e github_actor=${{ github.actor }}
+          -e github_token=${{ secrets.GITHUB_TOKEN }}
+        working-directory: .dx
+      - uses: EnricoMi/publish-unit-test-result-action@v2.7.0
+        if: always()
+        with:
+          check_name: Unit Test Report
+          check_run_annotations: none
+          compare_to_earlier_commit: false
+          action_fail_on_inconclusive: true
+          action_fail: true
+          job_summary: false
+          comment_mode: always
+          files: |
+            libs/*/target/surefire-reports/TEST-*.xml
+            apps/*/target/surefire-reports/TEST-*.xml
+      - uses: EnricoMi/publish-unit-test-result-action@v2.7.0
+        if: always()
+        with:
+          check_name: Integration Test Report
+          check_run_annotations: none
+          compare_to_earlier_commit: false
+          action_fail_on_inconclusive: true
+          action_fail: true
+          job_summary: false
+          comment_mode: always
+          files: |
+            libs/*/target/failsafe-reports/TEST-*.xml
+            apps/*/target/failsafe-reports/TEST-*.xml
+      - uses: madrapps/jacoco-report@v1.4
+        if: ${{ github.event_name == 'pull_request' }}
+        with:
+          title: Unit Coverage Report
+          token: ${{ secrets.GITHUB_TOKEN }}
+          skip-if-no-changes: false
+          update-comment: true
+          paths: >
+            tools/target/coverage/units/jacoco.xml
+      - uses: madrapps/jacoco-report@v1.4
+        if: ${{ github.event_name == 'pull_request' }}
+        with:
+          title: Integration Coverage Report
+          token: ${{ secrets.GITHUB_TOKEN }}
+          skip-if-no-changes: false
+          update-comment: true
+          paths: >
+            tools/target/coverage/integrations/jacoco.xml
+      - uses: madrapps/jacoco-report@v1.4
+        if: ${{ github.event_name == 'pull_request' }}
+        with:
+          title: Overall Coverage Report
+          token: ${{ secrets.GITHUB_TOKEN }}
+          skip-if-no-changes: false
+          update-comment: true
+          paths: >
+            tools/target/coverage/overall/jacoco.xml
+
+  stack-compiling:
+    name: Stack Compiling
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    needs: [binaries-and-images]
+    strategy:
+      fail-fast: false
+      matrix:
+        usage: [func]
+        props: [turing, church]
+    steps:
+      - uses: actions/checkout@v3.5.2
+      - uses: actions/setup-python@v4.7.0
+        with:
+          python-version: '3.8'
+          cache: 'pip'
+      - run: pip install -r requirements.txt
+      - run: >
+          ansible-playbook stacks.yml -t compile
+          -e docker_registry=${{ env.REGISTRY }}
+          -e usage=${{ matrix.usage }}
+          -e props=${{ matrix.props }}
+        working-directory: .dx
+      - uses: actions/upload-artifact@v3.1.2
+        with:
+          name: stack-${{ matrix.usage }}-${{ matrix.props }}
+          path: stacks/target/context
+          if-no-files-found: error
+
+  stack-testing:
+    name: Stack Testing
     runs-on: ubuntu-latest
     timeout-minutes: 15
-    needs: building
+    needs: [stack-compiling]
     strategy:
       fail-fast: false
       matrix:
@@ -48,6 +138,11 @@ jobs:
         shard: [0, 1]
     steps:
       - uses: actions/checkout@v3.5.2
+      - uses: actions/setup-python@v4.7.0
+        with:
+          python-version: '3.8'
+          cache: 'pip'
+      - run: pip install -r requirements.txt
       - uses: actions/setup-java@v3.11.0
         with:
           distribution: 'temurin'
@@ -58,55 +153,81 @@ jobs:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-      - uses: arduino/setup-task@v1.0.3
+      - uses: actions/download-artifact@v3.0.2
         with:
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          name: stack-${{ matrix.usage }}-${{ matrix.props }}
+          path: stacks/target/context
       - run: >
-          task --verbose stage:verification:run
-          REGISTRY=${{ env.REGISTRY }}
-          USAGE=${{ matrix.usage }}
-          PROPS=${{ matrix.props }}
-          --
-          -Dbezmen.sharding.reminder=${{ matrix.shard }}
-          -Dbezmen.sharding.modulus=2
+          ansible-playbook stacks.yml -t test
+          -e docker_registry=${{ env.REGISTRY }}
+          -e usage=${{ matrix.usage }}
+          -e props=${{ matrix.props }}
+          -e reminder=${{ matrix.shard }}
+          -e modulus=2
+        working-directory: .dx
       - uses: actions/upload-artifact@v3.1.2
         if: always()
         with:
-          name: test-reports-${{ matrix.usage }}-${{ matrix.props }}-${{ matrix.shard }}
+          name: e2e-test-report-${{ matrix.usage }}-${{ matrix.props }}-${{ matrix.shard }}
           path: tests/${{ matrix.usage }}/target/surefire-reports/*.xml
-          # if-no-files-found: error
-  verification-end:
-    name: Verification (End)
-    if: ${{ always() }}
+
+  stack-packaging:
+    name: Stack Packaging
     runs-on: ubuntu-latest
     timeout-minutes: 5
-    needs: verification-start
+    needs: [stack-testing]
+    strategy:
+      fail-fast: false
+      matrix:
+        usage: [func]
+        props: [turing, church]
     permissions:
-      checks: write
       packages: write
     steps:
       - uses: actions/checkout@v3.5.2
-      - uses: actions/download-artifact@v3.0.2
+      - uses: actions/setup-python@v4.7.0
         with:
-          path: reports
-      - uses: EnricoMi/publish-unit-test-result-action@v2.7.0
-        with:
-          check_name: End-to-End Tests
-          check_run_annotations: none
-          compare_to_earlier_commit: false
-          action_fail_on_inconclusive: true
-          action_fail: true
-          job_summary: true
-          comment_mode: off
-          files: reports/**/TEST-*.xml
+          python-version: '3.8'
+          cache: 'pip'
+      - run: pip install -r requirements.txt
       - uses: docker/login-action@v2.1.0
         with:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-      - uses: arduino/setup-task@v1.0.3
+      - uses: actions/download-artifact@v3.0.2
         with:
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          name: stack-${{ matrix.usage }}-${{ matrix.props }}
+          path: stacks/target/context
       - run: >
-          task --verbose stage:verification:commit
-          REGISTRY=${{ env.REGISTRY }}
+          ansible-playbook stacks.yml -t package
+          -e docker_registry=${{ env.REGISTRY }}
+          -e usage=${{ matrix.usage }}
+          -e props=${{ matrix.props }}
+        working-directory: .dx
+
+  stack-reporting:
+    name: Stack Reporting
+    if: always()
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    needs: [stack-testing]
+    permissions:
+      checks: write
+      pull-requests: write
+    steps:
+      - uses: actions/download-artifact@v3.0.2
+        with:
+          path: artifacts
+      - run: ls -R
+        working-directory: artifacts
+      - uses: EnricoMi/publish-unit-test-result-action@v2.7.0
+        with:
+          check_name: E2E Test Report
+          check_run_annotations: none
+          compare_to_earlier_commit: false
+          action_fail_on_inconclusive: true
+          action_fail: true
+          job_summary: false
+          comment_mode: always
+          files: artifacts/e2e-test-report-*/**/TEST-*.xml

@@ -1,0 +1,27 @@
+---
+- import_playbook: binaries.yml
+  tags: deps
+
+- hosts: schema
+  tasks:
+    - include_role:
+        name: image
+      vars:
+        image_tag: "{{ schema_cid }}"
+        image_name: "{{ docker_registry }}/{{ docker_repo }}/bezmen-schema-{{ item }}"
+        image_home: ../schemas/{{ item }}
+      loop:
+        - postgres
+
+- hosts: app
+  tasks:
+    - include_role:
+        name: image
+      vars:
+        image_tag: "{{ app_cid }}"
+        image_name: "{{ docker_registry }}/{{ docker_repo }}/bezmen-app-{{ item }}"
+        image_home: ../apps/{{ item }}
+        image_context: "target/docker-context"
+        image_dependency: "{{ hostvars.lib.image_status|default({}) }}"
+      loop:
+        - foo

@@ -1,0 +1,25 @@
+---
+- hosts: lib
+  tasks:
+    - name: format
+      command:
+        cmd: >
+          mvn spotless:apply
+          --define revision={{ lib_version }}
+          --batch-mode
+        chdir: ../libs
+        strip_empty_ends: false
+      when: docker_registry == 'localhost'
+
+- hosts: app
+  tasks:
+    - name: format
+      command:
+        cmd: >
+          mvn spotless:apply
+          --define libs.version={{ lib_version }}
+          --define revision={{ app_version }}
+          --batch-mode
+        chdir: ../apps
+        strip_empty_ends: false
+      when: docker_registry == 'localhost'

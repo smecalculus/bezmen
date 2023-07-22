@@ -1,0 +1,23 @@
+---
+- name: compile spec
+  command:
+    cmd: >
+      docker compose
+      --file basis/compose.yml
+      --file {{ usage }}/compose.yml
+      --profile {{ props }}
+      config
+      --output target/context/compose.yml
+      --no-path-resolution
+    strip_empty_ends: false
+    chdir: ../stacks
+  environment:
+    SCHEMA_CID: "{{ schema_cid }}"
+    SCHEMA_IMAGE: "{{ schema_pg_image }}"
+    FOO_CID: "{{ app_cid }}"
+    FOO_IMAGE: "{{ app_foo_image }}"
+
+- name: compile conf
+  command:
+    cmd: cp basis/{{ props }}.conf target/context/bezmen.conf
+    chdir: ../stacks

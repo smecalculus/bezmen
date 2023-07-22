@@ -1,0 +1,77 @@
+---
+- import_playbook: sources.yml
+  tags: deps
+
+- hosts: lib
+  tasks:
+    - name: capture status
+      command:
+        cmd: >
+          mvn dependency:get
+          --define artifact=org.smecalculus.bezmen:libs:{{ lib_version }}:pom
+          {% if docker_registry == 'localhost' %}
+          --offline
+          {% endif %}
+        chdir: ../libs
+      register: binary_status
+      changed_when: binary_status.rc != 0
+      failed_when: false
+      no_log: true
+    - name: create binary
+      command:
+        cmd: >
+          mvn clean
+          {% if docker_registry == 'localhost' %}
+          install
+          {% else %}
+          deploy
+          --settings settings.xml
+          --define github.actor={{ github_actor }}
+          --define github.token={{ github_token }}
+          {% endif %}
+          --define revision={{ lib_version }}
+          --threads 2C
+          --batch-mode
+          --fail-fast
+        chdir: ../libs
+      when: binary_status is changed
+
+- hosts: app
+  tasks:
+    - name: capture status
+      command:
+        cmd: test -f {{ item }}/target/app-{{ item }}-{{ app_version }}.jar
+        chdir: ../apps
+      register: binary_status
+      changed_when: binary_status.rc != 0
+      failed_when: false
+      loop:
+        - foo
+    - name: create binary
+      command:
+        cmd: >
+          mvn clean verify
+          --projects {{ binary_status.results|select('changed')|map(attribute='item')|join(',') }}
+          --define libs.version={{ lib_version }}
+          --define revision={{ app_version }}
+          --threads 2C
+          --batch-mode
+          --fail-fast
+        chdir: ../apps
+        strip_empty_ends: false
+      when: binary_status is changed
+
+- name: coverage
+  hosts: lib:app
+  run_once: true
+  tasks:
+    - name: create reports
+      command:
+        cmd: >
+          mvn clean antrun:run@units antrun:run@integrations antrun:run@overall
+          --define libs.version={{ lib_version }}
+        chdir: ../tools
+        strip_empty_ends: false
+      when: >
+        hostvars.lib.binary_status is changed or
+        hostvars.app.binary_status is changed

@@ -28,6 +28,12 @@ include::tests/README.adoc[]
 
 include::tools/README.adoc[]
 
+== cli
+
+Структура команды
+
+    [<constructor>]:<object>:[<operation>] [LIMIT=<selector>]
+
 == todo
 
 . Поддержка двух версий JDK
