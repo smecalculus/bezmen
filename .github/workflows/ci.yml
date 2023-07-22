@@ -171,6 +171,41 @@ jobs:
           path: tests/${{ matrix.usage }}/target/surefire-reports/*.xml
           # if-no-files-found: error
 
+  stack-packaging:
+    name: Stack Packaging
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    needs: [stack-testing]
+    strategy:
+      fail-fast: false
+      matrix:
+        usage: [func]
+        props: [turing, church]
+    permissions:
+      packages: write
+    steps:
+      - uses: actions/checkout@v3.5.2
+      - uses: actions/setup-python@v4.7.0
+        with:
+          python-version: '3.8'
+          cache: 'pip'
+      - run: pip install -r requirements.txt
+      - uses: docker/login-action@v2.1.0
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - uses: actions/download-artifact@v3.0.2
+        with:
+          name: stack-${{ matrix.usage }}-${{ matrix.props }}
+          path: stacks/target/context
+      - run: >
+          ansible-playbook stacks.yml -t package
+          -e docker_registry=${{ env.REGISTRY }}
+          -e usage=${{ matrix.usage }}
+          -e props=${{ matrix.props }}
+        working-directory: .dx
+
   stack-reporting:
     name: Stack Reporting
     if: always()
@@ -203,66 +238,5 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           update-comment: true
           paths: >
-            artifacts/apps/foo/target/site/jacoco/jacoco.xml
-            artifacts/apps/foo/target/site/jacoco-it/jacoco.xml
-
-  stack-packaging:
-    name: Stack Packaging
-    runs-on: ubuntu-latest
-    timeout-minutes: 5
-    needs: [stack-testing]
-    strategy:
-      fail-fast: false
-      matrix:
-        usage: [func]
-        props: [turing, church]
-    permissions:
-#      checks: write
-      packages: write
-#      pull-requests: write
-    steps:
-      - uses: actions/checkout@v3.5.2
-      - uses: actions/download-artifact@v3.0.2
-        with:
-          path: artifacts
-      - run: ls -R
-        working-directory: artifacts
-#      - uses: EnricoMi/publish-unit-test-result-action@v2.7.0
-#        with:
-#          check_name: E2E Test Report (${{ matrix.usage }}, ${{ matrix.props }})
-#          check_run_annotations: none
-#          compare_to_earlier_commit: false
-#          action_fail_on_inconclusive: true
-#          action_fail: true
-#          job_summary: false
-#          comment_mode: always
-#          files: artifacts/e2e-test-report-${{ matrix.usage }}-${{ matrix.props }}*/**/TEST-*.xml
-#      - uses: madrapps/jacoco-report@v1.4
-#        if: ${{ github.event_name == 'pull_request' }}
-#        with:
-#          title: Overall Coverage Report
-#          token: ${{ secrets.GITHUB_TOKEN }}
-#          update-comment: true
-#          paths: >
-#            artifacts/apps/foo/target/site/jacoco/jacoco.xml
-#            artifacts/apps/foo/target/site/jacoco-it/jacoco.xml
-      - uses: actions/setup-python@v4.7.0
-        with:
-          python-version: '3.8'
-          cache: 'pip'
-      - run: pip install -r requirements.txt
-      - uses: docker/login-action@v2.1.0
-        with:
-          registry: ${{ env.REGISTRY }}
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-      - uses: actions/download-artifact@v3.0.2
-        with:
-          name: stack-${{ matrix.usage }}-${{ matrix.props }}
-          path: stacks/target/context
-      - run: >
-          ansible-playbook stacks.yml -t package
-          -e docker_registry=${{ env.REGISTRY }}
-          -e usage=${{ matrix.usage }}
-          -e props=${{ matrix.props }}
-        working-directory: .dx
+            artifacts/unit-coverage-report/apps/foo/target/site/jacoco/jacoco.xml
+            artifacts/integration-coverage-report/apps/foo/target/site/jacoco-it/jacoco.xml
