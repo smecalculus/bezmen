@@ -119,6 +119,7 @@ jobs:
           ansible-playbook stacks.yml -t compile
           -e usage=${{ matrix.usage }}
           -e props=${{ matrix.props }}
+        working-directory: .dx
       - uses: actions/upload-artifact@v3.1.2
         with:
           name: stack-${{ matrix.usage }}-${{ matrix.props }}
