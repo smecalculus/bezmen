@@ -15,6 +15,7 @@
     - block:
         - import_tasks:
             file: ../stacks/clean.yml
+          tags: [compile]
         - import_tasks:
             file: ../stacks/compile.yml
           tags: [compile]
