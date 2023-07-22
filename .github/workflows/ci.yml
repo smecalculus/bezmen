@@ -98,7 +98,7 @@ jobs:
   stack-compiling:
     name: Stack Compiling
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 5
     needs: [binaries-and-images]
     strategy:
       fail-fast: false
@@ -238,5 +238,5 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           update-comment: true
           paths: >
-            artifacts/unit-coverage-report/apps/foo/target/site/jacoco/jacoco.xml
-            artifacts/integration-coverage-report/apps/foo/target/site/jacoco-it/jacoco.xml
+            artifacts/unit-coverage-report/jacoco.xml
+            artifacts/integration-coverage-report/jacoco.xml
