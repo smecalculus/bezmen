@@ -117,6 +117,7 @@ jobs:
       - run: pip install -r requirements.txt
       - run: >
           ansible-playbook stacks.yml -t compile
+          -e docker_registry=${{ env.REGISTRY }}
           -e usage=${{ matrix.usage }}
           -e props=${{ matrix.props }}
         working-directory: .dx
