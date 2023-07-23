@@ -10,4 +10,4 @@
 - name: push stack
   command:
     cmd: docker image push {{ stack_image }}:{{ stack_cid }}
-  when: docker_registry != 'localhost'
+  when: not is_building_local

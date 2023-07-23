@@ -38,7 +38,7 @@
     strip_empty_ends: false
   when: >
     image_status is changed or
-    image_dependency is changed
+    image_deps[0]|default({}) is changed
 
 - name: push built
   command:

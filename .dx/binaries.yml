@@ -9,7 +9,7 @@
         cmd: >
           mvn dependency:get
           --define artifact=org.smecalculus.bezmen:libs:{{ lib_version }}:pom
-          {% if docker_registry == 'localhost' %}
+          {% if is_building_local %}
           --offline
           {% endif %}
         chdir: ../libs
@@ -21,11 +21,10 @@
       command:
         cmd: >
           mvn clean
-          {% if docker_registry == 'localhost' %}
+          {% if is_building_local %}
           install
           {% else %}
           deploy
-          --update-snapshots
           --settings settings.xml
           --define github.actor={{ github_actor }}
           --define github.token={{ github_token }}
@@ -41,10 +40,9 @@
   tasks:
     - name: capture status
       command:
-        cmd: test -f {{ item }}/target/app-{{ item }}-{{ app_version }}.jar
-        chdir: ../apps
-      register: binary_status
-      changed_when: binary_status.rc != 0
+        cmd: docker {{ docker_entity }} inspect {{ docker_registry }}/{{ docker_repo }}/bezmen-app-{{ item }}:{{ app_cid }}
+      register: image_status
+      changed_when: image_status.rc != 0
       failed_when: false
       loop:
         - foo
@@ -52,14 +50,14 @@
       command:
         cmd: >
           mvn clean verify
-          --projects {{ binary_status.results|select('changed')|map(attribute='item')|join(',') }}
+          --projects {{ image_status.results|select('changed')|map(attribute='item')|join(',') }}
           --define revision={{ app_version }}
           --threads 2C
           --batch-mode
           --fail-fast
         chdir: ../apps
         strip_empty_ends: false
-      when: binary_status is changed
+      when: image_status is changed
 
 - name: coverage
   hosts: lib:app
@@ -73,4 +71,4 @@
         strip_empty_ends: false
       when: >
         hostvars.lib.binary_status is changed or
-        hostvars.app.binary_status is changed
+        hostvars.app.image_status is changed
