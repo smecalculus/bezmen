@@ -68,7 +68,7 @@
   hosts: lib:app
   run_once: true
   tasks:
-    - name: create reports
+    - name: generate reports
       command:
         cmd: >
           mvn clean antrun:run@units antrun:run@integrations antrun:run@overall
