@@ -73,7 +73,6 @@ jobs:
         with:
           title: Unit Coverage Report
           token: ${{ secrets.GITHUB_TOKEN }}
-          skip-if-no-changes: false
           update-comment: true
           paths: >
             tools/target/coverage/units/jacoco.xml
@@ -82,7 +81,6 @@ jobs:
         with:
           title: Integration Coverage Report
           token: ${{ secrets.GITHUB_TOKEN }}
-          skip-if-no-changes: false
           update-comment: true
           paths: >
             tools/target/coverage/integrations/jacoco.xml
@@ -91,7 +89,6 @@ jobs:
         with:
           title: Overall Coverage Report
           token: ${{ secrets.GITHUB_TOKEN }}
-          skip-if-no-changes: false
           update-comment: true
           paths: >
             tools/target/coverage/overall/jacoco.xml

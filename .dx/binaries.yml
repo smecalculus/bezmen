@@ -25,6 +25,7 @@
           install
           {% else %}
           deploy
+          --update-snapshots
           --settings settings.xml
           --define github.actor={{ github_actor }}
           --define github.token={{ github_token }}
@@ -52,7 +53,6 @@
         cmd: >
           mvn clean verify
           --projects {{ binary_status.results|select('changed')|map(attribute='item')|join(',') }}
-          --define libs.version={{ lib_version }}
           --define revision={{ app_version }}
           --threads 2C
           --batch-mode
@@ -69,7 +69,6 @@
       command:
         cmd: >
           mvn clean antrun:run@units antrun:run@integrations antrun:run@overall
-          --define libs.version={{ lib_version }}
         chdir: ../tools
         strip_empty_ends: false
       when: >
