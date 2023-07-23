@@ -50,13 +50,16 @@
       command:
         cmd: >
           mvn clean verify
+          {% if not hostvars.lib.binary_status is changed %}
           --projects {{ image_status.results|select('changed')|map(attribute='item')|join(',') }}
+          {% endif %}
           --define revision={{ app_version }}
           --threads 2C
           --batch-mode
           --fail-fast
         chdir: ../apps
         strip_empty_ends: false
+      # todo: кейс падения сборки бинарников приложений, когда менялись только библиотеки
       when: >
         image_status is changed or
         hostvars.lib.binary_status is changed
