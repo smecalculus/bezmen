@@ -57,7 +57,9 @@
           --fail-fast
         chdir: ../apps
         strip_empty_ends: false
-      when: image_status is changed
+      when: >
+        image_status is changed or
+        hostvars.lib.binary_status is changed
 
 - name: coverage
   hosts: lib:app
