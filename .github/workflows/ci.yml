@@ -70,6 +70,7 @@ jobs:
             apps/*/target/failsafe-reports/TEST-*.xml
       - uses: madrapps/jacoco-report@v1.4
         if: ${{ github.event_name == 'pull_request' }}
+        # todo: try to use hashFiles for conditional run
         continue-on-error: true
         with:
           title: Unit Coverage Report
