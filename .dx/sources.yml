@@ -1,7 +1,7 @@
 ---
 - hosts: lib
   tasks:
-    - name: format
+    - name: lint
       command:
         cmd: >
           mvn
@@ -20,7 +20,7 @@
 
 - hosts: app
   tasks:
-    - name: format
+    - name: lint
       command:
         cmd: >
           mvn
@@ -28,7 +28,7 @@
           spotless:apply
           {% else %}
           spotless:check
-          --settings settings.xml
+          --settings ../libs/settings.xml
           --define github.actor={{ github_actor }}
           --define github.token={{ github_token }}
           {% endif %}
