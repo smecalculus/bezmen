@@ -22,6 +22,7 @@
         image_name: "{{ docker_registry }}/{{ docker_repo }}/bezmen-app-{{ item }}"
         image_home: ../apps/{{ item }}
         image_context: "target/docker-context"
-        image_dependency: "{{ hostvars.lib.image_status|default({}) }}"
+        image_deps:
+          - "{{ hostvars.lib.binary_status }}"
       loop:
         - foo

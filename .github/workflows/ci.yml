@@ -43,7 +43,7 @@ jobs:
           -e github_token=${{ secrets.GITHUB_TOKEN }}
         working-directory: .dx
       - uses: EnricoMi/publish-unit-test-result-action@v2.7.0
-        if: always()
+        if: success() || failure()
         with:
           check_name: Unit Test Report
           check_run_annotations: none
@@ -56,7 +56,7 @@ jobs:
             libs/*/target/surefire-reports/TEST-*.xml
             apps/*/target/surefire-reports/TEST-*.xml
       - uses: EnricoMi/publish-unit-test-result-action@v2.7.0
-        if: always()
+        if: success() || failure()
         with:
           check_name: Integration Test Report
           check_run_annotations: none
@@ -70,28 +70,28 @@ jobs:
             apps/*/target/failsafe-reports/TEST-*.xml
       - uses: madrapps/jacoco-report@v1.4
         if: ${{ github.event_name == 'pull_request' }}
+        continue-on-error: true
         with:
           title: Unit Coverage Report
           token: ${{ secrets.GITHUB_TOKEN }}
-          skip-if-no-changes: false
           update-comment: true
           paths: >
             tools/target/coverage/units/jacoco.xml
       - uses: madrapps/jacoco-report@v1.4
         if: ${{ github.event_name == 'pull_request' }}
+        continue-on-error: true
         with:
           title: Integration Coverage Report
           token: ${{ secrets.GITHUB_TOKEN }}
-          skip-if-no-changes: false
           update-comment: true
           paths: >
             tools/target/coverage/integrations/jacoco.xml
       - uses: madrapps/jacoco-report@v1.4
         if: ${{ github.event_name == 'pull_request' }}
+        continue-on-error: true
         with:
           title: Overall Coverage Report
           token: ${{ secrets.GITHUB_TOKEN }}
-          skip-if-no-changes: false
           update-comment: true
           paths: >
             tools/target/coverage/overall/jacoco.xml
@@ -166,7 +166,7 @@ jobs:
           -e modulus=2
         working-directory: .dx
       - uses: actions/upload-artifact@v3.1.2
-        if: always()
+        if: success() || failure()
         with:
           name: e2e-test-report-${{ matrix.usage }}-${{ matrix.props }}-${{ matrix.shard }}
           path: tests/${{ matrix.usage }}/target/surefire-reports/*.xml
@@ -208,7 +208,7 @@ jobs:
 
   stack-reporting:
     name: Stack Reporting
-    if: always()
+    if: success() || failure()
     runs-on: ubuntu-latest
     timeout-minutes: 5
     needs: [stack-testing]

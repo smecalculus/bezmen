@@ -7,13 +7,13 @@ stack_cid: "{{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=stacks')[
 lib_version: "0.1.0-{{ lib_cid }}"
 app_version: "0.1.0-{{ app_cid }}"
 
-# todo: rename to "stack"
 usage: toy
 # todo: rename to "prefs"
 props: turing
 
 docker_registry: "localhost"
-docker_entity: "{{ 'image' if docker_registry == 'localhost' else 'manifest' }}"
+is_building_local: "{{ docker_registry == 'localhost' }}"
+docker_entity: "{{ 'image' if is_building_local else 'manifest' }}"
 docker_repo: "smecalculus"
 
 app_foo_image: "{{ docker_registry }}/{{ docker_repo }}/bezmen-app-foo"

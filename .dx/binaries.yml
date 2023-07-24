@@ -6,22 +6,36 @@
   tasks:
     - name: capture status
       command:
+        # todo: try to implement more lightweight check
         cmd: >
           mvn dependency:get
+          --define transitive=false
           --define artifact=org.smecalculus.bezmen:libs:{{ lib_version }}:pom
-          {% if docker_registry == 'localhost' %}
+          {% if is_building_local %}
           --offline
+          {% else %}
+          --settings settings.xml
+          --define github.actor={{ github_actor }}
+          --define github.token={{ github_token }}
+          --define remoteRepositories=github::::https://maven.pkg.github.com/smecalculus/bezmen
           {% endif %}
         chdir: ../libs
       register: binary_status
       changed_when: binary_status.rc != 0
       failed_when: false
-      no_log: true
+    - name: status command
+      debug:
+        msg: "{{ binary_status.cmd|join(' ') }}"
+      when: binary_status is changed
+    - name: status output
+      debug:
+        msg: "{{ binary_status.stdout }}"
+      when: binary_status is changed
     - name: create binary
       command:
         cmd: >
           mvn clean
-          {% if docker_registry == 'localhost' %}
+          {% if is_building_local %}
           install
           {% else %}
           deploy
@@ -40,38 +54,44 @@
   tasks:
     - name: capture status
       command:
-        cmd: test -f {{ item }}/target/app-{{ item }}-{{ app_version }}.jar
-        chdir: ../apps
-      register: binary_status
-      changed_when: binary_status.rc != 0
+        cmd: docker {{ docker_entity }} inspect {{ docker_registry }}/{{ docker_repo }}/bezmen-app-{{ item }}:{{ app_cid }}
+      register: image_status
+      changed_when: image_status.rc != 0
       failed_when: false
       loop:
         - foo
+    - name: status commands
+      debug:
+        msg: "{{ image_status.results|map(attribute='cmd')|map('join', ' ') }}"
+      when: image_status is changed
     - name: create binary
       command:
         cmd: >
           mvn clean verify
-          --projects {{ binary_status.results|select('changed')|map(attribute='item')|join(',') }}
-          --define libs.version={{ lib_version }}
+          {% if not hostvars.lib.binary_status is changed %}
+          --projects {{ image_status.results|select('changed')|map(attribute='item')|join(',') }}
+          {% endif %}
           --define revision={{ app_version }}
           --threads 2C
           --batch-mode
           --fail-fast
         chdir: ../apps
         strip_empty_ends: false
-      when: binary_status is changed
+      # todo: кейс падения сборки бинарников приложений, когда менялись только библиотеки
+      when: >
+        image_status is changed or
+        hostvars.lib.binary_status is changed
 
 - name: coverage
   hosts: lib:app
   run_once: true
   tasks:
-    - name: create reports
+    - name: generate reports
       command:
         cmd: >
           mvn clean antrun:run@units antrun:run@integrations antrun:run@overall
-          --define libs.version={{ lib_version }}
         chdir: ../tools
         strip_empty_ends: false
       when: >
         hostvars.lib.binary_status is changed or
-        hostvars.app.binary_status is changed
+        hostvars.app.image_status is changed

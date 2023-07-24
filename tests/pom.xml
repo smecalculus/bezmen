@@ -17,7 +17,7 @@
 
   <properties>
     <props.combo>turing</props.combo>
-    <libs.version>0.1.0-SNAPSHOT</libs.version>
+    <libs.version>LATEST</libs.version>
     <lombok.version>1.18.24</lombok.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>

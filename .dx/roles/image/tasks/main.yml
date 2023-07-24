@@ -14,6 +14,11 @@
   failed_when: false
   no_log: true
 
+- name: status command
+  debug:
+    msg: "{{ image_status.cmd|join(' ') }}"
+  when: image_status is changed
+
 - name: remove outdated
   block:
     - shell:
@@ -38,7 +43,7 @@
     strip_empty_ends: false
   when: >
     image_status is changed or
-    image_dependency is changed
+    image_deps[0]|default({}) is changed
 
 - name: push built
   command:

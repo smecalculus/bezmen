@@ -1,4 +1,4 @@
 ---
 image_tag: "latest"
 image_context: "."
-image_dependency: {}
+image_deps: []
