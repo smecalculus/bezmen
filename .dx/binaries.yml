@@ -8,6 +8,7 @@
       command:
         cmd: >
           mvn dependency:get
+          --define transitive=false
           --define artifact=org.smecalculus.bezmen:libs:{{ lib_version }}:pom
           {% if is_building_local %}
           --offline
@@ -15,20 +16,20 @@
           --settings settings.xml
           --define github.actor={{ github_actor }}
           --define github.token={{ github_token }}
+          --define remoteRepositories=https://maven.pkg.github.com/smecalculus/bezmen
           {% endif %}
         chdir: ../libs
       register: binary_status
       changed_when: binary_status.rc != 0
       failed_when: false
+      no_log: true
     - name: status command
       debug:
         msg: "{{ binary_status.cmd|join(' ') }}"
-        verbosity: 0
       when: binary_status is changed
     - name: status output
       debug:
         msg: "{{ binary_status.stdout }}"
-        verbosity: 1
       when: binary_status is changed
     - name: create binary
       command:
