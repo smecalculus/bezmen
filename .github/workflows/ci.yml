@@ -42,7 +42,7 @@ jobs:
           -e github_actor=${{ github.actor }}
           -e github_token=${{ secrets.GITHUB_TOKEN }}
         working-directory: .dx
-      - uses: EnricoMi/publish-unit-test-result-action@v2.7.0
+      - uses: EnricoMi/publish-unit-test-result-action@v2.8.0
         if: success() || failure()
         with:
           check_name: Unit Test Report
@@ -55,7 +55,7 @@ jobs:
           files: |
             libs/*/target/surefire-reports/TEST-*.xml
             apps/*/target/surefire-reports/TEST-*.xml
-      - uses: EnricoMi/publish-unit-test-result-action@v2.7.0
+      - uses: EnricoMi/publish-unit-test-result-action@v2.8.0
         if: success() || failure()
         with:
           check_name: Integration Test Report
@@ -221,7 +221,7 @@ jobs:
           path: artifacts
       - run: ls -R
         working-directory: artifacts
-      - uses: EnricoMi/publish-unit-test-result-action@v2.7.0
+      - uses: EnricoMi/publish-unit-test-result-action@v2.8.0
         with:
           check_name: E2E Test Report
           check_run_annotations: none
