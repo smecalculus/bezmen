@@ -14,6 +14,11 @@
   failed_when: false
   no_log: true
 
+- name: status command
+  debug:
+    msg: "{{ image_status.cmd|join(' ') }}"
+  when: image_status is changed
+
 - name: remove outdated
   block:
     - shell:
