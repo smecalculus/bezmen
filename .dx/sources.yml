@@ -32,6 +32,7 @@
           --define github.actor={{ github_actor }}
           --define github.token={{ github_token }}
           {% endif %}
+          --define revision={{ app_version }}
           --batch-mode
         chdir: ../apps
         strip_empty_ends: false
