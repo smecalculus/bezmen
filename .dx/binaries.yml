@@ -11,6 +11,10 @@
           --define artifact=org.smecalculus.bezmen:libs:{{ lib_version }}:pom
           {% if is_building_local %}
           --offline
+          {% else %}
+          --settings settings.xml
+          --define github.actor={{ github_actor }}
+          --define github.token={{ github_token }}
           {% endif %}
         chdir: ../libs
       register: binary_status
