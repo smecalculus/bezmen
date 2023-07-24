@@ -16,7 +16,7 @@
           --settings settings.xml
           --define github.actor={{ github_actor }}
           --define github.token={{ github_token }}
-          --define remoteRepositories=https://maven.pkg.github.com/smecalculus/bezmen
+          --define remoteRepositories=github::::https://maven.pkg.github.com/smecalculus/bezmen
           {% endif %}
         chdir: ../libs
       register: binary_status
