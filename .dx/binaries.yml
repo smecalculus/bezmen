@@ -23,6 +23,12 @@
     - name: status command
       debug:
         msg: "{{ binary_status.cmd|join(' ') }}"
+        verbosity: 0
+      when: binary_status is changed
+    - name: status output
+      debug:
+        msg: "{{ binary_status.stdout }}"
+        verbosity: 1
       when: binary_status is changed
     - name: create binary
       command:
