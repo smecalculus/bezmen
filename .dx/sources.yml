@@ -9,6 +9,9 @@
           spotless:apply
           {% else %}
           spotless:check
+          --settings settings.xml
+          --define github.actor={{ github_actor }}
+          --define github.token={{ github_token }}
           {% endif %}
           --batch-mode
         chdir: ../libs
@@ -25,6 +28,9 @@
           spotless:apply
           {% else %}
           spotless:check
+          --settings settings.xml
+          --define github.actor={{ github_actor }}
+          --define github.token={{ github_token }}
           {% endif %}
           --batch-mode
         chdir: ../apps
