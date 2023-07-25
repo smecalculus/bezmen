@@ -118,6 +118,8 @@ jobs:
       - run: >
           ansible-playbook stacks.yml -t compile
           -e docker_registry=${{ env.REGISTRY }}
+          -e github_actor=${{ github.actor }}
+          -e github_token=${{ secrets.GITHUB_TOKEN }}
           -e usage=${{ matrix.usage }}
           -e props=${{ matrix.props }}
         working-directory: .dx
@@ -206,6 +208,8 @@ jobs:
       - run: >
           ansible-playbook stacks.yml -t package
           -e docker_registry=${{ env.REGISTRY }}
+          -e github_actor=${{ github.actor }}
+          -e github_token=${{ secrets.GITHUB_TOKEN }}
           -e usage=${{ matrix.usage }}
           -e props=${{ matrix.props }}
         working-directory: .dx
