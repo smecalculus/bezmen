@@ -76,7 +76,7 @@
               {% if modulus is defined %}
               --define bezmen.sharding.modulus={{ modulus }}
               {% endif %}
-              {% if not is_building_local %}
+              {% if not is_local_building %}
               --settings ../settings.xml
               --activate-profiles ci
               --define github.actor={{ github_actor }}
@@ -92,5 +92,8 @@
             file: ../tests/package.yml
           tags: [package]
       when: >
-        stack_status is changed or
-        test_status is changed
+        hostvars.lib.binary_status is changed or
+        hostvars.schema.image_status is changed or
+        hostvars.app.image_status is changed or
+        test_status is changed or
+        stack_status is changed

@@ -11,6 +11,7 @@ env:
   REGISTRY: ghcr.io
 
 jobs:
+  # todo: think about separate jobs: sources, binaries, images
   binaries-and-images:
     name: Binaries & Images
     runs-on: ubuntu-latest

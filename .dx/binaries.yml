@@ -11,7 +11,7 @@
           mvn dependency:get
           --define transitive=false
           --define artifact=org.smecalculus.bezmen:libs:{{ lib_version }}:pom
-          {% if is_building_local %}
+          {% if is_local_building %}
           --offline
           {% else %}
           --settings ../settings.xml
@@ -32,7 +32,7 @@
       command:
         cmd: >
           mvn clean
-          {% if is_building_local %}
+          {% if is_local_building %}
           install
           {% else %}
           deploy

@@ -5,7 +5,7 @@
       command:
         cmd: >
           mvn
-          {% if is_building_local %}
+          {% if is_local_building %}
           spotless:apply
           {% else %}
           spotless:check
@@ -25,7 +25,7 @@
       command:
         cmd: >
           mvn
-          {% if is_building_local %}
+          {% if is_local_building %}
           spotless:apply
           {% else %}
           spotless:check

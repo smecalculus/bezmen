@@ -13,8 +13,8 @@ usage: toy
 props: turing
 
 docker_registry: "localhost"
-is_building_local: "{{ docker_registry == 'localhost' }}"
-docker_entity: "{{ 'image' if is_building_local else 'manifest' }}"
+is_local_building: "{{ docker_registry == 'localhost' }}"
+docker_entity: "{{ 'image' if is_local_building else 'manifest' }}"
 docker_repo: "smecalculus"
 
 # todo: names without 'bezmen'
