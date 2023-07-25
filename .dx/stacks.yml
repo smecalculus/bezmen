@@ -76,6 +76,12 @@
               {% if modulus is defined %}
               --define bezmen.sharding.modulus={{ modulus }}
               {% endif %}
+              {% if not is_building_local %}
+              --settings ../settings.xml
+              --activate-profiles ci
+              --define github.actor={{ github_actor }}
+              --define github.token={{ github_token }}
+              {% endif %}
             chdir: ../tests
             strip_empty_ends: false
           tags: [test]
