@@ -28,10 +28,6 @@
       debug:
         msg: "{{ binary_status.cmd|join(' ') }}"
       when: binary_status is changed
-    - name: status output
-      debug:
-        msg: "{{ binary_status.stdout }}"
-      when: binary_status is changed
     - name: create binary
       command:
         cmd: >
