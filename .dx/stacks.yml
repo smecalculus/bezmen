@@ -36,6 +36,7 @@
         - import_tasks:
             file: ../stacks/compile.yml
           tags: [compile]
+        # todo: can we remove this check?
         - name: capture schema status
           command:
             cmd: docker inspect schema-owner-{{ schema_cid }}

@@ -13,9 +13,9 @@
     chdir: ../stacks
   environment:
     SCHEMA_CID: "{{ schema_cid }}"
-    SCHEMA_IMAGE: "{{ schema_pg_image }}"
+    SCHEMA_IMAGE: "{{ schema_images.postgres }}"
     FOO_CID: "{{ app_cid }}"
-    FOO_IMAGE: "{{ app_foo_image }}"
+    FOO_IMAGE: "{{ app_images.foo }}"
 
 - name: compile conf
   command:

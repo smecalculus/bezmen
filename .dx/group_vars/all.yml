@@ -18,7 +18,9 @@ docker_entity: "{{ 'image' if is_local_building else 'manifest' }}"
 docker_repo: "smecalculus"
 
 # todo: names without 'bezmen'
-app_foo_image: "{{ docker_registry }}/{{ docker_repo }}/bezmen-app-foo"
-schema_pg_image: "{{ docker_registry }}/{{ docker_repo }}/bezmen-schema-postgres"
+app_images:
+  foo: "{{ docker_registry }}/{{ docker_repo }}/bezmen-app-foo"
+schema_images:
+  postgres: "{{ docker_registry }}/{{ docker_repo }}/bezmen-schema-postgres"
 stack_image: "{{ docker_registry }}/{{ docker_repo }}/stack-{{ usage }}-{{ props }}"
 test_image: "{{ docker_registry }}/{{ docker_repo }}/test-{{ usage }}-{{ props }}"

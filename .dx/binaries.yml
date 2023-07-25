@@ -24,6 +24,7 @@
       register: binary_status
       changed_when: binary_status.rc != 0
       failed_when: false
+      tags: [always]
     - name: status command
       debug:
         msg: "{{ binary_status.cmd|join(' ') }}"
@@ -52,16 +53,19 @@
   tasks:
     - name: capture status
       command:
-        cmd: docker {{ docker_entity }} inspect {{ docker_registry }}/{{ docker_repo }}/bezmen-app-{{ item }}:{{ app_cid }}
+        cmd: docker {{ docker_entity }} inspect {{ item.value }}:{{ app_cid }}
       register: image_status
       changed_when: image_status.rc != 0
       failed_when: false
-      loop:
-        - foo
+      loop: "{{ app_images|dict2items }}"
+      loop_control:
+        label: "{{ item.key }}"
+      tags: [always]
     - name: status commands
       debug:
         msg: "{{ image_status.results|map(attribute='cmd')|map('join', ' ') }}"
       when: image_status is changed
+      tags: [always]
     - name: create binary
       command:
         cmd: >
