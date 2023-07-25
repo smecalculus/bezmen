@@ -34,9 +34,6 @@
     <repository>
       <id>github</id>
       <url>https://maven.pkg.github.com/smecalculus/bezmen</url>
-      <snapshots>
-        <enabled>true</enabled>
-      </snapshots>
     </repository>
   </distributionManagement>
 
@@ -347,9 +344,7 @@
           <version>2.36.0</version>
           <executions>
             <execution>
-              <goals>
-                <goal>check</goal>
-              </goals>
+              <phase>validate</phase>
             </execution>
           </executions>
           <configuration>

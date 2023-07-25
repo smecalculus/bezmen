@@ -1,25 +1,40 @@
 ---
 - hosts: lib
   tasks:
-    - name: format
+    - name: lint
       command:
         cmd: >
-          mvn spotless:apply
-          --define revision={{ lib_version }}
+          mvn
+          {% if is_building_local %}
+          spotless:apply
+          {% else %}
+          spotless:check
+          --settings ../settings.xml
+          --activate-profiles ci
+          --define github.actor={{ github_actor }}
+          --define github.token={{ github_token }}
+          {% endif %}
           --batch-mode
         chdir: ../libs
         strip_empty_ends: false
-      when: is_building_local
+      changed_when: false
 
 - hosts: app
   tasks:
-    - name: format
+    - name: lint
       command:
         cmd: >
-          mvn spotless:apply
-          --define libs.version={{ lib_version }}
-          --define revision={{ app_version }}
+          mvn
+          {% if is_building_local %}
+          spotless:apply
+          {% else %}
+          spotless:check
+          --settings ../settings.xml
+          --activate-profiles ci
+          --define github.actor={{ github_actor }}
+          --define github.token={{ github_token }}
+          {% endif %}
           --batch-mode
         chdir: ../apps
         strip_empty_ends: false
-      when: is_building_local
+      changed_when: false

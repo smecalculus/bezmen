@@ -51,7 +51,7 @@ jobs:
           action_fail_on_inconclusive: true
           action_fail: true
           job_summary: false
-          comment_mode: always
+          comment_mode: off
           files: |
             libs/*/target/surefire-reports/TEST-*.xml
             apps/*/target/surefire-reports/TEST-*.xml
@@ -64,12 +64,13 @@ jobs:
           action_fail_on_inconclusive: true
           action_fail: true
           job_summary: false
-          comment_mode: always
+          comment_mode: off
           files: |
             libs/*/target/failsafe-reports/TEST-*.xml
             apps/*/target/failsafe-reports/TEST-*.xml
       - uses: madrapps/jacoco-report@v1.4
         if: ${{ github.event_name == 'pull_request' }}
+        # todo: try to use hashFiles for conditional run
         continue-on-error: true
         with:
           title: Unit Coverage Report
@@ -214,7 +215,6 @@ jobs:
     needs: [stack-testing]
     permissions:
       checks: write
-      pull-requests: write
     steps:
       - uses: actions/download-artifact@v3.0.2
         with:
@@ -229,5 +229,5 @@ jobs:
           action_fail_on_inconclusive: true
           action_fail: true
           job_summary: false
-          comment_mode: always
+          comment_mode: off
           files: artifacts/e2e-test-report-*/**/TEST-*.xml

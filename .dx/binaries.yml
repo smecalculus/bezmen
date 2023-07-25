@@ -14,7 +14,8 @@
           {% if is_building_local %}
           --offline
           {% else %}
-          --settings settings.xml
+          --settings ../settings.xml
+          --activate-profiles ci
           --define github.actor={{ github_actor }}
           --define github.token={{ github_token }}
           --define remoteRepositories=github::::https://maven.pkg.github.com/smecalculus/bezmen
@@ -27,10 +28,6 @@
       debug:
         msg: "{{ binary_status.cmd|join(' ') }}"
       when: binary_status is changed
-    - name: status output
-      debug:
-        msg: "{{ binary_status.stdout }}"
-      when: binary_status is changed
     - name: create binary
       command:
         cmd: >
@@ -39,7 +36,8 @@
           install
           {% else %}
           deploy
-          --settings settings.xml
+          --settings ../settings.xml
+          --activate-profiles ci
           --define github.actor={{ github_actor }}
           --define github.token={{ github_token }}
           {% endif %}
