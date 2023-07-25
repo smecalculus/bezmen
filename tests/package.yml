@@ -1,0 +1,13 @@
+---
+- name: package test
+  command:
+    cmd: >
+      docker build .
+      --file Dockerfile
+      --tag {{ test_image }}:{{ test_cid }}
+    chdir: ../tests
+
+- name: push test
+  command:
+    cmd: docker image push {{ test_image }}:{{ test_cid }}
+  when: not is_building_local

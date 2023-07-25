@@ -2,13 +2,14 @@
 lib_cid: "{{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=libs')[:7] }}"
 app_cid: "{{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=apps')[:7] }}"
 schema_cid: "{{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=schemas')[:7] }}"
+test_cid: "{{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=tests')[:7] }}"
 stack_cid: "{{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=stacks')[:7] }}"
 
 lib_version: "0.1.0-{{ lib_cid }}"
 app_version: "0.1.0-{{ app_cid }}"
 
 usage: toy
-# todo: rename to "prefs"
+# todo: rename to 'prefs'
 props: turing
 
 docker_registry: "localhost"
@@ -16,6 +17,8 @@ is_building_local: "{{ docker_registry == 'localhost' }}"
 docker_entity: "{{ 'image' if is_building_local else 'manifest' }}"
 docker_repo: "smecalculus"
 
+# todo: names without 'bezmen'
 app_foo_image: "{{ docker_registry }}/{{ docker_repo }}/bezmen-app-foo"
 schema_pg_image: "{{ docker_registry }}/{{ docker_repo }}/bezmen-schema-postgres"
-stack_image: "{{ docker_registry }}/{{ docker_repo }}/bezmen-stack-{{ usage }}-{{ props }}"
+stack_image: "{{ docker_registry }}/{{ docker_repo }}/stack-{{ usage }}-{{ props }}"
+test_image: "{{ docker_registry }}/{{ docker_repo }}/test-{{ usage }}-{{ props }}"

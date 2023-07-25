@@ -12,10 +12,22 @@
       changed_when: stack_status.rc != 0
       failed_when: false
       tags: [always]
-    - name: status command
+    - name: stack status command
       debug:
         msg: "{{ stack_status.cmd|join(' ') }}"
       when: stack_status is changed
+      tags: [always]
+    - name: capture test status
+      command:
+        cmd: docker {{ docker_entity }} inspect {{ test_image }}:{{ test_cid }}
+      register: test_status
+      changed_when: test_status.rc != 0
+      failed_when: false
+      tags: [always]
+    - name: test status command
+      debug:
+        msg: "{{ test_status.cmd|join(' ') }}"
+      when: test_status is changed
       tags: [always]
     - block:
         - import_tasks:
@@ -57,7 +69,6 @@
               mvn clean test
               --projects {{ usage }}
               --define props.combo={{ props }}
-              --define libs.version={{ lib_version }}
               --batch-mode
               {% if reminder is defined %}
               --define bezmen.sharding.reminder={{ reminder }}
@@ -71,5 +82,9 @@
         - import_tasks:
             file: ../stacks/package.yml
           tags: [package]
+        - import_tasks:
+            file: ../tests/package.yml
+          tags: [package]
       when: >
-        stack_status is changed
+        stack_status is changed or
+        test_status is changed

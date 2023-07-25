@@ -16,9 +16,9 @@ include::apps/README.adoc[]
 
 include::libs/README.adoc[]
 
-== stands
+== stacks
 
-include::stands/README.adoc[]
+include::stacks/README.adoc[]
 
 == tests
 
@@ -32,12 +32,13 @@ include::tools/README.adoc[]
 
 Структура команды
 
-    [<constructor>]:<object>:[<operation>] [LIMIT=<selector>]
+    ansible-playbook <object>.yml [-t <operation> -l <selector>]
 
 == todo
 
 . Поддержка двух версий JDK
 . Заморозка версий, которые могут обновляться автоматически
-. Линтинг и/или форматирование, статический анализ, тестовое покрытие
-. Клиентский инсталлятор
 . Релизная сборка
+. Чистка библиотек
+. Локальная проверка в удаленных репозиториях
+
