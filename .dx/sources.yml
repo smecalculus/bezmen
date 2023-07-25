@@ -9,7 +9,8 @@
           spotless:apply
           {% else %}
           spotless:check
-          --settings settings.xml
+          --settings ../settings.xml
+          --activate-profiles ci
           --define github.actor={{ github_actor }}
           --define github.token={{ github_token }}
           {% endif %}
@@ -28,12 +29,11 @@
           spotless:apply
           {% else %}
           spotless:check
-          --settings ../libs/settings.xml
+          --settings ../settings.xml
+          --activate-profiles ci
           --define github.actor={{ github_actor }}
           --define github.token={{ github_token }}
           {% endif %}
-          --define revision={{ app_version }}
-          --define mdep.skip=true
           --batch-mode
         chdir: ../apps
         strip_empty_ends: false

@@ -9,4 +9,19 @@
       <password>${github.token}</password>
     </server>
   </servers>
+
+  <profiles>
+    <profile>
+      <id>ci</id>
+      <repositories>
+        <repository>
+          <id>github</id>
+          <url>https://maven.pkg.github.com/smecalculus/bezmen</url>
+          <snapshots>
+            <enabled>true</enabled>
+          </snapshots>
+        </repository>
+      </repositories>
+    </profile>
+  </profiles>
 </settings>

@@ -14,7 +14,8 @@
           {% if is_building_local %}
           --offline
           {% else %}
-          --settings settings.xml
+          --settings ../settings.xml
+          --activate-profiles ci
           --define github.actor={{ github_actor }}
           --define github.token={{ github_token }}
           --define remoteRepositories=github::::https://maven.pkg.github.com/smecalculus/bezmen
@@ -39,7 +40,8 @@
           install
           {% else %}
           deploy
-          --settings settings.xml
+          --settings ../settings.xml
+          --activate-profiles ci
           --define github.actor={{ github_actor }}
           --define github.token={{ github_token }}
           {% endif %}
