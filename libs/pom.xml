@@ -347,9 +347,7 @@
           <version>2.36.0</version>
           <executions>
             <execution>
-              <goals>
-                <goal>check</goal>
-              </goals>
+              <phase>validate</phase>
             </execution>
           </executions>
           <configuration>

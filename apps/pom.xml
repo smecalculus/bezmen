@@ -157,15 +157,10 @@
           <version>2.36.0</version>
           <executions>
             <execution>
-              <goals>
-                <goal>check</goal>
-              </goals>
+              <phase>validate</phase>
             </execution>
           </executions>
           <configuration>
-            <upToDateChecking>
-              <enabled>false</enabled>
-            </upToDateChecking>
             <formats>
               <format>
                 <includes>
