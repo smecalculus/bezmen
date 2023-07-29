@@ -30,12 +30,12 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
 
-  <distributionManagement>
+  <repositories>
     <repository>
       <id>github</id>
       <url>https://maven.pkg.github.com/smecalculus/bezmen</url>
     </repository>
-  </distributionManagement>
+  </repositories>
 
   <dependencies>
     <dependency>
