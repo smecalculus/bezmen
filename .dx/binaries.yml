@@ -14,10 +14,6 @@
           {% if is_local_building %}
           --offline
           {% else %}
-          --settings ../settings.xml
-          --activate-profiles ci
-          --define github.actor={{ github_actor }}
-          --define github.token={{ github_token }}
           --define remoteRepositories=github::::https://maven.pkg.github.com/smecalculus/bezmen
           {% endif %}
         chdir: ../libs
@@ -37,10 +33,6 @@
           install
           {% else %}
           deploy
-          --settings ../settings.xml
-          --activate-profiles ci
-          --define github.actor={{ github_actor }}
-          --define github.token={{ github_token }}
           {% endif %}
           --define revision={{ lib_version }}
           --threads 2C
@@ -71,7 +63,7 @@
         cmd: >
           mvn clean verify
           {% if not hostvars.lib.binary_status is changed %}
-          --projects {{ image_status.results|select('changed')|map(attribute='item')|join(',') }}
+          --projects {{ image_status.results|select('changed')|map(attribute='item.key')|join(',') }}
           {% endif %}
           --define revision={{ app_version }}
           --threads 2C
@@ -80,9 +72,7 @@
         chdir: ../apps
         strip_empty_ends: false
       # todo: кейс падения сборки бинарников приложений, когда менялись только библиотеки
-      when: >
-        image_status is changed or
-        hostvars.lib.binary_status is changed
+      when: image_status is changed
 
 - name: coverage
   hosts: lib:app

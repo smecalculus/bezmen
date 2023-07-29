@@ -3,5 +3,6 @@ all:
     lib:
     schema:
     app:
+    test:
   vars:
     ansible_connection: local

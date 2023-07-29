@@ -4,6 +4,7 @@ app_cid: "{{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=apps')[:7] 
 schema_cid: "{{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=schemas')[:7] }}"
 test_cid: "{{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=tests')[:7] }}"
 stack_cid: "{{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=stacks')[:7] }}"
+tool_cid: "{{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=tools')[:7] }}"
 
 lib_version: "0.1.0-{{ lib_cid }}"
 app_version: "0.1.0-{{ app_cid }}"
@@ -13,9 +14,10 @@ usage: toy
 props: turing
 
 docker_registry: "localhost"
+docker_repo: "smecalculus"
+
 is_local_building: "{{ docker_registry == 'localhost' }}"
 docker_entity: "{{ 'image' if is_local_building else 'manifest' }}"
-docker_repo: "smecalculus"
 
 # todo: names without 'bezmen'
 app_images:
@@ -24,3 +26,5 @@ schema_images:
   postgres: "{{ docker_registry }}/{{ docker_repo }}/bezmen-schema-postgres"
 stack_image: "{{ docker_registry }}/{{ docker_repo }}/stack-{{ usage }}-{{ props }}"
 test_image: "{{ docker_registry }}/{{ docker_repo }}/test-{{ usage }}-{{ props }}"
+tool_images:
+  coverage: "{{ docker_registry }}/{{ docker_repo }}/tool-coverage"

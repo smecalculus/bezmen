@@ -4,6 +4,7 @@
     that:
       - image_name is defined
       - image_home is defined
+  no_log: true
 
 - name: remove outdated
   block:

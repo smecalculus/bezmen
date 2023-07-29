@@ -17,7 +17,7 @@
 
   <properties>
     <props.combo>turing</props.combo>
-    <libs.version>LATEST</libs.version>
+    <lib.version>0.1.0-2e1ee93</lib.version>
     <lombok.version>1.18.24</lombok.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
@@ -35,7 +35,7 @@
       <dependency>
         <groupId>${project.groupId}</groupId>
         <artifactId>libs</artifactId>
-        <version>${libs.version}</version>
+        <version>${lib.version}</version>
         <type>pom</type>
         <scope>import</scope>
       </dependency>

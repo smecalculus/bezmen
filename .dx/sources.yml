@@ -9,10 +9,6 @@
           spotless:apply
           {% else %}
           spotless:check
-          --settings ../settings.xml
-          --activate-profiles ci
-          --define github.actor={{ github_actor }}
-          --define github.token={{ github_token }}
           {% endif %}
           --batch-mode
         chdir: ../libs
@@ -20,6 +16,32 @@
       changed_when: false
 
 - hosts: app
+  tasks:
+    # todo: можно инкапсулировать в pom.xml, привязав к фазе validate
+    - name: lint
+      command:
+        cmd: >
+          mvn
+          {% if is_local_building %}
+          spotless:apply
+          {% else %}
+          spotless:check
+          {% endif %}
+          --batch-mode
+        chdir: ../apps
+        strip_empty_ends: false
+      changed_when: false
+    - name: version
+      command:
+        cmd: >
+          mvn versions:set-property
+          --define generateBackupPoms=false
+          --define property=lib.version
+          --define newVersion={{ lib_version }}
+          --batch-mode
+        chdir: ../apps
+
+- hosts: test
   tasks:
     - name: lint
       command:
@@ -29,12 +51,17 @@
           spotless:apply
           {% else %}
           spotless:check
-          --settings ../settings.xml
-          --activate-profiles ci
-          --define github.actor={{ github_actor }}
-          --define github.token={{ github_token }}
           {% endif %}
           --batch-mode
-        chdir: ../apps
+        chdir: ../tests
         strip_empty_ends: false
       changed_when: false
+    - name: version
+      command:
+        cmd: >
+          mvn versions:set-property
+          --define generateBackupPoms=false
+          --define property=lib.version
+          --define newVersion={{ lib_version }}
+          --batch-mode
+        chdir: ../tests

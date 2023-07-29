@@ -37,6 +37,4 @@
         image_home: ../apps/{{ item.key }}
         image_context: "target/docker-context"
       loop: "{{ hostvars.app.image_status.results|select('changed')|map(attribute='item') }}"
-      when: >
-        hostvars.lib.binary_status is changed or
-        hostvars.app.image_status is changed
+      when: hostvars.app.image_status is changed
