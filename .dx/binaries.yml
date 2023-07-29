@@ -22,7 +22,6 @@
       register: binary_status
       changed_when: binary_status.rc != 0
       failed_when: false
-      tags: [always]
     - name: status command
       debug:
         msg: "{{ binary_status.cmd|join(' ') }}"

@@ -5,9 +5,24 @@
 - hosts: app
   run_once: yes
   tasks:
+    - import_tasks:
+        file: ../stacks/clean.yml
+      tags: [compile]
+    - import_tasks:
+        file: ../stacks/compile.yml
+      tags: [compile]
+    - name: capture stack cid
+      shell:
+        cmd: >
+          git ls-files --others --full-name --error-unmatch stacks/target/context |
+          git hash-object --stdin
+        chdir: ..
+      register: stack_cid
+      changed_when: false
+      tags: [always]
     - name: capture stack status
       command:
-        cmd: docker {{ docker_entity }} inspect {{ stack_image }}:{{ stack_cid }}
+        cmd: docker {{ docker_entity }} inspect {{ stack_image }}:{{ stack_cid.stdout[:7] }}
       register: stack_status
       changed_when: stack_status.rc != 0
       failed_when: false
@@ -30,12 +45,6 @@
       when: test_status is changed
       tags: [always]
     - block:
-        - import_tasks:
-            file: ../stacks/clean.yml
-          tags: [compile]
-        - import_tasks:
-            file: ../stacks/compile.yml
-          tags: [compile]
         # todo: can we remove this check?
         - name: capture schema status
           command:
@@ -90,7 +99,5 @@
             file: ../tests/package.yml
           tags: [package]
       when: >
-        hostvars.schema.image_status is changed or
-        hostvars.app.image_status is changed or
-        test_status is changed or
-        stack_status is changed
+        stack_status is changed or
+        test_status is changed
