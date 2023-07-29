@@ -13,6 +13,8 @@
           --define artifact=org.smecalculus.bezmen:libs:{{ lib_version }}:pom
           {% if is_local_building %}
           --offline
+          {% else %}
+          --define remoteRepositories=github::::https://maven.pkg.github.com/smecalculus/bezmen
           {% endif %}
         chdir: ../libs
       register: binary_status
