@@ -67,10 +67,12 @@
         - name: test stack
           command:
             cmd: >
-              mvn clean test
-              --projects {{ usage }}
-              --define props.combo={{ props }}
+              mvn
               --batch-mode
+              --projects {{ usage }}
+              clean
+              test
+              --define props.combo={{ props }}
               {% if reminder is defined %}
               --define bezmen.sharding.reminder={{ reminder }}
               {% endif %}

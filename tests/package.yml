@@ -10,4 +10,4 @@
 - name: push test
   command:
     cmd: docker image push {{ test_image }}:{{ test_cid }}
-  when: not is_local_building
+  when: is_remote_building

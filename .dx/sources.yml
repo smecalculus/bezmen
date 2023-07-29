@@ -1,16 +1,16 @@
 ---
 - hosts: lib
   tasks:
-    - name: lint
-      command:
+    - command:
         cmd: >
           mvn
+          --offline
+          --batch-mode
           {% if is_local_building %}
           spotless:apply
           {% else %}
           spotless:check
           {% endif %}
-          --batch-mode
         chdir: ../libs
         strip_empty_ends: false
       changed_when: false
@@ -18,50 +18,40 @@
 - hosts: app
   tasks:
     # todo: можно инкапсулировать в pom.xml, привязав к фазе validate
-    - name: lint
-      command:
+    - command:
         cmd: >
           mvn
+          --offline
+          --batch-mode
           {% if is_local_building %}
           spotless:apply
           {% else %}
           spotless:check
           {% endif %}
-          --batch-mode
+          versions:set-property
+          --define property=lib.version
+          --define newVersion={{ lib_version }}
+          --define generateBackupPoms=false
         chdir: ../apps
         strip_empty_ends: false
       changed_when: false
-    - name: version
-      command:
-        cmd: >
-          mvn versions:set-property
-          --define generateBackupPoms=false
-          --define property=lib.version
-          --define newVersion={{ lib_version }}
-          --batch-mode
-        chdir: ../apps
 
 - hosts: test
   tasks:
-    - name: lint
-      command:
+    - command:
         cmd: >
           mvn
+          --offline
+          --batch-mode
           {% if is_local_building %}
           spotless:apply
           {% else %}
           spotless:check
           {% endif %}
-          --batch-mode
-        chdir: ../tests
-        strip_empty_ends: false
-      changed_when: false
-    - name: version
-      command:
-        cmd: >
-          mvn versions:set-property
+          versions:set-property
           --define generateBackupPoms=false
           --define property=lib.version
           --define newVersion={{ lib_version }}
-          --batch-mode
         chdir: ../tests
+        strip_empty_ends: false
+      changed_when: false
