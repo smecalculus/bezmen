@@ -1,0 +1,47 @@
+---
+# todo: can we remove this check?
+- name: capture schema status
+  command:
+    cmd: docker inspect schema-owner-{{ schema_cid }}
+  no_log: true
+  register: schema_status
+  changed_when: schema_status.rc != 0
+  failed_when: false
+
+- name: wipe db if schema changed
+  command:
+    cmd: docker rm -f env-db
+  when: schema_status is changed
+
+- name: run stack
+  command:
+    cmd: >
+      docker compose
+      --file compose.yml
+      --profile {{ props }}
+      up
+      --remove-orphans
+      --quiet-pull
+      --no-deps
+      --detach
+    chdir: ../stacks/target/context
+    strip_empty_ends: false
+
+- name: run tests
+  command:
+    cmd: >
+      mvn
+      --no-snapshot-updates
+      --batch-mode
+      --projects {{ usage }}
+      clean
+      test
+      --define props.combo={{ props }}
+      {% if reminder is defined %}
+      --define bezmen.sharding.reminder={{ reminder }}
+      {% endif %}
+      {% if modulus is defined %}
+      --define bezmen.sharding.modulus={{ modulus }}
+      {% endif %}
+    chdir: ../tests
+    strip_empty_ends: false

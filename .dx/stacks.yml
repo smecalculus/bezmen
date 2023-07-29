@@ -2,103 +2,26 @@
 - import_playbook: images.yml
   tags: deps
 
-- hosts: app
+- hosts: all
   run_once: yes
   tasks:
     - import_tasks:
-        file: ../stacks/clean.yml
-      tags: [compile]
-    - import_tasks:
         file: ../stacks/compile.yml
       tags: [compile]
-    - name: capture stack cid
-      shell:
-        cmd: >
-          git ls-files --others --full-name --error-unmatch stacks/target/context |
-          git hash-object --stdin-paths |
-          git hash-object --stdin
-        chdir: ..
-      register: stack_cid
-      changed_when: false
-      tags: [always]
-    - name: capture stack status
-      command:
-        cmd: docker {{ docker_entity }} inspect {{ stack_image }}:{{ stack_cid.stdout[:7] }}
-      register: stack_status
-      changed_when: stack_status.rc != 0
-      failed_when: false
-      tags: [always]
-    - name: stack status command
-      debug:
-        msg: "{{ stack_status.cmd|join(' ') }}"
-      when: stack_status is changed
-      tags: [always]
-    - name: capture test status
-      command:
-        cmd: docker {{ docker_entity }} inspect {{ test_image }}:{{ test_cid }}
-      register: test_status
-      changed_when: test_status.rc != 0
-      failed_when: false
-      tags: [always]
-    - name: test status command
-      debug:
-        msg: "{{ test_status.cmd|join(' ') }}"
-      when: test_status is changed
-      tags: [always]
-    - block:
-        # todo: can we remove this check?
-        - name: capture schema status
-          command:
-            cmd: docker inspect schema-owner-{{ schema_cid }}
-          no_log: true
-          register: schema_status
-          changed_when: schema_status.rc != 0
-          failed_when: false
-          tags: [test]
-        - name: wipe db if schema changed
-          command:
-            cmd: docker rm -f env-db
-          when: schema_status is changed
-          tags: [test]
-        - name: run stack
-          command:
-            cmd: >
-              docker compose
-              --file compose.yml
-              --profile {{ props }}
-              up
-              --remove-orphans
-              --quiet-pull
-              --no-deps
-              --detach
-            chdir: ../stacks/target/context
-            strip_empty_ends: false
-          tags: [test]
-        - name: test stack
-          command:
-            cmd: >
-              mvn
-              --no-snapshot-updates
-              --batch-mode
-              --projects {{ usage }}
-              clean
-              test
-              --define props.combo={{ props }}
-              {% if reminder is defined %}
-              --define bezmen.sharding.reminder={{ reminder }}
-              {% endif %}
-              {% if modulus is defined %}
-              --define bezmen.sharding.modulus={{ modulus }}
-              {% endif %}
-            chdir: ../tests
-            strip_empty_ends: false
-          tags: [test]
-        - import_tasks:
-            file: ../stacks/package.yml
-          tags: [package]
-        - import_tasks:
-            file: ../tests/package.yml
-          tags: [package]
+    - import_tasks:
+        file: ../stacks/status.yml
+      tags: [status]
+    - import_tasks:
+        file: ../stacks/test.yml
+      tags: [test]
       when: >
         stack_status is changed or
         test_status is changed
+    - import_tasks:
+        file: ../stacks/package.yml
+      tags: [package]
+      when: stack_status is changed
+    - import_tasks:
+        file: ../tests/package.yml
+      tags: [package]
+      when: test_status is changed
