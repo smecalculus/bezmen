@@ -4,7 +4,7 @@
     - command:
         cmd: >
           mvn
-          --offline
+          --no-snapshot-updates
           --batch-mode
           {% if is_local_building %}
           spotless:apply
@@ -21,7 +21,7 @@
     - command:
         cmd: >
           mvn
-          --offline
+          --no-snapshot-updates
           --batch-mode
           {% if is_local_building %}
           spotless:apply
@@ -41,7 +41,7 @@
     - command:
         cmd: >
           mvn
-          --offline
+          --no-snapshot-updates
           --batch-mode
           {% if is_local_building %}
           spotless:apply
