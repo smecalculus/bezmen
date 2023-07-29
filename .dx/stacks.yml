@@ -15,6 +15,7 @@
       shell:
         cmd: >
           git ls-files --others --full-name --error-unmatch stacks/target/context |
+          git hash-object --stdin-paths |
           git hash-object --stdin
         chdir: ..
       register: stack_cid
