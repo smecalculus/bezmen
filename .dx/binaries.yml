@@ -89,7 +89,7 @@
       command:
         cmd: >
           mvn
-          --offline
+          --no-snapshot-updates
           --batch-mode
           clean
           antrun:run@units
