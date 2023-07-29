@@ -49,9 +49,9 @@
           spotless:check
           {% endif %}
           versions:set-property
-          --define generateBackupPoms=false
           --define property=lib.version
           --define newVersion={{ lib_version }}
+          --define generateBackupPoms=false
         chdir: ../tests
         strip_empty_ends: false
       changed_when: false

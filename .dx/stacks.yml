@@ -68,6 +68,7 @@
           command:
             cmd: >
               mvn
+              --no-snapshot-updates
               --batch-mode
               --projects {{ usage }}
               clean
