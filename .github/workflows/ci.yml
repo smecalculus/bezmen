@@ -122,7 +122,8 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
       - run: >
-          ansible-playbook stacks.yml -t compile
+          ansible-playbook stack.yml
+          -t compile
           -e docker_registry=${{ env.REGISTRY }}
           -e usage=${{ matrix.usage }}
           -e props=${{ matrix.props }}
@@ -166,8 +167,8 @@ jobs:
           name: stack-${{ matrix.usage }}-${{ matrix.props }}
           path: stacks/target/context
       - run: >
-          ansible-playbook stacks.yml
-          --tags "status,test"
+          ansible-playbook stack.yml
+          -t test
           -e docker_registry=${{ env.REGISTRY }}
           -e usage=${{ matrix.usage }}
           -e props=${{ matrix.props }}
@@ -212,8 +213,8 @@ jobs:
           name: stack-${{ matrix.usage }}-${{ matrix.props }}
           path: stacks/target/context
       - run: >
-          ansible-playbook stacks.yml
-          --tags "status,package"
+          ansible-playbook stack.yml
+          -t package
           -e docker_registry=${{ env.REGISTRY }}
           -e usage=${{ matrix.usage }}
           -e props=${{ matrix.props }}

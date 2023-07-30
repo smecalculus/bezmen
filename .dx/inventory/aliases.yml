@@ -1,8 +1,9 @@
 all:
   hosts:
-    lib:
     schema:
+    lib:
     app:
     test:
+    stack:
   vars:
     ansible_connection: local
