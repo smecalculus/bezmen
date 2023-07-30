@@ -87,7 +87,6 @@
           verify
         chdir: ../apps
         strip_empty_ends: false
-      # todo: кейс падения сборки бинарников приложений, когда менялись только библиотеки
       when: image_status is changed
 
 - name: coverage
