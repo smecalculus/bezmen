@@ -50,7 +50,7 @@ jobs:
           GITHUB_ACTOR: ${{ github.actor }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - uses: EnricoMi/publish-unit-test-result-action@v2.8.0
-        if: success() || failure()
+        if: ${{ !cancelled() }}
         with:
           check_name: Unit Test Report
           check_run_annotations: none
@@ -63,7 +63,7 @@ jobs:
             libs/*/target/surefire-reports/TEST-*.xml
             apps/*/target/surefire-reports/TEST-*.xml
       - uses: EnricoMi/publish-unit-test-result-action@v2.8.0
-        if: success() || failure()
+        if: ${{ !cancelled() }}
         with:
           check_name: Integration Test Report
           check_run_annotations: none
@@ -99,9 +99,9 @@ jobs:
 
   stack-compiling:
     name: Stack Compiling
+    needs: [binaries-and-images]
     runs-on: ubuntu-latest
     timeout-minutes: 5
-    needs: [binaries-and-images]
     strategy:
       fail-fast: false
       matrix:
@@ -134,9 +134,9 @@ jobs:
 
   stack-testing:
     name: Stack Testing
+    needs: [stack-compiling]
     runs-on: ubuntu-latest
     timeout-minutes: 15
-    needs: [stack-compiling]
     strategy:
       fail-fast: false
       matrix:
@@ -177,16 +177,16 @@ jobs:
           GITHUB_ACTOR: ${{ github.actor }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - uses: actions/upload-artifact@v3.1.2
-        if: success() || failure()
+        if: ${{ !cancelled() }}
         with:
           name: e2e-test-report-${{ matrix.usage }}-${{ matrix.props }}-${{ matrix.shard }}
           path: tests/${{ matrix.usage }}/target/surefire-reports/*.xml
 
   stack-packaging:
     name: Stack Packaging
+    needs: [stack-testing]
     runs-on: ubuntu-latest
     timeout-minutes: 5
-    needs: [stack-testing]
     strategy:
       fail-fast: false
       matrix:
@@ -220,11 +220,10 @@ jobs:
 
   stack-reporting:
     name: Stack Reporting
-    # todo: run iff 'stack testing' job had run
-    if: success() || failure()
+    needs: [stack-testing]
+    if: ${{ !cancelled() && (needs.stack-testing.result == 'success' || needs.stack-testing.result == 'failure') }}
     runs-on: ubuntu-latest
     timeout-minutes: 5
-    needs: [stack-testing]
     permissions:
       checks: write
     steps:
