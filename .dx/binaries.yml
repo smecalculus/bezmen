@@ -54,6 +54,7 @@
           {{ app_cid }}
       register: image_tag
       changed_when: false
+      tags: [always]
     - name: capture status
       command:
         cmd: docker {{ docker_entity }} inspect {{ item.value }}:{{ image_tag.stdout[:7] }}
@@ -63,10 +64,12 @@
       loop: "{{ app_images|dict2items }}"
       loop_control:
         label: "{{ item.key }}"
+      tags: [always]
     - name: status commands
       debug:
         msg: "{{ image_status.results|map(attribute='cmd')|map('join', ' ') }}"
       when: image_status is changed
+      tags: [always]
     - name: create binary
       command:
         cmd: >
