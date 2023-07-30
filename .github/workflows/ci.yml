@@ -172,6 +172,7 @@ jobs:
           -e props=${{ matrix.props }}
           -e reminder=${{ matrix.shard }}
           -e modulus=2
+          -v
         working-directory: .dx
         env:
           GITHUB_ACTOR: ${{ github.actor }}
