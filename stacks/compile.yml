@@ -25,7 +25,7 @@
   environment:
     SCHEMA_CID: "{{ schema_cid }}"
     SCHEMA_IMAGE: "{{ schema_images.postgres }}"
-    FOO_CID: "{{ app_cid }}"
+    FOO_CID: "{{ hostvars.app.image_tag.stdout[:7] }}"
     FOO_IMAGE: "{{ app_images.foo }}"
 
 - name: compile conf

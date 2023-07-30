@@ -30,7 +30,7 @@
     - include_role:
         name: image
       vars:
-        image_tag: "{{ app_cid }}"
+        image_tag: "{{ hostvars.app.image_tag.stdout[:7] }}"
         image_name: "{{ item.value }}"
         image_home: ../apps/{{ item.key }}
         image_context: "target/docker-context"
