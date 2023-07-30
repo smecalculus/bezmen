@@ -8,21 +8,25 @@
 
 toc::[]
 
-== apps
+== schemas
 
-include::apps/README.adoc[]
+include::schemas/README.adoc[]
 
 == libs
 
 include::libs/README.adoc[]
 
-== stacks
+== apps
 
-include::stacks/README.adoc[]
+include::apps/README.adoc[]
 
 == tests
 
 include::tests/README.adoc[]
+
+== stacks
+
+include::stacks/README.adoc[]
 
 == tools
 
@@ -37,9 +41,10 @@ include::tools/README.adoc[]
 . Учет изменений в обвязке
 . Учет изменений в библиотеках
 . Публикация отчетов при отсутствии изменений
+. Структура модулей/пакетов сквозных тестов
 . Заморозка версий, которые могут обновляться автоматически
 . Чистка библиотек в локальном репозитории
 . Локальная проверка в удаленном репозитории
 . Чистка пакетов в удаленном репозитории
 . Поддержка нескольких версий JDK
-. Релизная сборка
+. Сборки последующих этапов

@@ -1,19 +1,11 @@
 ---
-# todo: can we remove this check?
-- name: capture schema status
-  command:
-    cmd: docker inspect schema-owner-{{ schema_cid }}
-  no_log: true
-  register: schema_status
-  changed_when: schema_status.rc != 0
-  failed_when: false
-
-- name: wipe db if schema changed
+# todo: think about backward compatibility aspect
+- name: remove stand (or part of it)
   command:
     cmd: docker rm -f env-db
-  when: schema_status is changed
+  when: hostvars.schema.image_status|default({}) is changed
 
-- name: run stack
+- name: create stand
   command:
     cmd: >
       docker compose
@@ -27,7 +19,7 @@
     chdir: ../stacks/target/context
     strip_empty_ends: false
 
-- name: run tests
+- name: test stand
   command:
     cmd: >
       mvn
