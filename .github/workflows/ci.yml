@@ -21,6 +21,10 @@ jobs:
       checks: write
       packages: write
       pull-requests: write
+    env:
+      JACOCO_UNITS: tools/target/coverage/units/jacoco.xml
+      JACOCO_INTEGRATIONS: tools/target/coverage/integrations/jacoco.xml
+      JACOCO_OVERALL: tools/target/coverage/overall/jacoco.xml
     steps:
       - uses: actions/checkout@v3.5.2
       - uses: actions/setup-python@v4.7.0
@@ -72,33 +76,26 @@ jobs:
             libs/*/target/failsafe-reports/TEST-*.xml
             apps/*/target/failsafe-reports/TEST-*.xml
       - uses: madrapps/jacoco-report@v1.5
-        if: ${{ github.event_name == 'pull_request' }}
-        # todo: try to use hashFiles for conditional run
-        continue-on-error: true
+        if: ${{ github.event_name == 'pull_request' && hashFiles(env.JACOCO_UNITS) != '' }}
         with:
           title: Unit Coverage Report
+          paths: ${{ env.JACOCO_UNITS }}
           token: ${{ secrets.GITHUB_TOKEN }}
           update-comment: true
-          paths: >
-            tools/target/coverage/units/jacoco.xml
       - uses: madrapps/jacoco-report@v1.5
-        if: ${{ github.event_name == 'pull_request' }}
-        continue-on-error: true
+        if: ${{ github.event_name == 'pull_request' && hashFiles(env.JACOCO_INTEGRATIONS) != '' }}
         with:
           title: Integration Coverage Report
+          paths: ${{ env.JACOCO_INTEGRATIONS }}
           token: ${{ secrets.GITHUB_TOKEN }}
           update-comment: true
-          paths: >
-            tools/target/coverage/integrations/jacoco.xml
       - uses: madrapps/jacoco-report@v1.5
-        if: ${{ github.event_name == 'pull_request' }}
-        continue-on-error: true
+        if: ${{ github.event_name == 'pull_request' && hashFiles(env.JACOCO_OVERALL) != '' }}
         with:
           title: Overall Coverage Report
+          paths: ${{ env.JACOCO_OVERALL }}
           token: ${{ secrets.GITHUB_TOKEN }}
           update-comment: true
-          paths: >
-            tools/target/coverage/overall/jacoco.xml
 
   stack-compiling:
     name: Stack Compiling
