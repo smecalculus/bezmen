@@ -21,9 +21,8 @@ is_remote_building: "{{ docker_registry != 'localhost' }}"
 docker_entity: "{{ 'image' if is_local_building else 'manifest' }}"
 docker_command: "{{ 'inspect' if is_local_building else 'pull' }}"
 
-# todo: names without 'bezmen'
 schema_images:
-  postgres: "{{ docker_registry }}/{{ docker_repo }}/bezmen-schema-postgres"
+  postgres: "{{ docker_registry }}/{{ docker_repo }}/schema-postgres"
 app_images:
-  foo: "{{ docker_registry }}/{{ docker_repo }}/bezmen-app-foo"
+  foo: "{{ docker_registry }}/{{ docker_repo }}/app-foo"
 stack_image: "{{ docker_registry }}/{{ docker_repo }}/stack-{{ usage }}-{{ props }}"
