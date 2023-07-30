@@ -1,6 +1,6 @@
 ---
 - import_playbook: sources.yml
-  tags: deps
+  tags: [sources, deps]
 
 - hosts: lib
   tasks:
@@ -8,16 +8,14 @@
       command:
         # todo: try to implement more lightweight check
         cmd: >
-          mvn dependency:get
+          mvn
+          {% if is_local_building %}
+          --offline
+          {% endif %}
+          dependency:get
           --define transitive=false
           --define artifact=org.smecalculus.bezmen:libs:{{ lib_version }}:pom
-          {% if is_building_local %}
-          --offline
-          {% else %}
-          --settings ../settings.xml
-          --activate-profiles ci
-          --define github.actor={{ github_actor }}
-          --define github.token={{ github_token }}
+          {% if is_remote_building %}
           --define remoteRepositories=github::::https://maven.pkg.github.com/smecalculus/bezmen
           {% endif %}
         chdir: ../libs
@@ -31,20 +29,18 @@
     - name: create binary
       command:
         cmd: >
-          mvn clean
-          {% if is_building_local %}
+          mvn
+          --no-snapshot-updates
+          --fail-fast
+          --batch-mode
+          --threads 2C
+          clean
+          {% if is_local_building %}
           install
           {% else %}
           deploy
-          --settings ../settings.xml
-          --activate-profiles ci
-          --define github.actor={{ github_actor }}
-          --define github.token={{ github_token }}
           {% endif %}
           --define revision={{ lib_version }}
-          --threads 2C
-          --batch-mode
-          --fail-fast
         chdir: ../libs
       when: binary_status is changed
 
@@ -52,12 +48,13 @@
   tasks:
     - name: capture status
       command:
-        cmd: docker {{ docker_entity }} inspect {{ docker_registry }}/{{ docker_repo }}/bezmen-app-{{ item }}:{{ app_cid }}
+        cmd: docker {{ docker_entity }} inspect {{ item.value }}:{{ app_cid }}
       register: image_status
       changed_when: image_status.rc != 0
       failed_when: false
-      loop:
-        - foo
+      loop: "{{ app_images|dict2items }}"
+      loop_control:
+        label: "{{ item.key }}"
     - name: status commands
       debug:
         msg: "{{ image_status.results|map(attribute='cmd')|map('join', ' ') }}"
@@ -65,20 +62,21 @@
     - name: create binary
       command:
         cmd: >
-          mvn clean verify
+          mvn
+          --no-snapshot-updates
+          --fail-fast
+          --batch-mode
+          --threads 2C
+          clean
+          verify
           {% if not hostvars.lib.binary_status is changed %}
-          --projects {{ image_status.results|select('changed')|map(attribute='item')|join(',') }}
+          --projects {{ image_status.results|select('changed')|map(attribute='item.key')|join(',') }}
           {% endif %}
           --define revision={{ app_version }}
-          --threads 2C
-          --batch-mode
-          --fail-fast
         chdir: ../apps
         strip_empty_ends: false
       # todo: кейс падения сборки бинарников приложений, когда менялись только библиотеки
-      when: >
-        image_status is changed or
-        hostvars.lib.binary_status is changed
+      when: image_status is changed
 
 - name: coverage
   hosts: lib:app
@@ -87,7 +85,13 @@
     - name: generate reports
       command:
         cmd: >
-          mvn clean antrun:run@units antrun:run@integrations antrun:run@overall
+          mvn
+          --no-snapshot-updates
+          --batch-mode
+          clean
+          antrun:run@units
+          antrun:run@integrations
+          antrun:run@overall
         chdir: ../tools
         strip_empty_ends: false
       when: >

@@ -1,40 +1,57 @@
 ---
 - hosts: lib
   tasks:
-    - name: lint
-      command:
+    - command:
         cmd: >
           mvn
-          {% if is_building_local %}
+          --no-snapshot-updates
+          --batch-mode
+          {% if is_local_building %}
           spotless:apply
           {% else %}
           spotless:check
-          --settings ../settings.xml
-          --activate-profiles ci
-          --define github.actor={{ github_actor }}
-          --define github.token={{ github_token }}
           {% endif %}
-          --batch-mode
         chdir: ../libs
         strip_empty_ends: false
       changed_when: false
 
 - hosts: app
   tasks:
-    - name: lint
-      command:
+    # todo: можно инкапсулировать в pom.xml, привязав к фазе validate
+    - command:
         cmd: >
           mvn
-          {% if is_building_local %}
+          --no-snapshot-updates
+          --batch-mode
+          {% if is_local_building %}
           spotless:apply
           {% else %}
           spotless:check
-          --settings ../settings.xml
-          --activate-profiles ci
-          --define github.actor={{ github_actor }}
-          --define github.token={{ github_token }}
           {% endif %}
-          --batch-mode
+          versions:set-property
+          --define property=lib.version
+          --define newVersion={{ lib_version }}
+          --define generateBackupPoms=false
         chdir: ../apps
+        strip_empty_ends: false
+      changed_when: false
+
+- hosts: test
+  tasks:
+    - command:
+        cmd: >
+          mvn
+          --no-snapshot-updates
+          --batch-mode
+          {% if is_local_building %}
+          spotless:apply
+          {% else %}
+          spotless:check
+          {% endif %}
+          versions:set-property
+          --define property=lib.version
+          --define newVersion={{ lib_version }}
+          --define generateBackupPoms=false
+        chdir: ../tests
         strip_empty_ends: false
       changed_when: false

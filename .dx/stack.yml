@@ -1,0 +1,23 @@
+---
+- import_playbook: images.yml
+  tags: [images, deps]
+
+- hosts: stack
+  run_once: yes
+  tasks:
+    - import_tasks:
+        file: ../stacks/status.yml
+      tags: [always]
+    - import_tasks:
+        file: ../stacks/compile.yml
+      tags: [compile]
+      # compile even if stack hasn't changed because it's fast
+      when: true
+    - import_tasks:
+        file: ../stacks/test.yml
+      tags: [test]
+      when: stack_status is changed
+    - import_tasks:
+        file: ../stacks/package.yml
+      tags: [package]
+      when: stack_status is changed

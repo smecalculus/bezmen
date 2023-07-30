@@ -1,13 +1,8 @@
 ---
-- name: package stack
-  command:
-    cmd: >
-      docker build target/context
-      --file Dockerfile
-      --tag {{ stack_image }}:{{ stack_cid }}
-    chdir: ../stacks
-
-- name: push stack
-  command:
-    cmd: docker image push {{ stack_image }}:{{ stack_cid }}
-  when: not is_building_local
+- include_role:
+    name: image
+  vars:
+    image_tag: "{{ stack_tag.stdout[:7] }}"
+    image_name: "{{ stack_image }}"
+    image_home: ../stacks
+    image_context: "target/context"

@@ -16,13 +16,20 @@
 
   <properties>
     <revision>0.1.0-SNAPSHOT</revision>
-    <libs.version>LATEST</libs.version>
+    <lib.version>0.1.0-2e1ee93</lib.version>
     <lombok.version>1.18.24</lombok.version>
     <mapstruct.version>1.5.3.Final</mapstruct.version>
     <skipTests>false</skipTests>
     <skipUnits>${skipTests}</skipUnits>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
+
+  <repositories>
+    <repository>
+      <id>github</id>
+      <url>https://maven.pkg.github.com/smecalculus/bezmen</url>
+    </repository>
+  </repositories>
 
   <dependencies>
     <dependency>
@@ -37,7 +44,7 @@
       <dependency>
         <groupId>${project.groupId}</groupId>
         <artifactId>libs</artifactId>
-        <version>${libs.version}</version>
+        <version>${lib.version}</version>
         <type>pom</type>
         <scope>import</scope>
       </dependency>

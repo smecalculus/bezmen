@@ -6,19 +6,6 @@
       - image_home is defined
   no_log: true
 
-- name: capture status
-  command:
-    cmd: docker {{ docker_entity }} inspect {{ image_name }}:{{ image_tag }}
-  register: image_status
-  changed_when: image_status.rc != 0
-  failed_when: false
-  no_log: true
-
-- name: status command
-  debug:
-    msg: "{{ image_status.cmd|join(' ') }}"
-  when: image_status is changed
-
 - name: remove outdated
   block:
     - shell:
@@ -31,7 +18,6 @@
         strip_empty_ends: false
       failed_when: false
       no_log: true
-  when: image_status is changed
 
 - name: build fresh
   command:
@@ -41,14 +27,9 @@
       -t {{ image_name }}:{{ image_tag }}
     chdir: "{{ image_home }}"
     strip_empty_ends: false
-  when: >
-    image_status is changed or
-    image_deps[0]|default({}) is changed
 
 - name: push built
   command:
     cmd: docker image push {{ image_name }}:{{ image_tag }}
     strip_empty_ends: false
-  when: >
-    image_status is changed and
-    not image_name.startswith('localhost')
+  when: is_remote_building

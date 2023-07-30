@@ -1,4 +1,15 @@
 ---
+- name: remove artifacts
+  file:
+    path: ../stacks/target
+    state: absent
+
+- name: create directories
+  file:
+    path: ../stacks/target/context
+    state: directory
+    recurse: true
+
 - name: compile spec
   command:
     cmd: >
@@ -13,9 +24,9 @@
     chdir: ../stacks
   environment:
     SCHEMA_CID: "{{ schema_cid }}"
-    SCHEMA_IMAGE: "{{ schema_pg_image }}"
+    SCHEMA_IMAGE: "{{ schema_images.postgres }}"
     FOO_CID: "{{ app_cid }}"
-    FOO_IMAGE: "{{ app_foo_image }}"
+    FOO_IMAGE: "{{ app_images.foo }}"
 
 - name: compile conf
   command:

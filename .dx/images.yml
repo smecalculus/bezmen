@@ -1,17 +1,29 @@
 ---
 - import_playbook: binaries.yml
-  tags: deps
+  tags: [binaries, deps]
 
 - hosts: schema
   tasks:
+    - name: capture status
+      command:
+        cmd: docker {{ docker_entity }} inspect {{ item.value }}:{{ schema_cid }}
+      register: image_status
+      changed_when: image_status.rc != 0
+      failed_when: false
+      loop: "{{ schema_images|dict2items }}"
+      loop_control:
+        label: "{{ item.key }}"
+    - name: status commands
+      debug:
+        msg: "{{ image_status.results|map(attribute='cmd')|map('join', ' ') }}"
+      when: image_status is changed
     - include_role:
         name: image
       vars:
         image_tag: "{{ schema_cid }}"
-        image_name: "{{ docker_registry }}/{{ docker_repo }}/bezmen-schema-{{ item }}"
-        image_home: ../schemas/{{ item }}
-      loop:
-        - postgres
+        image_name: "{{ item.value }}"
+        image_home: ../schemas/{{ item.key }}
+      loop: "{{ image_status.results|select('changed')|map(attribute='item') }}"
 
 - hosts: app
   tasks:
@@ -19,10 +31,8 @@
         name: image
       vars:
         image_tag: "{{ app_cid }}"
-        image_name: "{{ docker_registry }}/{{ docker_repo }}/bezmen-app-{{ item }}"
-        image_home: ../apps/{{ item }}
+        image_name: "{{ item.value }}"
+        image_home: ../apps/{{ item.key }}
         image_context: "target/docker-context"
-        image_deps:
-          - "{{ hostvars.lib.binary_status }}"
-      loop:
-        - foo
+      loop: "{{ hostvars.app.image_status.results|select('changed')|map(attribute='item') }}"
+      when: hostvars.app.image_status is changed
