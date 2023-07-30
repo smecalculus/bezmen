@@ -11,8 +11,7 @@
   <version>latest</version>
 
   <modules>
-    <module>toy</module>
-    <module>func</module>
+    <module>e2e</module>
   </modules>
 
   <properties>

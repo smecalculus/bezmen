@@ -25,7 +25,8 @@
       mvn
       --no-snapshot-updates
       --batch-mode
-      --projects {{ usage }}
+      --projects e2e
+      --activate-profiles {{ usage }}
       --define lib.version={{ lib_version }}
       clean
       test

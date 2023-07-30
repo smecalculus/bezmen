@@ -4,5 +4,5 @@ import org.junit.platform.suite.api.SelectPackages;
 import org.junit.platform.suite.api.Suite;
 
 @Suite
-@SelectPackages("org.smecalculus.bezmen.func")
+@SelectPackages("org.smecalculus.bezmen.registration")
 public class FuncSuite {}
