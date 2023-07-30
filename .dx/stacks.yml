@@ -1,6 +1,6 @@
 ---
 - import_playbook: images.yml
-  tags: deps
+  tags: [images, deps]
 
 - hosts: all
   run_once: yes
@@ -14,14 +14,8 @@
     - import_tasks:
         file: ../stacks/test.yml
       tags: [test]
-      when: >
-        stack_status is changed or
-        test_status is changed
+      when: stack_status is changed
     - import_tasks:
         file: ../stacks/package.yml
       tags: [package]
       when: stack_status is changed
-    - import_tasks:
-        file: ../tests/package.yml
-      tags: [package]
-      when: test_status is changed

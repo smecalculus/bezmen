@@ -1,6 +1,6 @@
 ---
 - import_playbook: binaries.yml
-  tags: deps
+  tags: [binaries, deps]
 
 - hosts: schema
   tasks:

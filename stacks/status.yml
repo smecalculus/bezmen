@@ -1,17 +1,19 @@
 ---
-- name: capture stack cid
+- name: capture stack tag
   shell:
-    cmd: >
-      git ls-files --others --full-name --error-unmatch stacks/target/context |
-      git hash-object --stdin-paths |
-      git hash-object --stdin
-    chdir: ..
-  register: stack_cid
+    cmd: git hash-object --stdin
+    stdin: |
+      {{ schema_cid }}
+      {{ lib_cid }}
+      {{ app_cid }}
+      {{ test_cid }}
+      {{ stack_cid }}
+  register: stack_tag
   changed_when: false
 
 - name: capture stack status
   command:
-    cmd: docker {{ docker_entity }} inspect {{ stack_image }}:{{ stack_cid.stdout[:7] }}
+    cmd: docker {{ docker_entity }} inspect {{ stack_image }}:{{ stack_tag.stdout[:7] }}
   register: stack_status
   changed_when: stack_status.rc != 0
   failed_when: false
@@ -20,15 +22,3 @@
   debug:
     msg: "{{ stack_status.cmd|join(' ') }}"
   when: stack_status is changed
-
-- name: capture test status
-  command:
-    cmd: docker {{ docker_entity }} inspect {{ test_image }}:{{ test_cid }}
-  register: test_status
-  changed_when: test_status.rc != 0
-  failed_when: false
-
-- name: test status command
-  debug:
-    msg: "{{ test_status.cmd|join(' ') }}"
-  when: test_status is changed

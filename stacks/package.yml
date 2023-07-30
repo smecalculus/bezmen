@@ -4,10 +4,10 @@
     cmd: >
       docker build target/context
       --file Dockerfile
-      --tag {{ stack_image }}:{{ stack_cid.stdout[:7] }}
+      --tag {{ stack_image }}:{{ stack_tag.stdout[:7] }}
     chdir: ../stacks
 
 - name: push stack
   command:
-    cmd: docker image push {{ stack_image }}:{{ stack_cid.stdout[:7] }}
+    cmd: docker image push {{ stack_image }}:{{ stack_tag.stdout[:7] }}
   when: is_remote_building

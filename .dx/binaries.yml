@@ -1,6 +1,6 @@
 ---
 - import_playbook: sources.yml
-  tags: deps
+  tags: [sources, deps]
 
 - hosts: lib
   tasks:
