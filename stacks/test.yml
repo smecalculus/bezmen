@@ -26,6 +26,7 @@
       --no-snapshot-updates
       --batch-mode
       --projects {{ usage }}
+      --define lib.version={{ lib_version }}
       clean
       test
       --define props.combo={{ props }}

@@ -34,21 +34,29 @@
           --fail-fast
           --batch-mode
           --threads 2C
+          --define revision={{ lib_version }}
           clean
           {% if is_local_building %}
           install
           {% else %}
           deploy
           {% endif %}
-          --define revision={{ lib_version }}
         chdir: ../libs
       when: binary_status is changed
 
 - hosts: app
   tasks:
+    - name: capture tag
+      shell:
+        cmd: git hash-object --stdin
+        stdin: |
+          {{ lib_cid }}
+          {{ app_cid }}
+      register: image_tag
+      changed_when: false
     - name: capture status
       command:
-        cmd: docker {{ docker_entity }} inspect {{ item.value }}:{{ app_cid }}
+        cmd: docker {{ docker_entity }} inspect {{ item.value }}:{{ image_tag.stdout[:7] }}
       register: image_status
       changed_when: image_status.rc != 0
       failed_when: false
@@ -67,12 +75,13 @@
           --fail-fast
           --batch-mode
           --threads 2C
-          clean
-          verify
           {% if not hostvars.lib.binary_status is changed %}
           --projects {{ image_status.results|select('changed')|map(attribute='item.key')|join(',') }}
           {% endif %}
           --define revision={{ app_version }}
+          --define lib.version={{ lib_version }}
+          clean
+          verify
         chdir: ../apps
         strip_empty_ends: false
       # todo: кейс падения сборки бинарников приложений, когда менялись только библиотеки

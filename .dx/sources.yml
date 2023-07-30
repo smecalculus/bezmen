@@ -1,7 +1,8 @@
 ---
 - hosts: lib
   tasks:
-    - command:
+    - name: lint
+      command:
         cmd: >
           mvn
           --no-snapshot-updates
@@ -17,41 +18,36 @@
 
 - hosts: app
   tasks:
-    # todo: можно инкапсулировать в pom.xml, привязав к фазе validate
-    - command:
+    - name: lint
+      command:
         cmd: >
           mvn
           --no-snapshot-updates
           --batch-mode
+          --define lib.version=LATEST
           {% if is_local_building %}
           spotless:apply
           {% else %}
           spotless:check
           {% endif %}
-          versions:set-property
-          --define property=lib.version
-          --define newVersion={{ lib_version }}
-          --define generateBackupPoms=false
         chdir: ../apps
         strip_empty_ends: false
       changed_when: false
 
 - hosts: test
   tasks:
-    - command:
+    - name: lint
+      command:
         cmd: >
           mvn
           --no-snapshot-updates
           --batch-mode
+          --define lib.version=LATEST
           {% if is_local_building %}
           spotless:apply
           {% else %}
           spotless:check
           {% endif %}
-          versions:set-property
-          --define property=lib.version
-          --define newVersion={{ lib_version }}
-          --define generateBackupPoms=false
         chdir: ../tests
         strip_empty_ends: false
       changed_when: false
