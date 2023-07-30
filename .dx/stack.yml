@@ -11,7 +11,8 @@
     - import_tasks:
         file: ../stacks/compile.yml
       tags: [compile]
-      when: stack_status is changed
+      # compile even if stack hasn't changed because it's fast
+      when: true
     - import_tasks:
         file: ../stacks/test.yml
       tags: [test]
