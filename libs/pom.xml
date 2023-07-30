@@ -330,6 +330,8 @@
               </goals>
               <configuration>
                 <verbose>true</verbose>
+                <reResolve>false</reResolve>
+                <actTransitively>false</actTransitively>
                 <resolutionFuzziness>artifactId</resolutionFuzziness>
                 <manualIncludes>
                   <manualInclude>${project.groupId}:${project.artifactId}</manualInclude>

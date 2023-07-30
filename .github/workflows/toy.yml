@@ -16,5 +16,3 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-      - run: docker pull ghcr.io/smecalculus/bezmen-stand-toy:3bfa587-verified
-      - run: docker image pull ghcr.io/smecalculus/bezmen-schema-postgres:d187f2f-verified
