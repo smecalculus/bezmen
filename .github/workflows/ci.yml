@@ -180,7 +180,7 @@ jobs:
         if: ${{ !cancelled() }}
         with:
           name: e2e-test-report-${{ matrix.usage }}-${{ matrix.props }}-${{ matrix.shard }}
-          path: tests/${{ matrix.usage }}/target/surefire-reports/*.xml
+          path: tests/e2e/target/surefire-reports/*.xml
 
   stack-packaging:
     name: Stack Packaging

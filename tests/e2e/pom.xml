@@ -10,7 +10,11 @@
     <version>latest</version>
   </parent>
 
-  <artifactId>func</artifactId>
+  <artifactId>e2e</artifactId>
+
+  <properties>
+    <suite.name>ToySuite</suite.name>
+  </properties>
 
   <dependencies>
     <dependency>
@@ -22,4 +26,30 @@
       <artifactId>testing</artifactId>
     </dependency>
   </dependencies>
+
+  <profiles>
+    <profile>
+      <id>toy</id>
+      <properties>
+        <suite.name>ToySuite</suite.name>
+      </properties>
+    </profile>
+    <profile>
+      <id>func</id>
+      <properties>
+        <suite.name>FuncSuite</suite.name>
+      </properties>
+    </profile>
+  </profiles>
+
+  <build>
+    <plugins>
+      <plugin>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <configuration>
+          <test>org.smecalculus.bezmen.${suite.name}</test>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
 </project>

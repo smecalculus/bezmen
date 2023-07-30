@@ -1,4 +1,4 @@
-package org.smecalculus.bezmen.func;
+package org.smecalculus.bezmen.registration;
 
 import static java.time.Duration.ofSeconds;
 import static org.assertj.core.api.Assertions.assertThat;
