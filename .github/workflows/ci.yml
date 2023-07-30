@@ -70,7 +70,7 @@ jobs:
           files: |
             libs/*/target/failsafe-reports/TEST-*.xml
             apps/*/target/failsafe-reports/TEST-*.xml
-      - uses: madrapps/jacoco-report@v1.4
+      - uses: madrapps/jacoco-report@v1.5
         if: ${{ github.event_name == 'pull_request' }}
         # todo: try to use hashFiles for conditional run
         continue-on-error: true
@@ -80,7 +80,7 @@ jobs:
           update-comment: true
           paths: >
             tools/target/coverage/units/jacoco.xml
-      - uses: madrapps/jacoco-report@v1.4
+      - uses: madrapps/jacoco-report@v1.5
         if: ${{ github.event_name == 'pull_request' }}
         continue-on-error: true
         with:
@@ -89,7 +89,7 @@ jobs:
           update-comment: true
           paths: >
             tools/target/coverage/integrations/jacoco.xml
-      - uses: madrapps/jacoco-report@v1.4
+      - uses: madrapps/jacoco-report@v1.5
         if: ${{ github.event_name == 'pull_request' }}
         continue-on-error: true
         with:
