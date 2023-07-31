@@ -1,9 +1,9 @@
 Схемы
 
-=== h2
+=== H2
 
 TBD
 
-=== postgres
+=== Postgres
 
 TBD

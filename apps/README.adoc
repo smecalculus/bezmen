@@ -1,5 +1,5 @@
 Компоненты целевого приложения
 
-=== foo
+=== Foo
 
 include::foo/README.adoc[]
