@@ -6,6 +6,9 @@
   run_once: yes
   tasks:
     - import_tasks:
+        file: ../pipeline/status.yml
+      tags: [always]
+    - import_tasks:
         file: ../stacks/status.yml
       tags: [always]
     - import_tasks:
@@ -16,9 +19,6 @@
         is_remote_building or
         stack_status is changed
     - import_tasks:
-        file: ../pipeline/status.yml
-      tags: [always]
-    - import_tasks:
         file: ../stacks/test.yml
       tags: [test]
       when: >
@@ -28,7 +28,3 @@
         file: ../stacks/package.yml
       tags: [package]
       when: stack_status is changed
-    - import_tasks:
-        file: ../pipeline/package.yml
-      tags: [package]
-      when: pipeline_status is changed

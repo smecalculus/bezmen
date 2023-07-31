@@ -218,6 +218,30 @@ jobs:
           -e props=${{ matrix.props }}
         working-directory: .dx
 
+  pipeline-packaging:
+    name: Pipeline Packaging
+    needs: [stack-testing]
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      packages: write
+    steps:
+      - uses: actions/checkout@v3.5.2
+      - uses: actions/setup-python@v4.7.0
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: 'pip'
+      - run: pip install -r requirements.txt
+      - uses: docker/login-action@v2.1.0
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - run: >
+          ansible-playbook pipeline.yml
+          -e docker_registry=${{ env.REGISTRY }}
+        working-directory: .dx
+
   stack-reporting:
     name: Stack Reporting
     needs: [stack-testing]
