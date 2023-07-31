@@ -6,7 +6,6 @@
       {{ schema_cid }}
       {{ lib_cid }}
       {{ app_cid }}
-      {{ test_cid }}
       {{ stack_cid }}
   register: stack_tag
   changed_when: false
