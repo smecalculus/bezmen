@@ -1,5 +1,6 @@
 ---
-- include_role:
+- name: package pipeline
+  import_role:
     name: image
   vars:
     image_tag: "{{ pipeline_tag.stdout[:7] }}"
