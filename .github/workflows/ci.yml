@@ -75,21 +75,21 @@ jobs:
           files: |
             libs/*/target/failsafe-reports/TEST-*.xml
             apps/*/target/failsafe-reports/TEST-*.xml
-      - uses: madrapps/jacoco-report@v1.5
+      - uses: madrapps/jacoco-report@v1.6
         if: ${{ github.event_name == 'pull_request' && hashFiles(env.JACOCO_UNITS) != '' }}
         with:
           title: Unit Coverage Report
           paths: ${{ env.JACOCO_UNITS }}
           token: ${{ secrets.GITHUB_TOKEN }}
           update-comment: true
-      - uses: madrapps/jacoco-report@v1.5
+      - uses: madrapps/jacoco-report@v1.6
         if: ${{ github.event_name == 'pull_request' && hashFiles(env.JACOCO_INTEGRATIONS) != '' }}
         with:
           title: Integration Coverage Report
           paths: ${{ env.JACOCO_INTEGRATIONS }}
           token: ${{ secrets.GITHUB_TOKEN }}
           update-comment: true
-      - uses: madrapps/jacoco-report@v1.5
+      - uses: madrapps/jacoco-report@v1.6
         if: ${{ github.event_name == 'pull_request' && hashFiles(env.JACOCO_OVERALL) != '' }}
         with:
           title: Overall Coverage Report
