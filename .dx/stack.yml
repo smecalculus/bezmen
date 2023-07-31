@@ -6,25 +6,25 @@
   run_once: yes
   tasks:
     - import_tasks:
-        file: ../pipeline/status.yml
+        file: tasks/pipeline/status.yml
       tags: [always]
     - import_tasks:
-        file: ../stacks/status.yml
+        file: tasks/stack/status.yml
       tags: [always]
     - import_tasks:
-        file: ../stacks/compile.yml
+        file: tasks/stack/compile.yml
       tags: [compile]
       # remotely compile stack even if it hasn't changed (it's fast enough)
       when: >
         is_remote_building or
         stack_status is changed
     - import_tasks:
-        file: ../stacks/test.yml
+        file: tasks/stack/test.yml
       tags: [test]
       when: >
         stack_status is changed or
         pipeline_status is changed
     - import_tasks:
-        file: ../stacks/package.yml
+        file: tasks/stack/package.yml
       tags: [package]
       when: stack_status is changed

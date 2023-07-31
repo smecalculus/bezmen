@@ -3,7 +3,7 @@
   run_once: yes
   tasks:
     - import_tasks:
-        file: ../pipeline/status.yml
+        file: tasks/pipeline/status.yml
     - import_tasks:
-        file: ../pipeline/package.yml
+        file: tasks/pipeline/package.yml
       when: pipeline_status is changed
