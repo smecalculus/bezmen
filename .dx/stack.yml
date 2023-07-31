@@ -11,15 +11,24 @@
     - import_tasks:
         file: ../stacks/compile.yml
       tags: [compile]
-      # remotely compile stack even if stack hasn't changed (it's fast enough)
+      # remotely compile stack even if it hasn't changed (it's fast enough)
       when: >
         is_remote_building or
         stack_status is changed
     - import_tasks:
+        file: ../pipeline/status.yml
+      tags: [always]
+    - import_tasks:
         file: ../stacks/test.yml
       tags: [test]
-      when: stack_status is changed
+      when: >
+        stack_status is changed or
+        pipeline_status is changed
     - import_tasks:
         file: ../stacks/package.yml
       tags: [package]
       when: stack_status is changed
+    - import_tasks:
+        file: ../pipeline/package.yml
+      tags: [package]
+      when: pipeline_status is changed
