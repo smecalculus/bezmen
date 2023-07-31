@@ -1,0 +1,21 @@
+---
+- name: capture pipeline tag
+  shell:
+    cmd: git hash-object --stdin
+    stdin: |
+      {{ test_cid }}
+      {{ dx_cid }}
+  register: pipeline_tag
+  changed_when: false
+
+- name: capture pipeline status
+  command:
+    cmd: docker {{ docker_entity }} inspect {{ pipeline_image }}:{{ pipeline_tag.stdout[:7] }}
+  register: pipeline_status
+  changed_when: pipeline_status.rc != 0
+  failed_when: false
+
+- name: pipeline status command
+  debug:
+    msg: "{{ pipeline_status.cmd|join(' ') }}"
+  when: pipeline_status is changed

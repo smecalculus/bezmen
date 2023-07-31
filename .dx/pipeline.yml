@@ -1,0 +1,9 @@
+---
+- hosts: stack
+  run_once: yes
+  tasks:
+    - import_tasks:
+        file: tasks/pipeline/status.yml
+    - import_tasks:
+        file: tasks/pipeline/package.yml
+      when: pipeline_status is changed

@@ -1,49 +1,43 @@
 = bezmen
 :sectnums:
-:toc: macro
-:toc-title:
-:toclevels: 5
 
 Исследовательский проект
 
-toc::[]
-
-== schemas
+== Schemas
 
 include::schemas/README.adoc[]
 
-== libs
+== Libs
 
 include::libs/README.adoc[]
 
-== apps
+== Apps
 
 include::apps/README.adoc[]
 
-== tests
+== Tests
 
 include::tests/README.adoc[]
 
-== stacks
+== Stacks
 
 include::stacks/README.adoc[]
 
-== tools
+== Tools
 
 include::tools/README.adoc[]
 
-== cli
+== CLI
 
     ansible-playbook <object>.yml [-l <selector>]
 
-== todo
+== Todo
 
+. Линтинг ansible-кода
 . Публикация отчетов при отсутствии изменений
 . Версионирование библиотек и приложений (взглянуть критически)
-. Учет изменений в обвязке
 . Локальные проверки в удаленном репозитории
 . Чистка пакетов в удаленном репозитории
 . Поддержка нескольких версий JDK
 . Сборки последующих этапов
-. Тестовый прогон dx-сценариев
 . Агрегация отчетов покрытия (взглянуть критически)

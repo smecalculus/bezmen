@@ -1,25 +1,25 @@
 Разделяемые модули с публичной или приватной обвязкой.
 
-=== client
+=== Client
 
 include::client/README.adoc[]
 
-=== core
+=== Core
 
 include::core/README.adoc[]
 
-=== construction
+=== Construction
 
 include::construction/README.adoc[]
 
-=== messaging
+=== Messaging
 
 include::messaging/README.adoc[]
 
-=== data
+=== Data
 
 include::data/README.adoc[]
 
-=== testing
+=== Testing
 
 include::testing/README.adoc[]
