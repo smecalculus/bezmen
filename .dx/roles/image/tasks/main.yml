@@ -6,18 +6,19 @@
       - image_home is defined
   no_log: true
 
+- name: kill containers
+  shell:
+    cmd: docker container rm -f $(docker ps -aq -f label=image.name={{ image_name }})
+    strip_empty_ends: false
+  failed_when: false
+  no_log: true
+
 - name: remove outdated
-  block:
-    - shell:
-        cmd: docker container rm -f $(docker ps -aq -f label=image.name={{ image_name }})
-        strip_empty_ends: false
-      failed_when: false
-      no_log: true
-    - shell:
-        cmd: docker image rm -f $(docker images -q -f reference={{ image_name }})
-        strip_empty_ends: false
-      failed_when: false
-      no_log: true
+  shell:
+    cmd: docker image rm -f $(docker images -q -f reference={{ image_name }})
+    strip_empty_ends: false
+  failed_when: false
+  no_log: true
 
 - name: build fresh
   command:

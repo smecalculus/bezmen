@@ -18,7 +18,7 @@
           {% if is_remote_building %}
           --define remoteRepositories=github::::https://maven.pkg.github.com/smecalculus/bezmen
           {% endif %}
-        chdir: ../libs
+        chdir: "{{ playbook_dir }}/../libs"
       register: binary_status
       changed_when: binary_status.rc != 0
       failed_when: false
@@ -41,7 +41,7 @@
           {% else %}
           deploy
           {% endif %}
-        chdir: ../libs
+        chdir: "{{ playbook_dir }}/../libs"
       when: binary_status is changed
 
 - hosts: app
@@ -85,7 +85,7 @@
           --define lib.version={{ lib_version }}
           clean
           verify
-        chdir: ../apps
+        chdir: "{{ playbook_dir }}/../apps"
         strip_empty_ends: false
       when: image_status is changed
 
@@ -103,7 +103,7 @@
           antrun:run@units
           antrun:run@integrations
           antrun:run@overall
-        chdir: ../tools
+        chdir: "{{ playbook_dir }}/../tools"
         strip_empty_ends: false
       when: >
         hostvars.lib.binary_status is changed or

@@ -1,9 +1,8 @@
 ---
-- name: package stack
-  import_role:
+- import_role:
     name: image
   vars:
     image_tag: "{{ stack_tag.stdout[:7] }}"
     image_name: "{{ stack_image }}"
-    image_home: ../stacks
+    image_home: "{{ playbook_dir }}/../stacks"
     image_context: "target/context"

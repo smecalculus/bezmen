@@ -22,7 +22,7 @@
       vars:
         image_tag: "{{ schema_cid }}"
         image_name: "{{ item.value }}"
-        image_home: ../schemas/{{ item.key }}
+        image_home: "{{ playbook_dir }}/../schemas/{{ item.key }}"
       loop: "{{ image_status.results|select('changed')|map(attribute='item') }}"
 
 - hosts: app
@@ -32,7 +32,7 @@
       vars:
         image_tag: "{{ hostvars.app.image_tag.stdout[:7] }}"
         image_name: "{{ item.value }}"
-        image_home: ../apps/{{ item.key }}
+        image_home: "{{ playbook_dir }}/../apps/{{ item.key }}"
         image_context: "target/docker-context"
       loop: "{{ hostvars.app.image_status.results|select('changed')|map(attribute='item') }}"
       when: hostvars.app.image_status is changed

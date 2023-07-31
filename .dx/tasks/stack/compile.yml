@@ -1,12 +1,12 @@
 ---
 - name: remove artifacts
   file:
-    path: ../stacks/target
+    path: "{{ playbook_dir }}/../stacks/target"
     state: absent
 
 - name: create directories
   file:
-    path: ../stacks/target/context
+    path: "{{ playbook_dir }}/../stacks/target/context"
     state: directory
     recurse: true
 
@@ -21,7 +21,7 @@
       --output target/context/compose.yml
       --no-path-resolution
     strip_empty_ends: false
-    chdir: ../stacks
+    chdir: "{{ playbook_dir }}/../stacks"
   environment:
     SCHEMA_TAG: "{{ schema_cid }}"
     SCHEMA_IMAGE: "{{ schema_images.postgres }}"
@@ -31,4 +31,4 @@
 - name: compile conf
   command:
     cmd: cp basis/{{ props }}.conf target/context/bezmen.conf
-    chdir: ../stacks
+    chdir: "{{ playbook_dir }}/../stacks"

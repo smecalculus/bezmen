@@ -1,8 +1,7 @@
 ---
-- name: package pipeline
-  import_role:
+- import_role:
     name: image
   vars:
     image_tag: "{{ pipeline_tag.stdout[:7] }}"
     image_name: "{{ pipeline_image }}"
-    image_home: ../pipeline
+    image_home: "{{ playbook_dir }}/../.github"

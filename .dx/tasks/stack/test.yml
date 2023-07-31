@@ -16,7 +16,7 @@
       --quiet-pull
       --no-deps
       --detach
-    chdir: ../stacks/target/context
+    chdir: "{{ playbook_dir }}/../stacks/target/context"
     strip_empty_ends: false
 
 - name: test stand
@@ -37,5 +37,5 @@
       {% if modulus is defined %}
       --define bezmen.sharding.modulus={{ modulus }}
       {% endif %}
-    chdir: ../tests
+    chdir: "{{ playbook_dir }}/../tests"
     strip_empty_ends: false

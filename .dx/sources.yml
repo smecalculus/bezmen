@@ -12,7 +12,7 @@
           {% else %}
           spotless:check
           {% endif %}
-        chdir: ../libs
+        chdir: "{{ playbook_dir }}/../libs"
         strip_empty_ends: false
       changed_when: false
 
@@ -30,7 +30,7 @@
           {% else %}
           spotless:check
           {% endif %}
-        chdir: ../apps
+        chdir: "{{ playbook_dir }}/../apps"
         strip_empty_ends: false
       changed_when: false
 
@@ -48,6 +48,6 @@
           {% else %}
           spotless:check
           {% endif %}
-        chdir: ../tests
+        chdir: "{{ playbook_dir }}/../tests"
         strip_empty_ends: false
       changed_when: false
