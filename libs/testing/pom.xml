@@ -27,10 +27,6 @@
       <artifactId>liquibase-core</artifactId>
     </dependency>
     <dependency>
-      <groupId>org.yaml</groupId>
-      <artifactId>snakeyaml</artifactId>
-    </dependency>
-    <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-jdbc</artifactId>
     </dependency>
@@ -103,7 +99,6 @@
             <id>analyze</id>
             <configuration>
               <usedDependencies>
-                <usedDependency>org.yaml:snakeyaml</usedDependency>
                 <usedDependency>org.liquibase:liquibase-core</usedDependency>
                 <usedDependency>org.assertj:assertj-core</usedDependency>
                 <usedDependency>org.springframework:spring-test</usedDependency>
