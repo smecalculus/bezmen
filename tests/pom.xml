@@ -15,7 +15,7 @@
   </modules>
 
   <properties>
-    <props.combo>turing</props.combo>
+    <prefs.combo>turing</prefs.combo>
     <lib.version>0.1.0-SNAPSHOT</lib.version>
     <lombok.version>1.18.24</lombok.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -54,7 +54,7 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
         <configuration>
-          <systemPropertiesFile>${project.parent.basedir}/props/${props.combo}.properties</systemPropertiesFile>
+          <systemPropertiesFile>${project.parent.basedir}/prefs/${prefs.combo}.properties</systemPropertiesFile>
         </configuration>
       </plugin>
       <plugin>

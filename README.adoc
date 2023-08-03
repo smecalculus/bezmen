@@ -1,7 +1,7 @@
 = bezmen
 :sectnums:
 
-Исследовательский проект
+Шаблон проекта
 
 == Schemas
 
@@ -15,17 +15,25 @@ include::libs/README.adoc[]
 
 include::apps/README.adoc[]
 
-== Tests
-
-include::tests/README.adoc[]
-
 == Stacks
 
 include::stacks/README.adoc[]
 
+== Tests
+
+include::tests/README.adoc[]
+
+== Developer Experience
+
+include::.dx/README.adoc[]
+
 == Tools
 
 include::tools/README.adoc[]
+
+== Pipeline
+
+include::.github/README.adoc[]
 
 == CLI
 
@@ -33,11 +41,9 @@ include::tools/README.adoc[]
 
 == Todo
 
-. Линтинг ansible-кода
-. Публикация отчетов при отсутствии изменений
+. Релизная сборка
 . Версионирование библиотек и приложений (взглянуть критически)
+. Агрегация отчетов покрытия (взглянуть критически)
 . Локальные проверки в удаленном репозитории
 . Чистка пакетов в удаленном репозитории
 . Поддержка нескольких версий JDK
-. Сборки последующих этапов
-. Агрегация отчетов покрытия (взглянуть критически)

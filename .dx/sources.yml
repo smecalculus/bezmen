@@ -63,6 +63,7 @@
         # list all top level playbooks
         cmd: >
           ansible-lint
+          sources.yml
           stack.yml
           pipeline.yml
         strip_empty_ends: false
