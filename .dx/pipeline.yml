@@ -1,9 +1,10 @@
 ---
-- hosts: stack
-  run_once: yes
+- name: Pipeline
+  hosts: pipeline
+  run_once: true
   tasks:
-    - import_tasks:
+    - ansible.builtin.import_tasks: # noqa: name[missing]
         file: tasks/pipeline/status.yml
-    - import_tasks:
+    - ansible.builtin.import_tasks: # noqa: name[missing]
         file: tasks/pipeline/package.yml
       when: pipeline_status is changed

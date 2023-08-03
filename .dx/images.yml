@@ -1,11 +1,12 @@
 ---
-- import_playbook: binaries.yml
+- import_playbook: binaries.yml # noqa: name[play]
   tags: [binaries, deps]
 
-- hosts: schema
+- name: Images
+  hosts: schema
   tasks:
-    - name: capture status
-      command:
+    - name: Capture status
+      ansible.builtin.command:
         cmd: docker {{ docker_entity }} inspect {{ item.value }}:{{ schema_cid }}
       register: image_status
       changed_when: image_status.rc != 0
@@ -13,11 +14,11 @@
       loop: "{{ schema_images|dict2items }}"
       loop_control:
         label: "{{ item.key }}"
-    - name: status commands
-      debug:
+    - name: Status commands
+      ansible.builtin.debug:
         msg: "{{ image_status.results|map(attribute='cmd')|map('join', ' ') }}"
       when: image_status is changed
-    - include_role:
+    - ansible.builtin.include_role: # noqa: name[missing]
         name: image
       vars:
         image_tag: "{{ schema_cid }}"
@@ -25,14 +26,15 @@
         image_home: "{{ playbook_dir }}/../schemas/{{ item.key }}"
       loop: "{{ image_status.results|select('changed')|map(attribute='item') }}"
 
-- hosts: app
+- name: Images
+  hosts: app
   tasks:
-    - include_role:
+    - ansible.builtin.include_role: # noqa: name[missing]
         name: image
       vars:
         image_tag: "{{ hostvars.app.image_tag.stdout[:7] }}"
         image_name: "{{ item.value }}"
         image_home: "{{ playbook_dir }}/../apps/{{ item.key }}"
-        image_context: "target/docker-context"
+        image_context: target/docker-context
       loop: "{{ hostvars.app.image_status.results|select('changed')|map(attribute='item') }}"
       when: hostvars.app.image_status is changed

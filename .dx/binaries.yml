@@ -1,11 +1,12 @@
 ---
-- import_playbook: sources.yml
+- import_playbook: sources.yml # noqa: name[play]
   tags: [sources, deps]
 
-- hosts: lib
+- name: Binaries
+  hosts: lib
   tasks:
-    - name: capture status
-      command:
+    - name: Capture status
+      ansible.builtin.command:
         # todo: try to implement more lightweight check
         cmd: >
           mvn
@@ -22,12 +23,12 @@
       register: binary_status
       changed_when: binary_status.rc != 0
       failed_when: false
-    - name: status command
-      debug:
+    - name: Status command
+      ansible.builtin.debug:
         msg: "{{ binary_status.cmd|join(' ') }}"
       when: binary_status is changed
-    - name: create binary
-      command:
+    - name: Create binary
+      ansible.builtin.command:
         cmd: >
           mvn
           --no-snapshot-updates
@@ -44,10 +45,11 @@
         chdir: "{{ playbook_dir }}/../libs"
       when: binary_status is changed
 
-- hosts: app
+- name: Binaries
+  hosts: app
   tasks:
-    - name: capture tag
-      shell:
+    - name: Capture tag
+      ansible.builtin.command:
         cmd: git hash-object --stdin
         stdin: |
           {{ lib_cid }}
@@ -55,8 +57,8 @@
       register: image_tag
       changed_when: false
       tags: [always]
-    - name: capture status
-      command:
+    - name: Capture status
+      ansible.builtin.command:
         cmd: docker {{ docker_entity }} inspect {{ item.value }}:{{ image_tag.stdout[:7] }}
       register: image_status
       changed_when: image_status.rc != 0
@@ -65,13 +67,13 @@
       loop_control:
         label: "{{ item.key }}"
       tags: [always]
-    - name: status commands
-      debug:
+    - name: Status commands
+      ansible.builtin.debug:
         msg: "{{ image_status.results|map(attribute='cmd')|map('join', ' ') }}"
       when: image_status is changed
       tags: [always]
-    - name: create binary
-      command:
+    - name: Create binary
+      ansible.builtin.command:
         cmd: >
           mvn
           --no-snapshot-updates
@@ -89,12 +91,12 @@
         strip_empty_ends: false
       when: image_status is changed
 
-- name: coverage
+- name: Coverage
   hosts: lib:app
   run_once: true
   tasks:
-    - name: generate reports
-      command:
+    - name: Generate reports
+      ansible.builtin.command:
         cmd: >
           mvn
           --no-snapshot-updates
