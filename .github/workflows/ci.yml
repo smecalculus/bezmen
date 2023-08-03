@@ -23,6 +23,11 @@ jobs:
           python-version: ${{ env.PYTHON_VERSION }}
           cache: 'pip'
       - run: pip install -r requirements.txt
+      - uses: actions/setup-java@v3.12.0
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+          cache: 'maven'
       - run: >
           ansible-playbook sources.yml
           -e docker_registry=${{ env.REGISTRY }}
