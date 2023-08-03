@@ -43,6 +43,7 @@
           deploy
           {% endif %}
         chdir: "{{ playbook_dir }}/../libs"
+      changed_when: true
       when: binary_status is changed
 
 - name: Binaries
@@ -89,6 +90,7 @@
           verify
         chdir: "{{ playbook_dir }}/../apps"
         strip_empty_ends: false
+      changed_when: true
       when: image_status is changed
 
 - name: Coverage
@@ -107,6 +109,7 @@
           antrun:run@overall
         chdir: "{{ playbook_dir }}/../tools"
         strip_empty_ends: false
+      changed_when: true
       when: >
         hostvars.lib.binary_status is changed or
         hostvars.app.image_status is changed

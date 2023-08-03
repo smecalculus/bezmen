@@ -30,10 +30,11 @@
       -t {{ image_name }}:{{ image_tag }}
     chdir: "{{ image_home }}"
     strip_empty_ends: false
-  changed_when: false
+  changed_when: true
 
 - name: Push built
   ansible.builtin.command:
     cmd: docker image push {{ image_name }}:{{ image_tag }}
     strip_empty_ends: false
+  changed_when: true
   when: is_remote_building

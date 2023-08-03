@@ -3,6 +3,7 @@
 - name: Remove stand (or part of it)
   ansible.builtin.command:
     cmd: docker rm -f env-db
+  changed_when: false
   when: hostvars.schema.image_status|default({}) is changed
 
 - name: Create stand
