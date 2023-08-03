@@ -1,36 +1,40 @@
 ---
-- name: check vars
-  assert:
+- name: Check vars
+  ansible.builtin.assert:
     that:
       - image_name is defined
       - image_home is defined
   no_log: true
 
-- name: kill containers
-  shell:
+- name: Kill containers
+  ansible.builtin.shell:
     cmd: docker container rm -f $(docker ps -aq -f label=image.name={{ image_name }})
     strip_empty_ends: false
+  changed_when: false
   failed_when: false
   no_log: true
 
-- name: remove outdated
-  shell:
+- name: Remove outdated
+  ansible.builtin.shell:
     cmd: docker image rm -f $(docker images -q -f reference={{ image_name }})
     strip_empty_ends: false
+  changed_when: false
   failed_when: false
   no_log: true
 
-- name: build fresh
-  command:
+- name: Build fresh
+  ansible.builtin.command:
     cmd: >
       docker build {{ image_context }}
       -f Dockerfile
       -t {{ image_name }}:{{ image_tag }}
     chdir: "{{ image_home }}"
     strip_empty_ends: false
+  changed_when: true
 
-- name: push built
-  command:
+- name: Push built
+  ansible.builtin.command:
     cmd: docker image push {{ image_name }}:{{ image_tag }}
     strip_empty_ends: false
+  changed_when: true
   when: is_remote_building

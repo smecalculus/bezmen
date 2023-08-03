@@ -1,6 +1,6 @@
 ---
-- name: capture stack tag
-  shell:
+- name: Capture stack tag
+  ansible.builtin.command:
     cmd: git hash-object --stdin
     stdin: |
       {{ schema_cid }}
@@ -10,14 +10,14 @@
   register: stack_tag
   changed_when: false
 
-- name: capture stack status
-  command:
+- name: Capture stack status
+  ansible.builtin.command:
     cmd: docker {{ docker_entity }} inspect {{ stack_image }}:{{ stack_tag.stdout[:7] }}
   register: stack_status
   changed_when: stack_status.rc != 0
   failed_when: false
 
-- name: stack status command
-  debug:
+- name: Stack status command
+  ansible.builtin.debug:
     msg: "{{ stack_status.cmd|join(' ') }}"
   when: stack_status is changed

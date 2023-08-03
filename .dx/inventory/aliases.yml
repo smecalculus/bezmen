@@ -1,9 +1,12 @@
+---
 all:
   hosts:
     schema:
     lib:
     app:
-    test:
     stack:
+    dx:
+    test:
+    pipeline:
   vars:
     ansible_connection: local

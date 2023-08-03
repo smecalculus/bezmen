@@ -1,5 +1,5 @@
 ---
-- import_role:
+- ansible.builtin.import_role: # noqa: name[missing]
     name: image
   vars:
     image_tag: "{{ pipeline_tag.stdout[:7] }}"

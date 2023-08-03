@@ -1,12 +1,13 @@
 ---
 # todo: think about backward compatibility aspect
-- name: remove stand (or part of it)
-  command:
+- name: Remove stand (or part of it)
+  ansible.builtin.command:
     cmd: docker rm -f env-db
+  changed_when: false
   when: hostvars.schema.image_status|default({}) is changed
 
-- name: create stand
-  command:
+- name: Create stand
+  ansible.builtin.command:
     cmd: >
       docker compose
       --file compose.yml
@@ -18,9 +19,10 @@
       --detach
     chdir: "{{ playbook_dir }}/../stacks/target/context"
     strip_empty_ends: false
+  changed_when: true
 
-- name: test stand
-  command:
+- name: Test stand
+  ansible.builtin.command:
     cmd: >
       mvn
       --no-snapshot-updates
@@ -39,3 +41,4 @@
       {% endif %}
     chdir: "{{ playbook_dir }}/../tests"
     strip_empty_ends: false
+  changed_when: true

@@ -1,8 +1,9 @@
 ---
-- hosts: lib
+- name: Sources
+  hosts: lib
   tasks:
-    - name: lint
-      command:
+    - name: Lint
+      ansible.builtin.command:
         cmd: >
           mvn
           --no-snapshot-updates
@@ -16,10 +17,11 @@
         strip_empty_ends: false
       changed_when: false
 
-- hosts: app
+- name: Sources
+  hosts: app
   tasks:
-    - name: lint
-      command:
+    - name: Lint
+      ansible.builtin.command:
         cmd: >
           mvn
           --no-snapshot-updates
@@ -34,10 +36,11 @@
         strip_empty_ends: false
       changed_when: false
 
-- hosts: test
+- name: Sources
+  hosts: test
   tasks:
-    - name: lint
-      command:
+    - name: Lint
+      ansible.builtin.command:
         cmd: >
           mvn
           --no-snapshot-updates
@@ -49,5 +52,18 @@
           spotless:check
           {% endif %}
         chdir: "{{ playbook_dir }}/../tests"
+        strip_empty_ends: false
+      changed_when: false
+
+- name: Sources
+  hosts: dx
+  tasks:
+    - name: Lint
+      ansible.builtin.command:
+        # list all top level playbooks
+        cmd: >
+          ansible-lint
+          stack.yml
+          pipeline.yml
         strip_empty_ends: false
       changed_when: false

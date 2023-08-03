@@ -1,17 +1,17 @@
 ---
-- name: remove artifacts
-  file:
+- name: Remove artifacts
+  ansible.builtin.file:
     path: "{{ playbook_dir }}/../stacks/target"
     state: absent
 
-- name: create directories
-  file:
+- name: Create directories
+  ansible.builtin.file:
     path: "{{ playbook_dir }}/../stacks/target/context"
     state: directory
     recurse: true
 
-- name: compile spec
-  command:
+- name: Compile spec
+  ansible.builtin.command:
     cmd: >
       docker compose
       --file basis/compose.yml
@@ -27,8 +27,10 @@
     SCHEMA_IMAGE: "{{ schema_images.postgres }}"
     FOO_TAG: "{{ hostvars.app.image_tag.stdout[:7] }}"
     FOO_IMAGE: "{{ app_images.foo }}"
+  changed_when: true
 
-- name: compile conf
-  command:
+- name: Compile conf
+  ansible.builtin.command:
     cmd: cp basis/{{ props }}.conf target/context/bezmen.conf
     chdir: "{{ playbook_dir }}/../stacks"
+  changed_when: true
