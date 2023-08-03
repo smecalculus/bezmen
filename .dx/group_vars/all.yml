@@ -11,8 +11,7 @@ lib_version: 0.1.0-{{ lib_cid }}
 app_version: 0.1.0-{{ app_cid }}
 
 usage: toy
-# todo: rename to 'prefs'
-props: turing
+prefs: turing
 
 docker_registry: localhost
 docker_repo: smecalculus
@@ -27,5 +26,5 @@ schema_images:
   postgres: "{{ docker_registry }}/{{ docker_repo }}/schema-postgres"
 app_images:
   foo: "{{ docker_registry }}/{{ docker_repo }}/app-foo"
-stack_image: "{{ docker_registry }}/{{ docker_repo }}/stack-{{ usage }}-{{ props }}"
+stack_image: "{{ docker_registry }}/{{ docker_repo }}/stack-{{ usage }}-{{ prefs }}"
 pipeline_image: "{{ docker_registry }}/{{ docker_repo }}/pipeline"

@@ -16,7 +16,7 @@
       docker compose
       --file basis/compose.yml
       --file {{ usage }}/compose.yml
-      --profile {{ props }}
+      --profile {{ prefs }}
       config
       --output target/context/compose.yml
       --no-path-resolution
@@ -31,6 +31,6 @@
 
 - name: Compile conf
   ansible.builtin.command:
-    cmd: cp basis/{{ props }}.conf target/context/bezmen.conf
+    cmd: cp basis/{{ prefs }}.conf target/context/bezmen.conf
     chdir: "{{ playbook_dir }}/../stacks"
   changed_when: true

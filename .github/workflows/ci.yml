@@ -106,7 +106,7 @@ jobs:
       fail-fast: false
       matrix:
         usage: [func]
-        props: [turing, church]
+        prefs: [turing, church]
     steps:
       - uses: actions/checkout@v3.5.2
       - uses: actions/setup-python@v4.7.0
@@ -124,11 +124,11 @@ jobs:
           -t compile
           -e docker_registry=${{ env.REGISTRY }}
           -e usage=${{ matrix.usage }}
-          -e props=${{ matrix.props }}
+          -e prefs=${{ matrix.prefs }}
         working-directory: .dx
       - uses: actions/upload-artifact@v3.1.2
         with:
-          name: stack-${{ matrix.usage }}-${{ matrix.props }}
+          name: stack-${{ matrix.usage }}-${{ matrix.prefs }}
           path: stacks/target/context
           if-no-files-found: error
 
@@ -141,7 +141,7 @@ jobs:
       fail-fast: false
       matrix:
         usage: [func]
-        props: [turing, church]
+        prefs: [turing, church]
         shard: [0, 1]
     steps:
       - uses: actions/checkout@v3.5.2
@@ -162,14 +162,14 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
       - uses: actions/download-artifact@v3.0.2
         with:
-          name: stack-${{ matrix.usage }}-${{ matrix.props }}
+          name: stack-${{ matrix.usage }}-${{ matrix.prefs }}
           path: stacks/target/context
       - run: >
           ansible-playbook stack.yml
           -t test
           -e docker_registry=${{ env.REGISTRY }}
           -e usage=${{ matrix.usage }}
-          -e props=${{ matrix.props }}
+          -e prefs=${{ matrix.prefs }}
           -e reminder=${{ matrix.shard }}
           -e modulus=2
         working-directory: .dx
@@ -179,7 +179,7 @@ jobs:
       - uses: actions/upload-artifact@v3.1.2
         if: ${{ !cancelled() }}
         with:
-          name: e2e-test-report-${{ matrix.usage }}-${{ matrix.props }}-${{ matrix.shard }}
+          name: e2e-test-report-${{ matrix.usage }}-${{ matrix.prefs }}-${{ matrix.shard }}
           path: tests/e2e/target/surefire-reports/*.xml
 
   stack-packaging:
@@ -191,7 +191,7 @@ jobs:
       fail-fast: false
       matrix:
         usage: [func]
-        props: [turing, church]
+        prefs: [turing, church]
     permissions:
       packages: write
     steps:
@@ -208,14 +208,14 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
       - uses: actions/download-artifact@v3.0.2
         with:
-          name: stack-${{ matrix.usage }}-${{ matrix.props }}
+          name: stack-${{ matrix.usage }}-${{ matrix.prefs }}
           path: stacks/target/context
       - run: >
           ansible-playbook stack.yml
           -t package
           -e docker_registry=${{ env.REGISTRY }}
           -e usage=${{ matrix.usage }}
-          -e props=${{ matrix.props }}
+          -e prefs=${{ matrix.prefs }}
         working-directory: .dx
 
   pipeline-packaging:

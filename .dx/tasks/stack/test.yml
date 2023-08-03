@@ -11,7 +11,7 @@
     cmd: >
       docker compose
       --file compose.yml
-      --profile {{ props }}
+      --profile {{ prefs }}
       up
       --remove-orphans
       --quiet-pull
@@ -32,7 +32,7 @@
       --define lib.version={{ lib_version }}
       clean
       test
-      --define props.combo={{ props }}
+      --define prefs.combo={{ prefs }}
       {% if reminder is defined %}
       --define bezmen.sharding.reminder={{ reminder }}
       {% endif %}
