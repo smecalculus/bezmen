@@ -12,9 +12,28 @@ env:
   PYTHON_VERSION: '3.9'
 
 jobs:
-  # todo: think about separate jobs: sources, binaries, images
+  sources:
+    name: Sources
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v3.5.2
+      - uses: actions/setup-python@v4.7.0
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: 'pip'
+      - run: pip install -r requirements.txt
+      - run: >
+          ansible-playbook sources.yml
+          -e docker_registry=${{ env.REGISTRY }}
+        working-directory: .dx
+        env:
+          GITHUB_ACTOR: ${{ github.actor }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
   binaries-and-images:
     name: Binaries & Images
+    needs: [sources]
     runs-on: ubuntu-latest
     timeout-minutes: 15
     permissions:

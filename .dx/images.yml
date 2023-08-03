@@ -1,7 +1,4 @@
 ---
-- import_playbook: binaries.yml
-  tags: [binaries, deps]
-
 - name: Images
   hosts: schema
   tasks:
@@ -29,7 +26,7 @@
 - name: Images
   hosts: app
   tasks:
-    - ansible.builtin.include_role:
+    - ansible.builtin.include_role: # noqa: name[missing]
         name: image
       vars:
         image_tag: "{{ hostvars.app.image_tag.stdout[:7] }}"
