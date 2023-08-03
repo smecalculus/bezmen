@@ -26,7 +26,6 @@
           mvn
           --no-snapshot-updates
           --batch-mode
-          --define lib.version=LATEST
           {% if is_local_building %}
           spotless:apply
           {% else %}
@@ -45,7 +44,6 @@
           mvn
           --no-snapshot-updates
           --batch-mode
-          --define lib.version=LATEST
           {% if is_local_building %}
           spotless:apply
           {% else %}

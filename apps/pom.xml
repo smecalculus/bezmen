@@ -16,7 +16,7 @@
 
   <properties>
     <revision>0.1.0-SNAPSHOT</revision>
-    <lib.version>0.1.0-SNAPSHOT</lib.version>
+    <lib.version>LATEST</lib.version>
     <lombok.version>1.18.24</lombok.version>
     <mapstruct.version>1.5.3.Final</mapstruct.version>
     <skipTests>false</skipTests>
