@@ -1,7 +1,4 @@
 ---
-- import_playbook: sources.yml # noqa: name[play]
-  tags: [sources, deps]
-
 - name: Binaries
   hosts: lib
   tasks:

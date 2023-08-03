@@ -1,4 +1,7 @@
 ---
+- import_playbook: binaries.yml # noqa: name[play]
+  tags: [binaries, deps]
+
 - name: Images
   hosts: schema
   tasks:
