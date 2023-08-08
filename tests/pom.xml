@@ -17,7 +17,7 @@
   <properties>
     <prefs.combo>turing</prefs.combo>
     <lib.version>LATEST</lib.version>
-    <lombok.version>1.18.24</lombok.version>
+    <lombok.version>1.18.28</lombok.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
 
