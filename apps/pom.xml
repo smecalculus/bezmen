@@ -18,7 +18,7 @@
     <revision>0.1.0-SNAPSHOT</revision>
     <lib.version>LATEST</lib.version>
     <lombok.version>1.18.24</lombok.version>
-    <mapstruct.version>1.5.3.Final</mapstruct.version>
+    <mapstruct.version>1.5.5.Final</mapstruct.version>
     <skipTests>false</skipTests>
     <skipUnits>${skipTests}</skipUnits>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
