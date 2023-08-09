@@ -7,7 +7,7 @@ updates:
   - package-ecosystem: "maven"
     directory: "/libs"
     schedule:
-      interval: "weekly"
+      interval: "daily"
   - package-ecosystem: "maven"
     directory: "/apps"
     schedule:

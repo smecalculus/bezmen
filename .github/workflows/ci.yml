@@ -38,7 +38,6 @@ jobs:
 
   binaries-and-images:
     name: Binaries & Images
-    needs: [sources]
     runs-on: ubuntu-latest
     timeout-minutes: 15
     permissions:
@@ -123,7 +122,7 @@ jobs:
 
   stack-compiling:
     name: Stack Compiling
-    needs: [binaries-and-images]
+    needs: [sources, binaries-and-images]
     runs-on: ubuntu-latest
     timeout-minutes: 5
     strategy:
