@@ -17,7 +17,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
-      - uses: actions/checkout@v3.5.2
+      - uses: actions/checkout@v3.5.3
       - uses: actions/setup-python@v4.7.0
         with:
           python-version: ${{ env.PYTHON_VERSION }}
@@ -49,7 +49,7 @@ jobs:
       JACOCO_INTEGRATIONS: tools/target/coverage/integrations/jacoco.xml
       JACOCO_OVERALL: tools/target/coverage/overall/jacoco.xml
     steps:
-      - uses: actions/checkout@v3.5.2
+      - uses: actions/checkout@v3.5.3
       - uses: actions/setup-python@v4.7.0
         with:
           python-version: ${{ env.PYTHON_VERSION }}
@@ -131,7 +131,7 @@ jobs:
         usage: [func]
         prefs: [turing, church]
     steps:
-      - uses: actions/checkout@v3.5.2
+      - uses: actions/checkout@v3.5.3
       - uses: actions/setup-python@v4.7.0
         with:
           python-version: ${{ env.PYTHON_VERSION }}
@@ -167,7 +167,7 @@ jobs:
         prefs: [turing, church]
         shard: [0, 1]
     steps:
-      - uses: actions/checkout@v3.5.2
+      - uses: actions/checkout@v3.5.3
       - uses: actions/setup-python@v4.7.0
         with:
           python-version: ${{ env.PYTHON_VERSION }}
@@ -218,7 +218,7 @@ jobs:
     permissions:
       packages: write
     steps:
-      - uses: actions/checkout@v3.5.2
+      - uses: actions/checkout@v3.5.3
       - uses: actions/setup-python@v4.7.0
         with:
           python-version: ${{ env.PYTHON_VERSION }}
@@ -249,7 +249,7 @@ jobs:
     permissions:
       packages: write
     steps:
-      - uses: actions/checkout@v3.5.2
+      - uses: actions/checkout@v3.5.3
       - uses: actions/setup-python@v4.7.0
         with:
           python-version: ${{ env.PYTHON_VERSION }}
