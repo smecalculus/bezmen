@@ -36,12 +36,10 @@
     <dependency>
       <groupId>org.postgresql</groupId>
       <artifactId>postgresql</artifactId>
-      <optional>true</optional>
     </dependency>
     <dependency>
       <groupId>com.h2database</groupId>
       <artifactId>h2</artifactId>
-      <optional>true</optional>
     </dependency>
     <dependency>
       <groupId>org.springframework</groupId>
@@ -50,11 +48,6 @@
     <dependency>
       <groupId>${project.groupId}</groupId>
       <artifactId>testing</artifactId>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.junit.jupiter</groupId>
-      <artifactId>junit-jupiter-api</artifactId>
       <scope>test</scope>
     </dependency>
   </dependencies>
