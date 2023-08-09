@@ -2,7 +2,7 @@
 - name: Sources
   hosts: lib
   tasks:
-    - name: Lint
+    - name: Analyze
       ansible.builtin.command:
         cmd: >
           mvn
@@ -13,6 +13,7 @@
           {% else %}
           spotless:check
           {% endif %}
+          enforcer:enforce
         chdir: "{{ playbook_dir }}/../libs"
         strip_empty_ends: false
       changed_when: false
@@ -20,7 +21,7 @@
 - name: Sources
   hosts: app
   tasks:
-    - name: Lint
+    - name: Analyze
       ansible.builtin.command:
         cmd: >
           mvn
@@ -38,7 +39,7 @@
 - name: Sources
   hosts: test
   tasks:
-    - name: Lint
+    - name: Analyze
       ansible.builtin.command:
         cmd: >
           mvn
@@ -56,7 +57,7 @@
 - name: Sources
   hosts: dx
   tasks:
-    - name: Lint
+    - name: Analyze
       ansible.builtin.command:
         # list all top level playbooks
         cmd: >

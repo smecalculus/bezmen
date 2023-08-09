@@ -1,31 +1,26 @@
 package org.smecalculus.bezmen.configuration;
 
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.smecalculus.bezmen.fixture.DataPropsFixture.dataPropsCfg;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.smecalculus.bezmen.modeling.DataConfig;
 import org.smecalculus.bezmen.validation.BezmenValidator;
 
-@ExtendWith(MockitoExtension.class)
 abstract class DataConfigTest {
 
     private DataConfig dataConfig;
-
-    @Mock
-    private BezmenValidator validator;
-
-    @Mock
-    private ConfigKeeper keeper;
+    private BezmenValidator validatorMock;
+    private ConfigKeeper keeperMock;
 
     @BeforeEach
     void setUp() {
-        dataConfig = new DataConfigImpl(keeper, validator, new DataCfgMapperImpl());
+        validatorMock = mock(BezmenValidator.class);
+        keeperMock = mock(ConfigKeeper.class);
+        dataConfig = new DataConfigImpl(keeperMock, validatorMock, new DataCfgMapperImpl());
     }
 
     @Test
@@ -33,10 +28,10 @@ abstract class DataConfigTest {
         // given
         DataPropsCfg expectedDataProps = dataPropsCfg();
         // and
-        when(keeper.read("bezmen.data", DataPropsCfg.class)).thenReturn(expectedDataProps);
+        when(keeperMock.read("bezmen.data", DataPropsCfg.class)).thenReturn(expectedDataProps);
         // when
         dataConfig.getDataProps();
         // then
-        verify(validator).validate(expectedDataProps);
+        verify(validatorMock).validate(expectedDataProps);
     }
 }
