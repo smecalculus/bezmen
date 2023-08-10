@@ -46,6 +46,10 @@
     </dependency>
     <!--MODELING-->
     <dependency>
+      <groupId>org.jetbrains.kotlin</groupId>
+      <artifactId>kotlin-stdlib</artifactId>
+    </dependency>
+    <dependency>
       <groupId>com.github.spotbugs</groupId>
       <artifactId>spotbugs-annotations</artifactId>
       <exclusions>
@@ -64,6 +68,10 @@
       <groupId>org.springframework</groupId>
       <artifactId>spring-context</artifactId>
     </dependency>
+    <dependency>
+      <groupId>org.jetbrains.kotlin</groupId>
+      <artifactId>kotlin-reflect</artifactId>
+    </dependency>
   </dependencies>
 
   <build>
@@ -81,6 +89,8 @@
                 <usedDependency>org.glassfish.expressly:expressly</usedDependency>
                 <usedDependency>org.slf4j:slf4j-api</usedDependency>
                 <usedDependency>ch.qos.logback:logback-classic</usedDependency>
+                <usedDependency>org.jetbrains.kotlin:kotlin-stdlib</usedDependency>
+                <usedDependency>org.jetbrains.kotlin:kotlin-reflect</usedDependency>
               </usedDependencies>
             </configuration>
           </execution>
