@@ -21,13 +21,14 @@
 
   <properties>
     <revision>0.1.0-SNAPSHOT</revision>
-    <lombok.version>1.18.24</lombok.version>
+    <lombok.version>1.18.28</lombok.version>
     <mapstruct.version>1.5.5.Final</mapstruct.version>
-    <mockito.version>5.4.0</mockito.version>
     <spring.version>5.3.29</spring.version>
     <spring-boot.version>2.7.14</spring-boot.version>
     <spring-data.version>2.4.14</spring-data.version>
     <jetty.version>9.4.51.v20230217</jetty.version>
+    <jackson.version>2.15.2</jackson.version>
+    <mockito.version>5.4.0</mockito.version>
     <skipTests>false</skipTests>
     <skipUnits>${skipTests}</skipUnits>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -112,12 +113,12 @@
       <dependency>
         <groupId>com.fasterxml.jackson.core</groupId>
         <artifactId>jackson-core</artifactId>
-        <version>2.13.5</version>
+        <version>${jackson.version}</version>
       </dependency>
       <dependency>
         <groupId>com.fasterxml.jackson.core</groupId>
         <artifactId>jackson-databind</artifactId>
-        <version>2.13.5</version>
+        <version>${jackson.version}</version>
       </dependency>
 
       <dependency>
@@ -202,7 +203,7 @@
       <dependency>
         <groupId>org.liquibase</groupId>
         <artifactId>liquibase-core</artifactId>
-        <version>4.21.1</version>
+        <version>4.23.0</version>
       </dependency>
       <dependency>
         <groupId>org.yaml</groupId>
@@ -229,7 +230,7 @@
       <dependency>
         <groupId>org.mybatis</groupId>
         <artifactId>mybatis-spring</artifactId>
-        <version>2.0.2</version>
+        <version>2.1.1</version>
       </dependency>
       <dependency>
         <groupId>org.springframework</groupId>
@@ -270,7 +271,7 @@
       <dependency>
         <groupId>org.assertj</groupId>
         <artifactId>assertj-core</artifactId>
-        <version>3.22.0</version>
+        <version>3.24.2</version>
       </dependency>
       <dependency>
         <groupId>org.awaitility</groupId>
@@ -281,6 +282,11 @@
         <groupId>org.springframework</groupId>
         <artifactId>spring-test</artifactId>
         <version>${spring.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>net.bytebuddy</groupId>
+        <artifactId>byte-buddy</artifactId>
+        <version>1.14.5</version>
       </dependency>
     </dependencies>
   </dependencyManagement>
@@ -362,7 +368,7 @@
         <plugin>
           <groupId>org.codehaus.mojo</groupId>
           <artifactId>flatten-maven-plugin</artifactId>
-          <version>1.3.0</version>
+          <version>1.5.0</version>
           <configuration>
             <updatePomFile>true</updatePomFile>
             <flattenMode>resolveCiFriendliesOnly</flattenMode>
@@ -389,7 +395,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-dependency-plugin</artifactId>
-          <version>3.5.0</version>
+          <version>3.6.0</version>
           <executions>
             <execution>
               <id>analyze</id>
@@ -468,8 +474,19 @@
           <configuration>
             <rules>
               <banDuplicatePomDependencyVersions/>
+              <reactorModuleConvergence/>
+              <requireProfileIdsExist/>
               <dependencyConvergence/>
               <requireUpperBoundDeps/>
+              <banDynamicVersions>
+                <excludeOptionals/>
+                <excludedScopes/>
+                <!--TODO: ignore instead of allow snapshots (MENFORCER-480)-->
+                <allowSnapshots>true</allowSnapshots>
+                <!--<ignores>-->
+                <!--  <ignore>org.smecalculus.bezmen</ignore>-->
+                <!--</ignores>-->
+              </banDynamicVersions>
             </rules>
           </configuration>
         </plugin>
