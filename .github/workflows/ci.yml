@@ -16,7 +16,7 @@ env:
 
 jobs:
   tooling:
-    name: Tooling (python:${{ matrix.python }}, ubuntu:${{ matrix.ubuntu }})
+    name: Tooling (ubuntu:${{ matrix.ubuntu }})
     strategy:
       matrix:
         python: ["3.9"]
@@ -35,7 +35,7 @@ jobs:
         working-directory: .dx
 
   sources:
-    name: Sources (java:${{ matrix.java }}, python:${{ matrix.python }}, ubuntu:${{ matrix.ubuntu }})
+    name: Sources (java:${{ matrix.java }}, ubuntu:${{ matrix.ubuntu }})
     strategy:
       matrix:
         java: ["17.0"]
@@ -64,7 +64,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   packages:
-    name: Packages (java:${{ matrix.java }}, python:${{ matrix.python }}, ubuntu:${{ matrix.ubuntu }})
+    name: Packages (java:${{ matrix.java }}, ubuntu:${{ matrix.ubuntu }})
     strategy:
       matrix:
         java: ["17.0"]
@@ -160,11 +160,10 @@ jobs:
         pref: [turing, church]
         python: ["3.9"]
         ubuntu: ["22.04"]
-    name: >
+    name: |
       Stack Compiling (
         usage:${{ matrix.usage }},
         pref:${{ matrix.pref }},
-        python:${{ matrix.python }},
         ubuntu:${{ matrix.ubuntu }}
       )
     needs:
@@ -208,13 +207,12 @@ jobs:
         java: ["17.0"]
         python: ["3.9"]
         ubuntu: ["22.04"]
-    name: >
+    name: |
       Stack Testing (
         usage:${{ matrix.usage }},
         pref:${{ matrix.pref }},
         shard:${{ matrix.shard }},
         java:${{ matrix.java }},
-        python:${{ matrix.python }},
         ubuntu:${{ matrix.ubuntu }}
       )
     needs: [stack-compiling]
@@ -267,11 +265,10 @@ jobs:
         pref: [turing, church]
         python: ["3.9"]
         ubuntu: ["22.04"]
-    name: >
+    name: |
       Stack Packaging (
         usage:${{ matrix.usage }},
         pref:${{ matrix.pref }},
-        python:${{ matrix.python }},
         ubuntu:${{ matrix.ubuntu }}
       )
     needs: [stack-testing]
@@ -304,7 +301,7 @@ jobs:
         working-directory: .dx
 
   pipeline-packaging:
-    name: Pipeline Packaging (python:${{ matrix.python }}, ubuntu:${{ matrix.ubuntu }})
+    name: Pipeline Packaging (ubuntu:${{ matrix.ubuntu }})
     needs: [stack-testing]
     strategy:
       matrix:
