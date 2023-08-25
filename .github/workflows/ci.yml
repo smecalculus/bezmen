@@ -16,7 +16,7 @@ env:
 
 jobs:
   tooling:
-    name: Tooling (python-${{ matrix.python }}, ubuntu-${{ matrix.ubuntu }})
+    name: Tooling (py:${{ matrix.python }}, os:${{ matrix.ubuntu }})
     strategy:
       matrix:
         python: ["3.9"]
@@ -35,7 +35,7 @@ jobs:
         working-directory: .dx
 
   sources:
-    name: Sources (java-${{ matrix.java }}, python-${{ matrix.python }}, ubuntu-${{ matrix.ubuntu }})
+    name: Sources (java:${{ matrix.java }}, py:${{ matrix.python }}, os:${{ matrix.ubuntu }})
     strategy:
       matrix:
         java: ["17.0"]
@@ -64,7 +64,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   packages:
-    name: Packages (java-${{ matrix.java }}, python-${{ matrix.python }}, ubuntu-${{ matrix.ubuntu }})
+    name: Packages (java:${{ matrix.java }}, py:${{ matrix.python }}, os:${{ matrix.ubuntu }})
     strategy:
       matrix:
         java: ["17.0"]
@@ -153,7 +153,7 @@ jobs:
           update-comment: true
 
   stack-compiling:
-    name: Stack Compiling (pref-${{ matrix.pref }}, usage-${{ matrix.usage }}, python-${{ matrix.python }}, ubuntu-${{ matrix.ubuntu }})
+    name: Stack Compiling (usage:${{ matrix.usage }}, pref:${{ matrix.pref }}, py:${{ matrix.python }}, os:${{ matrix.ubuntu }})
     needs:
       - tooling
       - sources
@@ -162,8 +162,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        pref: [turing, church]
         usage: [func]
+        pref: [turing, church]
         python: ["3.9"]
         ubuntu: ["22.04"]
     runs-on: ubuntu-${{ matrix.ubuntu }}
@@ -193,15 +193,15 @@ jobs:
           if-no-files-found: error
 
   stack-testing:
-    name: Stack Testing (pref-${{ matrix.pref }}, usage-${{ matrix.usage }}, java-${{ matrix.java }}, python-${{ matrix.python }}, ubuntu-${{ matrix.ubuntu }})
+    name: Stack Testing (usage:${{ matrix.usage }}, pref:${{ matrix.pref }}, shard:${{ matrix.shard }}, java:${{ matrix.java }}, py:${{ matrix.python }}, os:${{ matrix.ubuntu }})
     needs: [stack-compiling]
     timeout-minutes: 15
     strategy:
       fail-fast: false
       matrix:
-        shard: [0, 1]
-        pref: [turing, church]
         usage: [func]
+        pref: [turing, church]
+        shard: [0, 1]
         java: ["17.0"]
         python: ["3.9"]
         ubuntu: ["22.04"]
@@ -246,14 +246,14 @@ jobs:
           path: tests/e2e/target/surefire-reports/*.xml
 
   stack-packaging:
-    name: Stack Packaging (pref-${{ matrix.pref }}, usage-${{ matrix.usage }}, python-${{ matrix.python }}, ubuntu-${{ matrix.ubuntu }})
+    name: Stack Packaging (usage:${{ matrix.usage }}, pref:${{ matrix.pref }}, py:${{ matrix.python }}, os:${{ matrix.ubuntu }})
     needs: [stack-testing]
     timeout-minutes: 5
     strategy:
       fail-fast: false
       matrix:
-        pref: [turing, church]
         usage: [func]
+        pref: [turing, church]
         python: ["3.9"]
         ubuntu: ["22.04"]
     runs-on: ubuntu-${{ matrix.ubuntu }}
@@ -284,7 +284,7 @@ jobs:
         working-directory: .dx
 
   pipeline-packaging:
-    name: Pipeline Packaging (python-${{ matrix.python }}, ubuntu-${{ matrix.ubuntu }})
+    name: Pipeline Packaging (py:${{ matrix.python }}, os:${{ matrix.ubuntu }})
     needs: [stack-testing]
     strategy:
       matrix:
@@ -312,7 +312,7 @@ jobs:
         working-directory: .dx
 
   stack-reporting:
-    name: Stack Reporting (ubuntu-${{ matrix.ubuntu }})
+    name: Stack Reporting (os:${{ matrix.ubuntu }})
     needs: [stack-testing]
     if: ${{ !cancelled() && (needs.stack-testing.result == 'success' || needs.stack-testing.result == 'failure') }}
     strategy:
