@@ -15,7 +15,7 @@ env:
   REGISTRY: ghcr.io
 
 jobs:
-  platforms-and-tools:
+  tooling:
     name: Tooling (python-${{ matrix.python }}, ubuntu-${{ matrix.ubuntu }})
     strategy:
       matrix:
@@ -34,7 +34,7 @@ jobs:
           ansible-playbook tooling.yml
         working-directory: .dx
 
-  deps-and-sources:
+  sources:
     name: Sources (java-${{ matrix.java }}, python-${{ matrix.python }}, ubuntu-${{ matrix.ubuntu }})
     strategy:
       matrix:
@@ -63,7 +63,7 @@ jobs:
           GITHUB_ACTOR: ${{ github.actor }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-  binaries-and-images:
+  packages:
     name: Packages (java-${{ matrix.java }}, python-${{ matrix.python }}, ubuntu-${{ matrix.ubuntu }})
     strategy:
       matrix:
@@ -153,11 +153,11 @@ jobs:
           update-comment: true
 
   stack-compiling:
-    name: Stack Compiling
+    name: Stack Compiling (python-${{ matrix.python }}, ubuntu-${{ matrix.ubuntu }})
     needs:
-      - platforms-and-tools
-      - deps-and-sources
-      - binaries-and-images
+      - tooling
+      - sources
+      - packages
     timeout-minutes: 5
     strategy:
       fail-fast: false
@@ -193,7 +193,7 @@ jobs:
           if-no-files-found: error
 
   stack-testing:
-    name: Stack Testing
+    name: Stack Testing (java-${{ matrix.java }}, python-${{ matrix.python }}, ubuntu-${{ matrix.ubuntu }})
     needs: [stack-compiling]
     timeout-minutes: 15
     strategy:
@@ -246,7 +246,7 @@ jobs:
           path: tests/e2e/target/surefire-reports/*.xml
 
   stack-packaging:
-    name: Stack Packaging
+    name: Stack Packaging (python-${{ matrix.python }}, ubuntu-${{ matrix.ubuntu }})
     needs: [stack-testing]
     timeout-minutes: 5
     strategy:
@@ -284,7 +284,7 @@ jobs:
         working-directory: .dx
 
   pipeline-packaging:
-    name: Pipeline Packaging
+    name: Pipeline Packaging (python-${{ matrix.python }}, ubuntu-${{ matrix.ubuntu }})
     needs: [stack-testing]
     strategy:
       matrix:
@@ -312,7 +312,7 @@ jobs:
         working-directory: .dx
 
   stack-reporting:
-    name: Stack Reporting
+    name: Stack Reporting (ubuntu-${{ matrix.ubuntu }})
     needs: [stack-testing]
     if: ${{ !cancelled() && (needs.stack-testing.result == 'success' || needs.stack-testing.result == 'failure') }}
     strategy:
