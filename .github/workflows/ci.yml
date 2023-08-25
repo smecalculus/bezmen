@@ -20,7 +20,9 @@ env:
 jobs:
   platforms-and-tools:
     name: Platforms & Tools
-    runs-on: ubuntu-${{ env.UBUNTU_VERSION }}
+    runs-on:
+      labels:
+        - "ubuntu-${{ env.UBUNTU_VERSION }}"
     timeout-minutes: 5
     steps:
       - uses: actions/checkout@v3.5.3
@@ -59,7 +61,7 @@ jobs:
 
   binaries-and-images:
     name: Binaries & Images
-    runs-on: ubuntu-${{ env.UBUNTU_VERSION }}
+    runs-on: "ubuntu-${{ env.UBUNTU_VERSION }}"
     timeout-minutes: 15
     permissions:
       checks: write
