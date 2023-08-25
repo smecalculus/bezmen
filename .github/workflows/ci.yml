@@ -21,8 +21,8 @@ jobs:
     name: Platforms & Tools
     strategy:
       matrix:
-        os: [ubuntu-22.04]
-    runs-on: ${{ matrix.os }}
+        ubuntu: [22.04]
+    runs-on: ubuntu-${{ matrix.ubuntu }}
     timeout-minutes: 5
     steps:
       - uses: actions/checkout@v3.5.3
@@ -39,8 +39,8 @@ jobs:
     name: Deps & Sources
     strategy:
       matrix:
-        os: [ubuntu-22.04]
-    runs-on: ${{ matrix.os }}
+        ubuntu: [22.04]
+    runs-on: ubuntu-${{ matrix.ubuntu }}
     timeout-minutes: 5
     steps:
       - uses: actions/checkout@v3.5.3
@@ -66,8 +66,8 @@ jobs:
     name: Binaries & Images
     strategy:
       matrix:
-        os: [ubuntu-22.04]
-    runs-on: ${{ matrix.os }}
+        ubuntu: [22.04]
+    runs-on: ubuntu-${{ matrix.ubuntu }}
     timeout-minutes: 15
     permissions:
       checks: write
@@ -159,10 +159,10 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-22.04]
         usage: [func]
         prefs: [turing, church]
-    runs-on: ${{ matrix.os }}
+        ubuntu: [22.04]
+    runs-on: ubuntu-${{ matrix.ubuntu }}
     steps:
       - uses: actions/checkout@v3.5.3
       - uses: actions/setup-python@v4.7.0
@@ -195,11 +195,11 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-22.04]
         usage: [func]
         prefs: [turing, church]
         shard: [0, 1]
-    runs-on: ${{ matrix.os }}
+        ubuntu: [22.04]
+    runs-on: ubuntu-${{ matrix.ubuntu }}
     steps:
       - uses: actions/checkout@v3.5.3
       - uses: actions/setup-python@v4.7.0
@@ -248,8 +248,8 @@ jobs:
       matrix:
         usage: [func]
         prefs: [turing, church]
-        os: [ubuntu-22.04]
-    runs-on: ${{ matrix.os }}
+        ubuntu: [22.04]
+    runs-on: ubuntu-${{ matrix.ubuntu }}
     permissions:
       packages: write
     steps:
@@ -281,8 +281,8 @@ jobs:
     needs: [stack-testing]
     strategy:
       matrix:
-        os: [ubuntu-22.04]
-    runs-on: ${{ matrix.os }}
+        ubuntu: [22.04]
+    runs-on: ubuntu-${{ matrix.ubuntu }}
     timeout-minutes: 5
     permissions:
       packages: write
@@ -309,8 +309,8 @@ jobs:
     if: ${{ !cancelled() && (needs.stack-testing.result == 'success' || needs.stack-testing.result == 'failure') }}
     strategy:
       matrix:
-        os: [ubuntu-22.04]
-    runs-on: ${{ matrix.os }}
+        ubuntu: [22.04]
+    runs-on: ubuntu-${{ matrix.ubuntu }}
     timeout-minutes: 5
     permissions:
       checks: write
