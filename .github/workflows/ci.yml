@@ -16,11 +16,11 @@ env:
 
 jobs:
   platforms-and-tools:
-    name: Platforms & Tools
+    name: Platforms & Tools (python-${{ matrix.python }}, ubuntu-${{ matrix.ubuntu }})
     strategy:
       matrix:
-        ubuntu: ["22.04"]
         python: ["3.9"]
+        ubuntu: ["22.04"]
     runs-on: ubuntu-${{ matrix.ubuntu }}
     timeout-minutes: 5
     steps:
