@@ -7,13 +7,17 @@ on:
     branches: [main]
   workflow_dispatch:
 
+concurrency:
+  group: ${{ github.ref_name }}
+  cancel-in-progress: false
+
 env:
   REGISTRY: ghcr.io
   PYTHON_VERSION: '3.9'
 
 jobs:
-  sources:
-    name: Sources
+  deps-and-sources:
+    name: Deps & Sources
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
@@ -122,7 +126,7 @@ jobs:
 
   stack-compiling:
     name: Stack Compiling
-    needs: [sources, binaries-and-images]
+    needs: [deps-and-sources, binaries-and-images]
     runs-on: ubuntu-latest
     timeout-minutes: 5
     strategy:
