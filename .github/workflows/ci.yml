@@ -16,7 +16,7 @@ env:
 
 jobs:
   platforms-and-tools:
-    name: Platforms & Tools (python-${{ matrix.python }}, ubuntu-${{ matrix.ubuntu }})
+    name: Tooling (python-${{ matrix.python }}, ubuntu-${{ matrix.ubuntu }})
     strategy:
       matrix:
         python: ["3.9"]
@@ -35,12 +35,12 @@ jobs:
         working-directory: .dx
 
   deps-and-sources:
-    name: Deps & Sources
+    name: Sources (java-${{ matrix.java }}, python-${{ matrix.python }}, ubuntu-${{ matrix.ubuntu }})
     strategy:
       matrix:
-        ubuntu: ["22.04"]
-        python: ["3.9"]
         java: ["17.0"]
+        python: ["3.9"]
+        ubuntu: ["22.04"]
     runs-on: ubuntu-${{ matrix.ubuntu }}
     timeout-minutes: 5
     steps:
@@ -64,12 +64,12 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   binaries-and-images:
-    name: Binaries & Images
+    name: Packages (java-${{ matrix.java }}, python-${{ matrix.python }}, ubuntu-${{ matrix.ubuntu }})
     strategy:
       matrix:
-        ubuntu: ["22.04"]
-        python: ["3.9"]
         java: ["17.0"]
+        python: ["3.9"]
+        ubuntu: ["22.04"]
     runs-on: ubuntu-${{ matrix.ubuntu }}
     timeout-minutes: 15
     permissions:
@@ -164,8 +164,8 @@ jobs:
       matrix:
         usage: [func]
         prefs: [turing, church]
-        ubuntu: ["22.04"]
         python: ["3.9"]
+        ubuntu: ["22.04"]
     runs-on: ubuntu-${{ matrix.ubuntu }}
     steps:
       - uses: actions/checkout@v3.5.3
@@ -202,9 +202,9 @@ jobs:
         usage: [func]
         prefs: [turing, church]
         shard: [0, 1]
-        ubuntu: ["22.04"]
-        python: ["3.9"]
         java: ["17.0"]
+        python: ["3.9"]
+        ubuntu: ["22.04"]
     runs-on: ubuntu-${{ matrix.ubuntu }}
     steps:
       - uses: actions/checkout@v3.5.3
@@ -254,8 +254,8 @@ jobs:
       matrix:
         usage: [func]
         prefs: [turing, church]
-        ubuntu: ["22.04"]
         python: ["3.9"]
+        ubuntu: ["22.04"]
     runs-on: ubuntu-${{ matrix.ubuntu }}
     permissions:
       packages: write
@@ -288,8 +288,8 @@ jobs:
     needs: [stack-testing]
     strategy:
       matrix:
-        ubuntu: ["22.04"]
         python: ["3.9"]
+        ubuntu: ["22.04"]
     runs-on: ubuntu-${{ matrix.ubuntu }}
     timeout-minutes: 5
     permissions:
