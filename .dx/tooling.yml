@@ -1,0 +1,49 @@
+---
+- name: Platforms
+  hosts: dx
+  gather_facts: true
+  gather_subset:
+    - distribution_version
+  vars:
+    supported:
+      ubuntu:
+        - "22.04"
+        - "20.04"
+  tasks:
+    - name: Enforce OS distribution
+      ansible.builtin.assert:
+        quiet: true
+        fail_msg: |
+          Unsupported distribution: {{ ansible_facts.distribution }}
+          Supported distributions: {{ supported.keys()|join(', ') }}
+        that:
+          - supported.keys()|select('in', ansible_facts.distribution|lower)
+    - name: Enforce OS version
+      ansible.builtin.assert:
+        quiet: true
+        fail_msg: |
+          Unsupported version: {{ ansible_facts.distribution_version }}
+          Supported versions: {{ supported[ansible_facts.distribution|lower]|join(', ') }}
+        that:
+          - supported[ansible_facts.distribution|lower]|select('in', ansible_facts.distribution_version)
+
+- name: Tools
+  hosts: dx
+  vars:
+    supported:
+      docker:
+        - "24.0"
+  tasks:
+    - name: Gather docker version
+      ansible.builtin.command:
+        cmd: docker version --format {{ '{{.Server.Version}}' }}
+      register: docker_version
+      changed_when: false
+    - name: Enforce docker version
+      ansible.builtin.assert:
+        quiet: true
+        fail_msg: |
+          Unsupported version: {{ docker_version.stdout }}
+          Supported versions: {{ supported.docker|join(', ') }}
+        that:
+          - supported.docker|select('in', docker_version.stdout)
