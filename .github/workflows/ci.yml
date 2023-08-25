@@ -13,16 +13,14 @@ concurrency:
 
 env:
   REGISTRY: ghcr.io
-  UBUNTU_VERSION: '22.04'
+  UBUNTU_VERSION: 'ubuntu-22.04'
   PYTHON_VERSION: '3.9'
   JAVA_VERSION: '17.0'
 
 jobs:
   platforms-and-tools:
     name: Platforms & Tools
-    runs-on:
-      labels:
-        - "ubuntu-${{ env.UBUNTU_VERSION }}"
+    runs-on: ${{ env.UBUNTU_VERSION }}
     timeout-minutes: 5
     steps:
       - uses: actions/checkout@v3.5.3
@@ -37,7 +35,7 @@ jobs:
 
   deps-and-sources:
     name: Deps & Sources
-    runs-on: ubuntu-${{ env.UBUNTU_VERSION }}
+    runs-on: ${{ env.UBUNTU_VERSION }}
     timeout-minutes: 5
     steps:
       - uses: actions/checkout@v3.5.3
@@ -61,7 +59,7 @@ jobs:
 
   binaries-and-images:
     name: Binaries & Images
-    runs-on: "ubuntu-${{ env.UBUNTU_VERSION }}"
+    runs-on: ${{ env.UBUNTU_VERSION }}
     timeout-minutes: 15
     permissions:
       checks: write
@@ -149,7 +147,7 @@ jobs:
       - platforms-and-tools
       - deps-and-sources
       - binaries-and-images
-    runs-on: ubuntu-${{ env.UBUNTU_VERSION }}
+    runs-on: ${{ env.UBUNTU_VERSION }}
     timeout-minutes: 5
     strategy:
       fail-fast: false
@@ -184,7 +182,7 @@ jobs:
   stack-testing:
     name: Stack Testing
     needs: [stack-compiling]
-    runs-on: ubuntu-${{ env.UBUNTU_VERSION }}
+    runs-on: ${{ env.UBUNTU_VERSION }}
     timeout-minutes: 15
     strategy:
       fail-fast: false
@@ -234,7 +232,7 @@ jobs:
   stack-packaging:
     name: Stack Packaging
     needs: [stack-testing]
-    runs-on: ubuntu-${{ env.UBUNTU_VERSION }}
+    runs-on: ${{ env.UBUNTU_VERSION }}
     timeout-minutes: 5
     strategy:
       fail-fast: false
@@ -270,7 +268,7 @@ jobs:
   pipeline-packaging:
     name: Pipeline Packaging
     needs: [stack-testing]
-    runs-on: ubuntu-${{ env.UBUNTU_VERSION }}
+    runs-on: ${{ env.UBUNTU_VERSION }}
     timeout-minutes: 5
     permissions:
       packages: write
@@ -295,7 +293,7 @@ jobs:
     name: Stack Reporting
     needs: [stack-testing]
     if: ${{ !cancelled() && (needs.stack-testing.result == 'success' || needs.stack-testing.result == 'failure') }}
-    runs-on: ubuntu-${{ env.UBUNTU_VERSION }}
+    runs-on: ${{ env.UBUNTU_VERSION }}
     timeout-minutes: 5
     permissions:
       checks: write
