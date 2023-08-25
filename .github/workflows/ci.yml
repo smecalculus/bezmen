@@ -153,7 +153,7 @@ jobs:
           update-comment: true
 
   stack-compiling:
-    name: Stack Compiling (python-${{ matrix.python }}, ubuntu-${{ matrix.ubuntu }})
+    name: Stack Compiling (pref-${{ matrix.pref }}, usage-${{ matrix.usage }}, python-${{ matrix.python }}, ubuntu-${{ matrix.ubuntu }})
     needs:
       - tooling
       - sources
@@ -162,8 +162,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
+        pref: [turing, church]
         usage: [func]
-        prefs: [turing, church]
         python: ["3.9"]
         ubuntu: ["22.04"]
     runs-on: ubuntu-${{ matrix.ubuntu }}
@@ -184,24 +184,24 @@ jobs:
           -t compile
           -e docker_registry=${{ env.REGISTRY }}
           -e usage=${{ matrix.usage }}
-          -e prefs=${{ matrix.prefs }}
+          -e prefs=${{ matrix.pref }}
         working-directory: .dx
       - uses: actions/upload-artifact@v3.1.2
         with:
-          name: stack-${{ matrix.usage }}-${{ matrix.prefs }}
+          name: stack-${{ matrix.usage }}-${{ matrix.pref }}
           path: stacks/target/context
           if-no-files-found: error
 
   stack-testing:
-    name: Stack Testing (java-${{ matrix.java }}, python-${{ matrix.python }}, ubuntu-${{ matrix.ubuntu }})
+    name: Stack Testing (pref-${{ matrix.pref }}, usage-${{ matrix.usage }}, java-${{ matrix.java }}, python-${{ matrix.python }}, ubuntu-${{ matrix.ubuntu }})
     needs: [stack-compiling]
     timeout-minutes: 15
     strategy:
       fail-fast: false
       matrix:
-        usage: [func]
-        prefs: [turing, church]
         shard: [0, 1]
+        pref: [turing, church]
+        usage: [func]
         java: ["17.0"]
         python: ["3.9"]
         ubuntu: ["22.04"]
@@ -225,14 +225,14 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
       - uses: actions/download-artifact@v3.0.2
         with:
-          name: stack-${{ matrix.usage }}-${{ matrix.prefs }}
+          name: stack-${{ matrix.usage }}-${{ matrix.pref }}
           path: stacks/target/context
       - run: >
           ansible-playbook stack.yml
           -t test
           -e docker_registry=${{ env.REGISTRY }}
           -e usage=${{ matrix.usage }}
-          -e prefs=${{ matrix.prefs }}
+          -e prefs=${{ matrix.pref }}
           -e reminder=${{ matrix.shard }}
           -e modulus=2
         working-directory: .dx
@@ -242,18 +242,18 @@ jobs:
       - uses: actions/upload-artifact@v3.1.2
         if: ${{ !cancelled() }}
         with:
-          name: e2e-test-report-${{ matrix.usage }}-${{ matrix.prefs }}-${{ matrix.shard }}
+          name: e2e-test-report-${{ matrix.usage }}-${{ matrix.pref }}-${{ matrix.shard }}
           path: tests/e2e/target/surefire-reports/*.xml
 
   stack-packaging:
-    name: Stack Packaging (python-${{ matrix.python }}, ubuntu-${{ matrix.ubuntu }})
+    name: Stack Packaging (pref-${{ matrix.pref }}, usage-${{ matrix.usage }}, python-${{ matrix.python }}, ubuntu-${{ matrix.ubuntu }})
     needs: [stack-testing]
     timeout-minutes: 5
     strategy:
       fail-fast: false
       matrix:
+        pref: [turing, church]
         usage: [func]
-        prefs: [turing, church]
         python: ["3.9"]
         ubuntu: ["22.04"]
     runs-on: ubuntu-${{ matrix.ubuntu }}
@@ -273,14 +273,14 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
       - uses: actions/download-artifact@v3.0.2
         with:
-          name: stack-${{ matrix.usage }}-${{ matrix.prefs }}
+          name: stack-${{ matrix.usage }}-${{ matrix.pref }}
           path: stacks/target/context
       - run: >
           ansible-playbook stack.yml
           -t package
           -e docker_registry=${{ env.REGISTRY }}
           -e usage=${{ matrix.usage }}
-          -e prefs=${{ matrix.prefs }}
+          -e prefs=${{ matrix.pref }}
         working-directory: .dx
 
   pipeline-packaging:
