@@ -24,7 +24,7 @@ jobs:
     runs-on: ubuntu-${{ matrix.ubuntu }}
     timeout-minutes: 5
     steps:
-      - uses: actions/checkout@v3.5.3
+      - uses: actions/checkout@v3.6.0
       - uses: actions/setup-python@v4.7.0
         with:
           python-version: ${{ env.PYTHON }}
@@ -43,7 +43,7 @@ jobs:
     runs-on: ubuntu-${{ matrix.ubuntu }}
     timeout-minutes: 5
     steps:
-      - uses: actions/checkout@v3.5.3
+      - uses: actions/checkout@v3.6.0
       - uses: actions/setup-python@v4.7.0
         with:
           python-version: ${{ env.PYTHON }}
@@ -79,7 +79,7 @@ jobs:
       JACOCO_INTEGRATIONS: tools/target/coverage/integrations/jacoco.xml
       JACOCO_OVERALL: tools/target/coverage/overall/jacoco.xml
     steps:
-      - uses: actions/checkout@v3.5.3
+      - uses: actions/checkout@v3.6.0
       - uses: actions/setup-python@v4.7.0
         with:
           python-version: ${{ env.PYTHON }}
@@ -165,7 +165,7 @@ jobs:
     timeout-minutes: 5
     runs-on: ubuntu-${{ matrix.ubuntu }}
     steps:
-      - uses: actions/checkout@v3.5.3
+      - uses: actions/checkout@v3.6.0
       - uses: actions/setup-python@v4.7.0
         with:
           python-version: ${{ env.PYTHON }}
@@ -205,7 +205,7 @@ jobs:
     timeout-minutes: 15
     runs-on: ubuntu-${{ matrix.ubuntu }}
     steps:
-      - uses: actions/checkout@v3.5.3
+      - uses: actions/checkout@v3.6.0
       - uses: actions/setup-python@v4.7.0
         with:
           python-version: ${{ env.PYTHON }}
@@ -257,7 +257,7 @@ jobs:
     permissions:
       packages: write
     steps:
-      - uses: actions/checkout@v3.5.3
+      - uses: actions/checkout@v3.6.0
       - uses: actions/setup-python@v4.7.0
         with:
           python-version: ${{ env.PYTHON }}
@@ -291,7 +291,7 @@ jobs:
     permissions:
       packages: write
     steps:
-      - uses: actions/checkout@v3.5.3
+      - uses: actions/checkout@v3.6.0
       - uses: actions/setup-python@v4.7.0
         with:
           python-version: ${{ env.PYTHON }}
