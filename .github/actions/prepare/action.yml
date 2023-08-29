@@ -2,7 +2,6 @@ name: Prepare
 runs:
   using: "composite"
   steps:
-    - uses: actions/checkout@v3.5.3
     - id: dotenv
       uses: falti/dotenv-action@v1.0.4
     - uses: actions/setup-python@v4.7.0

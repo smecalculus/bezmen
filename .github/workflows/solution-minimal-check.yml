@@ -17,6 +17,7 @@ jobs:
     runs-on: ubuntu-22.04
     timeout-minutes: 5
     steps:
+      - uses: actions/checkout@v3.5.3
       - uses: ./.github/actions/prepare
       - run: >
           ansible-playbook tooling.yml
