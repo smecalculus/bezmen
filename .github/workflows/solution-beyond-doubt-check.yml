@@ -1,4 +1,4 @@
-name: CI
+name: Solution Beyond Doubt Check
 
 on:
   push:
