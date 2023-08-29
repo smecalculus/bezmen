@@ -1,4 +1,3 @@
-name: Prepare
 runs:
   using: "composite"
   steps:

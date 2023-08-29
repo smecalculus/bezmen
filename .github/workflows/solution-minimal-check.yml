@@ -18,7 +18,7 @@ jobs:
     timeout-minutes: 5
     steps:
       - uses: actions/checkout@v3.5.3
-      - uses: ./.github/actions/prepare
+      - uses: ${{ github.workspace }}/.github/actions/prepare
       - run: >
           ansible-playbook tooling.yml
         working-directory: .dx
