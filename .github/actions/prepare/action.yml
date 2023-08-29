@@ -9,3 +9,4 @@ runs:
         python-version: ${{ steps.dotenv.outputs.python_version }}
         cache: 'pip'
     - run: pip install -r requirements.txt
+      shell: bash
