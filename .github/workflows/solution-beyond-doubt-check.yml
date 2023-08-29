@@ -35,12 +35,11 @@ jobs:
         working-directory: .dx
 
   sources:
-    name: Sources (java:${{ matrix.java }}, ubuntu:${{ matrix.ubuntu }})
+    name: Sources (java:${{ matrix.java }})
     strategy:
       matrix:
         java: ["17.0"]
-        ubuntu: ["22.04"]
-    runs-on: ubuntu-${{ matrix.ubuntu }}
+    runs-on: ubuntu-22.04
     timeout-minutes: 5
     steps:
       - uses: actions/checkout@v3.6.0
@@ -156,14 +155,13 @@ jobs:
       matrix:
         usage: [func]
         pref: [turing, church]
-        ubuntu: ["22.04"]
-    name: Stack Compiling (usage:${{ matrix.usage }}, pref:${{ matrix.pref }}, ubuntu:${{ matrix.ubuntu }})
+    name: Stack Compiling (usage:${{ matrix.usage }}, pref:${{ matrix.pref }})
     needs:
       - tooling
       - sources
       - packages
     timeout-minutes: 5
-    runs-on: ubuntu-${{ matrix.ubuntu }}
+    runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v3.6.0
       - uses: actions/setup-python@v4.7.0
@@ -249,11 +247,10 @@ jobs:
       matrix:
         usage: [func]
         pref: [turing, church]
-        ubuntu: ["22.04"]
-    name: Stack Packaging (usage:${{ matrix.usage }}, pref:${{ matrix.pref }}, ubuntu:${{ matrix.ubuntu }})
+    name: Stack Packaging (usage:${{ matrix.usage }}, pref:${{ matrix.pref }})
     needs: [stack-testing]
     timeout-minutes: 5
-    runs-on: ubuntu-${{ matrix.ubuntu }}
+    runs-on: ubuntu-22.04
     permissions:
       packages: write
     steps:
@@ -281,12 +278,9 @@ jobs:
         working-directory: .dx
 
   pipeline-packaging:
-    name: Pipeline Packaging (ubuntu:${{ matrix.ubuntu }})
+    name: Pipeline Packaging
     needs: [stack-testing]
-    strategy:
-      matrix:
-        ubuntu: ["22.04"]
-    runs-on: ubuntu-${{ matrix.ubuntu }}
+    runs-on: ubuntu-22.04
     timeout-minutes: 5
     permissions:
       packages: write
@@ -308,13 +302,10 @@ jobs:
         working-directory: .dx
 
   stack-reporting:
-    name: Stack Reporting (ubuntu:${{ matrix.ubuntu }})
+    name: Stack Reporting
     needs: [stack-testing]
     if: ${{ !cancelled() && (needs.stack-testing.result == 'success' || needs.stack-testing.result == 'failure') }}
-    strategy:
-      matrix:
-        ubuntu: ["22.04"]
-    runs-on: ubuntu-${{ matrix.ubuntu }}
+    runs-on: ubuntu-22.04
     timeout-minutes: 5
     permissions:
       checks: write

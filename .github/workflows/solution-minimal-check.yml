@@ -1,0 +1,50 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+env:
+  REGISTRY: ghcr.io
+  PYTHON: "3.9"
+
+jobs:
+  tooling:
+    name: Tooling
+    runs-on: ubuntu-22.04
+    timeout-minutes: 5
+    steps:
+      - uses: ./.github/actions/prepare
+      - run: >
+          ansible-playbook tooling.yml
+        working-directory: .dx
+
+  sources:
+    name: Sources (java:${{ matrix.java }})
+    strategy:
+      matrix:
+        java: ["17.0"]
+    runs-on: ubuntu-22.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v3.5.3
+      - uses: actions/setup-python@v4.7.0
+        with:
+          python-version: ${{ env.PYTHON }}
+          cache: 'pip'
+      - run: pip install -r requirements.txt
+      - uses: actions/setup-java@v3.12.0
+        with:
+          distribution: 'temurin'
+          java-version: ${{ matrix.java }}
+          cache: 'maven'
+      - run: >
+          ansible-playbook sources.yml
+          -e docker_registry=${{ env.REGISTRY }}
+        working-directory: .dx
+        env:
+          GITHUB_ACTOR: ${{ github.actor }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
