@@ -13,7 +13,6 @@ concurrency:
 
 env:
   REGISTRY: ghcr.io
-  PYTHON: "3.9"
 
 jobs:
   sources:

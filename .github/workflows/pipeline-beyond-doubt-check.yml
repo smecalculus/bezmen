@@ -1,0 +1,114 @@
+name: Pipeline Beyond Doubt Check
+
+on:
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.ref_name }}
+  cancel-in-progress: false
+
+env:
+  REGISTRY: ghcr.io
+
+jobs:
+  sources:
+    name: Sources
+    runs-on: ubuntu-22.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v3.6.0
+      - uses: ./.github/actions/prepare
+        with:
+          tools: python java
+      - run: >
+          ansible-playbook sources.yml
+          --limit lib:app
+          -e docker_registry=${{ env.REGISTRY }}
+        working-directory: .dx
+
+  stack:
+    name: Stack
+    runs-on: ubuntu-22.04
+    timeout-minutes: 10
+    permissions:
+      checks: write
+      packages: write
+      pull-requests: write
+    env:
+      JACOCO_UNITS: tools/target/coverage/units/jacoco.xml
+      JACOCO_INTEGRATIONS: tools/target/coverage/integrations/jacoco.xml
+      JACOCO_OVERALL: tools/target/coverage/overall/jacoco.xml
+    steps:
+      - uses: actions/checkout@v3.6.0
+      - uses: ./.github/actions/prepare
+        with:
+          tools: python java docker
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - run: >
+          ansible-playbook stack.yml
+          -e docker_registry=${{ env.REGISTRY }}
+          -e usage=toy
+          -e prefs=turing
+        working-directory: .dx
+        env:
+          GITHUB_ACTOR: ${{ github.actor }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - uses: EnricoMi/publish-unit-test-result-action@v2.9.0
+        if: ${{ !cancelled() }}
+        with:
+          check_name: Unit Test Report
+          check_run_annotations: none
+          compare_to_earlier_commit: false
+          action_fail_on_inconclusive: true
+          action_fail: true
+          job_summary: false
+          comment_mode: off
+          files: |
+            libs/*/target/surefire-reports/TEST-*.xml
+            apps/*/target/surefire-reports/TEST-*.xml
+      - uses: EnricoMi/publish-unit-test-result-action@v2.9.0
+        if: ${{ !cancelled() }}
+        with:
+          check_name: Integration Test Report
+          check_run_annotations: none
+          compare_to_earlier_commit: false
+          action_fail_on_inconclusive: true
+          action_fail: true
+          job_summary: false
+          comment_mode: off
+          files: |
+            libs/*/target/failsafe-reports/TEST-*.xml
+            apps/*/target/failsafe-reports/TEST-*.xml
+      - uses: EnricoMi/publish-unit-test-result-action@v2.9.0
+        with:
+          check_name: E2E Test Report
+          check_run_annotations: none
+          compare_to_earlier_commit: false
+          action_fail_on_inconclusive: true
+          action_fail: true
+          job_summary: false
+          comment_mode: off
+          files: tests/e2e/target/surefire-reports/TEST-*.xml
+      - uses: madrapps/jacoco-report@v1.6
+        if: ${{ github.event_name == 'pull_request' && hashFiles(env.JACOCO_UNITS) != '' }}
+        with:
+          title: Unit Coverage Report
+          paths: ${{ env.JACOCO_UNITS }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+          update-comment: true
+      - uses: madrapps/jacoco-report@v1.6
+        if: ${{ github.event_name == 'pull_request' && hashFiles(env.JACOCO_INTEGRATIONS) != '' }}
+        with:
+          title: Integration Coverage Report
+          paths: ${{ env.JACOCO_INTEGRATIONS }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+          update-comment: true
+      - uses: madrapps/jacoco-report@v1.6
+        if: ${{ github.event_name == 'pull_request' && hashFiles(env.JACOCO_OVERALL) != '' }}
+        with:
+          title: Overall Coverage Report
+          paths: ${{ env.JACOCO_OVERALL }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+          update-comment: true
