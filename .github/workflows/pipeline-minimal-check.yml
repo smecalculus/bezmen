@@ -27,6 +27,7 @@ jobs:
       - uses: ./.github/actions/prepare
         with:
           revision: ${{ matrix.environment.tooling }}
+          tools: python java
       - run: >
           ansible-playbook sources.yml
           --limit dx:test

@@ -18,6 +18,8 @@ jobs:
     steps:
       - uses: actions/checkout@v3.5.3
       - uses: ./.github/actions/prepare
+        with:
+          tools: python java
       - run: >
           ansible-playbook sources.yml
           --limit lib:app

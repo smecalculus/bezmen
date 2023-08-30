@@ -2,6 +2,9 @@ inputs:
   revision:
     required: true
     default: latest
+  tools:
+    required: true
+    default: python
 runs:
   using: "composite"
   steps:
@@ -10,13 +13,22 @@ runs:
       with:
         path: .envs/${{ inputs.revision }}/.env
     - uses: actions/setup-python@v4.7.0
+      if: ${{ contains(inputs.tools, 'python') }}
       with:
         python-version: ${{ steps.dotenv.outputs.python_version }}
         cache: 'pip'
-    - run: pip install -r .envs/${{ inputs.revision }}/requirements.txt
-      shell: bash
+    - shell: bash
+      if: ${{ contains(inputs.tools, 'python') }}
+      run: pip install -r .envs/${{ inputs.revision }}/requirements.txt
     - uses: actions/setup-java@v3.12.0
+      if: ${{ contains(inputs.tools, 'java') }}
       with:
         distribution: 'temurin'
         java-version: ${{ steps.dotenv.outputs.java_version }}
         cache: 'maven'
+    - uses: docker/login-action@v2.2.0
+      if: ${{ contains(inputs.tools, 'docker') }}
+      with:
+        registry: ${{ env.REGISTRY }}
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}

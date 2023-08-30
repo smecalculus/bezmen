@@ -16,58 +16,22 @@ env:
   PYTHON: "3.9"
 
 jobs:
-  tooling:
-    name: Tooling (ubuntu:${{ matrix.ubuntu }})
-    strategy:
-      matrix:
-        ubuntu: ["22.04"]
-    runs-on: ubuntu-${{ matrix.ubuntu }}
-    timeout-minutes: 5
-    steps:
-      - uses: actions/checkout@v3.6.0
-      - uses: actions/setup-python@v4.7.0
-        with:
-          python-version: ${{ env.PYTHON }}
-          cache: 'pip'
-      - run: pip install -r requirements.txt
-      - run: >
-          ansible-playbook tooling.yml
-        working-directory: .dx
-
   sources:
-    name: Sources (java:${{ matrix.java }})
-    strategy:
-      matrix:
-        java: ["17.0"]
+    name: Sources
     runs-on: ubuntu-22.04
     timeout-minutes: 5
     steps:
       - uses: actions/checkout@v3.6.0
-      - uses: actions/setup-python@v4.7.0
-        with:
-          python-version: ${{ env.PYTHON }}
-          cache: 'pip'
-      - run: pip install -r requirements.txt
-      - uses: actions/setup-java@v3.12.0
-        with:
-          distribution: 'temurin'
-          java-version: ${{ matrix.java }}
-          cache: 'maven'
+      - uses: ./.github/actions/prepare
       - run: >
           ansible-playbook sources.yml
+          --limit lib:app
           -e docker_registry=${{ env.REGISTRY }}
         working-directory: .dx
-        env:
-          GITHUB_ACTOR: ${{ github.actor }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   packages:
-    name: Packages (java:${{ matrix.java }}, ubuntu:${{ matrix.ubuntu }})
-    strategy:
-      matrix:
-        java: ["17.0"]
-        ubuntu: ["22.04"]
-    runs-on: ubuntu-${{ matrix.ubuntu }}
+    name: Packages
+    runs-on: ubuntu-22.04
     timeout-minutes: 15
     permissions:
       checks: write
@@ -79,21 +43,9 @@ jobs:
       JACOCO_OVERALL: tools/target/coverage/overall/jacoco.xml
     steps:
       - uses: actions/checkout@v3.6.0
-      - uses: actions/setup-python@v4.7.0
+      - uses: ./.github/actions/prepare
         with:
-          python-version: ${{ env.PYTHON }}
-          cache: 'pip'
-      - run: pip install -r requirements.txt
-      - uses: actions/setup-java@v3.12.0
-        with:
-          distribution: 'temurin'
-          java-version: ${{ matrix.java }}
-          cache: 'maven'
-      - uses: docker/login-action@v2.2.0
-        with:
-          registry: ${{ env.REGISTRY }}
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+          tools: python java docker
       - run: >
           ansible-playbook images.yml
           -e docker_registry=${{ env.REGISTRY }}
@@ -164,16 +116,9 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v3.6.0
-      - uses: actions/setup-python@v4.7.0
+      - uses: ./.github/actions/prepare
         with:
-          python-version: ${{ env.PYTHON }}
-          cache: 'pip'
-      - run: pip install -r requirements.txt
-      - uses: docker/login-action@v2.2.0
-        with:
-          registry: ${{ env.REGISTRY }}
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+          tools: python docker
       - run: >
           ansible-playbook stack.yml
           -t compile
@@ -204,21 +149,9 @@ jobs:
     runs-on: ubuntu-${{ matrix.ubuntu }}
     steps:
       - uses: actions/checkout@v3.6.0
-      - uses: actions/setup-python@v4.7.0
+      - uses: ./.github/actions/prepare
         with:
-          python-version: ${{ env.PYTHON }}
-          cache: 'pip'
-      - run: pip install -r requirements.txt
-      - uses: actions/setup-java@v3.12.0
-        with:
-          distribution: 'temurin'
-          java-version: ${{ matrix.java }}
-          cache: 'maven'
-      - uses: docker/login-action@v2.2.0
-        with:
-          registry: ${{ env.REGISTRY }}
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+          tools: python java docker
       - uses: actions/download-artifact@v3.0.2
         with:
           name: stack-${{ matrix.usage }}-${{ matrix.pref }}
@@ -255,16 +188,9 @@ jobs:
       packages: write
     steps:
       - uses: actions/checkout@v3.6.0
-      - uses: actions/setup-python@v4.7.0
+      - uses: ./.github/actions/prepare
         with:
-          python-version: ${{ env.PYTHON }}
-          cache: 'pip'
-      - run: pip install -r requirements.txt
-      - uses: docker/login-action@v2.2.0
-        with:
-          registry: ${{ env.REGISTRY }}
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+          tools: python docker
       - uses: actions/download-artifact@v3.0.2
         with:
           name: stack-${{ matrix.usage }}-${{ matrix.pref }}
@@ -286,16 +212,9 @@ jobs:
       packages: write
     steps:
       - uses: actions/checkout@v3.6.0
-      - uses: actions/setup-python@v4.7.0
+      - uses: ./.github/actions/prepare
         with:
-          python-version: ${{ env.PYTHON }}
-          cache: 'pip'
-      - run: pip install -r requirements.txt
-      - uses: docker/login-action@v2.2.0
-        with:
-          registry: ${{ env.REGISTRY }}
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+          tools: python docker
       - run: >
           ansible-playbook pipeline.yml
           -e docker_registry=${{ env.REGISTRY }}
