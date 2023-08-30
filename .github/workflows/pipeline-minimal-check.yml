@@ -1,0 +1,32 @@
+name: Solution Minimal Check
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+env:
+  REGISTRY: ghcr.io
+
+jobs:
+  tooling:
+    name: Tooling
+    strategy:
+      matrix:
+        environment:
+          - os: ubuntu-22.04
+            tooling: latest
+          - os: ubuntu-20.04
+            tooling: previous
+    runs-on: ${{ matrix.environment.os }}
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v3.5.3
+      - uses: ./.github/actions/prepare
+        with:
+          revision: ${{ matrix.environment.tooling }}
+      - run: >
+          ansible-playbook tooling.yml
+        working-directory: .dx

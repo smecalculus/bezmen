@@ -1,11 +1,17 @@
+inputs:
+  revision:
+    required: true
+    default: latest
 runs:
   using: "composite"
   steps:
     - id: dotenv
       uses: falti/dotenv-action@v1.0.4
+      with:
+        path: .envs/${{ inputs.revision }}/.env
     - uses: actions/setup-python@v4.7.0
       with:
         python-version: ${{ steps.dotenv.outputs.python_version }}
         cache: 'pip'
-    - run: pip install -r requirements.txt
+    - run: pip install -r .envs/${{ inputs.revision }}/requirements.txt
       shell: bash
