@@ -9,20 +9,8 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  PYTHON: "3.9"
 
 jobs:
-  tooling:
-    name: Tooling
-    runs-on: ubuntu-22.04
-    timeout-minutes: 5
-    steps:
-      - uses: actions/checkout@v3.5.3
-      - uses: ./.github/actions/prepare
-      - run: >
-          ansible-playbook tooling.yml
-        working-directory: .dx
-
   sources:
     name: Sources
     runs-on: ubuntu-22.04
@@ -35,6 +23,3 @@ jobs:
           --limit lib:app
           -e docker_registry=${{ env.REGISTRY }}
         working-directory: .dx
-        env:
-          GITHUB_ACTOR: ${{ github.actor }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
