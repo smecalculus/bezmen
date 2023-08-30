@@ -2,9 +2,9 @@ name: Solution Beyond Doubt Check
 
 on:
   push:
-    branches: [foo]
+    branches: [main]
   pull_request:
-    branches: [foo]
+    branches: [main]
   workflow_dispatch:
 
 concurrency:
@@ -25,8 +25,7 @@ jobs:
         with:
           tools: python java
       - run: >
-          ansible-playbook sources.yml
-          --limit lib:app
+          ansible-playbook sources.yml -l lib:app
           -e docker_registry=${{ env.REGISTRY }}
         working-directory: .dx
 
@@ -123,8 +122,7 @@ jobs:
           tools: python docker
           token: ${{ secrets.GITHUB_TOKEN }}
       - run: >
-          ansible-playbook stack.yml
-          -t compile
+          ansible-playbook stack.yml -t compile
           -e docker_registry=${{ env.REGISTRY }}
           -e usage=${{ matrix.usage }}
           -e prefs=${{ matrix.pref }}
@@ -142,11 +140,7 @@ jobs:
         usage: [func]
         pref: [turing, church]
         shard: [0, 1]
-        java: ["17.0"]
-        ubuntu: ["22.04"]
-    name: >
-      Stack Testing (usage:${{ matrix.usage }}, pref:${{ matrix.pref }}, shard:${{ matrix.shard }},
-        java:${{ matrix.java }}, ubuntu:${{ matrix.ubuntu }})
+    name: Stack Testing (usage:${{ matrix.usage }}, pref:${{ matrix.pref }}, shard:${{ matrix.shard }})
     needs: [stack-compiling]
     timeout-minutes: 15
     runs-on: ubuntu-${{ matrix.ubuntu }}
@@ -161,8 +155,7 @@ jobs:
           name: stack-${{ matrix.usage }}-${{ matrix.pref }}
           path: stacks/target/context
       - run: >
-          ansible-playbook stack.yml
-          -t test
+          ansible-playbook stack.yml -t test
           -e docker_registry=${{ env.REGISTRY }}
           -e usage=${{ matrix.usage }}
           -e prefs=${{ matrix.pref }}
@@ -201,8 +194,7 @@ jobs:
           name: stack-${{ matrix.usage }}-${{ matrix.pref }}
           path: stacks/target/context
       - run: >
-          ansible-playbook stack.yml
-          -t package
+          ansible-playbook stack.yml -t package
           -e docker_registry=${{ env.REGISTRY }}
           -e usage=${{ matrix.usage }}
           -e prefs=${{ matrix.pref }}

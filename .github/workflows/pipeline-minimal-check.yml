@@ -1,10 +1,7 @@
 name: Pipeline Minimal Check
 
 on:
-  push:
-    branches: [main]
   pull_request:
-    branches: [main]
   workflow_dispatch:
 
 env:
@@ -12,7 +9,7 @@ env:
 
 jobs:
   sources:
-    name: Sources (tooling:${{ matrix.environment.tooling }})
+    name: Sources (env:${{ matrix.environment.tooling }})
     strategy:
       matrix:
         environment:
@@ -23,13 +20,12 @@ jobs:
     runs-on: ${{ matrix.environment.os }}
     timeout-minutes: 5
     steps:
-      - uses: actions/checkout@v3.5.3
+      - uses: actions/checkout@v3.6.0
       - uses: ./.github/actions/prepare
         with:
           revision: ${{ matrix.environment.tooling }}
           tools: python java
       - run: >
-          ansible-playbook sources.yml
-          --limit dx:test
+          ansible-playbook sources.yml -l dx:test
           -e docker_registry=${{ env.REGISTRY }}
         working-directory: .dx

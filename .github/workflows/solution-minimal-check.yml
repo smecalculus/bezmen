@@ -1,10 +1,8 @@
 name: Solution Minimal Check
 
 on:
-  push:
-    branches: [main]
   pull_request:
-    branches: [main]
+    branches-ignore: [main]
   workflow_dispatch:
 
 env:
@@ -21,7 +19,6 @@ jobs:
         with:
           tools: python java
       - run: >
-          ansible-playbook sources.yml
-          --limit lib:app
+          ansible-playbook sources.yml -l lib:app
           -e docker_registry=${{ env.REGISTRY }}
         working-directory: .dx
