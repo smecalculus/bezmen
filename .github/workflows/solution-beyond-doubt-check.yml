@@ -23,6 +23,8 @@ jobs:
     steps:
       - uses: actions/checkout@v3.6.0
       - uses: ./.github/actions/prepare
+        with:
+          tools: python java
       - run: >
           ansible-playbook sources.yml
           --limit lib:app
@@ -46,6 +48,7 @@ jobs:
       - uses: ./.github/actions/prepare
         with:
           tools: python java docker
+          token: ${{ secrets.GITHUB_TOKEN }}
       - run: >
           ansible-playbook images.yml
           -e docker_registry=${{ env.REGISTRY }}
@@ -119,6 +122,7 @@ jobs:
       - uses: ./.github/actions/prepare
         with:
           tools: python docker
+          token: ${{ secrets.GITHUB_TOKEN }}
       - run: >
           ansible-playbook stack.yml
           -t compile
@@ -152,6 +156,7 @@ jobs:
       - uses: ./.github/actions/prepare
         with:
           tools: python java docker
+          token: ${{ secrets.GITHUB_TOKEN }}
       - uses: actions/download-artifact@v3.0.2
         with:
           name: stack-${{ matrix.usage }}-${{ matrix.pref }}
@@ -191,6 +196,7 @@ jobs:
       - uses: ./.github/actions/prepare
         with:
           tools: python docker
+          token: ${{ secrets.GITHUB_TOKEN }}
       - uses: actions/download-artifact@v3.0.2
         with:
           name: stack-${{ matrix.usage }}-${{ matrix.pref }}
@@ -215,6 +221,7 @@ jobs:
       - uses: ./.github/actions/prepare
         with:
           tools: python docker
+          token: ${{ secrets.GITHUB_TOKEN }}
       - run: >
           ansible-playbook pipeline.yml
           -e docker_registry=${{ env.REGISTRY }}
