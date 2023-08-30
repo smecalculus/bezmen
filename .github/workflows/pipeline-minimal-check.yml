@@ -1,4 +1,4 @@
-name: Solution Minimal Check
+name: Pipeline Minimal Check
 
 on:
   push:
@@ -11,8 +11,8 @@ env:
   REGISTRY: ghcr.io
 
 jobs:
-  tooling:
-    name: Tooling
+  sources:
+    name: Sources
     strategy:
       matrix:
         environment:
@@ -28,5 +28,7 @@ jobs:
         with:
           revision: ${{ matrix.environment.tooling }}
       - run: >
-          ansible-playbook tooling.yml
+          ansible-playbook sources.yml
+          --limit dx:test
+          -e docker_registry=${{ env.REGISTRY }}
         working-directory: .dx
