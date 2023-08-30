@@ -125,6 +125,7 @@ jobs:
           -e docker_registry=${{ env.REGISTRY }}
           -e usage=${{ matrix.usage }}
           -e prefs=${{ matrix.pref }}
+          -e env=green
         working-directory: .dx
       - uses: actions/upload-artifact@v3.1.2
         with:
@@ -160,6 +161,7 @@ jobs:
           -e prefs=${{ matrix.pref }}
           -e reminder=${{ matrix.shard }}
           -e modulus=2
+          -e env=green
         working-directory: .dx
         env:
           GITHUB_ACTOR: ${{ github.actor }}
@@ -197,6 +199,7 @@ jobs:
           -e docker_registry=${{ env.REGISTRY }}
           -e usage=${{ matrix.usage }}
           -e prefs=${{ matrix.pref }}
+          -e env=green
         working-directory: .dx
 
   stack-reporting:

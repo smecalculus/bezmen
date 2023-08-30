@@ -36,6 +36,7 @@ jobs:
           -e docker_registry=${{ env.REGISTRY }}
           -e usage=toy
           -e prefs=turing
+          -e env=${{ matrix.environment.name }}
         working-directory: .dx
         env:
           GITHUB_ACTOR: ${{ github.actor }}
