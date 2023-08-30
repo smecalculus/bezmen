@@ -9,30 +9,26 @@ env:
   REGISTRY: ghcr.io
 
 jobs:
-  stack:
-    name: Stack (${{ matrix.environment.tooling }} env)
+  pipeline:
+    name: Pipeline in ${{ matrix.environment.name }} env
     strategy:
       matrix:
         environment:
-          - os: ubuntu-22.04
-            tooling: latest
-          - os: ubuntu-20.04
-            tooling: previous
+          - name: green
+            os: ubuntu-22.04
+          - name: amber
+            os: ubuntu-20.04
     runs-on: ${{ matrix.environment.os }}
     timeout-minutes: 10
     permissions:
       checks: write
       packages: write
       pull-requests: write
-    env:
-      JACOCO_UNITS: tools/target/coverage/units/jacoco.xml
-      JACOCO_INTEGRATIONS: tools/target/coverage/integrations/jacoco.xml
-      JACOCO_OVERALL: tools/target/coverage/overall/jacoco.xml
     steps:
       - uses: actions/checkout@v3.6.0
       - uses: ./.github/actions/prepare
         with:
-          revision: ${{ matrix.environment.tooling }}
+          name: ${{ matrix.environment.name }}
           tools: python java docker
           token: ${{ secrets.GITHUB_TOKEN }}
       - run: >
@@ -44,3 +40,8 @@ jobs:
         env:
           GITHUB_ACTOR: ${{ github.actor }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - run: >
+          ansible-playbook pipeline.yml
+          -e docker_registry=${{ env.REGISTRY }}
+          -e env=${{ matrix.environment.name }}
+        working-directory: .dx

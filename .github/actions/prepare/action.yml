@@ -1,5 +1,5 @@
 inputs:
-  revision:
+  name:
     required: true
     default: latest
   tools:
@@ -12,7 +12,7 @@ runs:
     - id: dotenv
       uses: falti/dotenv-action@v1.0.4
       with:
-        path: .envs/${{ inputs.revision }}/.env
+        path: .env/${{ inputs.name }}/.env
     - uses: actions/setup-python@v4.7.0
       if: ${{ contains(inputs.tools, 'python') }}
       with:
@@ -20,7 +20,7 @@ runs:
         cache: 'pip'
     - shell: bash
       if: ${{ contains(inputs.tools, 'python') }}
-      run: pip install -r .envs/${{ inputs.revision }}/requirements.txt
+      run: pip install -r .env/${{ inputs.name }}/requirements.txt
     - uses: actions/setup-java@v3.12.0
       if: ${{ contains(inputs.tools, 'java') }}
       with:

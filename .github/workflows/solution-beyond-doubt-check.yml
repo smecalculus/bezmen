@@ -142,7 +142,7 @@ jobs:
     name: Stack Testing
     needs: [stack-compiling]
     timeout-minutes: 15
-    runs-on: ubuntu-${{ matrix.ubuntu }}
+    runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v3.6.0
       - uses: ./.github/actions/prepare
@@ -197,24 +197,6 @@ jobs:
           -e docker_registry=${{ env.REGISTRY }}
           -e usage=${{ matrix.usage }}
           -e prefs=${{ matrix.pref }}
-        working-directory: .dx
-
-  pipeline-packaging:
-    name: Pipeline Packaging
-    needs: [stack-testing]
-    runs-on: ubuntu-22.04
-    timeout-minutes: 5
-    permissions:
-      packages: write
-    steps:
-      - uses: actions/checkout@v3.6.0
-      - uses: ./.github/actions/prepare
-        with:
-          tools: python docker
-          token: ${{ secrets.GITHUB_TOKEN }}
-      - run: >
-          ansible-playbook pipeline.yml
-          -e docker_registry=${{ env.REGISTRY }}
         working-directory: .dx
 
   stack-reporting:

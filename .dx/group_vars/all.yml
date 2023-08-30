@@ -4,8 +4,9 @@ lib_cid: "{{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=libs')[:7] 
 app_cid: "{{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=apps')[:7] }}"
 stack_cid: "{{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=stacks')[:7] }}"
 
-test_cid: "{{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=tests')[:7] }}"
 dx_cid: "{{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=.dx')[:7] }}"
+env_cid: "{{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=.env/' ~ env)[:7] }}"
+test_cid: "{{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=tests')[:7] }}"
 
 lib_version: 0.1.0-{{ lib_cid }}
 app_version: 0.1.0-{{ app_cid }}
