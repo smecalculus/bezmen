@@ -108,7 +108,7 @@ jobs:
       matrix:
         usage: [func]
         pref: [turing, church]
-    name: Stack Compiling (usage:${{ matrix.usage }}, pref:${{ matrix.pref }})
+    name: Stack Compiling
     needs:
       - sources
       - packages
@@ -139,7 +139,7 @@ jobs:
         usage: [func]
         pref: [turing, church]
         shard: [0, 1]
-    name: Stack Testing (usage:${{ matrix.usage }}, pref:${{ matrix.pref }}, shard:${{ matrix.shard }})
+    name: Stack Testing
     needs: [stack-compiling]
     timeout-minutes: 15
     runs-on: ubuntu-${{ matrix.ubuntu }}
@@ -176,7 +176,7 @@ jobs:
       matrix:
         usage: [func]
         pref: [turing, church]
-    name: Stack Packaging (usage:${{ matrix.usage }}, pref:${{ matrix.pref }})
+    name: Stack Packaging
     needs: [stack-testing]
     timeout-minutes: 5
     runs-on: ubuntu-22.04

@@ -9,7 +9,7 @@ env:
 
 jobs:
   sources:
-    name: Sources (env:${{ matrix.environment.tooling }})
+    name: Sources (${{ matrix.environment.tooling }} env)
     strategy:
       matrix:
         environment:
