@@ -110,7 +110,6 @@ jobs:
         pref: [turing, church]
     name: Stack Compiling (usage:${{ matrix.usage }}, pref:${{ matrix.pref }})
     needs:
-      - tooling
       - sources
       - packages
     timeout-minutes: 5

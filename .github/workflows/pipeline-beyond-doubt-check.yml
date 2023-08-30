@@ -11,7 +11,6 @@ env:
 jobs:
   stack:
     name: Stack (env:${{ matrix.environment.tooling }})
-    needs: [sources]
     strategy:
       matrix:
         environment:
