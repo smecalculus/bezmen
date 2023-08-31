@@ -3,12 +3,12 @@ name: Solution Minimal
 on:
   pull_request:
     branches-ignore: [main]
-    paths:
-      - "libs/**"
-      - "apps/**"
-      - "schemas/**"
-      - "stacks/**"
-      - "tests/**"
+    paths: # waiting for https://github.com/actions/runner/issues/2324
+      - libs/**
+      - apps/**
+      - schemas/**
+      - stacks/**
+      - tests/**
   workflow_dispatch:
 
 env:

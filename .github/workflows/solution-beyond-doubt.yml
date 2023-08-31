@@ -5,12 +5,12 @@ on:
     branches: [main]
   pull_request:
     branches: [main]
-    paths:
-      - "libs/**"
-      - "apps/**"
-      - "schemas/**"
-      - "stacks/**"
-      - "tests/**"
+    paths: # waiting for https://github.com/actions/runner/issues/2324
+      - libs/**
+      - apps/**
+      - schemas/**
+      - stacks/**
+      - tests/**
   workflow_dispatch:
 
 concurrency:
@@ -131,7 +131,6 @@ jobs:
           -e docker_registry=${{ env.REGISTRY }}
           -e usage=${{ matrix.usage }}
           -e prefs=${{ matrix.pref }}
-          -e env=green
         working-directory: .dx
       - uses: actions/upload-artifact@v3.1.2
         with:
@@ -167,7 +166,6 @@ jobs:
           -e prefs=${{ matrix.pref }}
           -e reminder=${{ matrix.shard }}
           -e modulus=2
-          -e env=green
         working-directory: .dx
         env:
           GITHUB_ACTOR: ${{ github.actor }}
@@ -205,26 +203,6 @@ jobs:
           -e docker_registry=${{ env.REGISTRY }}
           -e usage=${{ matrix.usage }}
           -e prefs=${{ matrix.pref }}
-          -e env=green
-        working-directory: .dx
-
-  pipeline-packaging:
-    name: Pipeline Packaging
-    needs: [stack-testing]
-    runs-on: ubuntu-22.04
-    timeout-minutes: 5
-    permissions:
-      packages: write
-    steps:
-      - uses: actions/checkout@v3.6.0
-      - uses: ./.github/actions/prepare
-        with:
-          tools: python docker
-          token: ${{ secrets.GITHUB_TOKEN }}
-      - run: >
-          ansible-playbook pipeline.yml
-          -e docker_registry=${{ env.REGISTRY }}
-          -e env=green
         working-directory: .dx
 
   stack-reporting:
