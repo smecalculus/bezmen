@@ -1,4 +1,4 @@
-name: Pipeline Beyond Doubt
+name: Pipeline beyond doubt
 
 on:
   pull_request:
@@ -17,6 +17,7 @@ jobs:
   pipeline:
     name: Pipeline in ${{ matrix.environment.name }} env
     strategy:
+      fail-fast: false
       matrix:
         environment:
           - name: green
