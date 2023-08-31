@@ -3,6 +3,11 @@ name: Pipeline Beyond Doubt Check
 on:
   pull_request:
     branches: [main]
+    paths:
+      - ".dx/**"
+      - ".env/**"
+      - ".github/**"
+      - "tools/**"
   workflow_dispatch:
 
 env:
@@ -31,6 +36,10 @@ jobs:
           name: ${{ matrix.environment.name }}
           tools: python java docker
           token: ${{ secrets.GITHUB_TOKEN }}
+      - run: >
+          ansible-playbook sources.yml -l dx:test
+          -e docker_registry=${{ env.REGISTRY }}
+        working-directory: .dx
       - run: >
           ansible-playbook stack.yml
           -e docker_registry=${{ env.REGISTRY }}

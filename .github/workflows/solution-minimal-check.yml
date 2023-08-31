@@ -3,6 +3,12 @@ name: Solution Minimal Check
 on:
   pull_request:
     branches-ignore: [main]
+    paths:
+      - "libs/**"
+      - "apps/**"
+      - "schemas/**"
+      - "stacks/**"
+      - "tests/**"
   workflow_dispatch:
 
 env:

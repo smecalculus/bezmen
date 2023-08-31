@@ -2,6 +2,12 @@ name: Pipeline Minimal Check
 
 on:
   pull_request:
+    branches-ignore: [main]
+    paths:
+      - ".dx/**"
+      - ".env/**"
+      - ".github/**"
+      - "tools/**"
   workflow_dispatch:
 
 env:

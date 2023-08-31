@@ -5,6 +5,12 @@ on:
     branches: [main]
   pull_request:
     branches: [main]
+    paths:
+      - "libs/**"
+      - "apps/**"
+      - "schemas/**"
+      - "stacks/**"
+      - "tests/**"
   workflow_dispatch:
 
 concurrency:
