@@ -15,21 +15,21 @@ env:
 
 jobs:
   sources:
-    name: Sources (${{ matrix.environment.tooling }} env)
+    name: Sources with ${{ matrix.environment.name }} env
     strategy:
       matrix:
         environment:
-          - os: ubuntu-22.04
-            tooling: latest
-          - os: ubuntu-20.04
-            tooling: previous
+          - name: green
+            os: ubuntu-22.04
+          - name: amber
+            os: ubuntu-20.04
     runs-on: ${{ matrix.environment.os }}
     timeout-minutes: 5
     steps:
       - uses: actions/checkout@v3.6.0
       - uses: ./.github/actions/prepare
         with:
-          revision: ${{ matrix.environment.tooling }}
+          revision: ${{ matrix.environment.name }}
           tools: python java
       - run: >
           ansible-playbook sources.yml -l dx:test
