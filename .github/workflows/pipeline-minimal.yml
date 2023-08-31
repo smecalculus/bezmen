@@ -1,4 +1,4 @@
-name: Pipeline Minimal Check
+name: Pipeline Minimal
 
 on:
   pull_request:

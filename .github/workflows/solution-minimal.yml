@@ -1,4 +1,4 @@
-name: Solution Minimal Check
+name: Solution Minimal
 
 on:
   pull_request:

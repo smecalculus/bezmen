@@ -1,4 +1,4 @@
-name: Pipeline Beyond Doubt Check
+name: Pipeline Beyond Doubt
 
 on:
   pull_request:
