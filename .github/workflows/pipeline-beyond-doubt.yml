@@ -42,6 +42,7 @@ jobs:
         working-directory: .dx
       - run: >
           ansible-playbook stack.yml
+          --skip-tags package
           -e docker_registry=${{ env.REGISTRY }}
           -e usage=toy
           -e prefs=turing
