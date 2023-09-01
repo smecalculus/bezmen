@@ -1,0 +1,30 @@
+name: Solution minimal
+
+on:
+  pull_request:
+    branches-ignore: [main]
+    paths: # waiting for https://github.com/actions/runner/issues/2324
+      - libs/**
+      - apps/**
+      - schemas/**
+      - stacks/**
+      - tests/**
+  workflow_dispatch:
+
+env:
+  REGISTRY: ghcr.io
+
+jobs:
+  sources:
+    name: Sources
+    runs-on: ubuntu-22.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v3.5.3
+      - uses: ./.github/actions/prepare
+        with:
+          tools: python java
+      - run: >
+          ansible-playbook sources.yml -l lib:app
+          -e docker_registry=${{ env.REGISTRY }}
+        working-directory: .dx

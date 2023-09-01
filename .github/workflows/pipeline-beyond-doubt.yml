@@ -1,0 +1,60 @@
+name: Pipeline beyond doubt
+
+on:
+  pull_request:
+    branches: [main]
+    paths: # waiting for https://github.com/actions/runner/issues/2324
+      - .dx/**
+      - .env/**
+      - .github/**
+      - tools/**
+  workflow_dispatch:
+
+env:
+  REGISTRY: ghcr.io
+
+jobs:
+  pipeline:
+    name: Pipeline in ${{ matrix.environment.name }} env
+    strategy:
+      fail-fast: false
+      matrix:
+        environment:
+          - name: green
+            os: ubuntu-22.04
+          - name: amber
+            os: ubuntu-20.04
+    runs-on: ${{ matrix.environment.os }}
+    timeout-minutes: 10
+    permissions:
+      checks: write
+      packages: write
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v3.6.0
+      - uses: ./.github/actions/prepare
+        with:
+          name: ${{ matrix.environment.name }}
+          tools: python java docker
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - run: >
+          ansible-playbook sources.yml -l dx:test
+          -e docker_registry=${{ env.REGISTRY }}
+        working-directory: .dx
+      - run: >
+          ansible-playbook stack.yml
+          --skip-tags package
+          -e env_name=${{ matrix.environment.name }}
+          -e docker_registry=${{ env.REGISTRY }}
+          -e capture_stack=false
+          -e usage=toy
+          -e prefs=turing
+        working-directory: .dx
+        env:
+          GITHUB_ACTOR: ${{ github.actor }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - run: >
+          ansible-playbook pipeline.yml
+          -e env_name=${{ matrix.environment.name }}
+          -e docker_registry=${{ env.REGISTRY }}
+        working-directory: .dx

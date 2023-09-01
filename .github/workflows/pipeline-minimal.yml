@@ -1,0 +1,37 @@
+name: Pipeline minimal
+
+on:
+  pull_request:
+    branches-ignore: [main]
+    paths: # waiting for https://github.com/actions/runner/issues/2324
+      - .dx/**
+      - .env/**
+      - .github/**
+      - tools/**
+  workflow_dispatch:
+
+env:
+  REGISTRY: ghcr.io
+
+jobs:
+  sources:
+    name: Sources with ${{ matrix.environment.name }} env
+    strategy:
+      matrix:
+        environment:
+          - name: green
+            os: ubuntu-22.04
+          - name: amber
+            os: ubuntu-20.04
+    runs-on: ${{ matrix.environment.os }}
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v3.6.0
+      - uses: ./.github/actions/prepare
+        with:
+          revision: ${{ matrix.environment.name }}
+          tools: python java
+      - run: >
+          ansible-playbook sources.yml -l dx:test
+          -e docker_registry=${{ env.REGISTRY }}
+        working-directory: .dx

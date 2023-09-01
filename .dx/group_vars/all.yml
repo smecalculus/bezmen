@@ -1,17 +1,20 @@
 ---
+env_name: green
+
 schema_cid: "{{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=schemas')[:7] }}"
 lib_cid: "{{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=libs')[:7] }}"
 app_cid: "{{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=apps')[:7] }}"
 stack_cid: "{{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=stacks')[:7] }}"
 
-test_cid: "{{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=tests')[:7] }}"
 dx_cid: "{{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=.dx')[:7] }}"
-
-lib_version: 0.1.0-{{ lib_cid }}
-app_version: 0.1.0-{{ app_cid }}
+env_cid: "{{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=.env/' ~ env_name)[:7] }}"
+test_cid: "{{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=tests')[:7] }}"
 
 usage: toy
 prefs: turing
+
+lib_version: 0.1.0-{{ lib_cid }}
+app_version: 0.1.0-{{ app_cid }}
 
 docker_registry: localhost
 docker_repo: smecalculus
@@ -28,3 +31,6 @@ app_images:
   foo: "{{ docker_registry }}/{{ docker_repo }}/app-foo"
 stack_image: "{{ docker_registry }}/{{ docker_repo }}/stack-{{ usage }}-{{ prefs }}"
 pipeline_image: "{{ docker_registry }}/{{ docker_repo }}/pipeline"
+
+capture_stack: true
+capture_pipeline: true

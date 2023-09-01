@@ -1,10 +1,16 @@
-name: CI
+name: Solution beyond doubt
 
 on:
   push:
     branches: [main]
   pull_request:
     branches: [main]
+    paths: # waiting for https://github.com/actions/runner/issues/2324
+      - libs/**
+      - apps/**
+      - schemas/**
+      - stacks/**
+      - tests/**
   workflow_dispatch:
 
 concurrency:
@@ -13,62 +19,25 @@ concurrency:
 
 env:
   REGISTRY: ghcr.io
-  PYTHON: "3.9"
 
 jobs:
-  tooling:
-    name: Tooling (ubuntu:${{ matrix.ubuntu }})
-    strategy:
-      matrix:
-        ubuntu: ["22.04"]
-    runs-on: ubuntu-${{ matrix.ubuntu }}
-    timeout-minutes: 5
-    steps:
-      - uses: actions/checkout@v3.6.0
-      - uses: actions/setup-python@v4.7.0
-        with:
-          python-version: ${{ env.PYTHON }}
-          cache: 'pip'
-      - run: pip install -r requirements.txt
-      - run: >
-          ansible-playbook tooling.yml
-        working-directory: .dx
-
   sources:
-    name: Sources (java:${{ matrix.java }}, ubuntu:${{ matrix.ubuntu }})
-    strategy:
-      matrix:
-        java: ["17.0"]
-        ubuntu: ["22.04"]
-    runs-on: ubuntu-${{ matrix.ubuntu }}
+    name: Sources
+    runs-on: ubuntu-22.04
     timeout-minutes: 5
     steps:
       - uses: actions/checkout@v3.6.0
-      - uses: actions/setup-python@v4.7.0
+      - uses: ./.github/actions/prepare
         with:
-          python-version: ${{ env.PYTHON }}
-          cache: 'pip'
-      - run: pip install -r requirements.txt
-      - uses: actions/setup-java@v3.12.0
-        with:
-          distribution: 'temurin'
-          java-version: ${{ matrix.java }}
-          cache: 'maven'
+          tools: python java
       - run: >
-          ansible-playbook sources.yml
+          ansible-playbook sources.yml -l lib:app
           -e docker_registry=${{ env.REGISTRY }}
         working-directory: .dx
-        env:
-          GITHUB_ACTOR: ${{ github.actor }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   packages:
-    name: Packages (java:${{ matrix.java }}, ubuntu:${{ matrix.ubuntu }})
-    strategy:
-      matrix:
-        java: ["17.0"]
-        ubuntu: ["22.04"]
-    runs-on: ubuntu-${{ matrix.ubuntu }}
+    name: Packages
+    runs-on: ubuntu-22.04
     timeout-minutes: 15
     permissions:
       checks: write
@@ -80,21 +49,10 @@ jobs:
       JACOCO_OVERALL: tools/target/coverage/overall/jacoco.xml
     steps:
       - uses: actions/checkout@v3.6.0
-      - uses: actions/setup-python@v4.7.0
+      - uses: ./.github/actions/prepare
         with:
-          python-version: ${{ env.PYTHON }}
-          cache: 'pip'
-      - run: pip install -r requirements.txt
-      - uses: actions/setup-java@v3.12.0
-        with:
-          distribution: 'temurin'
-          java-version: ${{ matrix.java }}
-          cache: 'maven'
-      - uses: docker/login-action@v2.2.0
-        with:
-          registry: ${{ env.REGISTRY }}
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+          tools: python java docker
+          token: ${{ secrets.GITHUB_TOKEN }}
       - run: >
           ansible-playbook images.yml
           -e docker_registry=${{ env.REGISTRY }}
@@ -156,29 +114,20 @@ jobs:
       matrix:
         usage: [func]
         pref: [turing, church]
-        ubuntu: ["22.04"]
-    name: Stack Compiling (usage:${{ matrix.usage }}, pref:${{ matrix.pref }}, ubuntu:${{ matrix.ubuntu }})
+    name: Stack Compiling
     needs:
-      - tooling
       - sources
       - packages
     timeout-minutes: 5
-    runs-on: ubuntu-${{ matrix.ubuntu }}
+    runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v3.6.0
-      - uses: actions/setup-python@v4.7.0
+      - uses: ./.github/actions/prepare
         with:
-          python-version: ${{ env.PYTHON }}
-          cache: 'pip'
-      - run: pip install -r requirements.txt
-      - uses: docker/login-action@v2.2.0
-        with:
-          registry: ${{ env.REGISTRY }}
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+          tools: python docker
+          token: ${{ secrets.GITHUB_TOKEN }}
       - run: >
-          ansible-playbook stack.yml
-          -t compile
+          ansible-playbook stack.yml -t compile
           -e docker_registry=${{ env.REGISTRY }}
           -e usage=${{ matrix.usage }}
           -e prefs=${{ matrix.pref }}
@@ -196,39 +145,24 @@ jobs:
         usage: [func]
         pref: [turing, church]
         shard: [0, 1]
-        java: ["17.0"]
-        ubuntu: ["22.04"]
-    name: >
-      Stack Testing (usage:${{ matrix.usage }}, pref:${{ matrix.pref }}, shard:${{ matrix.shard }},
-        java:${{ matrix.java }}, ubuntu:${{ matrix.ubuntu }})
+    name: Stack Testing
     needs: [stack-compiling]
     timeout-minutes: 15
-    runs-on: ubuntu-${{ matrix.ubuntu }}
+    runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v3.6.0
-      - uses: actions/setup-python@v4.7.0
+      - uses: ./.github/actions/prepare
         with:
-          python-version: ${{ env.PYTHON }}
-          cache: 'pip'
-      - run: pip install -r requirements.txt
-      - uses: actions/setup-java@v3.12.0
-        with:
-          distribution: 'temurin'
-          java-version: ${{ matrix.java }}
-          cache: 'maven'
-      - uses: docker/login-action@v2.2.0
-        with:
-          registry: ${{ env.REGISTRY }}
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+          tools: python java docker
+          token: ${{ secrets.GITHUB_TOKEN }}
       - uses: actions/download-artifact@v3.0.2
         with:
           name: stack-${{ matrix.usage }}-${{ matrix.pref }}
           path: stacks/target/context
       - run: >
-          ansible-playbook stack.yml
-          -t test
+          ansible-playbook stack.yml -t test
           -e docker_registry=${{ env.REGISTRY }}
+          -e capture_pipeline=false
           -e usage=${{ matrix.usage }}
           -e prefs=${{ matrix.pref }}
           -e reminder=${{ matrix.shard }}
@@ -249,72 +183,34 @@ jobs:
       matrix:
         usage: [func]
         pref: [turing, church]
-        ubuntu: ["22.04"]
-    name: Stack Packaging (usage:${{ matrix.usage }}, pref:${{ matrix.pref }}, ubuntu:${{ matrix.ubuntu }})
+    name: Stack Packaging
     needs: [stack-testing]
     timeout-minutes: 5
-    runs-on: ubuntu-${{ matrix.ubuntu }}
+    runs-on: ubuntu-22.04
     permissions:
       packages: write
     steps:
       - uses: actions/checkout@v3.6.0
-      - uses: actions/setup-python@v4.7.0
+      - uses: ./.github/actions/prepare
         with:
-          python-version: ${{ env.PYTHON }}
-          cache: 'pip'
-      - run: pip install -r requirements.txt
-      - uses: docker/login-action@v2.2.0
-        with:
-          registry: ${{ env.REGISTRY }}
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+          tools: python docker
+          token: ${{ secrets.GITHUB_TOKEN }}
       - uses: actions/download-artifact@v3.0.2
         with:
           name: stack-${{ matrix.usage }}-${{ matrix.pref }}
           path: stacks/target/context
       - run: >
-          ansible-playbook stack.yml
-          -t package
+          ansible-playbook stack.yml -t package
           -e docker_registry=${{ env.REGISTRY }}
           -e usage=${{ matrix.usage }}
           -e prefs=${{ matrix.pref }}
         working-directory: .dx
 
-  pipeline-packaging:
-    name: Pipeline Packaging (ubuntu:${{ matrix.ubuntu }})
-    needs: [stack-testing]
-    strategy:
-      matrix:
-        ubuntu: ["22.04"]
-    runs-on: ubuntu-${{ matrix.ubuntu }}
-    timeout-minutes: 5
-    permissions:
-      packages: write
-    steps:
-      - uses: actions/checkout@v3.6.0
-      - uses: actions/setup-python@v4.7.0
-        with:
-          python-version: ${{ env.PYTHON }}
-          cache: 'pip'
-      - run: pip install -r requirements.txt
-      - uses: docker/login-action@v2.2.0
-        with:
-          registry: ${{ env.REGISTRY }}
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-      - run: >
-          ansible-playbook pipeline.yml
-          -e docker_registry=${{ env.REGISTRY }}
-        working-directory: .dx
-
   stack-reporting:
-    name: Stack Reporting (ubuntu:${{ matrix.ubuntu }})
+    name: Stack Reporting
     needs: [stack-testing]
     if: ${{ !cancelled() && (needs.stack-testing.result == 'success' || needs.stack-testing.result == 'failure') }}
-    strategy:
-      matrix:
-        ubuntu: ["22.04"]
-    runs-on: ubuntu-${{ matrix.ubuntu }}
+    runs-on: ubuntu-22.04
     timeout-minutes: 5
     permissions:
       checks: write
