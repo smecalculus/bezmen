@@ -7,7 +7,7 @@ app_cid: "{{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=apps')[:7] 
 stack_cid: "{{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=stacks')[:7] }}"
 
 dx_cid: "{{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=.dx')[:7] }}"
-env_cid: "{{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=.env/' ~ env)[:7] }}"
+env_cid: "{{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=.env/' ~ env_name)[:7] }}"
 test_cid: "{{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=tests')[:7] }}"
 
 usage: toy
