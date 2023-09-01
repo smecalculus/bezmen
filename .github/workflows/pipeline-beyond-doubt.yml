@@ -44,16 +44,17 @@ jobs:
       - run: >
           ansible-playbook stack.yml
           --skip-tags package
+          -e env_name=${{ matrix.environment.name }}
           -e docker_registry=${{ env.REGISTRY }}
+          -e capture_stack=false
           -e usage=toy
           -e prefs=turing
-          -e env=${{ matrix.environment.name }}
         working-directory: .dx
         env:
           GITHUB_ACTOR: ${{ github.actor }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - run: >
           ansible-playbook pipeline.yml
+          -e env_name=${{ matrix.environment.name }}
           -e docker_registry=${{ env.REGISTRY }}
-          -e env=${{ matrix.environment.name }}
         working-directory: .dx

@@ -162,6 +162,7 @@ jobs:
       - run: >
           ansible-playbook stack.yml -t test
           -e docker_registry=${{ env.REGISTRY }}
+          -e capture_pipeline=false
           -e usage=${{ matrix.usage }}
           -e prefs=${{ matrix.pref }}
           -e reminder=${{ matrix.shard }}
