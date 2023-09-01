@@ -14,7 +14,7 @@
     cmd: docker {{ docker_entity }} inspect {{ pipeline_image }}:{{ pipeline_tag.stdout[:7] }}
   register: pipeline_status
   changed_when:
-    - capture_pipeline
+    - capture_pipeline|bool
     - pipeline_status.rc != 0
   failed_when: false
 
