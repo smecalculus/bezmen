@@ -1,9 +1,10 @@
+---
 name: Pipeline beyond doubt
 
 on:
   pull_request:
     branches: [main]
-    paths: # waiting for https://github.com/actions/runner/issues/2324
+    paths:  # waiting for https://github.com/actions/runner/issues/2324
       - .dx/**
       - .env/**
       - .github/**

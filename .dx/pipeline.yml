@@ -3,8 +3,8 @@
   hosts: pipeline
   run_once: true
   tasks:
-    - ansible.builtin.import_tasks: # noqa: name[missing]
+    - ansible.builtin.import_tasks:  # noqa: name[missing]
         file: tasks/pipeline/status.yml
-    - ansible.builtin.import_tasks: # noqa: name[missing]
+    - ansible.builtin.import_tasks:  # noqa: name[missing]
         file: tasks/pipeline/package.yml
       when: pipeline_status is changed
