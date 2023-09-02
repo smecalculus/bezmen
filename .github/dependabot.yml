@@ -42,3 +42,8 @@ updates:
     directory: "/.env/amber"
     schedule:
       interval: "weekly"
+    ignore:
+      - dependency-name: "*"
+        update-types:
+          - version-update:semver-major
+          - version-update:semver-minor
