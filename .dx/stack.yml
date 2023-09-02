@@ -1,31 +1,31 @@
 ---
-- import_playbook: images.yml # noqa: name[play]
+- import_playbook: images.yml  # noqa: name[play]
   tags: [images, deps]
 
 - name: Stack
   hosts: stack
   run_once: true
   tasks:
-    - ansible.builtin.import_tasks: # noqa: name[missing]
+    - ansible.builtin.import_tasks:  # noqa: name[missing]
         file: tasks/pipeline/status.yml
       tags: [always]
-    - ansible.builtin.import_tasks: # noqa: name[missing]
+    - ansible.builtin.import_tasks:  # noqa: name[missing]
         file: tasks/stack/status.yml
       tags: [always]
-    - ansible.builtin.import_tasks: # noqa: name[missing]
+    - ansible.builtin.import_tasks:  # noqa: name[missing]
         file: tasks/stack/compile.yml
       tags: [compile]
       # remotely compile stack even if it hasn't changed (it's fast enough)
       when: >
         is_remote_building or
         stack_status is changed
-    - ansible.builtin.import_tasks: # noqa: name[missing]
+    - ansible.builtin.import_tasks:  # noqa: name[missing]
         file: tasks/stack/test.yml
       tags: [test]
       when: >
         stack_status is changed or
         pipeline_status is changed
-    - ansible.builtin.import_tasks: # noqa: name[missing]
+    - ansible.builtin.import_tasks:  # noqa: name[missing]
         file: tasks/stack/package.yml
       tags: [package]
       when: stack_status is changed

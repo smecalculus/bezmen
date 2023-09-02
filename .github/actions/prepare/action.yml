@@ -1,10 +1,16 @@
+---
+name: Prepare tools
+description: Tools preparation action for specific environment
 inputs:
   name:
+    description: Environment name
     required: true
     default: green
   tools:
+    description: Tools to prepare
     required: true
   token:
+    description: Github token
     required: false
 runs:
   using: "composite"

@@ -1,9 +1,10 @@
+---
 name: Pipeline minimal
 
 on:
   pull_request:
     branches-ignore: [main]
-    paths: # waiting for https://github.com/actions/runner/issues/2324
+    paths:  # waiting for https://github.com/actions/runner/issues/2324
       - .dx/**
       - .env/**
       - .github/**
@@ -35,3 +36,6 @@ jobs:
           ansible-playbook sources.yml -l dx:test
           -e docker_registry=${{ env.REGISTRY }}
         working-directory: .dx
+        env:
+          GITHUB_ACTOR: ${{ github.actor }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

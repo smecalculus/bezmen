@@ -67,3 +67,12 @@
           pipeline.yml
         strip_empty_ends: false
       changed_when: false
+
+- name: Sources
+  hosts: pipeline
+  tasks:
+    - name: Analyze
+      ansible.builtin.command:
+        cmd: yamllint ../.github
+        strip_empty_ends: false
+      changed_when: false

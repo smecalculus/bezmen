@@ -1,9 +1,10 @@
+---
 name: Solution minimal
 
 on:
   pull_request:
     branches-ignore: [main]
-    paths: # waiting for https://github.com/actions/runner/issues/2324
+    paths:  # waiting for https://github.com/actions/runner/issues/2324
       - libs/**
       - apps/**
       - schemas/**

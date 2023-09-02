@@ -1,3 +1,4 @@
+---
 name: Solution beyond doubt
 
 on:
@@ -5,7 +6,7 @@ on:
     branches: [main]
   pull_request:
     branches: [main]
-    paths: # waiting for https://github.com/actions/runner/issues/2324
+    paths:  # waiting for https://github.com/actions/runner/issues/2324
       - libs/**
       - apps/**
       - schemas/**
@@ -46,10 +47,6 @@ jobs:
       checks: write
       packages: write
       pull-requests: write
-    env:
-      JACOCO_UNITS: tools/target/coverage/units/jacoco.xml
-      JACOCO_INTEGRATIONS: tools/target/coverage/integrations/jacoco.xml
-      JACOCO_OVERALL: tools/target/coverage/overall/jacoco.xml
     steps:
       - uses: actions/checkout@v3.6.0
       - uses: ./.github/actions/prepare
@@ -96,6 +93,8 @@ jobs:
           paths: ${{ env.JACOCO_UNITS }}
           token: ${{ secrets.GITHUB_TOKEN }}
           update-comment: true
+        env:
+          JACOCO_UNITS: tools/target/coverage/units/jacoco.xml
       - uses: madrapps/jacoco-report@v1.6
         if: ${{ github.event_name == 'pull_request' && hashFiles(env.JACOCO_INTEGRATIONS) != '' }}
         with:
@@ -103,6 +102,8 @@ jobs:
           paths: ${{ env.JACOCO_INTEGRATIONS }}
           token: ${{ secrets.GITHUB_TOKEN }}
           update-comment: true
+        env:
+          JACOCO_INTEGRATIONS: tools/target/coverage/integrations/jacoco.xml
       - uses: madrapps/jacoco-report@v1.6
         if: ${{ github.event_name == 'pull_request' && hashFiles(env.JACOCO_OVERALL) != '' }}
         with:
@@ -110,6 +111,8 @@ jobs:
           paths: ${{ env.JACOCO_OVERALL }}
           token: ${{ secrets.GITHUB_TOKEN }}
           update-comment: true
+        env:
+          JACOCO_OVERALL: tools/target/coverage/overall/jacoco.xml
 
   stack-compiling:
     strategy:

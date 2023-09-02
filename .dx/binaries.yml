@@ -24,7 +24,7 @@
       ansible.builtin.debug:
         msg: "{{ binary_status.cmd|join(' ') }}"
       when: binary_status is changed
-    - name: Create binary
+    - name: Test and create binaries
       ansible.builtin.command:
         cmd: >
           mvn
@@ -55,7 +55,7 @@
       register: image_tag
       changed_when: false
       tags: [always]
-    - name: Capture status
+    - name: Capture statuses
       ansible.builtin.command:
         cmd: docker {{ docker_entity }} inspect {{ item.value }}:{{ image_tag.stdout[:7] }}
       register: image_status
@@ -70,7 +70,7 @@
         msg: "{{ image_status.results|map(attribute='cmd')|map('join', ' ') }}"
       when: image_status is changed
       tags: [always]
-    - name: Create binary
+    - name: Test units and create binaries
       ansible.builtin.command:
         cmd: >
           mvn
@@ -78,13 +78,13 @@
           --fail-fast
           --batch-mode
           --threads 2C
-          {% if not hostvars.lib.binary_status is changed %}
+          {% if not hostvars.lib.binary_status|default({}) is changed %}
           --projects {{ image_status.results|select('changed')|map(attribute='item.key')|join(',') }}
           {% endif %}
           --define revision={{ app_version }}
           --define lib.version={{ lib_version }}
           clean
-          verify
+          package
         chdir: "{{ playbook_dir }}/../apps"
         strip_empty_ends: false
       changed_when: true
@@ -108,5 +108,5 @@
         strip_empty_ends: false
       changed_when: true
       when: >
-        hostvars.lib.binary_status is changed or
-        hostvars.app.image_status is changed
+        hostvars.lib.binary_status|default({}) is changed or
+        hostvars.app.image_status|default({}) is changed

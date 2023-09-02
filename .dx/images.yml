@@ -1,11 +1,11 @@
 ---
-- import_playbook: binaries.yml # noqa: name[play]
+- import_playbook: binaries.yml   # noqa: name[play]
   tags: [binaries, deps]
 
 - name: Images
   hosts: schema
   tasks:
-    - name: Capture status
+    - name: Capture statuses
       ansible.builtin.command:
         cmd: docker {{ docker_entity }} inspect {{ item.value }}:{{ schema_cid }}
       register: image_status
@@ -18,7 +18,8 @@
       ansible.builtin.debug:
         msg: "{{ image_status.results|map(attribute='cmd')|map('join', ' ') }}"
       when: image_status is changed
-    - ansible.builtin.include_role: # noqa: name[missing]
+    - name: Create packages
+      ansible.builtin.include_role:
         name: image
       vars:
         image_tag: "{{ schema_cid }}"
@@ -29,7 +30,26 @@
 - name: Images
   hosts: app
   tasks:
-    - ansible.builtin.include_role: # noqa: name[missing]
+    - name: Test integrations
+      ansible.builtin.command:
+        cmd: >
+          mvn
+          --no-snapshot-updates
+          --fail-fast
+          --batch-mode
+          --threads 2C
+          {% if not hostvars.lib.binary_status|default({}) is changed %}
+          --projects {{ image_status.results|select('changed')|map(attribute='item.key')|join(',') }}
+          {% endif %}
+          --define lib.version={{ lib_version }}
+          failsafe:integration-test
+          failsafe:verify
+        chdir: "{{ playbook_dir }}/../apps"
+        strip_empty_ends: false
+      changed_when: true
+      when: image_status is changed
+    - name: Create packages
+      ansible.builtin.include_role:
         name: image
       vars:
         image_tag: "{{ hostvars.app.image_tag.stdout[:7] }}"

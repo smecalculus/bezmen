@@ -1,3 +1,4 @@
+---
 version: 2
 updates:
   - package-ecosystem: "github-actions"
@@ -34,6 +35,10 @@ updates:
     schedule:
       interval: "weekly"
   - package-ecosystem: "pip"
-    directory: "/"
+    directory: "/.env/green"
+    schedule:
+      interval: "weekly"
+  - package-ecosystem: "pip"
+    directory: "/.env/amber"
     schedule:
       interval: "weekly"
