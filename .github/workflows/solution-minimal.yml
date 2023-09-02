@@ -18,8 +18,8 @@ env:
 jobs:
   sources:
     name: Sources
-    runs-on: ubuntu-22.04
     timeout-minutes: 5
+    runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v3.6.0
       - uses: ./.github/actions/prepare

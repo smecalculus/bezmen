@@ -17,6 +17,7 @@ env:
 jobs:
   pipeline:
     name: Pipeline in ${{ matrix.environment.name }} env
+    timeout-minutes: 10
     strategy:
       fail-fast: false
       matrix:
@@ -26,7 +27,6 @@ jobs:
           - name: amber
             os: ubuntu-20.04
     runs-on: ${{ matrix.environment.os }}
-    timeout-minutes: 10
     permissions:
       checks: write
       packages: write

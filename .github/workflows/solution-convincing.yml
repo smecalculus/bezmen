@@ -1,8 +1,8 @@
 ---
-name: Solution beyond doubt
+name: Solution convincing
 
 on:
-  merge_group:
+  pull_request:
     branches: [main]
   workflow_dispatch:
 
@@ -102,121 +102,15 @@ jobs:
         env:
           JACOCO_OVERALL: tools/target/coverage/overall/jacoco.xml
 
-  stack-compiling:
-    name: Stack Compiling
-    if: ${{ github.event_name == 'merge_group' }}
+  # dummy job until status checks semantic is changed https://github.com/orgs/community/discussions/13690
+  solutions:
+    name: Solutions
     timeout-minutes: 5
-    needs:
-      - sources
-      - packages
-    strategy:
-      fail-fast: false
-      matrix:
-        usage: [func]
-        pref: [turing, church]
-    runs-on: ubuntu-22.04
-    steps:
-      - uses: actions/checkout@v3.6.0
-      - uses: ./.github/actions/prepare
-        with:
-          tools: python docker
-          token: ${{ secrets.GITHUB_TOKEN }}
-      - run: >
-          ansible-playbook stack.yml -t compile
-          -e docker_registry=${{ env.REGISTRY }}
-          -e usage=${{ matrix.usage }}
-          -e prefs=${{ matrix.pref }}
-        working-directory: .dx
-      - uses: actions/upload-artifact@v3.1.2
-        with:
-          name: stack-${{ matrix.usage }}-${{ matrix.pref }}
-          path: stacks/target/context
-          if-no-files-found: error
-
-  stack-testing:
-    name: Stack Testing
-    if: ${{ github.event_name == 'merge_group' }}
-    timeout-minutes: 15
-    needs: [stack-compiling]
-    strategy:
-      fail-fast: false
-      matrix:
-        usage: [func]
-        pref: [turing, church]
-        shard: [0, 1]
-    runs-on: ubuntu-22.04
-    steps:
-      - uses: actions/checkout@v3.6.0
-      - uses: ./.github/actions/prepare
-        with:
-          tools: python java docker
-          token: ${{ secrets.GITHUB_TOKEN }}
-      - uses: actions/download-artifact@v3.0.2
-        with:
-          name: stack-${{ matrix.usage }}-${{ matrix.pref }}
-          path: stacks/target/context
-      - run: >
-          ansible-playbook stack.yml -t test
-          -e docker_registry=${{ env.REGISTRY }}
-          -e capture_pipeline=false
-          -e usage=${{ matrix.usage }}
-          -e prefs=${{ matrix.pref }}
-          -e reminder=${{ matrix.shard }}
-          -e modulus=2
-        working-directory: .dx
-        env:
-          GITHUB_ACTOR: ${{ github.actor }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - uses: actions/upload-artifact@v3.1.2
-        if: ${{ !cancelled() }}
-        with:
-          name: e2e-test-report-${{ matrix.usage }}-${{ matrix.pref }}-${{ matrix.shard }}
-          path: tests/e2e/target/surefire-reports/*.xml
-
-  stack-packaging:
-    name: Stack Packaging
-    if: ${{ github.event_name == 'merge_group' }}
-    timeout-minutes: 5
-    needs: [stack-testing]
-    strategy:
-      fail-fast: false
-      matrix:
-        usage: [func]
-        pref: [turing, church]
-    runs-on: ubuntu-22.04
-    permissions:
-      packages: write
-    steps:
-      - uses: actions/checkout@v3.6.0
-      - uses: ./.github/actions/prepare
-        with:
-          tools: python docker
-          token: ${{ secrets.GITHUB_TOKEN }}
-      - uses: actions/download-artifact@v3.0.2
-        with:
-          name: stack-${{ matrix.usage }}-${{ matrix.pref }}
-          path: stacks/target/context
-      - run: >
-          ansible-playbook stack.yml -t package
-          -e docker_registry=${{ env.REGISTRY }}
-          -e usage=${{ matrix.usage }}
-          -e prefs=${{ matrix.pref }}
-        working-directory: .dx
-
-  stack-reporting:
-    name: Stack Reporting
-    if: ${{ !cancelled() }}
-    timeout-minutes: 5
-    needs: [stack-testing]
+    needs: [packages]
     runs-on: ubuntu-22.04
     permissions:
       checks: write
     steps:
-      - uses: actions/download-artifact@v3.0.2
-        with:
-          path: artifacts
-      - run: ls -R
-        working-directory: artifacts
       - uses: EnricoMi/publish-unit-test-result-action@v2.9.0
         with:
           check_name: E2E Test Report
