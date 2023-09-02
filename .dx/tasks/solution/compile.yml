@@ -1,12 +1,12 @@
 ---
 - name: Remove artifacts
   ansible.builtin.file:
-    path: "{{ playbook_dir }}/../stacks/target"
+    path: "{{ playbook_dir }}/../solutions/target"
     state: absent
 
 - name: Create directories
   ansible.builtin.file:
-    path: "{{ playbook_dir }}/../stacks/target/context"
+    path: "{{ playbook_dir }}/../solutions/target/context"
     state: directory
     recurse: true
 
@@ -21,7 +21,7 @@
       --output target/context/compose.yml
       --no-path-resolution
     strip_empty_ends: false
-    chdir: "{{ playbook_dir }}/../stacks"
+    chdir: "{{ playbook_dir }}/../solutions"
   environment:
     SCHEMA_TAG: "{{ schema_cid }}"
     SCHEMA_IMAGE: "{{ schema_images.postgres }}"
@@ -32,5 +32,5 @@
 - name: Compile conf
   ansible.builtin.command:
     cmd: cp basis/{{ prefs }}.conf target/context/bezmen.conf
-    chdir: "{{ playbook_dir }}/../stacks"
+    chdir: "{{ playbook_dir }}/../solutions"
   changed_when: true

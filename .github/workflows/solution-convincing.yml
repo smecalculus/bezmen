@@ -104,9 +104,8 @@ jobs:
 
   # dummy job until status checks semantic is changed https://github.com/orgs/community/discussions/13690
   solutions:
-    name: Solutions
+    name: Solutions (dummy)
     timeout-minutes: 5
-    needs: [packages]
     runs-on: ubuntu-22.04
     permissions:
       checks: write

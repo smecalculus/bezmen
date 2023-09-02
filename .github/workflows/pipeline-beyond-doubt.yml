@@ -46,11 +46,11 @@ jobs:
           GITHUB_ACTOR: ${{ github.actor }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - run: >
-          ansible-playbook stack.yml
+          ansible-playbook solution.yml
           --skip-tags package
           -e env_name=${{ matrix.environment.name }}
           -e docker_registry=${{ env.REGISTRY }}
-          -e capture_stack=false
+          -e capture_solution=false
           -e usage=toy
           -e prefs=turing
         working-directory: .dx

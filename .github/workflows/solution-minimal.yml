@@ -8,7 +8,7 @@ on:
       - libs/**
       - apps/**
       - schemas/**
-      - stacks/**
+      - solutions/**
       - tests/**
   workflow_dispatch:
 

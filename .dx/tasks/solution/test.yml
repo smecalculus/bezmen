@@ -17,7 +17,7 @@
       --quiet-pull
       --no-deps
       --detach
-    chdir: "{{ playbook_dir }}/../stacks/target/context"
+    chdir: "{{ playbook_dir }}/../solutions/target/context"
     strip_empty_ends: false
   changed_when: true
 

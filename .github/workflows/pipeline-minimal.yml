@@ -16,7 +16,7 @@ env:
 
 jobs:
   sources:
-    name: Sources with ${{ matrix.environment.name }} env
+    name: Sources in ${{ matrix.environment.name }} env
     timeout-minutes: 5
     strategy:
       matrix:
