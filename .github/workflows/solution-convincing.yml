@@ -10,25 +10,8 @@ env:
   REGISTRY: ghcr.io
 
 jobs:
-  sources:
-    name: Sources
-    timeout-minutes: 5
-    runs-on: ubuntu-22.04
-    steps:
-      - uses: actions/checkout@v3.6.0
-      - uses: ./.github/actions/prepare
-        with:
-          tools: python java
-      - run: >
-          ansible-playbook sources.yml -l lib:app
-          -e docker_registry=${{ env.REGISTRY }}
-        working-directory: .dx
-        env:
-          GITHUB_ACTOR: ${{ github.actor }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-  packages:
-    name: Packages
+  solution:
+    name: Solution
     timeout-minutes: 15
     runs-on: ubuntu-22.04
     permissions:
@@ -41,6 +24,13 @@ jobs:
         with:
           tools: python java docker
           token: ${{ secrets.GITHUB_TOKEN }}
+      - run: >
+          ansible-playbook sources.yml -l lib:app
+          -e docker_registry=${{ env.REGISTRY }}
+        working-directory: .dx
+        env:
+          GITHUB_ACTOR: ${{ github.actor }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - run: >
           ansible-playbook images.yml
           -e docker_registry=${{ env.REGISTRY }}
@@ -74,6 +64,18 @@ jobs:
           files: |
             libs/*/target/failsafe-reports/TEST-*.xml
             apps/*/target/failsafe-reports/TEST-*.xml
+      - name: Always empty E2E test report. See https://github.com/orgs/community/discussions/13690
+        uses: EnricoMi/publish-unit-test-result-action@v2.9.0
+        if: ${{ !cancelled() }}
+        with:
+          check_name: E2E Test Report
+          check_run_annotations: none
+          compare_to_earlier_commit: false
+          action_fail_on_inconclusive: true
+          action_fail: true
+          job_summary: false
+          comment_mode: off
+          files: tests/*/target/surefire-reports/TEST-*.xml
       - uses: madrapps/jacoco-report@v1.6
         if: ${{ github.event_name == 'pull_request' && hashFiles(env.JACOCO_UNITS) != '' }}
         with:
@@ -101,22 +103,3 @@ jobs:
           update-comment: true
         env:
           JACOCO_OVERALL: tools/target/coverage/overall/jacoco.xml
-
-  # dummy job until status checks semantic is changed https://github.com/orgs/community/discussions/13690
-  solutions:
-    name: Solutions (dummy)
-    timeout-minutes: 5
-    runs-on: ubuntu-22.04
-    permissions:
-      checks: write
-    steps:
-      - uses: EnricoMi/publish-unit-test-result-action@v2.9.0
-        with:
-          check_name: E2E Test Report
-          check_run_annotations: none
-          compare_to_earlier_commit: false
-          action_fail_on_inconclusive: true
-          action_fail: true
-          job_summary: false
-          comment_mode: off
-          files: artifacts/e2e-test-report-*/**/TEST-*.xml
