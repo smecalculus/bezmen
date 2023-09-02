@@ -1,10 +1,10 @@
 ---
 all:
   hosts:
-    schema:
     lib:
     app:
-    stack:
+    schema:
+    solution:
     dx:
     test:
     pipeline:

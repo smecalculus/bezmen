@@ -2,16 +2,9 @@
 name: Solution beyond doubt
 
 on:
-  push:
-    branches: [main]
-  pull_request:
-    branches: [main]
   merge_group:
+    branches: [main]
   workflow_dispatch:
-
-concurrency:
-  group: ${{ github.ref_name }}
-  cancel-in-progress: false
 
 env:
   REGISTRY: ghcr.io
@@ -19,8 +12,8 @@ env:
 jobs:
   sources:
     name: Sources
-    runs-on: ubuntu-22.04
     timeout-minutes: 5
+    runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v3.6.0
       - uses: ./.github/actions/prepare
@@ -36,8 +29,8 @@ jobs:
 
   packages:
     name: Packages
-    runs-on: ubuntu-22.04
     timeout-minutes: 15
+    runs-on: ubuntu-22.04
     permissions:
       checks: write
       packages: write
@@ -109,17 +102,18 @@ jobs:
         env:
           JACOCO_OVERALL: tools/target/coverage/overall/jacoco.xml
 
-  stack-compiling:
+  solution-compiling:
+    name: Solution compiling
+    if: ${{ github.event_name == 'merge_group' }}
+    timeout-minutes: 5
+    needs:
+      - sources
+      - packages
     strategy:
       fail-fast: false
       matrix:
         usage: [func]
         pref: [turing, church]
-    name: Stack Compiling
-    needs:
-      - sources
-      - packages
-    timeout-minutes: 5
     runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v3.6.0
@@ -128,27 +122,28 @@ jobs:
           tools: python docker
           token: ${{ secrets.GITHUB_TOKEN }}
       - run: >
-          ansible-playbook stack.yml -t compile
+          ansible-playbook solution.yml -t compile
           -e docker_registry=${{ env.REGISTRY }}
           -e usage=${{ matrix.usage }}
           -e prefs=${{ matrix.pref }}
         working-directory: .dx
       - uses: actions/upload-artifact@v3.1.2
         with:
-          name: stack-${{ matrix.usage }}-${{ matrix.pref }}
-          path: stacks/target/context
+          name: solution-${{ matrix.usage }}-${{ matrix.pref }}
+          path: solutions/target/context
           if-no-files-found: error
 
-  stack-testing:
+  solution-testing:
+    name: Solution testing
+    if: ${{ github.event_name == 'merge_group' }}
+    timeout-minutes: 15
+    needs: [solution-compiling]
     strategy:
       fail-fast: false
       matrix:
         usage: [func]
         pref: [turing, church]
         shard: [0, 1]
-    name: Stack Testing
-    needs: [stack-compiling]
-    timeout-minutes: 15
     runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v3.6.0
@@ -158,10 +153,10 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
       - uses: actions/download-artifact@v3.0.2
         with:
-          name: stack-${{ matrix.usage }}-${{ matrix.pref }}
-          path: stacks/target/context
+          name: solution-${{ matrix.usage }}-${{ matrix.pref }}
+          path: solutions/target/context
       - run: >
-          ansible-playbook stack.yml -t test
+          ansible-playbook solution.yml -t test
           -e docker_registry=${{ env.REGISTRY }}
           -e capture_pipeline=false
           -e usage=${{ matrix.usage }}
@@ -178,15 +173,16 @@ jobs:
           name: e2e-test-report-${{ matrix.usage }}-${{ matrix.pref }}-${{ matrix.shard }}
           path: tests/e2e/target/surefire-reports/*.xml
 
-  stack-packaging:
+  solution-packaging:
+    name: Solution packaging
+    if: ${{ github.event_name == 'merge_group' }}
+    timeout-minutes: 5
+    needs: [solution-testing]
     strategy:
       fail-fast: false
       matrix:
         usage: [func]
         pref: [turing, church]
-    name: Stack Packaging
-    needs: [stack-testing]
-    timeout-minutes: 5
     runs-on: ubuntu-22.04
     permissions:
       packages: write
@@ -198,21 +194,21 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
       - uses: actions/download-artifact@v3.0.2
         with:
-          name: stack-${{ matrix.usage }}-${{ matrix.pref }}
-          path: stacks/target/context
+          name: solution-${{ matrix.usage }}-${{ matrix.pref }}
+          path: solutions/target/context
       - run: >
-          ansible-playbook stack.yml -t package
+          ansible-playbook solution.yml -t package
           -e docker_registry=${{ env.REGISTRY }}
           -e usage=${{ matrix.usage }}
           -e prefs=${{ matrix.pref }}
         working-directory: .dx
 
-  stack-reporting:
-    name: Stack Reporting
-    needs: [stack-testing]
-    if: ${{ !cancelled() && (needs.stack-testing.result == 'success' || needs.stack-testing.result == 'failure') }}
-    runs-on: ubuntu-22.04
+  solution-reporting:
+    name: Solution reporting
+    if: ${{ !cancelled() }}
     timeout-minutes: 5
+    needs: [solution-testing]
+    runs-on: ubuntu-22.04
     permissions:
       checks: write
     steps:

@@ -63,7 +63,7 @@
         cmd: >
           ansible-lint
           sources.yml
-          stack.yml
+          solution.yml
           pipeline.yml
         strip_empty_ends: false
       changed_when: false

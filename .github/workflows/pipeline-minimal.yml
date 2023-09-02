@@ -16,7 +16,8 @@ env:
 
 jobs:
   sources:
-    name: Sources with ${{ matrix.environment.name }} env
+    name: Sources in ${{ matrix.environment.name }} env
+    timeout-minutes: 5
     strategy:
       matrix:
         environment:
@@ -25,7 +26,6 @@ jobs:
           - name: amber
             os: ubuntu-20.04
     runs-on: ${{ matrix.environment.os }}
-    timeout-minutes: 5
     steps:
       - uses: actions/checkout@v3.6.0
       - uses: ./.github/actions/prepare

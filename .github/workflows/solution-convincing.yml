@@ -1,0 +1,105 @@
+---
+name: Solution convincing
+
+on:
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+env:
+  REGISTRY: ghcr.io
+
+jobs:
+  solution:
+    name: Solution
+    timeout-minutes: 15
+    runs-on: ubuntu-22.04
+    permissions:
+      checks: write
+      packages: write
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v3.6.0
+      - uses: ./.github/actions/prepare
+        with:
+          tools: python java docker
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - run: >
+          ansible-playbook sources.yml -l lib:app
+          -e docker_registry=${{ env.REGISTRY }}
+        working-directory: .dx
+        env:
+          GITHUB_ACTOR: ${{ github.actor }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - run: >
+          ansible-playbook images.yml
+          -e docker_registry=${{ env.REGISTRY }}
+        working-directory: .dx
+        env:
+          GITHUB_ACTOR: ${{ github.actor }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - uses: EnricoMi/publish-unit-test-result-action@v2.9.0
+        if: ${{ !cancelled() }}
+        with:
+          check_name: Unit Test Report
+          check_run_annotations: none
+          compare_to_earlier_commit: false
+          action_fail_on_inconclusive: true
+          action_fail: true
+          job_summary: false
+          comment_mode: off
+          files: |
+            libs/*/target/surefire-reports/TEST-*.xml
+            apps/*/target/surefire-reports/TEST-*.xml
+      - uses: EnricoMi/publish-unit-test-result-action@v2.9.0
+        if: ${{ !cancelled() }}
+        with:
+          check_name: Integration Test Report
+          check_run_annotations: none
+          compare_to_earlier_commit: false
+          action_fail_on_inconclusive: true
+          action_fail: true
+          job_summary: false
+          comment_mode: off
+          files: |
+            libs/*/target/failsafe-reports/TEST-*.xml
+            apps/*/target/failsafe-reports/TEST-*.xml
+      - name: Always empty E2E test report. See https://github.com/orgs/community/discussions/13690
+        uses: EnricoMi/publish-unit-test-result-action@v2.9.0
+        if: ${{ !cancelled() }}
+        with:
+          check_name: E2E Test Report
+          check_run_annotations: none
+          compare_to_earlier_commit: false
+          action_fail_on_inconclusive: true
+          action_fail: true
+          job_summary: false
+          comment_mode: off
+          files: tests/*/target/surefire-reports/TEST-*.xml
+      - uses: madrapps/jacoco-report@v1.6
+        if: ${{ github.event_name == 'pull_request' && hashFiles(env.JACOCO_UNITS) != '' }}
+        with:
+          title: Unit Coverage Report
+          paths: ${{ env.JACOCO_UNITS }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+          update-comment: true
+        env:
+          JACOCO_UNITS: tools/target/coverage/units/jacoco.xml
+      - uses: madrapps/jacoco-report@v1.6
+        if: ${{ github.event_name == 'pull_request' && hashFiles(env.JACOCO_INTEGRATIONS) != '' }}
+        with:
+          title: Integration Coverage Report
+          paths: ${{ env.JACOCO_INTEGRATIONS }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+          update-comment: true
+        env:
+          JACOCO_INTEGRATIONS: tools/target/coverage/integrations/jacoco.xml
+      - uses: madrapps/jacoco-report@v1.6
+        if: ${{ github.event_name == 'pull_request' && hashFiles(env.JACOCO_OVERALL) != '' }}
+        with:
+          title: Overall Coverage Report
+          paths: ${{ env.JACOCO_OVERALL }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+          update-comment: true
+        env:
+          JACOCO_OVERALL: tools/target/coverage/overall/jacoco.xml

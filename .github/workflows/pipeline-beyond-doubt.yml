@@ -17,6 +17,7 @@ env:
 jobs:
   pipeline:
     name: Pipeline in ${{ matrix.environment.name }} env
+    timeout-minutes: 10
     strategy:
       fail-fast: false
       matrix:
@@ -26,7 +27,6 @@ jobs:
           - name: amber
             os: ubuntu-20.04
     runs-on: ${{ matrix.environment.os }}
-    timeout-minutes: 10
     permissions:
       checks: write
       packages: write
@@ -46,11 +46,11 @@ jobs:
           GITHUB_ACTOR: ${{ github.actor }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - run: >
-          ansible-playbook stack.yml
+          ansible-playbook solution.yml
           --skip-tags package
           -e env_name=${{ matrix.environment.name }}
           -e docker_registry=${{ env.REGISTRY }}
-          -e capture_stack=false
+          -e capture_solution=false
           -e usage=toy
           -e prefs=turing
         working-directory: .dx
