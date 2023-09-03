@@ -158,6 +158,7 @@ jobs:
           tools: python docker
           token: ${{ secrets.GITHUB_TOKEN }}
       - uses: actions/download-artifact@v3.0.2
+        continue-on-error: true  # it's ok because solution compilation can be skipped
         with:
           name: solution-${{ matrix.usage }}-${{ matrix.prefs }}
           path: solutions/target/context
