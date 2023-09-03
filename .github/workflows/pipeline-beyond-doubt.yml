@@ -36,7 +36,7 @@ jobs:
           tools: python java docker
           token: ${{ secrets.GITHUB_TOKEN }}
       - run: >
-          ansible-playbook sources.yml -l dx:test
+          ansible-playbook sources.yml -l dx:test:pipeline
           -e repository_mode=read_only
         working-directory: .dx
         env:

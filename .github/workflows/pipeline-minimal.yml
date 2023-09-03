@@ -30,7 +30,7 @@ jobs:
           revision: ${{ matrix.environment.name }}
           tools: python java
       - run: >
-          ansible-playbook sources.yml -l dx:test
+          ansible-playbook sources.yml -l dx:test:pipeline
           -e repository_mode=read_only
         working-directory: .dx
         env:
