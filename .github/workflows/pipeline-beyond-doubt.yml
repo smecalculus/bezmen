@@ -15,8 +15,8 @@ env:
   REGISTRY: ghcr.io
 
 jobs:
-  pipeline:
-    name: Pipeline in ${{ matrix.environment.name }} env
+  checking:
+    name: Checking in ${{ matrix.environment.name }} env
     timeout-minutes: 10
     strategy:
       fail-fast: false
