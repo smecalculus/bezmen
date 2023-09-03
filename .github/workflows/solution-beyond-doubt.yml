@@ -74,37 +74,9 @@ jobs:
           files: |
             libs/*/target/failsafe-reports/TEST-*.xml
             apps/*/target/failsafe-reports/TEST-*.xml
-      - uses: madrapps/jacoco-report@v1.6
-        if: ${{ github.event_name == 'pull_request' && hashFiles(env.JACOCO_UNITS) != '' }}
-        with:
-          title: Unit Coverage Report
-          paths: ${{ env.JACOCO_UNITS }}
-          token: ${{ secrets.GITHUB_TOKEN }}
-          update-comment: true
-        env:
-          JACOCO_UNITS: tools/target/coverage/units/jacoco.xml
-      - uses: madrapps/jacoco-report@v1.6
-        if: ${{ github.event_name == 'pull_request' && hashFiles(env.JACOCO_INTEGRATIONS) != '' }}
-        with:
-          title: Integration Coverage Report
-          paths: ${{ env.JACOCO_INTEGRATIONS }}
-          token: ${{ secrets.GITHUB_TOKEN }}
-          update-comment: true
-        env:
-          JACOCO_INTEGRATIONS: tools/target/coverage/integrations/jacoco.xml
-      - uses: madrapps/jacoco-report@v1.6
-        if: ${{ github.event_name == 'pull_request' && hashFiles(env.JACOCO_OVERALL) != '' }}
-        with:
-          title: Overall Coverage Report
-          paths: ${{ env.JACOCO_OVERALL }}
-          token: ${{ secrets.GITHUB_TOKEN }}
-          update-comment: true
-        env:
-          JACOCO_OVERALL: tools/target/coverage/overall/jacoco.xml
 
   solution-compiling:
     name: Solution compiling
-    if: ${{ github.event_name == 'merge_group' }}
     timeout-minutes: 5
     needs:
       - sources
@@ -135,7 +107,6 @@ jobs:
 
   solution-testing:
     name: Solution testing
-    if: ${{ github.event_name == 'merge_group' }}
     timeout-minutes: 15
     needs: [solution-compiling]
     strategy:
@@ -175,7 +146,6 @@ jobs:
 
   solution-packaging:
     name: Solution packaging
-    if: ${{ github.event_name == 'merge_group' }}
     timeout-minutes: 5
     needs: [solution-testing]
     strategy:
