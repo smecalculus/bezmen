@@ -13,4 +13,5 @@ jobs:
       - uses: AndreasAugustin/actions-template-sync@v1.1.2
         with:
           source_repo_path: smecalculus/bezmen
+          upstream_branch: main
           github_token: ${{ secrets.SYNCER_PAT }}
