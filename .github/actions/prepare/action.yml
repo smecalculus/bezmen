@@ -36,6 +36,6 @@ runs:
     - uses: docker/login-action@v2.2.0
       if: ${{ contains(inputs.tools, 'docker') }}
       with:
-        registry: ${{ env.REGISTRY }}
+        registry: ghcr.io
         username: ${{ github.actor }}
         password: ${{ inputs.token }}
