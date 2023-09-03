@@ -18,7 +18,7 @@
       ansible.builtin.debug:
         msg: "{{ image_status.results|map(attribute='cmd')|map('join', ' ') }}"
       when: image_status is changed
-    - name: Create packages
+    - name: Create images
       ansible.builtin.include_role:
         name: image
       vars:
@@ -48,7 +48,7 @@
         strip_empty_ends: false
       changed_when: true
       when: image_status is changed
-    - name: Create packages
+    - name: Create images
       ansible.builtin.include_role:
         name: image
       vars:

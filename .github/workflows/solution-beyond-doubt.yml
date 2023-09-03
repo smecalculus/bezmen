@@ -27,8 +27,8 @@ jobs:
           GITHUB_ACTOR: ${{ github.actor }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-  packages:
-    name: Packages
+  images:
+    name: Images
     timeout-minutes: 15
     runs-on: ubuntu-22.04
     permissions:
@@ -78,9 +78,7 @@ jobs:
   solution-compiling:
     name: Solution compiling
     timeout-minutes: 5
-    needs:
-      - sources
-      - packages
+    needs: [sources, images]
     strategy:
       fail-fast: false
       matrix:
