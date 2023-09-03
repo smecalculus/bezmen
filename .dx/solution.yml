@@ -2,15 +2,15 @@
 - import_playbook: images.yml  # noqa: name[play]
   tags: [images, deps]
 
-- name: Solution
+- name: Solution & Pipeline
   hosts: solution
   run_once: true
   tasks:
-    - name: Capture solution status
+    - name: Capture solution
       ansible.builtin.import_tasks:
         file: tasks/solution/status.yml
       tags: [always]
-    - name: Capture pipeline status
+    - name: Capture pipeline
       ansible.builtin.import_tasks:
         file: tasks/pipeline/status.yml
       tags: [always]

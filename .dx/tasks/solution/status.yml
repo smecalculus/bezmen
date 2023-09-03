@@ -1,5 +1,5 @@
 ---
-- name: Capture tag
+- name: Capture solution tag
   ansible.builtin.command:
     cmd: git hash-object --stdin
     stdin: |
@@ -11,7 +11,7 @@
   register: solution_tag
   changed_when: false
 
-- name: Capture status
+- name: Capture solution status
   ansible.builtin.command:
     cmd: docker {{ docker_entity }} inspect {{ solution_image }}:{{ solution_tag.stdout[:7] }}
   register: solution_status
@@ -20,7 +20,7 @@
     - solution_status.rc != 0
   failed_when: false
 
-- name: Status command
+- name: Solution status command
   ansible.builtin.debug:
     msg: "{{ solution_status.cmd|join(' ') }}"
   when: solution_status is changed
