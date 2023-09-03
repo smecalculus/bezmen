@@ -16,9 +16,7 @@ jobs:
       - uses: ./.github/actions/prepare
         with:
           tools: python java
-      - run: >
-          ansible-playbook sources.yml -l lib:app
-          -e repository_mode=read_only
+      - run: ansible-playbook sources.yml -l lib:app
         working-directory: .dx
         env:
           GITHUB_ACTOR: ${{ github.actor }}
@@ -26,7 +24,7 @@ jobs:
 
   images:
     name: Images
-    timeout-minutes: 15
+    timeout-minutes: 10
     runs-on: ubuntu-22.04
     permissions:
       checks: write
@@ -98,7 +96,6 @@ jobs:
         with:
           name: solution-${{ matrix.usage }}-${{ matrix.pref }}
           path: solutions/target/context
-          if-no-files-found: error
 
   solution-testing:
     name: Solution testing
@@ -164,6 +161,7 @@ jobs:
       - run: >
           ansible-playbook solution.yml -t package
           -e repository_mode=read_write
+          -e capture_pipeline=false
           -e usage=${{ matrix.usage }}
           -e prefs=${{ matrix.pref }}
         working-directory: .dx

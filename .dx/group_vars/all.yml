@@ -1,20 +1,20 @@
 ---
-env_name: green
-
-schema_cid: "{{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=schemas')[:7] }}"
 lib_cid: "{{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=libs')[:7] }}"
 app_cid: "{{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=apps')[:7] }}"
+schema_cid: "{{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=schemas')[:7] }}"
 solution_cid: "{{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=solutions')[:7] }}"
 
-dx_cid: "{{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=.dx')[:7] }}"
-env_cid: "{{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=.env/' ~ env_name)[:7] }}"
-test_cid: "{{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=tests')[:7] }}"
+environ: green
 
-usage: toy
-prefs: turing
+dx_cid: "{{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=.dx')[:7] }}"
+env_cid: "{{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=.env/' ~ environ)[:7] }}"
+test_cid: "{{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=tests')[:7] }}"
 
 lib_version: 0.1.0-{{ lib_cid }}
 app_version: 0.1.0-{{ app_cid }}
+
+usage: toy
+prefs: turing
 
 # How to work with private remote repositories?
 # offline - no pull, nor push packages
@@ -32,7 +32,7 @@ schema_images:
 app_images:
   foo: "{{ docker_registry }}/{{ docker_repo }}/app-foo"
 solution_image: "{{ docker_registry }}/{{ docker_repo }}/solution-{{ usage }}-{{ prefs }}"
-pipeline_image: "{{ docker_registry }}/{{ docker_repo }}/pipeline"
+pipeline_image: "{{ docker_registry }}/{{ docker_repo }}/pipeline-{{ environ }}"
 
 capture_solution: true
 capture_pipeline: true

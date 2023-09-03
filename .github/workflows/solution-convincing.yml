@@ -9,7 +9,7 @@ on:
 jobs:
   checking:
     name: Checking
-    timeout-minutes: 15
+    timeout-minutes: 10
     runs-on: ubuntu-22.04
     permissions:
       checks: write
@@ -21,9 +21,7 @@ jobs:
         with:
           tools: python java docker
           token: ${{ secrets.GITHUB_TOKEN }}
-      - run: >
-          ansible-playbook sources.yml -l lib:app
-          -e repository_mode=read_only
+      - run: ansible-playbook sources.yml -l lib:app
         working-directory: .dx
         env:
           GITHUB_ACTOR: ${{ github.actor }}

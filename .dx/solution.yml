@@ -7,10 +7,10 @@
   run_once: true
   tasks:
     - ansible.builtin.import_tasks:  # noqa: name[missing]
-        file: tasks/pipeline/status.yml
+        file: tasks/solution/status.yml
       tags: [always]
     - ansible.builtin.import_tasks:  # noqa: name[missing]
-        file: tasks/solution/status.yml
+        file: tasks/pipeline/status.yml
       tags: [always]
     - ansible.builtin.import_tasks:  # noqa: name[missing]
         file: tasks/solution/compile.yml
@@ -28,3 +28,7 @@
         file: tasks/solution/package.yml
       tags: [package]
       when: solution_status is changed
+    - ansible.builtin.import_tasks:  # noqa: name[missing]
+        file: tasks/pipeline/package.yml
+      tags: [package]
+      when: pipeline_status is changed

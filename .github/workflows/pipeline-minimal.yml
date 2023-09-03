@@ -13,25 +13,23 @@ on:
 
 jobs:
   sources:
-    name: Sources in ${{ matrix.environment.name }} env
+    name: Sources in ${{ matrix.environ.name }} env
     timeout-minutes: 5
     strategy:
       matrix:
-        environment:
+        environ:
           - name: green
             os: ubuntu-22.04
           - name: amber
             os: ubuntu-20.04
-    runs-on: ${{ matrix.environment.os }}
+    runs-on: ${{ matrix.environ.os }}
     steps:
       - uses: actions/checkout@v3.6.0
       - uses: ./.github/actions/prepare
         with:
-          revision: ${{ matrix.environment.name }}
+          revision: ${{ matrix.environ.name }}
           tools: python java
-      - run: >
-          ansible-playbook sources.yml -l dx:test:pipeline
-          -e repository_mode=read_only
+      - run: ansible-playbook sources.yml -l dx:test:pipeline
         working-directory: .dx
         env:
           GITHUB_ACTOR: ${{ github.actor }}
