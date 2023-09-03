@@ -1,5 +1,5 @@
 ---
-- name: Capture pipeline tag
+- name: Capture tag
   ansible.builtin.command:
     cmd: git hash-object --stdin
     stdin: |
@@ -9,7 +9,7 @@
   register: pipeline_tag
   changed_when: false
 
-- name: Capture pipeline status
+- name: Capture status
   ansible.builtin.command:
     cmd: docker {{ docker_entity }} inspect {{ pipeline_image }}:{{ pipeline_tag.stdout[:7] }}
   register: pipeline_status
@@ -18,7 +18,7 @@
     - pipeline_status.rc != 0
   failed_when: false
 
-- name: Pipeline status command
+- name: Status command
   ansible.builtin.debug:
     msg: "{{ pipeline_status.cmd|join(' ') }}"
   when: pipeline_status is changed

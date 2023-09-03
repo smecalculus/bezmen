@@ -43,7 +43,7 @@
       changed_when: false
 
 - name: Sources
-  hosts: dx
+  hosts: pipeline
   tasks:
     - name: Analyze
       ansible.builtin.command:
@@ -52,13 +52,8 @@
           ansible-lint
           sources.yml
           solution.yml
-          pipeline.yml
         strip_empty_ends: false
       changed_when: false
-
-- name: Sources
-  hosts: pipeline
-  tasks:
     - name: Analyze
       ansible.builtin.command:
         cmd: yamllint ../.github

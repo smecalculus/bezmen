@@ -6,29 +6,35 @@
   hosts: solution
   run_once: true
   tasks:
-    - ansible.builtin.import_tasks:  # noqa: name[missing]
+    - name: Capture solution status
+      ansible.builtin.import_tasks:
         file: tasks/solution/status.yml
       tags: [always]
-    - ansible.builtin.import_tasks:  # noqa: name[missing]
+    - name: Capture pipeline status
+      ansible.builtin.import_tasks:
         file: tasks/pipeline/status.yml
       tags: [always]
-    - ansible.builtin.import_tasks:  # noqa: name[missing]
+    - name: Compile solution
+      ansible.builtin.import_tasks:
         file: tasks/solution/compile.yml
       tags: [compile]
       when: >
         solution_status is changed or
         pipeline_status is changed
-    - ansible.builtin.import_tasks:  # noqa: name[missing]
+    - name: Test solution
+      ansible.builtin.import_tasks:
         file: tasks/solution/test.yml
       tags: [test]
       when: >
         solution_status is changed or
         pipeline_status is changed
-    - ansible.builtin.import_tasks:  # noqa: name[missing]
+    - name: Package solution
+      ansible.builtin.import_tasks:
         file: tasks/solution/package.yml
       tags: [package]
       when: solution_status is changed
-    - ansible.builtin.import_tasks:  # noqa: name[missing]
+    - name: Package pipeline
+      ansible.builtin.import_tasks:
         file: tasks/pipeline/package.yml
       tags: [package]
       when: pipeline_status is changed
