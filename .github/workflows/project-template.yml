@@ -1,5 +1,5 @@
 ---
-name: Template
+name: Project template
 
 on:
   workflow_dispatch:
@@ -13,4 +13,4 @@ jobs:
       - uses: AndreasAugustin/actions-template-sync@v1.1.2
         with:
           source_repo_path: smecalculus/bezmen
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          github_token: ${{ secrets.SYNCER_PAT }}
