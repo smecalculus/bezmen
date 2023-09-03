@@ -15,10 +15,9 @@
     - ansible.builtin.import_tasks:  # noqa: name[missing]
         file: tasks/solution/compile.yml
       tags: [compile]
-      # remotely compile solution even if it hasn't changed (it's fast enough)
       when: >
-        is_remote_building or
-        solution_status is changed
+        solution_status is changed or
+        pipeline_status is changed
     - ansible.builtin.import_tasks:  # noqa: name[missing]
         file: tasks/solution/test.yml
       tags: [test]

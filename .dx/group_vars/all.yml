@@ -16,15 +16,16 @@ prefs: turing
 lib_version: 0.1.0-{{ lib_cid }}
 app_version: 0.1.0-{{ app_cid }}
 
-docker_registry: localhost
+# How to work with private remote repositories?
+# offline - no pull, nor push packages
+# read_only - can pull packages
+# read_write - can pull and push packages
+repository_mode: offline
+
+docker_registry: ghcr.io
 docker_repo: smecalculus
 
-# TODO: introduce enum like variable
-is_local_building: "{{ docker_registry == 'localhost' }}"
-is_remote_building: "{{ docker_registry != 'localhost' }}"
-
-docker_entity: "{{ 'image' if is_local_building else 'manifest' }}"
-docker_command: "{{ 'inspect' if is_local_building else 'pull' }}"
+docker_entity: "{{ 'image' if repository_mode == 'offline' else 'manifest' }}"
 
 schema_images:
   postgres: "{{ docker_registry }}/{{ docker_repo }}/schema-postgres"

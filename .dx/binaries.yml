@@ -7,15 +7,14 @@
         # todo: try to implement more lightweight check
         cmd: >
           mvn
-          {% if is_local_building %}
+          {% if repository_mode == 'offline' %}
           --offline
+          {% else %}
+          --define remoteRepositories=github::::https://maven.pkg.github.com/smecalculus/bezmen
           {% endif %}
           dependency:get
           --define transitive=false
           --define artifact=org.smecalculus.bezmen:libs:{{ lib_version }}:pom
-          {% if is_remote_building %}
-          --define remoteRepositories=github::::https://maven.pkg.github.com/smecalculus/bezmen
-          {% endif %}
         chdir: "{{ playbook_dir }}/../libs"
       register: binary_status
       changed_when: binary_status.rc != 0
@@ -34,10 +33,10 @@
           --threads 2C
           --define revision={{ lib_version }}
           clean
-          {% if is_local_building %}
-          install
-          {% else %}
+          {% if repository_mode == 'read_write' %}
           deploy
+          {% else %}
+          install
           {% endif %}
         chdir: "{{ playbook_dir }}/../libs"
       changed_when: true

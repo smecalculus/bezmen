@@ -11,9 +11,6 @@ on:
       - tools/**
   workflow_dispatch:
 
-env:
-  REGISTRY: ghcr.io
-
 jobs:
   checking:
     name: Checking in ${{ matrix.environment.name }} env
@@ -40,7 +37,7 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
       - run: >
           ansible-playbook sources.yml -l dx:test
-          -e docker_registry=${{ env.REGISTRY }}
+          -e repository_mode=read_only
         working-directory: .dx
         env:
           GITHUB_ACTOR: ${{ github.actor }}
@@ -49,7 +46,7 @@ jobs:
           ansible-playbook solution.yml
           --skip-tags package
           -e env_name=${{ matrix.environment.name }}
-          -e docker_registry=${{ env.REGISTRY }}
+          -e repository_mode=read_only
           -e capture_solution=false
           -e usage=toy
           -e prefs=turing
@@ -60,5 +57,5 @@ jobs:
       - run: >
           ansible-playbook pipeline.yml
           -e env_name=${{ matrix.environment.name }}
-          -e docker_registry=${{ env.REGISTRY }}
+          -e repository_mode=read_write
         working-directory: .dx

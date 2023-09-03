@@ -8,12 +8,8 @@
           mvn
           --no-snapshot-updates
           --batch-mode
-          {% if is_local_building %}
-          spotless:apply
-          {% else %}
-          spotless:check
-          {% endif %}
           enforcer:enforce
+          spotless:check
         chdir: "{{ playbook_dir }}/../libs"
         strip_empty_ends: false
       changed_when: false
@@ -27,11 +23,7 @@
           mvn
           --no-snapshot-updates
           --batch-mode
-          {% if is_local_building %}
-          spotless:apply
-          {% else %}
           spotless:check
-          {% endif %}
         chdir: "{{ playbook_dir }}/../apps"
         strip_empty_ends: false
       changed_when: false
@@ -45,11 +37,7 @@
           mvn
           --no-snapshot-updates
           --batch-mode
-          {% if is_local_building %}
-          spotless:apply
-          {% else %}
           spotless:check
-          {% endif %}
         chdir: "{{ playbook_dir }}/../tests"
         strip_empty_ends: false
       changed_when: false
