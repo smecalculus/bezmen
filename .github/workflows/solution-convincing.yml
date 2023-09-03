@@ -10,8 +10,8 @@ env:
   REGISTRY: ghcr.io
 
 jobs:
-  solution:
-    name: Solution
+  checking:
+    name: Checking
     timeout-minutes: 15
     runs-on: ubuntu-22.04
     permissions:
