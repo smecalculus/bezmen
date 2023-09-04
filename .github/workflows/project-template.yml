@@ -9,7 +9,7 @@ jobs:
     name: Syncing
     runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@v3.6.0
+      - uses: actions/checkout@v4.0.0
       - uses: AndreasAugustin/actions-template-sync@v1.1.2
         with:
           source_repo_path: smecalculus/bezmen

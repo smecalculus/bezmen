@@ -12,7 +12,7 @@ jobs:
     timeout-minutes: 5
     runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@v3.6.0
+      - uses: actions/checkout@v4.0.0
       - uses: ./.github/actions/prepare
         with:
           tools: python java
@@ -31,7 +31,7 @@ jobs:
       packages: write
       pull-requests: write
     steps:
-      - uses: actions/checkout@v3.6.0
+      - uses: actions/checkout@v4.0.0
       - uses: ./.github/actions/prepare
         with:
           tools: python java docker
@@ -81,7 +81,7 @@ jobs:
         prefs: [turing, church]
     runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@v3.6.0
+      - uses: actions/checkout@v4.0.0
       - uses: ./.github/actions/prepare
         with:
           tools: python docker
@@ -110,7 +110,7 @@ jobs:
         shard: [0, 1]
     runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@v3.6.0
+      - uses: actions/checkout@v4.0.0
       - uses: ./.github/actions/prepare
         with:
           tools: python java docker
@@ -153,7 +153,7 @@ jobs:
     permissions:
       packages: write
     steps:
-      - uses: actions/checkout@v3.6.0
+      - uses: actions/checkout@v4.0.0
       - uses: ./.github/actions/prepare
         with:
           tools: python docker
