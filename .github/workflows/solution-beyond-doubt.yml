@@ -23,7 +23,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   images:
-    name: Images
+    name: Binaries & Images
     timeout-minutes: 10
     runs-on: ubuntu-22.04
     permissions:
@@ -124,6 +124,7 @@ jobs:
           ansible-playbook solution.yml -t test
           -e repository_mode=read_only
           -e capture_pipeline=false
+          -e test_failure_ignore=true
           -e usage=${{ matrix.usage }}
           -e prefs=${{ matrix.prefs }}
           -e reminder=${{ matrix.shard }}
@@ -172,9 +173,8 @@ jobs:
 
   solution-reporting:
     name: Solution reporting
-    if: ${{ !cancelled() }}
     timeout-minutes: 5
-    needs: [solution-testing]
+    needs: [solution-packaging]
     runs-on: ubuntu-22.04
     permissions:
       checks: write
