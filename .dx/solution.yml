@@ -2,30 +2,39 @@
 - import_playbook: images.yml  # noqa: name[play]
   tags: [images, deps]
 
-- name: Solution
+- name: Solution & Pipeline
   hosts: solution
   run_once: true
   tasks:
-    - ansible.builtin.import_tasks:  # noqa: name[missing]
-        file: tasks/pipeline/status.yml
-      tags: [always]
-    - ansible.builtin.import_tasks:  # noqa: name[missing]
+    - name: Capture solution
+      ansible.builtin.import_tasks:
         file: tasks/solution/status.yml
       tags: [always]
-    - ansible.builtin.import_tasks:  # noqa: name[missing]
+    - name: Capture pipeline
+      ansible.builtin.import_tasks:
+        file: tasks/pipeline/status.yml
+      tags: [always]
+    - name: Compile solution
+      ansible.builtin.import_tasks:
         file: tasks/solution/compile.yml
       tags: [compile]
-      # remotely compile solution even if it hasn't changed (it's fast enough)
       when: >
-        is_remote_building or
-        solution_status is changed
-    - ansible.builtin.import_tasks:  # noqa: name[missing]
+        solution_status is changed or
+        pipeline_status is changed
+    - name: Test solution
+      ansible.builtin.import_tasks:
         file: tasks/solution/test.yml
       tags: [test]
       when: >
         solution_status is changed or
         pipeline_status is changed
-    - ansible.builtin.import_tasks:  # noqa: name[missing]
+    - name: Package solution
+      ansible.builtin.import_tasks:
         file: tasks/solution/package.yml
       tags: [package]
       when: solution_status is changed
+    - name: Package pipeline
+      ansible.builtin.import_tasks:
+        file: tasks/pipeline/package.yml
+      tags: [package]
+      when: pipeline_status is changed

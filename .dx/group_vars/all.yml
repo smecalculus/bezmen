@@ -1,37 +1,38 @@
 ---
-env_name: green
-
-schema_cid: "{{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=schemas')[:7] }}"
 lib_cid: "{{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=libs')[:7] }}"
 app_cid: "{{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=apps')[:7] }}"
+schema_cid: "{{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=schemas')[:7] }}"
 solution_cid: "{{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=solutions')[:7] }}"
 
-dx_cid: "{{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=.dx')[:7] }}"
-env_cid: "{{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=.env/' ~ env_name)[:7] }}"
-test_cid: "{{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=tests')[:7] }}"
+environ: green
 
-usage: toy
-prefs: turing
+dx_cid: "{{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=.dx')[:7] }}"
+env_cid: "{{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=.env/' ~ environ)[:7] }}"
+test_cid: "{{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=tests')[:7] }}"
 
 lib_version: 0.1.0-{{ lib_cid }}
 app_version: 0.1.0-{{ app_cid }}
 
-docker_registry: localhost
+usage: toy
+prefs: turing
+
+# How to work with private remote repositories?
+# offline - no pull, nor push packages
+# read_only - can pull packages
+# read_write - can pull and push packages
+repository_mode: offline
+
+docker_registry: ghcr.io
 docker_repo: smecalculus
 
-# TODO: introduce enum like variable
-is_local_building: "{{ docker_registry == 'localhost' }}"
-is_remote_building: "{{ docker_registry != 'localhost' }}"
-
-docker_entity: "{{ 'image' if is_local_building else 'manifest' }}"
-docker_command: "{{ 'inspect' if is_local_building else 'pull' }}"
+docker_entity: "{{ 'image' if repository_mode == 'offline' else 'manifest' }}"
 
 schema_images:
   postgres: "{{ docker_registry }}/{{ docker_repo }}/schema-postgres"
 app_images:
   foo: "{{ docker_registry }}/{{ docker_repo }}/app-foo"
 solution_image: "{{ docker_registry }}/{{ docker_repo }}/solution-{{ usage }}-{{ prefs }}"
-pipeline_image: "{{ docker_registry }}/{{ docker_repo }}/pipeline"
+pipeline_image: "{{ docker_registry }}/{{ docker_repo }}/pipeline-{{ environ }}"
 
 capture_solution: true
 capture_pipeline: true

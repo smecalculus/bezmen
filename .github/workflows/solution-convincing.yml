@@ -6,13 +6,10 @@ on:
     branches: [main]
   workflow_dispatch:
 
-env:
-  REGISTRY: ghcr.io
-
 jobs:
   checking:
     name: Checking
-    timeout-minutes: 15
+    timeout-minutes: 10
     runs-on: ubuntu-22.04
     permissions:
       checks: write
@@ -24,16 +21,14 @@ jobs:
         with:
           tools: python java docker
           token: ${{ secrets.GITHUB_TOKEN }}
-      - run: >
-          ansible-playbook sources.yml -l lib:app
-          -e docker_registry=${{ env.REGISTRY }}
+      - run: ansible-playbook sources.yml -l lib:app
         working-directory: .dx
         env:
           GITHUB_ACTOR: ${{ github.actor }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - run: >
           ansible-playbook images.yml
-          -e docker_registry=${{ env.REGISTRY }}
+          -e repository_mode=read_write
         working-directory: .dx
         env:
           GITHUB_ACTOR: ${{ github.actor }}

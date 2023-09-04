@@ -11,22 +11,19 @@ on:
       - tools/**
   workflow_dispatch:
 
-env:
-  REGISTRY: ghcr.io
-
 jobs:
   checking:
-    name: Checking in ${{ matrix.environment.name }} env
+    name: Checking in ${{ matrix.environ.name }} env
     timeout-minutes: 10
     strategy:
       fail-fast: false
       matrix:
-        environment:
+        environ:
           - name: green
             os: ubuntu-22.04
           - name: amber
             os: ubuntu-20.04
-    runs-on: ${{ matrix.environment.os }}
+    runs-on: ${{ matrix.environ.os }}
     permissions:
       checks: write
       packages: write
@@ -35,21 +32,18 @@ jobs:
       - uses: actions/checkout@v3.6.0
       - uses: ./.github/actions/prepare
         with:
-          name: ${{ matrix.environment.name }}
+          name: ${{ matrix.environ.name }}
           tools: python java docker
           token: ${{ secrets.GITHUB_TOKEN }}
-      - run: >
-          ansible-playbook sources.yml -l dx:test
-          -e docker_registry=${{ env.REGISTRY }}
+      - run: ansible-playbook sources.yml -l test:pipeline
         working-directory: .dx
         env:
           GITHUB_ACTOR: ${{ github.actor }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - run: >
           ansible-playbook solution.yml
-          --skip-tags package
-          -e env_name=${{ matrix.environment.name }}
-          -e docker_registry=${{ env.REGISTRY }}
+          -e environ=${{ matrix.environ.name }}
+          -e repository_mode=read_write
           -e capture_solution=false
           -e usage=toy
           -e prefs=turing
@@ -57,8 +51,3 @@ jobs:
         env:
           GITHUB_ACTOR: ${{ github.actor }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - run: >
-          ansible-playbook pipeline.yml
-          -e env_name=${{ matrix.environment.name }}
-          -e docker_registry=${{ env.REGISTRY }}
-        working-directory: .dx

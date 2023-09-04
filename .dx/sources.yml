@@ -8,12 +8,8 @@
           mvn
           --no-snapshot-updates
           --batch-mode
-          {% if is_local_building %}
-          spotless:apply
-          {% else %}
-          spotless:check
-          {% endif %}
           enforcer:enforce
+          spotless:check
         chdir: "{{ playbook_dir }}/../libs"
         strip_empty_ends: false
       changed_when: false
@@ -27,11 +23,7 @@
           mvn
           --no-snapshot-updates
           --batch-mode
-          {% if is_local_building %}
-          spotless:apply
-          {% else %}
           spotless:check
-          {% endif %}
         chdir: "{{ playbook_dir }}/../apps"
         strip_empty_ends: false
       changed_when: false
@@ -45,17 +37,13 @@
           mvn
           --no-snapshot-updates
           --batch-mode
-          {% if is_local_building %}
-          spotless:apply
-          {% else %}
           spotless:check
-          {% endif %}
         chdir: "{{ playbook_dir }}/../tests"
         strip_empty_ends: false
       changed_when: false
 
 - name: Sources
-  hosts: dx
+  hosts: pipeline
   tasks:
     - name: Analyze
       ansible.builtin.command:
@@ -64,13 +52,8 @@
           ansible-lint
           sources.yml
           solution.yml
-          pipeline.yml
         strip_empty_ends: false
       changed_when: false
-
-- name: Sources
-  hosts: pipeline
-  tasks:
     - name: Analyze
       ansible.builtin.command:
         cmd: yamllint ../.github

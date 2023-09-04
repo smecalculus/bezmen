@@ -5,3 +5,4 @@
     image_tag: "{{ pipeline_tag.stdout[:7] }}"
     image_name: "{{ pipeline_image }}"
     image_home: "{{ playbook_dir }}/../.github"
+    image_context: .
