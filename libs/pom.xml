@@ -352,7 +352,7 @@
         <plugin>
           <artifactId>maven-compiler-plugin</artifactId>
           <version>3.11.0</version>
-          <!-- TODO: вынести конфигурации из pluginManagement -->
+          <!-- TODO: подумать о том, чтобы вынести конфигурации из pluginManagement -->
           <configuration>
             <source>17</source>
             <target>17</target>
