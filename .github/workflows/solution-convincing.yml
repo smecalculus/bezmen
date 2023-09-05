@@ -7,8 +7,8 @@ on:
   workflow_dispatch:
 
 jobs:
-  checking:
-    name: Checking
+  uu-to-images:
+    name: Up to images
     timeout-minutes: 10
     runs-on: ubuntu-22.04
     permissions:
