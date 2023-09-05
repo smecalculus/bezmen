@@ -2,10 +2,10 @@ FROM eclipse-temurin:17-jdk-alpine
 RUN addgroup -S bezmen && adduser -S bezmen -G bezmen
 USER bezmen:bezmen
 WORKDIR /home/bezmen
-COPY libs app/libs
-COPY app-foo*.jar app/foo.jar
+COPY libs foo/libs
+COPY app-foo*.jar foo/app.jar
 ENTRYPOINT [ \
-    "java", "-cp", "app/foo.jar:app/libs/*", \
-    "-Dconfig.file=app/application.conf", \
+    "java", "-cp", "foo/app.jar:foo/libs/*", \
+    "-Dconfig.file=foo/application.conf", \
     "org.smecalculus.bezmen.construction.App" \
 ]

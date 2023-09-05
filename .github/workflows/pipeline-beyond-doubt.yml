@@ -12,8 +12,8 @@ on:
   workflow_dispatch:
 
 jobs:
-  checking:
-    name: Checking in ${{ matrix.environ.name }} env
+  everything:
+    name: Everything in ${{ matrix.environ.name }} env
     timeout-minutes: 10
     strategy:
       fail-fast: false
