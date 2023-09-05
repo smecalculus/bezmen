@@ -35,7 +35,7 @@
       {% if test_failure_ignore is defined %}
       --define maven.test.failure.ignore={{ test_failure_ignore }}
       {% endif %}
-      --define prefs.combo={{ prefs }}
+      --define prefs={{ prefs }}
       {% if reminder is defined %}
       --define bezmen.sharding.reminder={{ reminder }}
       {% endif %}
