@@ -42,9 +42,10 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - run: >
           ansible-playbook solution.yml
+          -e maven_host=maven.pkg.github.com
+          -e docker_host=ghcr.io
           -e environ=${{ matrix.environ.name }}
-          -e repository_mode=read_write
-          -e capture_solution=false
+          -e focus=pipeline
           -e usage=toy
           -e prefs=turing
         working-directory: .dx

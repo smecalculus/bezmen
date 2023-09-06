@@ -28,7 +28,9 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - run: >
           ansible-playbook images.yml
-          -e repository_mode=read_write
+          -e maven_host=maven.pkg.github.com
+          -e docker_host=ghcr.io
+          -e focus=solution
         working-directory: .dx
         env:
           GITHUB_ACTOR: ${{ github.actor }}

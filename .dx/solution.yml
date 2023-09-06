@@ -2,39 +2,53 @@
 - import_playbook: images.yml  # noqa: name[play]
   tags: [images, deps]
 
-- name: Solution & Pipeline
+- name: Capturing
   hosts: solution
   run_once: true
   tasks:
-    - name: Capture solution
-      ansible.builtin.import_tasks:
+    - ansible.builtin.import_tasks:  # noqa: name[missing]
         file: tasks/solution/status.yml
       tags: [always]
-    - name: Capture pipeline
-      ansible.builtin.import_tasks:
+
+- name: Capturing
+  hosts: pipeline
+  run_once: true
+  tasks:
+    - ansible.builtin.import_tasks:  # noqa: name[missing]
         file: tasks/pipeline/status.yml
       tags: [always]
-    - name: Compile solution
-      ansible.builtin.import_tasks:
+
+- name: Testing
+  hosts: system
+  run_once: true
+  tasks:
+    - ansible.builtin.import_tasks:  # noqa: name[missing]
         file: tasks/solution/compile.yml
       tags: [compile]
       when: >
-        solution_status is changed or
-        pipeline_status is changed
-    - name: Test solution
-      ansible.builtin.import_tasks:
+        hostvars.solution.solution_status is changed or
+        hostvars.pipeline.pipeline_status is changed
+    - ansible.builtin.import_tasks:  # noqa: name[missing]
         file: tasks/solution/test.yml
       tags: [test]
       when: >
-        solution_status is changed or
-        pipeline_status is changed
-    - name: Package solution
-      ansible.builtin.import_tasks:
+        hostvars.solution.solution_status is changed or
+        hostvars.pipeline.pipeline_status is changed
+
+- name: Packaging
+  hosts: solution
+  run_once: true
+  tasks:
+    - ansible.builtin.import_tasks:  # noqa: name[missing]
         file: tasks/solution/package.yml
       tags: [package]
       when: solution_status is changed
-    - name: Package pipeline
-      ansible.builtin.import_tasks:
+
+- name: Packaging
+  hosts: pipeline
+  run_once: true
+  tasks:
+    - ansible.builtin.import_tasks:  # noqa: name[missing]
         file: tasks/pipeline/package.yml
       tags: [package]
       when: pipeline_status is changed

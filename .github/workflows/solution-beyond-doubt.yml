@@ -6,6 +6,10 @@ on:
     branches: [main]
   workflow_dispatch:
 
+env:
+  MAVEN_HOST: maven.pkg.github.com
+  DOCKER_HOST: ghcr.io
+
 jobs:
   sources:
     name: Sources
@@ -38,7 +42,9 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
       - run: >
           ansible-playbook images.yml
-          -e repository_mode=read_write
+          -e maven_host=${{ env.MAVEN_HOST }}
+          -e docker_host=${{ env.DOCKER_HOST }}
+          -e focus=solution
         working-directory: .dx
         env:
           GITHUB_ACTOR: ${{ github.actor }}
@@ -88,7 +94,7 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
       - run: >
           ansible-playbook solution.yml -t compile
-          -e repository_mode=read_only
+          -e docker_host=${{ env.DOCKER_HOST }}
           -e usage=${{ matrix.usage }}
           -e prefs=${{ matrix.prefs }}
         working-directory: .dx
@@ -122,8 +128,7 @@ jobs:
           path: solutions/target/context
       - run: >
           ansible-playbook solution.yml -t test
-          -e repository_mode=read_only
-          -e capture_pipeline=false
+          -e docker_host=${{ env.DOCKER_HOST }}
           -e test_failure_ignore=true
           -e usage=${{ matrix.usage }}
           -e prefs=${{ matrix.prefs }}
@@ -165,8 +170,8 @@ jobs:
           path: solutions/target/context
       - run: >
           ansible-playbook solution.yml -t package
-          -e repository_mode=read_write
-          -e capture_pipeline=false
+          -e docker_host=${{ env.DOCKER_HOST }}
+          -e focus=solution
           -e usage=${{ matrix.usage }}
           -e prefs=${{ matrix.prefs }}
         working-directory: .dx

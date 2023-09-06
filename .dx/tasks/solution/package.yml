@@ -2,7 +2,8 @@
 - ansible.builtin.import_role:  # noqa: name[missing]
     name: image
   vars:
-    image_tag: "{{ solution_tag.stdout[:7] }}"
+    image_tag: "{{ solution_cid.stdout[:7] }}"
     image_name: "{{ solution_image }}"
     image_home: "{{ playbook_dir }}/../solutions"
     image_context: target/context
+    image_push: "{{ focus == 'solution' }}"

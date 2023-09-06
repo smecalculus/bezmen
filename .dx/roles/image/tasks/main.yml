@@ -37,4 +37,4 @@
     cmd: docker image push {{ image_name }}:{{ image_tag }}
     strip_empty_ends: false
   changed_when: true
-  when: repository_mode == 'read_write'
+  when: image_push|bool

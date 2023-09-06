@@ -1,3 +1,4 @@
 ---
 image_tag: latest
 image_context: .
+image_push: false

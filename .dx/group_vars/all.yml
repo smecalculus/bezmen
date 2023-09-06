@@ -17,23 +17,20 @@ app_version: 0.1.0-{{ app_cid }}
 usage: toy
 prefs: turing
 
-# How to work with private remote repositories?
-# offline - no pull, nor push packages
-# read_only - can pull packages
-# read_write - can pull and push packages
-repository_mode: offline
+# solution - focus on solution changes
+# pipeline - focus on pipeline changes
+# none - without any particular focus
+focus: none
 
-docker_registry: ghcr.io
+maven_host: local
+docker_host: local
+
 docker_repo: smecalculus
-
-docker_entity: "{{ 'image' if repository_mode == 'offline' else 'manifest' }}"
+docker_entity: "{{ 'image' if docker_host == 'local' else 'manifest' }}"
 
 schema_images:
-  postgres: "{{ docker_registry }}/{{ docker_repo }}/schema-postgres"
+  postgres: "{{ docker_host }}/{{ docker_repo }}/schema-postgres"
 app_images:
-  foo: "{{ docker_registry }}/{{ docker_repo }}/app-foo"
-solution_image: "{{ docker_registry }}/{{ docker_repo }}/solution-{{ usage }}-{{ prefs }}"
-pipeline_image: "{{ docker_registry }}/{{ docker_repo }}/pipeline-{{ environ }}"
-
-capture_solution: true
-capture_pipeline: true
+  foo: "{{ docker_host }}/{{ docker_repo }}/app-foo"
+solution_image: "{{ docker_host }}/{{ docker_repo }}/solution-{{ usage }}-{{ prefs }}"
+pipeline_image: "{{ docker_host }}/{{ docker_repo }}/pipeline-{{ environ }}"
