@@ -8,7 +8,7 @@ on:
 
 jobs:
   everything:
-    name: Everything in ${{ matrix.environ.name }} env
+    name: Everything in ${{ matrix.environ.name }} environ
     timeout-minutes: 10
     strategy:
       fail-fast: false
