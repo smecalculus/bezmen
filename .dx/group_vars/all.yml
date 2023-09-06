@@ -7,7 +7,7 @@ solution_cid: "{{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=soluti
 environ: green
 
 dx_cid: "{{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=.dx')[:7] }}"
-env_cid: "{{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=.env/' ~ environ)[:7] }}"
+environ_cid: "{{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=.environ/' ~ environ)[:7] }}"
 tool_cid: "{{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=.tools')[:7] }}"
 test_cid: "{{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=tests')[:7] }}"
 

@@ -46,8 +46,6 @@ jobs:
           -e docker_host=ghcr.io
           -e environ=${{ matrix.environ.name }}
           -e focus=pipeline
-          -e usage=toy
-          -e prefs=turing
         working-directory: .dx
         env:
           GITHUB_ACTOR: ${{ github.actor }}

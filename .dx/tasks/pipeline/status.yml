@@ -4,7 +4,7 @@
     cmd: git hash-object --stdin
     stdin: |
       {{ dx_cid }}
-      {{ env_cid }}
+      {{ environ_cid }}
       {{ tool_cid }}
       {{ test_cid }}
   register: pipeline_cid
