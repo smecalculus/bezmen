@@ -93,7 +93,7 @@ jobs:
           tools: python docker
           token: ${{ secrets.GITHUB_TOKEN }}
       - run: >
-          ansible-playbook solution.yml -t compile
+          ansible-playbook systems.yml -t compile
           -e docker_host=${{ env.DOCKER_HOST }}
           -e usage=${{ matrix.usage }}
           -e prefs=${{ matrix.prefs }}
@@ -127,7 +127,7 @@ jobs:
           name: solution-${{ matrix.usage }}-${{ matrix.prefs }}
           path: solutions/target/context
       - run: >
-          ansible-playbook solution.yml -t test
+          ansible-playbook systems.yml -t test
           -e docker_host=${{ env.DOCKER_HOST }}
           -e test_failure_ignore=true
           -e usage=${{ matrix.usage }}
@@ -169,7 +169,7 @@ jobs:
           name: solution-${{ matrix.usage }}-${{ matrix.prefs }}
           path: solutions/target/context
       - run: >
-          ansible-playbook solution.yml -t package
+          ansible-playbook systems.yml -t package
           -e docker_host=${{ env.DOCKER_HOST }}
           -e focus=solution
           -e usage=${{ matrix.usage }}
