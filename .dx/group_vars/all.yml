@@ -8,6 +8,7 @@ environ: green
 
 dx_cid: "{{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=.dx')[:7] }}"
 env_cid: "{{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=.env/' ~ environ)[:7] }}"
+tool_cid: "{{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=.tools')[:7] }}"
 test_cid: "{{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=tests')[:7] }}"
 
 lib_version: 0.1.0-{{ lib_cid }}

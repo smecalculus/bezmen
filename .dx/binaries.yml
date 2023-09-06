@@ -103,7 +103,7 @@
           antrun:run@units
           antrun:run@integrations
           antrun:run@overall
-        chdir: "{{ playbook_dir }}/../tools"
+        chdir: "{{ playbook_dir }}/../.tools"
         strip_empty_ends: false
       changed_when: true
       when: >

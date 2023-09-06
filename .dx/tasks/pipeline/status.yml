@@ -5,6 +5,7 @@
     stdin: |
       {{ dx_cid }}
       {{ env_cid }}
+      {{ tool_cid }}
       {{ test_cid }}
   register: pipeline_tag
   changed_when: false
