@@ -8,10 +8,10 @@
         # todo: try to implement more lightweight check
         cmd: >
           mvn
-          {% if maven_host == 'local' %}
+          {% if binary_repo == 'local' %}
           --offline
           {% else %}
-          --define remoteRepositories=github::::https://{{ maven_host }}/smecalculus/bezmen
+          --define remoteRepositories=github::::https://{{ binary_repo }}/smecalculus/bezmen
           {% endif %}
           dependency:get
           --define transitive=false
