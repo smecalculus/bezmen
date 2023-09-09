@@ -6,6 +6,7 @@ on:
     branches:
       - feature/**
       - bugfix/**
+      - chore/**
   pull_request:
     branches:
       - main

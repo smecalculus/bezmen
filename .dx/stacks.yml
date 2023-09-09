@@ -23,8 +23,8 @@
   run_once: true
   tasks:
     - ansible.builtin.import_tasks:  # noqa: name[missing]
-        file: tasks/solution/compile.yml
-      tags: [compile]
+        file: tasks/solution/build.yml
+      tags: [build]
       when: >
         hostvars.solution.stack_status is changed or
         hostvars.pipeline.stack_status is changed

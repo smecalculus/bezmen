@@ -27,7 +27,7 @@ jobs:
           GITHUB_ACTOR: ${{ github.actor }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-  images:
+  binaries-and-images:
     name: Binaries & Images
     timeout-minutes: 10
     runs-on: ubuntu-22.04
@@ -77,10 +77,10 @@ jobs:
             libs/*/target/failsafe-reports/TEST-*.xml
             apps/*/target/failsafe-reports/TEST-*.xml
 
-  solution-compiling:
-    name: Solution compiling
+  stack-building:
+    name: Stack building
     timeout-minutes: 5
-    needs: [sources, images]
+    needs: [sources, binaries-and-images]
     strategy:
       fail-fast: false
       matrix:
@@ -94,7 +94,7 @@ jobs:
           tools: python docker
           token: ${{ secrets.GITHUB_TOKEN }}
       - run: >
-          ansible-playbook stacks.yml -t compile
+          ansible-playbook stacks.yml -t build
           -e image_repo=${{ env.IMAGE_REPO }}
           -e usage=${{ matrix.usage }}
           -e prefs=${{ matrix.prefs }}
@@ -105,10 +105,10 @@ jobs:
           path: solutions/target/context
           if-no-files-found: ignore
 
-  solution-testing:
-    name: Solution testing
+  stack-testing:
+    name: Stack testing
     timeout-minutes: 15
-    needs: [solution-compiling]
+    needs: [stack-building]
     strategy:
       fail-fast: false
       matrix:
@@ -146,10 +146,10 @@ jobs:
           path: tests/e2e/target/surefire-reports/*.xml
           if-no-files-found: ignore
 
-  solution-packaging:
-    name: Solution packaging
+  stack-packaging:
+    name: Stack packaging
     timeout-minutes: 5
-    needs: [solution-testing]
+    needs: [stack-testing]
     strategy:
       fail-fast: false
       matrix:
@@ -177,10 +177,10 @@ jobs:
           -e prefs=${{ matrix.prefs }}
         working-directory: .dx
 
-  solution-reporting:
-    name: Solution reporting
+  stack-reporting:
+    name: Stack reporting
     timeout-minutes: 5
-    needs: [solution-packaging]
+    needs: [stack-packaging]
     runs-on: ubuntu-22.04
     permissions:
       checks: write
