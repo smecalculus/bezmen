@@ -2,8 +2,13 @@
 name: Solution convincing
 
 on:
+  merge_group:
+    branches:
+      - feature/**
+      - bugfix/**
   pull_request:
-    branches: [main]
+    branches:
+      - main
   workflow_dispatch:
 
 jobs:
@@ -91,12 +96,3 @@ jobs:
           update-comment: true
         env:
           JACOCO_INTEGRATIONS: .tools/target/coverage/integrations/jacoco.xml
-      - uses: madrapps/jacoco-report@v1.6
-        if: ${{ github.event_name == 'pull_request' && hashFiles(env.JACOCO_OVERALL) != '' }}
-        with:
-          title: Overall Coverage Report
-          paths: ${{ env.JACOCO_OVERALL }}
-          token: ${{ secrets.GITHUB_TOKEN }}
-          update-comment: true
-        env:
-          JACOCO_OVERALL: .tools/target/coverage/overall/jacoco.xml

@@ -3,7 +3,8 @@ name: Pipeline sanity
 
 on:
   pull_request:
-    branches-ignore: [main]
+    branches-ignore:
+      - main
     paths:  # waiting for https://github.com/actions/runner/issues/2324
       - .dx/**
       - .tools/**
@@ -12,8 +13,8 @@ on:
   workflow_dispatch:
 
 jobs:
-  sources:
-    name: Sources in ${{ matrix.environ.name }} environ
+  up-to-binaries:
+    name: Up to binaries in ${{ matrix.environ.name }} environ
     timeout-minutes: 5
     strategy:
       matrix:
@@ -30,6 +31,14 @@ jobs:
           revision: ${{ matrix.environ.name }}
           tools: python java
       - run: ansible-playbook sources.yml -l test:pipeline
+        working-directory: .dx
+        env:
+          GITHUB_ACTOR: ${{ github.actor }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - run: >
+          ansible-playbook binaries.yml
+          -e binary_repo=maven.pkg.github.com
+          -e focus=pipeline
         working-directory: .dx
         env:
           GITHUB_ACTOR: ${{ github.actor }}
