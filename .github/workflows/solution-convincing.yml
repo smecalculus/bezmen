@@ -4,8 +4,7 @@ name: Solution convincing
 on:
   merge_group:
     branches:
-      - feature/**
-      - bugfix/**
+      - "*/**"
   pull_request:
     branches:
       - main

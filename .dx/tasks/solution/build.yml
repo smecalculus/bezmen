@@ -10,7 +10,7 @@
     state: directory
     recurse: true
 
-- name: Compile spec
+- name: Build spec
   ansible.builtin.command:
     cmd: >
       docker compose
@@ -29,7 +29,7 @@
     FOO_IMAGE: "{{ app_images.foo }}"
   changed_when: true
 
-- name: Compile conf
+- name: Build conf
   ansible.builtin.command:
     cmd: cp basis/{{ prefs }}.conf target/context/bezmen.conf
     chdir: "{{ playbook_dir }}/../solutions"
