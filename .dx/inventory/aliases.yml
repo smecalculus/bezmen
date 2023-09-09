@@ -4,9 +4,14 @@ all:
     lib:
     app:
     schema:
-    solution:
-    dx:
     test:
+    dx:
+    tool:
+  vars:
+    ansible_connection: local
+stack:
+  hosts:
+    solution:
     pipeline:
   vars:
     ansible_connection: local

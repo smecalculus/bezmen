@@ -1,6 +1,7 @@
 ---
 - name: Sources
   hosts: lib
+  run_once: true
   tasks:
     - name: Analyze
       ansible.builtin.command:
@@ -16,6 +17,7 @@
 
 - name: Sources
   hosts: app
+  run_once: true
   tasks:
     - name: Analyze
       ansible.builtin.command:
@@ -30,6 +32,7 @@
 
 - name: Sources
   hosts: test
+  run_once: true
   tasks:
     - name: Analyze
       ansible.builtin.command:
@@ -44,6 +47,7 @@
 
 - name: Sources
   hosts: pipeline
+  run_once: true
   tasks:
     - name: Analyze
       ansible.builtin.command:
@@ -51,7 +55,7 @@
         cmd: >
           ansible-lint
           sources.yml
-          solution.yml
+          stacks.yml
         strip_empty_ends: false
       changed_when: false
     - name: Analyze

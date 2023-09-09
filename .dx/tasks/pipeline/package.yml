@@ -2,7 +2,8 @@
 - ansible.builtin.import_role:  # noqa: name[missing]
     name: image
   vars:
-    image_tag: "{{ pipeline_tag.stdout[:7] }}"
-    image_name: "{{ pipeline_image }}"
+    image_tag: "{{ stack_cid.stdout[:7] }}"
+    image_name: "{{ stack_images.pipeline }}"
     image_home: "{{ playbook_dir }}/../.github"
     image_context: .
+    image_push: "{{ focus == 'pipeline' }}"

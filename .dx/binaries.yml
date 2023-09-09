@@ -1,16 +1,17 @@
 ---
 - name: Binaries
   hosts: lib
+  run_once: true
   tasks:
     - name: Capture status
       ansible.builtin.command:
         # todo: try to implement more lightweight check
         cmd: >
           mvn
-          {% if repository_mode == 'offline' %}
+          {% if binary_repo == 'local' %}
           --offline
           {% else %}
-          --define remoteRepositories=github::::https://maven.pkg.github.com/smecalculus/bezmen
+          --define remoteRepositories=github::::https://{{ binary_repo }}/smecalculus/bezmen
           {% endif %}
           dependency:get
           --define transitive=false
@@ -33,7 +34,7 @@
           --threads 2C
           --define revision={{ lib_version }}
           clean
-          {% if repository_mode == 'read_write' %}
+          {% if focus == 'solution' %}
           deploy
           {% else %}
           install
@@ -44,19 +45,21 @@
 
 - name: Binaries
   hosts: app
+  run_once: true
   tasks:
-    - name: Capture tag
+    - name: Capture cid
       ansible.builtin.command:
         cmd: git hash-object --stdin
         stdin: |
           {{ lib_cid }}
           {{ app_cid }}
-      register: image_tag
+      # TODO: try to choose better name
+      register: image_cid
       changed_when: false
       tags: [always]
     - name: Capture statuses
       ansible.builtin.command:
-        cmd: docker {{ docker_entity }} inspect {{ item.value }}:{{ image_tag.stdout[:7] }}
+        cmd: docker {{ docker_entity }} inspect {{ item.value }}:{{ image_cid.stdout[:7] }}
       register: image_status
       changed_when: image_status.rc != 0
       failed_when: false
@@ -90,7 +93,7 @@
       when: image_status is changed
 
 - name: Coverage
-  hosts: lib:app
+  hosts: tool
   run_once: true
   tasks:
     - name: Generate reports
@@ -103,7 +106,7 @@
           antrun:run@units
           antrun:run@integrations
           antrun:run@overall
-        chdir: "{{ playbook_dir }}/../tools"
+        chdir: "{{ playbook_dir }}/../.tools"
         strip_empty_ends: false
       changed_when: true
       when: >

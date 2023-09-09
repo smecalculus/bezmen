@@ -1,0 +1,59 @@
+---
+name: Solution sanity
+
+on:
+  pull_request:
+    branches-ignore:
+      - main
+    paths:  # waiting for https://github.com/actions/runner/issues/2324
+      - libs/**
+      - apps/**
+      - schemas/**
+      - solutions/**
+  workflow_dispatch:
+
+jobs:
+  up-to-binaries:
+    name: Up to binaries
+    timeout-minutes: 5
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4.0.0
+      - uses: ./.github/actions/prepare
+        with:
+          tools: python java
+      - run: ansible-playbook sources.yml -l lib:app
+        working-directory: .dx
+        env:
+          GITHUB_ACTOR: ${{ github.actor }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - run: >
+          ansible-playbook binaries.yml
+          -e binary_repo=maven.pkg.github.com
+          -e focus=solution
+        working-directory: .dx
+        env:
+          GITHUB_ACTOR: ${{ github.actor }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - uses: EnricoMi/publish-unit-test-result-action@v2.9.0
+        if: ${{ !cancelled() }}
+        with:
+          check_name: Unit Test Report
+          check_run_annotations: none
+          compare_to_earlier_commit: false
+          action_fail_on_inconclusive: true
+          action_fail: true
+          job_summary: false
+          comment_mode: off
+          files: |
+            libs/*/target/surefire-reports/TEST-*.xml
+            apps/*/target/surefire-reports/TEST-*.xml
+      - uses: madrapps/jacoco-report@v1.6
+        if: ${{ github.event_name == 'pull_request' && hashFiles(env.JACOCO_UNITS) != '' }}
+        with:
+          title: Unit Coverage Report
+          paths: ${{ env.JACOCO_UNITS }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+          update-comment: true
+        env:
+          JACOCO_UNITS: .tools/target/coverage/units/jacoco.xml

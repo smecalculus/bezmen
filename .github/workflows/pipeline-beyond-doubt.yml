@@ -3,17 +3,13 @@ name: Pipeline beyond doubt
 
 on:
   pull_request:
-    branches: [main]
-    paths:  # waiting for https://github.com/actions/runner/issues/2324
-      - .dx/**
-      - .env/**
-      - .github/**
-      - tools/**
+    branches:
+      - main
   workflow_dispatch:
 
 jobs:
   everything:
-    name: Everything in ${{ matrix.environ.name }} env
+    name: Everything in ${{ matrix.environ.name }} environ
     timeout-minutes: 10
     strategy:
       fail-fast: false
@@ -41,12 +37,11 @@ jobs:
           GITHUB_ACTOR: ${{ github.actor }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - run: >
-          ansible-playbook solution.yml
+          ansible-playbook stacks.yml
+          -e binary_repo=maven.pkg.github.com
+          -e image_repo=ghcr.io
           -e environ=${{ matrix.environ.name }}
-          -e repository_mode=read_write
-          -e capture_solution=false
-          -e usage=toy
-          -e prefs=turing
+          -e focus=pipeline
         working-directory: .dx
         env:
           GITHUB_ACTOR: ${{ github.actor }}

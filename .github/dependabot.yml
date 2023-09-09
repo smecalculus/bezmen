@@ -23,7 +23,7 @@ updates:
     ignore:
       - dependency-name: "org.smecalculus.bezmen:*"
   - package-ecosystem: "maven"
-    directory: "/tools"
+    directory: "/.tools"
     schedule:
       interval: "weekly"
   - package-ecosystem: "docker"

@@ -3,8 +3,13 @@ name: Solution beyond doubt
 
 on:
   merge_group:
-    branches: [main]
+    branches:
+      - main
   workflow_dispatch:
+
+env:
+  BINARY_REPO: maven.pkg.github.com
+  IMAGE_REPO: ghcr.io
 
 jobs:
   sources:
@@ -38,7 +43,9 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
       - run: >
           ansible-playbook images.yml
-          -e repository_mode=read_write
+          -e binary_repo=${{ env.BINARY_REPO }}
+          -e image_repo=${{ env.IMAGE_REPO }}
+          -e focus=solution
         working-directory: .dx
         env:
           GITHUB_ACTOR: ${{ github.actor }}
@@ -87,8 +94,8 @@ jobs:
           tools: python docker
           token: ${{ secrets.GITHUB_TOKEN }}
       - run: >
-          ansible-playbook solution.yml -t compile
-          -e repository_mode=read_only
+          ansible-playbook stacks.yml -t compile
+          -e image_repo=${{ env.IMAGE_REPO }}
           -e usage=${{ matrix.usage }}
           -e prefs=${{ matrix.prefs }}
         working-directory: .dx
@@ -121,9 +128,8 @@ jobs:
           name: solution-${{ matrix.usage }}-${{ matrix.prefs }}
           path: solutions/target/context
       - run: >
-          ansible-playbook solution.yml -t test
-          -e repository_mode=read_only
-          -e capture_pipeline=false
+          ansible-playbook stacks.yml -t test
+          -e image_repo=${{ env.IMAGE_REPO }}
           -e test_failure_ignore=true
           -e usage=${{ matrix.usage }}
           -e prefs=${{ matrix.prefs }}
@@ -164,9 +170,9 @@ jobs:
           name: solution-${{ matrix.usage }}-${{ matrix.prefs }}
           path: solutions/target/context
       - run: >
-          ansible-playbook solution.yml -t package
-          -e repository_mode=read_write
-          -e capture_pipeline=false
+          ansible-playbook stacks.yml -t package
+          -e image_repo=${{ env.IMAGE_REPO }}
+          -e focus=solution
           -e usage=${{ matrix.usage }}
           -e prefs=${{ matrix.prefs }}
         working-directory: .dx

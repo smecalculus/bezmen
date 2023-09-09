@@ -1,24 +1,24 @@
 ---
-- name: Capture pipeline tag
+- name: Capture cid
   ansible.builtin.command:
     cmd: git hash-object --stdin
     stdin: |
       {{ dx_cid }}
-      {{ env_cid }}
+      {{ tool_cid }}
+      {{ environ_cid }}
       {{ test_cid }}
-  register: pipeline_tag
+  register: stack_cid
   changed_when: false
 
-- name: Capture pipeline status
+- name: Capture status
   ansible.builtin.command:
-    cmd: docker {{ docker_entity }} inspect {{ pipeline_image }}:{{ pipeline_tag.stdout[:7] }}
-  register: pipeline_status
+    cmd: docker {{ docker_entity }} inspect {{ stack_images.pipeline }}:{{ stack_cid.stdout[:7] }}
+  register: stack_status
   changed_when:
-    - capture_pipeline|bool
-    - pipeline_status.rc != 0
+    - stack_status.rc != 0
   failed_when: false
 
-- name: Pipeline status command
+- name: Status command
   ansible.builtin.debug:
-    msg: "{{ pipeline_status.cmd|join(' ') }}"
-  when: pipeline_status is changed
+    msg: "{{ stack_status.cmd|join(' ') }}"
+  when: stack_status is changed

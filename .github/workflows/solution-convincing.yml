@@ -2,8 +2,13 @@
 name: Solution convincing
 
 on:
+  merge_group:
+    branches:
+      - feature/**
+      - bugfix/**
   pull_request:
-    branches: [main]
+    branches:
+      - main
   workflow_dispatch:
 
 jobs:
@@ -28,7 +33,9 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - run: >
           ansible-playbook images.yml
-          -e repository_mode=read_write
+          -e binary_repo=maven.pkg.github.com
+          -e image_repo=ghcr.io
+          -e focus=solution
         working-directory: .dx
         env:
           GITHUB_ACTOR: ${{ github.actor }}
@@ -79,7 +86,7 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           update-comment: true
         env:
-          JACOCO_UNITS: tools/target/coverage/units/jacoco.xml
+          JACOCO_UNITS: .tools/target/coverage/units/jacoco.xml
       - uses: madrapps/jacoco-report@v1.6
         if: ${{ github.event_name == 'pull_request' && hashFiles(env.JACOCO_INTEGRATIONS) != '' }}
         with:
@@ -88,13 +95,4 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           update-comment: true
         env:
-          JACOCO_INTEGRATIONS: tools/target/coverage/integrations/jacoco.xml
-      - uses: madrapps/jacoco-report@v1.6
-        if: ${{ github.event_name == 'pull_request' && hashFiles(env.JACOCO_OVERALL) != '' }}
-        with:
-          title: Overall Coverage Report
-          paths: ${{ env.JACOCO_OVERALL }}
-          token: ${{ secrets.GITHUB_TOKEN }}
-          update-comment: true
-        env:
-          JACOCO_OVERALL: tools/target/coverage/overall/jacoco.xml
+          JACOCO_INTEGRATIONS: .tools/target/coverage/integrations/jacoco.xml
