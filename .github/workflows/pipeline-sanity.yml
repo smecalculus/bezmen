@@ -1,14 +1,14 @@
 ---
-name: Pipeline minimal
+name: Pipeline sanity
 
 on:
   pull_request:
     branches-ignore: [main]
     paths:  # waiting for https://github.com/actions/runner/issues/2324
       - .dx/**
-      - .env/**
-      - .github/**
       - .tools/**
+      - .environs/**
+      - .github/**
   workflow_dispatch:
 
 jobs:

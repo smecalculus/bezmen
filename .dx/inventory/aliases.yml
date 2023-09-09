@@ -1,14 +1,17 @@
 ---
 all:
   hosts:
-    system:
-    solution:
     lib:
     app:
     schema:
-    pipeline:
-    dx:
     test:
+    dx:
     tool:
+  vars:
+    ansible_connection: local
+stack:
+  hosts:
+    solution:
+    pipeline:
   vars:
     ansible_connection: local

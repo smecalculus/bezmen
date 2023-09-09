@@ -14,4 +14,4 @@ jobs:
         with:
           source_repo_path: smecalculus/bezmen
           upstream_branch: main
-          github_token: ${{ secrets.SYNCER_PAT }}
+          github_token: ${{ secrets.BEZMEN_PAT }}

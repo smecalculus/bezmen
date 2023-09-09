@@ -36,7 +36,7 @@ jobs:
           GITHUB_ACTOR: ${{ github.actor }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - run: >
-          ansible-playbook systems.yml
+          ansible-playbook stacks.yml
           -e binary_repo=maven.pkg.github.com
           -e image_repo=ghcr.io
           -e environ=${{ matrix.environ.name }}

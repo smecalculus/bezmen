@@ -53,6 +53,7 @@
         stdin: |
           {{ lib_cid }}
           {{ app_cid }}
+      # TODO: try to choose better name
       register: image_cid
       changed_when: false
       tags: [always]

@@ -55,7 +55,7 @@
         cmd: >
           ansible-lint
           sources.yml
-          systems.yml
+          stacks.yml
         strip_empty_ends: false
       changed_when: false
     - name: Analyze

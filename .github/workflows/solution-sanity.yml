@@ -1,5 +1,5 @@
 ---
-name: Solution minimal
+name: Solution sanity
 
 on:
   pull_request:
@@ -9,7 +9,6 @@ on:
       - apps/**
       - schemas/**
       - solutions/**
-      - tests/**
   workflow_dispatch:
 
 jobs:

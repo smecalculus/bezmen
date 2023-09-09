@@ -19,21 +19,21 @@
       tags: [always]
 
 - name: Testing
-  hosts: system
+  hosts: stack
   run_once: true
   tasks:
     - ansible.builtin.import_tasks:  # noqa: name[missing]
         file: tasks/solution/compile.yml
       tags: [compile]
       when: >
-        hostvars.solution.solution_status is changed or
-        hostvars.pipeline.pipeline_status is changed
+        hostvars.solution.stack_status is changed or
+        hostvars.pipeline.stack_status is changed
     - ansible.builtin.import_tasks:  # noqa: name[missing]
         file: tasks/solution/test.yml
       tags: [test]
       when: >
-        hostvars.solution.solution_status is changed or
-        hostvars.pipeline.pipeline_status is changed
+        hostvars.solution.stack_status is changed or
+        hostvars.pipeline.stack_status is changed
 
 - name: Packaging
   hosts: solution
@@ -42,7 +42,7 @@
     - ansible.builtin.import_tasks:  # noqa: name[missing]
         file: tasks/solution/package.yml
       tags: [package]
-      when: solution_status is changed
+      when: stack_status is changed
 
 - name: Packaging
   hosts: pipeline
@@ -51,4 +51,4 @@
     - ansible.builtin.import_tasks:  # noqa: name[missing]
         file: tasks/pipeline/package.yml
       tags: [package]
-      when: pipeline_status is changed
+      when: stack_status is changed
