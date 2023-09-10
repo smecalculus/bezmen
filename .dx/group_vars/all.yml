@@ -1,4 +1,7 @@
 ---
+organization: smecalculus
+project: bezmen
+
 usage: toy
 prefs: turing
 
@@ -27,16 +30,14 @@ focus: none
 binary_repo: local
 image_repo: local
 
-image_group: smecalculus
-
 app_images:
-  foo: "{{ image_repo }}/{{ image_group }}/app-foo"
+  foo: "{{ image_repo }}/{{ organization }}/{{ project }}/app/foo"
 
 schema_images:
-  postgres: "{{ image_repo }}/{{ image_group }}/schema-postgres"
+  postgres: "{{ image_repo }}/{{ organization }}/{{ project }}/schema/postgres"
 
 stack_images:
-  solution: "{{ image_repo }}/{{ image_group }}/solution-{{ usage }}-{{ prefs }}"
-  pipeline: "{{ image_repo }}/{{ image_group }}/pipeline-{{ environ }}"
+  solution: "{{ image_repo }}/{{ organization }}/{{ project }}/stack/solution-{{ usage }}-{{ prefs }}"
+  pipeline: "{{ image_repo }}/{{ organization }}/{{ project }}/stack/pipeline-{{ environ }}"
 
 docker_entity: "{{ 'image' if image_repo == 'local' else 'manifest' }}"
