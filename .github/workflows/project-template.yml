@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
       - id: orgbot
-        uses: tibdex/github-app-token@v1.9.0
+        uses: tibdex/github-app-token@v2.0.0
         with:
           app_id: ${{ secrets.ORGBOT_APP_ID }}
           private_key: ${{ secrets.ORGBOT_PRIVATE_KEY }}
