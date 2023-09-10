@@ -48,7 +48,7 @@ jobs:
           files: |
             libs/*/target/surefire-reports/TEST-*.xml
             apps/*/target/surefire-reports/TEST-*.xml
-      - uses: madrapps/jacoco-report@v1.6
+      - uses: madrapps/jacoco-report@v1.6.1
         if: ${{ github.event_name == 'pull_request' && hashFiles(env.JACOCO_UNITS) != '' }}
         with:
           title: Unit Coverage Report
