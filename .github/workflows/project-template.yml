@@ -9,9 +9,17 @@ jobs:
     name: Syncing
     runs-on: ubuntu-22.04
     steps:
+      - id: orgbot
+        uses: tibdex/github-app-token@v1.9.0
+        with:
+          app_id: ${{ secrets.ORGBOT_APP_ID }}
+          private_key: ${{ secrets.ORGBOT_PRIVATE_KEY }}
       - uses: actions/checkout@v4.0.0
+        with:
+          token: ${{ steps.orgbot.outputs.token }}
       - uses: AndreasAugustin/actions-template-sync@v1.1.2
         with:
-          source_repo_path: smecalculus/bezmen
           upstream_branch: main
-          github_token: ${{ secrets.BEZMEN_PAT }}
+          source_repo_path: smecalculus/bezmen
+          github_token: ${{ steps.orgbot.outputs.token }}
+          pr_title: Syncing with project template

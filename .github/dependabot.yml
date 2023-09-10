@@ -35,11 +35,11 @@ updates:
     schedule:
       interval: "weekly"
   - package-ecosystem: "pip"
-    directory: "/.env/green"
+    directory: "/.environs/green"
     schedule:
       interval: "weekly"
   - package-ecosystem: "pip"
-    directory: "/.env/amber"
+    directory: "/.environs/amber"
     schedule:
       interval: "weekly"
     ignore:
