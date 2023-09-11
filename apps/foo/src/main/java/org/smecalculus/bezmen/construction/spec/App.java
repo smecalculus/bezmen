@@ -45,21 +45,21 @@ import org.springframework.context.annotation.Import;
 @Import({ConfigBeans.class, ValidationBeans.class, MessagingBeans.class, DataBeans.class})
 @EnableAutoConfiguration(
         exclude = {
-                LiquibaseAutoConfiguration.class,
-                AopAutoConfiguration.class,
-                DataSourceHealthContributorAutoConfiguration.class,
-                DiskSpaceHealthContributorAutoConfiguration.class,
-                EmbeddedWebServerFactoryCustomizerAutoConfiguration.class,
-                PersistenceExceptionTranslationAutoConfiguration.class,
-                SpringDataWebAutoConfiguration.class,
-                HealthContributorAutoConfiguration.class,
-                HttpMessageConvertersAutoConfiguration.class,
-                LifecycleAutoConfiguration.class,
-                MultipartAutoConfiguration.class,
-                PropertyPlaceholderAutoConfiguration.class,
-                RestTemplateAutoConfiguration.class,
-                TaskExecutionAutoConfiguration.class,
-                TaskSchedulingAutoConfiguration.class
+            LiquibaseAutoConfiguration.class,
+            AopAutoConfiguration.class,
+            DataSourceHealthContributorAutoConfiguration.class,
+            DiskSpaceHealthContributorAutoConfiguration.class,
+            EmbeddedWebServerFactoryCustomizerAutoConfiguration.class,
+            PersistenceExceptionTranslationAutoConfiguration.class,
+            SpringDataWebAutoConfiguration.class,
+            HealthContributorAutoConfiguration.class,
+            HttpMessageConvertersAutoConfiguration.class,
+            LifecycleAutoConfiguration.class,
+            MultipartAutoConfiguration.class,
+            PropertyPlaceholderAutoConfiguration.class,
+            RestTemplateAutoConfiguration.class,
+            TaskExecutionAutoConfiguration.class,
+            TaskSchedulingAutoConfiguration.class
         })
 @Configuration(proxyBeanMethods = false)
 public class App {
