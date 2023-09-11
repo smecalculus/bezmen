@@ -26,7 +26,6 @@
           --no-snapshot-updates
           --batch-mode
           spotless:check
-          --define lib.version={{ lib_version }}
         chdir: "{{ playbook_dir }}/../apps"
         strip_empty_ends: false
       changed_when: false
@@ -42,8 +41,6 @@
           --no-snapshot-updates
           --batch-mode
           spotless:check
-          compile
-          --define lib.version={{ lib_version }}
         chdir: "{{ playbook_dir }}/../tests"
         strip_empty_ends: false
       changed_when: false

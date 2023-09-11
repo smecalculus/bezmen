@@ -95,3 +95,20 @@
         strip_empty_ends: false
       changed_when: true
       when: image_status is changed
+
+- name: Binaries
+  hosts: test
+  run_once: true
+  tasks:
+    - name: Create binaries
+      ansible.builtin.command:
+        cmd: >
+          mvn
+          --no-snapshot-updates
+          --batch-mode
+          clean
+          compile
+        chdir: "{{ playbook_dir }}/../tests"
+        strip_empty_ends: false
+      changed_when: false
+      when: hostvars.lib.binary_status|default({}) is changed
