@@ -41,6 +41,7 @@
           --no-snapshot-updates
           --batch-mode
           spotless:check
+          compile
         chdir: "{{ playbook_dir }}/../tests"
         strip_empty_ends: false
       changed_when: false
