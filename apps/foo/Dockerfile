@@ -7,5 +7,5 @@ COPY app-foo*.jar foo/app.jar
 ENTRYPOINT [ \
     "java", "-cp", "foo/app.jar:foo/libs/*", \
     "-Dconfig.file=foo/application.conf", \
-    "org.smecalculus.bezmen.construction.App" \
+    "org.smecalculus.bezmen.construction.spec.App" \
 ]
