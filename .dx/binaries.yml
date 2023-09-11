@@ -24,21 +24,21 @@
       ansible.builtin.debug:
         msg: "{{ binary_status.cmd|join(' ') }}"
       when: binary_status is changed
-    - name: Test and create binaries
+    - name: Create binaries
       ansible.builtin.command:
         cmd: >
           mvn
           --no-snapshot-updates
           --fail-fast
           --batch-mode
-          --threads 2C
-          --define revision={{ lib_version }}
+          --threads 1C
           clean
           {% if focus == 'solution' %}
           deploy
           {% else %}
           install
           {% endif %}
+          --define revision={{ lib_version }}
         chdir: "{{ playbook_dir }}/../libs"
       changed_when: true
       when: binary_status is changed
@@ -72,43 +72,44 @@
         msg: "{{ image_status.results|map(attribute='cmd')|map('join', ' ') }}"
       when: image_status is changed
       tags: [always]
-    - name: Test units and create binaries
+    - name: Create binaries
       ansible.builtin.command:
         cmd: >
           mvn
           --no-snapshot-updates
           --fail-fast
           --batch-mode
-          --threads 2C
+          --threads 1C
           {% if not hostvars.lib.binary_status|default({}) is changed %}
           --projects {{ image_status.results|select('changed')|map(attribute='item.key')|join(',') }}
           {% endif %}
+          clean
+          {% if up_to_images|default(false) %}
+          verify
+          {% else %}
+          package
+          {% endif %}
           --define revision={{ app_version }}
           --define lib.version={{ lib_version }}
-          clean
-          package
         chdir: "{{ playbook_dir }}/../apps"
         strip_empty_ends: false
       changed_when: true
       when: image_status is changed
 
-- name: Coverage
-  hosts: tool
+- name: Binaries
+  hosts: test
   run_once: true
   tasks:
-    - name: Generate reports
+    - name: Create binaries
       ansible.builtin.command:
         cmd: >
           mvn
           --no-snapshot-updates
           --batch-mode
           clean
-          antrun:run@units
-          antrun:run@integrations
-          antrun:run@overall
-        chdir: "{{ playbook_dir }}/../.tools"
+          test-compile
+          --define lib.version={{ lib_version }}
+        chdir: "{{ playbook_dir }}/../tests"
         strip_empty_ends: false
       changed_when: true
-      when: >
-        hostvars.lib.binary_status|default({}) is changed or
-        hostvars.app.image_status|default({}) is changed
+      when: hostvars.lib.binary_status|default({}) is changed

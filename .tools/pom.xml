@@ -30,7 +30,7 @@
         <artifactId>maven-antrun-plugin</artifactId>
         <executions>
           <execution>
-            <id>units</id>
+            <id>coverage</id>
             <goals>
               <goal>run</goal>
             </goals>
@@ -38,97 +38,43 @@
               <target>
                 <taskdef resource="org/jacoco/ant/antlib.xml" classpathref="maven.plugin.classpath"/>
                 <report>
-                  <html destdir="${project.build.directory}/coverage/units"/>
-                  <xml destfile="${project.build.directory}/coverage/units/jacoco.xml"/>
-                  <executiondata>
-                    <fileset dir="${project.basedir}/..">
-                      <include name="libs/*/target/jacoco.exec"/>
-                      <include name="apps/*/target/jacoco.exec"/>
-                    </fileset>
-                  </executiondata>
-                  <structure name="Units Coverage">
-                    <classfiles>
-                      <fileset dir="${project.basedir}/..">
-                        <include name="libs/*/target/classes/**/*.class"/>
-                        <include name="apps/*/target/classes/**/*.class"/>
-                      </fileset>
-                    </classfiles>
-                    <sourcefiles encoding="UTF-8">
-                      <dirset dir="${project.basedir}/..">
-                        <include name="libs/*/src/main/java"/>
-                        <include name="apps/*/src/main/java"/>
-                      </dirset>
-                    </sourcefiles>
-                  </structure>
-                </report>
-              </target>
-            </configuration>
-          </execution>
-          <execution>
-            <id>integrations</id>
-            <goals>
-              <goal>run</goal>
-            </goals>
-            <configuration>
-              <target>
-                <taskdef resource="org/jacoco/ant/antlib.xml" classpathref="maven.plugin.classpath"/>
-                <report>
-                  <html destdir="${project.build.directory}/coverage/integrations"/>
-                  <xml destfile="${project.build.directory}/coverage/integrations/jacoco.xml"/>
-                  <executiondata>
-                    <fileset dir="${project.basedir}/..">
-                      <include name="libs/*/target/jacoco-it.exec"/>
-                      <include name="apps/*/target/jacoco-it.exec"/>
-                    </fileset>
-                  </executiondata>
-                  <structure name="Integrations Coverage">
-                    <classfiles>
-                      <fileset dir="${project.basedir}/..">
-                        <include name="libs/*/target/classes/**/*.class"/>
-                        <include name="apps/*/target/classes/**/*.class"/>
-                      </fileset>
-                    </classfiles>
-                    <sourcefiles encoding="UTF-8">
-                      <dirset dir="${project.basedir}/..">
-                        <include name="libs/*/src/main/java"/>
-                        <include name="apps/*/src/main/java"/>
-                      </dirset>
-                    </sourcefiles>
-                  </structure>
-                </report>
-              </target>
-            </configuration>
-          </execution>
-          <execution>
-            <id>overall</id>
-            <goals>
-              <goal>run</goal>
-            </goals>
-            <configuration>
-              <target>
-                <taskdef resource="org/jacoco/ant/antlib.xml" classpathref="maven.plugin.classpath"/>
-                <report>
-                  <html destdir="${project.build.directory}/coverage/overall"/>
-                  <xml destfile="${project.build.directory}/coverage/overall/jacoco.xml"/>
+                  <html destdir="${project.build.directory}/coverage"/>
+                  <check>
+                    <rule element="CLASS">
+                      <limit counter="METHOD" value="MISSEDCOUNT" maximum="3"/>
+                    </rule>
+                  </check>
                   <executiondata>
                     <fileset dir="${project.basedir}/..">
                       <include name="libs/*/target/*.exec"/>
                       <include name="apps/*/target/*.exec"/>
                     </fileset>
                   </executiondata>
-                  <structure name="Overall Coverage">
-                    <classfiles>
-                      <fileset dir="${project.basedir}/..">
-                        <include name="libs/*/target/classes/**/*.class"/>
-                        <include name="apps/*/target/classes/**/*.class"/>
-                      </fileset>
-                    </classfiles>
-                    <sourcefiles encoding="UTF-8">
-                      <dirset dir="${project.basedir}/..">
-                        <include name="libs/*/src/main/java"/>
-                        <include name="apps/*/src/main/java"/>
-                      </dirset>
-                    </sourcefiles>
+                  <structure name="Test coverage">
+                    <group name="libs">
+                      <classfiles>
+                        <fileset dir="${project.basedir}/../libs">
+                          <include name="*/target/classes/**/impl/**/*.class"/>
+                        </fileset>
+                      </classfiles>
+                      <sourcefiles encoding="UTF-8">
+                        <dirset dir="${project.basedir}/../libs">
+                          <include name="*/src/main/java"/>
+                        </dirset>
+                      </sourcefiles>
+                    </group>
+                    <group name="apps">
+                      <classfiles>
+                        <fileset dir="${project.basedir}/../apps">
+                          <include name="*/target/classes/**/impl/**/*.class"/>
+                        </fileset>
+                      </classfiles>
+                      <sourcefiles encoding="UTF-8">
+                        <dirset dir="${project.basedir}/../apps">
+                          <include name="*/src/main/java"/>
+                        </dirset>
+                      </sourcefiles>
+                    </group>
                   </structure>
                 </report>
               </target>

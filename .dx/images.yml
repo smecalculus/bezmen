@@ -1,5 +1,7 @@
 ---
 - import_playbook: binaries.yml   # noqa: name[play]
+  vars:
+    up_to_images: true
   tags: [binaries, deps]
 
 - name: Images
@@ -33,21 +35,15 @@
   hosts: app
   run_once: true
   tasks:
-    - name: Test integrations
+    - name: Analyze coverage
       ansible.builtin.command:
         cmd: >
           mvn
           --no-snapshot-updates
-          --fail-fast
           --batch-mode
-          --threads 2C
-          {% if not hostvars.lib.binary_status|default({}) is changed %}
-          --projects {{ image_status.results|select('changed')|map(attribute='item.key')|join(',') }}
-          {% endif %}
-          --define lib.version={{ lib_version }}
-          failsafe:integration-test
-          failsafe:verify
-        chdir: "{{ playbook_dir }}/../apps"
+          clean
+          antrun:run@coverage
+        chdir: "{{ playbook_dir }}/../.tools"
         strip_empty_ends: false
       changed_when: true
       when: image_status is changed

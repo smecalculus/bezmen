@@ -7,8 +7,12 @@ import static org.smecalculus.bezmen.fixture.DataPropsFixture.dataPropsCfg;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.smecalculus.bezmen.modeling.DataConfig;
-import org.smecalculus.bezmen.validation.BezmenValidator;
+import org.smecalculus.bezmen.configuration.impl.DataConfigImpl;
+import org.smecalculus.bezmen.configuration.spec.ConfigKeeper;
+import org.smecalculus.bezmen.configuration.spec.DataCfgMapperImpl;
+import org.smecalculus.bezmen.configuration.spec.DataConfig;
+import org.smecalculus.bezmen.configuration.spec.DataPropsCfg;
+import org.smecalculus.bezmen.validation.spec.BezmenValidator;
 
 abstract class DataConfigTest {
 

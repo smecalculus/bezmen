@@ -6,7 +6,6 @@ all:
     schema:
     test:
     dx:
-    tool:
   vars:
     ansible_connection: local
 stack:
