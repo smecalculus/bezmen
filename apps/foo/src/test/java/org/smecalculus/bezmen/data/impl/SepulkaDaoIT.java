@@ -1,5 +1,6 @@
 package org.smecalculus.bezmen.data.impl;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.smecalculus.bezmen.fixture.SepulkaFixtures.sepulkaBuilder;
 
 import org.junit.jupiter.api.Test;

@@ -95,26 +95,3 @@
         strip_empty_ends: false
       changed_when: true
       when: image_status is changed
-
-- name: Coverage
-  hosts: tool
-  run_once: true
-  tasks:
-    - name: Generate reports
-      ansible.builtin.command:
-        cmd: >
-          mvn
-          --no-snapshot-updates
-          --batch-mode
-          clean
-          antrun:run@units
-          {% if up_to_images|default(false) %}
-          antrun:run@integrations
-          antrun:run@overall
-          {% endif %}
-        chdir: "{{ playbook_dir }}/../.tools"
-        strip_empty_ends: false
-      changed_when: true
-#      when: >
-#        hostvars.lib.binary_status|default({}) is changed or
-#        hostvars.app.image_status|default({}) is changed

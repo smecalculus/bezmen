@@ -35,6 +35,18 @@
   hosts: app
   run_once: true
   tasks:
+    - name: Analyze coverage
+      ansible.builtin.command:
+        cmd: >
+          mvn
+          --no-snapshot-updates
+          --batch-mode
+          clean
+          antrun:run@coverage
+        chdir: "{{ playbook_dir }}/../.tools"
+        strip_empty_ends: false
+      changed_when: true
+      when: image_status is changed
     - name: Create images
       ansible.builtin.include_role:
         name: image
