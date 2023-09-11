@@ -5,11 +5,11 @@ import static org.smecalculus.bezmen.fixture.DataPropsFixture.dataProps;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.smecalculus.bezmen.construction.ConfigBeans;
-import org.smecalculus.bezmen.construction.DataConfigBeans;
-import org.smecalculus.bezmen.construction.ValidationBeans;
-import org.smecalculus.bezmen.modeling.DataConfig;
-import org.smecalculus.bezmen.modeling.DataProps;
+import org.smecalculus.bezmen.configuration.spec.DataConfig;
+import org.smecalculus.bezmen.configuration.spec.DataProps;
+import org.smecalculus.bezmen.construction.spec.ConfigBeans;
+import org.smecalculus.bezmen.construction.spec.DataConfigBeans;
+import org.smecalculus.bezmen.construction.spec.ValidationBeans;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;

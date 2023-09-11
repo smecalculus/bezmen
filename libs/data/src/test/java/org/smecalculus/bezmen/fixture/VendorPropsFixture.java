@@ -1,9 +1,9 @@
 package org.smecalculus.bezmen.fixture;
 
-import org.smecalculus.bezmen.configuration.VendorPropsCfg;
-import org.smecalculus.bezmen.modeling.H2Props;
-import org.smecalculus.bezmen.modeling.VendorMode;
-import org.smecalculus.bezmen.modeling.VendorProps;
+import org.smecalculus.bezmen.configuration.spec.H2Props;
+import org.smecalculus.bezmen.configuration.spec.VendorMode;
+import org.smecalculus.bezmen.configuration.spec.VendorProps;
+import org.smecalculus.bezmen.configuration.spec.VendorPropsCfg;
 
 public class VendorPropsFixture {
     public static VendorProps.Builder vendorProps() {

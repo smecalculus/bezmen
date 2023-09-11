@@ -5,9 +5,11 @@ import static org.smecalculus.bezmen.fixture.MessagingPropsFixture.messagingProp
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.smecalculus.bezmen.construction.ConfigBeans;
-import org.smecalculus.bezmen.construction.MessagingConfigBeans;
-import org.smecalculus.bezmen.construction.ValidationBeans;
+import org.smecalculus.bezmen.configuration.spec.MessagingConfig;
+import org.smecalculus.bezmen.configuration.spec.MessagingProps;
+import org.smecalculus.bezmen.construction.spec.ConfigBeans;
+import org.smecalculus.bezmen.construction.spec.MessagingConfigBeans;
+import org.smecalculus.bezmen.construction.spec.ValidationBeans;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;

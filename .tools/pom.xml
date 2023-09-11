@@ -49,8 +49,8 @@
                   <structure name="Units Coverage">
                     <classfiles>
                       <fileset dir="${project.basedir}/..">
-                        <include name="libs/*/target/classes/**/*.class"/>
-                        <include name="apps/*/target/classes/**/*.class"/>
+                        <include name="libs/*/target/classes/**/impl/**/*.class"/>
+                        <include name="apps/*/target/classes/**/impl/**/*.class"/>
                       </fileset>
                     </classfiles>
                     <sourcefiles encoding="UTF-8">
@@ -84,8 +84,8 @@
                   <structure name="Integrations Coverage">
                     <classfiles>
                       <fileset dir="${project.basedir}/..">
-                        <include name="libs/*/target/classes/**/*.class"/>
-                        <include name="apps/*/target/classes/**/*.class"/>
+                        <include name="libs/*/target/classes/**/impl/**/*.class"/>
+                        <include name="apps/*/target/classes/**/impl/**/*.class"/>
                       </fileset>
                     </classfiles>
                     <sourcefiles encoding="UTF-8">
@@ -110,6 +110,11 @@
                 <report>
                   <html destdir="${project.build.directory}/coverage/overall"/>
                   <xml destfile="${project.build.directory}/coverage/overall/jacoco.xml"/>
+                  <check>
+                    <rule element="BUNDLE">
+                      <limit counter="INSTRUCTION" value="COVEREDRATIO" minimum="0.80"/>
+                    </rule>
+                  </check>
                   <executiondata>
                     <fileset dir="${project.basedir}/..">
                       <include name="libs/*/target/*.exec"/>
@@ -119,8 +124,8 @@
                   <structure name="Overall Coverage">
                     <classfiles>
                       <fileset dir="${project.basedir}/..">
-                        <include name="libs/*/target/classes/**/*.class"/>
-                        <include name="apps/*/target/classes/**/*.class"/>
+                        <include name="libs/*/target/classes/**/impl/**/*.class"/>
+                        <include name="apps/*/target/classes/**/impl/**/*.class"/>
                       </fileset>
                     </classfiles>
                     <sourcefiles encoding="UTF-8">
