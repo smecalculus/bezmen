@@ -108,6 +108,7 @@
           --batch-mode
           clean
           test-compile
+          --define lib.version={{ lib_version }}
         chdir: "{{ playbook_dir }}/../tests"
         strip_empty_ends: false
       changed_when: true
