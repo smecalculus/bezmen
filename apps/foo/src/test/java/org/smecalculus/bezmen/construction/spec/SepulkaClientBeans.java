@@ -2,15 +2,15 @@ package org.smecalculus.bezmen.construction.spec;
 
 import static org.mockito.Mockito.mock;
 
+import org.smecalculus.bezmen.domain.impl.SepulkaConverterImpl;
+import org.smecalculus.bezmen.domain.spec.SepulkaConverter;
+import org.smecalculus.bezmen.domain.spec.SepulkaService;
 import org.smecalculus.bezmen.messaging.impl.SepulkaClientImpl;
 import org.smecalculus.bezmen.messaging.impl.SepulkaClientSpringWeb;
 import org.smecalculus.bezmen.messaging.impl.springmvc.SepulkaController;
 import org.smecalculus.bezmen.messaging.spec.SepulkaClient;
 import org.smecalculus.bezmen.messaging.spec.SepulkaMsgMapper;
 import org.smecalculus.bezmen.messaging.spec.SepulkaMsgMapperImpl;
-import org.smecalculus.bezmen.service.impl.SepulkaConverterImpl;
-import org.smecalculus.bezmen.service.spec.SepulkaConverter;
-import org.smecalculus.bezmen.service.spec.SepulkaService;
 import org.smecalculus.bezmen.validation.spec.BezmenValidator;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

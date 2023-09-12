@@ -1,4 +1,4 @@
-package org.smecalculus.bezmen.service.spec;
+package org.smecalculus.bezmen.domain.spec;
 
 import java.util.UUID;
 import lombok.Builder;

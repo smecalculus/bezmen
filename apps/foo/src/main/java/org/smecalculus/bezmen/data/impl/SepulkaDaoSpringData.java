@@ -10,7 +10,7 @@ import org.smecalculus.bezmen.data.spec.SepulkaDao;
 import org.smecalculus.bezmen.data.spec.SepulkaRec;
 import org.smecalculus.bezmen.data.spec.SepulkaRecMapper;
 import org.smecalculus.bezmen.data.spec.springdata.SepulkaRepository;
-import org.smecalculus.bezmen.service.spec.Sepulka;
+import org.smecalculus.bezmen.domain.spec.Sepulka;
 
 public record SepulkaDaoSpringData(@NonNull SepulkaRecMapper mapper, @NonNull SepulkaRepository repository)
         implements SepulkaDao {

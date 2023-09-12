@@ -1,8 +1,8 @@
-package org.smecalculus.bezmen.service.impl;
+package org.smecalculus.bezmen.domain.impl;
 
+import org.smecalculus.bezmen.domain.spec.Sepulka;
+import org.smecalculus.bezmen.domain.spec.SepulkaConverter;
 import org.smecalculus.bezmen.messaging.spec.SepulkaRegRes;
-import org.smecalculus.bezmen.service.spec.Sepulka;
-import org.smecalculus.bezmen.service.spec.SepulkaConverter;
 
 public class SepulkaConverterImpl implements SepulkaConverter {
     public SepulkaRegRes toRegRes(Sepulka sepulka) {

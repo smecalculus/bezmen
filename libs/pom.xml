@@ -11,16 +11,16 @@
   <version>${revision}</version>
 
   <modules>
+    <module>essentials</module>
     <module>construction</module>
     <module>messaging</module>
     <module>client</module>
     <module>data</module>
-    <module>core</module>
     <module>testing</module>
   </modules>
 
   <properties>
-    <revision>0.1.0-SNAPSHOT</revision>
+    <revision>LATEST</revision>
     <kotlin.version>1.9.10</kotlin.version>
     <lombok.version>1.18.28</lombok.version>
     <mapstruct.version>1.5.5.Final</mapstruct.version>
@@ -59,7 +59,7 @@
       </dependency>
       <dependency>
         <groupId>${project.groupId}</groupId>
-        <artifactId>core</artifactId>
+        <artifactId>essentials</artifactId>
         <version>${project.version}</version>
       </dependency>
       <dependency>
@@ -538,7 +538,6 @@
             </execution>
             <execution>
               <id>default-report</id>
-              <phase>test</phase>
               <goals>
                 <goal>report</goal>
               </goals>

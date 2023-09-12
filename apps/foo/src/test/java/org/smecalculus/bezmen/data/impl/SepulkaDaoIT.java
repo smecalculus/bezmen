@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.smecalculus.bezmen.construction.spec.SepulkaDaoBeans;
 import org.smecalculus.bezmen.data.spec.SepulkaDao;
-import org.smecalculus.bezmen.service.spec.Sepulka;
+import org.smecalculus.bezmen.domain.spec.Sepulka;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.jdbc.Sql;

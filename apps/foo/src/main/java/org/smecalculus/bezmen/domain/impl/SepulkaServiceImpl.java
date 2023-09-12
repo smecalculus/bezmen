@@ -1,13 +1,13 @@
-package org.smecalculus.bezmen.service.impl;
+package org.smecalculus.bezmen.domain.impl;
 
 import static java.util.UUID.randomUUID;
 
 import java.util.List;
 import lombok.NonNull;
 import org.smecalculus.bezmen.data.spec.SepulkaDao;
+import org.smecalculus.bezmen.domain.spec.Sepulka;
+import org.smecalculus.bezmen.domain.spec.SepulkaService;
 import org.smecalculus.bezmen.messaging.spec.SepulkaRegReq;
-import org.smecalculus.bezmen.service.spec.Sepulka;
-import org.smecalculus.bezmen.service.spec.SepulkaService;
 
 public record SepulkaServiceImpl(@NonNull SepulkaDao sepulkaDao) implements SepulkaService {
 

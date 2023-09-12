@@ -1,9 +1,9 @@
 package org.smecalculus.bezmen.fixture;
 
 import java.util.UUID;
+import org.smecalculus.bezmen.domain.spec.Sepulka;
 import org.smecalculus.bezmen.messaging.spec.SepulkaRegReq;
 import org.smecalculus.bezmen.messaging.spec.SepulkaRegRes;
-import org.smecalculus.bezmen.service.spec.Sepulka;
 
 public class SepulkaFixtures {
     public static final String NAME = "foo";

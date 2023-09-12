@@ -9,7 +9,7 @@ import org.smecalculus.bezmen.data.spec.SepulkaDao;
 import org.smecalculus.bezmen.data.spec.SepulkaRec;
 import org.smecalculus.bezmen.data.spec.SepulkaRecMapper;
 import org.smecalculus.bezmen.data.spec.mybatis.SepulkaSqlMapper;
-import org.smecalculus.bezmen.service.spec.Sepulka;
+import org.smecalculus.bezmen.domain.spec.Sepulka;
 
 public record SepulkaDaoMyBatis(@NonNull SepulkaRecMapper recMapper, @NonNull SepulkaSqlMapper sqlMapper)
         implements SepulkaDao {
