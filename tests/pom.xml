@@ -6,7 +6,7 @@
 
   <packaging>pom</packaging>
 
-  <groupId>org.smecalculus.bezmen</groupId>
+  <groupId>smecalculus.bezmen</groupId>
   <artifactId>tests</artifactId>
   <version>latest</version>
 

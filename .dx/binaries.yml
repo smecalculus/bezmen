@@ -15,7 +15,7 @@
           {% endif %}
           dependency:get
           --define transitive=false
-          --define artifact=org.smecalculus.bezmen:libs:{{ lib_version }}:pom
+          --define artifact=smecalculus.bezmen:libs:{{ lib_version }}:pom
         chdir: "{{ playbook_dir }}/../libs"
       register: binary_status
       changed_when: binary_status.rc != 0
