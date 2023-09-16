@@ -43,7 +43,7 @@ jobs:
         if: ${{ !cancelled() }}
         with:
           check_name: Unit Test Report
-          require_tests: ${{ !success() }}
+          require_tests: "${{ !success() }}"
           fail_on_failure: true
           job_summary: false
           report_paths: |
