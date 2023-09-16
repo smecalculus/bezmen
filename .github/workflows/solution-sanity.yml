@@ -44,8 +44,7 @@ jobs:
         if: ${{ !cancelled() }}
         with:
           check_name: Unit Test Report
-          require_tests: "${{ steps.binaries.outcome != 'success' }}"
+          report_paths: "**/surefire-reports/TEST-*.xml"
+          require_tests: "${{ steps.binaries.outcome == 'failure' }}"
           fail_on_failure: true
           job_summary: false
-          report_paths: |
-            **/surefire-reports/TEST-*.xml
