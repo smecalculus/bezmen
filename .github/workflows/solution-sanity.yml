@@ -23,7 +23,8 @@ jobs:
         with:
           tools: python java
       - id: codebase
-        run: ansible-playbook sources.yml -l lib:app
+#        run: ansible-playbook sources.yml -l lib:app
+        run: echo foo
         working-directory: .dx
         env:
           GITHUB_ACTOR: ${{ github.actor }}
