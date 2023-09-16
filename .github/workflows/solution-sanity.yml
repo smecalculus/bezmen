@@ -31,7 +31,8 @@ jobs:
         env:
           GITHUB_ACTOR: ${{ github.actor }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - run: >
+      - id: binaries
+        run: >
           ansible-playbook binaries.yml
           -e binary_repo=maven.pkg.github.com
           -e focus=solution
@@ -43,7 +44,7 @@ jobs:
         if: ${{ !cancelled() }}
         with:
           check_name: Unit Test Report
-          require_tests: "${{ !success() }}"
+          require_tests: "${{ steps.binaries.outcome != 'success' }}"
           fail_on_failure: true
           job_summary: false
           report_paths: |
