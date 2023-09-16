@@ -22,12 +22,31 @@ jobs:
       - uses: ./.github/actions/prepare
         with:
           tools: python java
-      - run: ansible-playbook sources.yml -l lib:app
+      - id: codebase
+        run: ansible-playbook sources.yml -l lib:app
         working-directory: .dx
         env:
           GITHUB_ACTOR: ${{ github.actor }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - run: >
+      - uses: actions/github-script@v6.4.1
+        with:
+          script: |
+            // Docs: https://docs.github.com/en/rest/checks/runs#create-a-check-run
+            // Rest: https://octokit.github.io/rest.js/v20#checks-create
+            await github.rest.checks.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              name: "codebase-checks",
+              status: "completed",
+              conclusion: "${{ steps.codebase.outcome }}",
+              output: {
+                title: "Codebase checks",
+                summary: "${{ steps.codebase.outcome }}",
+                text: "${{ steps.codebase.outcome }}",
+              },
+            });
+      - id: binaries
+        run: >
           ansible-playbook binaries.yml
           -e binary_repo=maven.pkg.github.com
           -e focus=solution
@@ -48,3 +67,20 @@ jobs:
           files: |
             libs/*/target/surefire-reports/TEST-*.xml
             apps/*/target/surefire-reports/TEST-*.xml
+      - uses: actions/github-script@v6.4.1
+        with:
+          script: |
+            // Docs: https://docs.github.com/en/rest/checks/runs#create-a-check-run
+            // Rest: https://octokit.github.io/rest.js/v20#checks-create
+            await github.rest.checks.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              name: "unit-tests",
+              status: "completed",
+              conclusion: "${{ steps.binaries.outcome }}",
+              output: {
+                title: "Unit tests",
+                summary: "${{ steps.binaries.outcome }}",
+                text: "${{ steps.binaries.outcome }}",
+              },
+            });

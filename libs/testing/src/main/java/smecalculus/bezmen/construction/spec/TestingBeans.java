@@ -1,4 +1,4 @@
-package smecalculus.bezmen.construction;
+package smecalculus.bezmen.construction.spec;
 
 import static org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType.H2;
 
