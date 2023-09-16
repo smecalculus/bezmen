@@ -39,6 +39,7 @@ jobs:
             await github.rest.checks.create({
               owner: context.repo.owner,
               repo: context.repo.repo,
+              head_sha: context.sha,
               name: "codebase-checks",
               status: "completed",
               conclusion: "${{ steps.codebase.outcome }}",
@@ -78,6 +79,7 @@ jobs:
             await github.rest.checks.create({
               owner: context.repo.owner,
               repo: context.repo.repo,
+              head_sha: context.sha,
               name: "unit-tests",
               status: "completed",
               conclusion: "${{ steps.binaries.outcome }}",
