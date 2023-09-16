@@ -25,27 +25,13 @@ jobs:
       - uses: ./.github/actions/prepare
         with:
           tools: python java
-      - id: codebase
-        run: ansible-playbook sources.yml -l lib:app
+#      - run: ansible-playbook sources.yml -l lib:app
+      - run: echo foo
         working-directory: .dx
         env:
           GITHUB_ACTOR: ${{ github.actor }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - uses: actions/github-script@v6.4.1
-        if: ${{ !cancelled() }}
-        with:
-          script: |
-            await github.rest.checks.create({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              head_sha: context.sha,
-              name: "Codebase inspection",
-              status: "completed",
-              conclusion: "${{ steps.codebase.outcome }}",
-            });
-
-      - id: binaries
-        run: >
+      - run: >
           ansible-playbook binaries.yml
           -e binary_repo=maven.pkg.github.com
           -e focus=solution
@@ -53,15 +39,26 @@ jobs:
         env:
           GITHUB_ACTOR: ${{ github.actor }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - uses: actions/github-script@v6.4.1
+      - uses: mikepenz/action-junit-report@v4
         if: ${{ !cancelled() }}
         with:
-          script: |
-            await github.rest.checks.create({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              head_sha: context.sha,
-              name: "Binaries construction",
-              status: "completed",
-              conclusion: "${{ steps.binaries.outcome }}",
-            });
+          check_name: Unit Test Report
+          require_tests: ${{ !success() }}
+          fail_on_failure: true
+          job_summary: false
+          report_paths: |
+            libs/*/target/surefire-reports/TEST-*.xml
+            apps/*/target/surefire-reports/TEST-*.xml
+      - uses: EnricoMi/publish-unit-test-result-action@v2.9.0
+        if: ${{ !cancelled() }}
+        with:
+          check_name: Unit Test Report
+          check_run_annotations: none
+          compare_to_earlier_commit: false
+          action_fail_on_inconclusive: true
+          action_fail: true
+          job_summary: false
+          comment_mode: off
+          files: |
+            libs/*/target/surefire-reports/TEST-*.xml
+            apps/*/target/surefire-reports/TEST-*.xml
