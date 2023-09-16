@@ -17,6 +17,8 @@ jobs:
     name: Up to binaries
     timeout-minutes: 5
     runs-on: ubuntu-22.04
+    permissions:
+      checks: write
     steps:
       - uses: actions/checkout@v4.0.0
       - uses: ./.github/actions/prepare
