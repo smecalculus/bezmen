@@ -48,18 +48,4 @@ jobs:
           fail_on_failure: true
           job_summary: false
           report_paths: |
-            libs/*/target/surefire-reports/TEST-*.xml
-            apps/*/target/surefire-reports/TEST-*.xml
-      - uses: EnricoMi/publish-unit-test-result-action@v2.9.0
-        if: ${{ !cancelled() }}
-        with:
-          check_name: Unit Test Report
-          check_run_annotations: none
-          compare_to_earlier_commit: false
-          action_fail_on_inconclusive: true
-          action_fail: true
-          job_summary: false
-          comment_mode: off
-          files: |
-            libs/*/target/surefire-reports/TEST-*.xml
-            apps/*/target/surefire-reports/TEST-*.xml
+            **/surefire-reports/TEST-*.xml
