@@ -41,7 +41,7 @@ jobs:
           GITHUB_ACTOR: ${{ github.actor }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - uses: mikepenz/action-junit-report@v4
-        if: ${{ steps.binaries.outcome == 'success' || steps.binaries.outcome == 'failure' }}
+        if: ${{ !cancelled() && (steps.binaries.outcome == 'success' || steps.binaries.outcome == 'failure') }}
         with:
           check_name: Unit Test Report
           report_paths: "**/target/surefire-reports/TEST-*.xml"
