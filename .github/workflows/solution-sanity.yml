@@ -33,7 +33,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - id: binaries
         run: >
-          echo 1 &&
+          exit 1 &&
           ansible-playbook binaries.yml
           -e binary_repo=maven.pkg.github.com
           -e focus=solution
