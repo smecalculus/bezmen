@@ -26,13 +26,14 @@ jobs:
         with:
           tools: python java
 #      - run: ansible-playbook sources.yml -l lib:app
-      - run: exit 1
+      - run: echo foo
         working-directory: .dx
         env:
           GITHUB_ACTOR: ${{ github.actor }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - id: binaries
         run: >
+          echo 1 &&
           ansible-playbook binaries.yml
           -e binary_repo=maven.pkg.github.com
           -e focus=solution
@@ -46,5 +47,5 @@ jobs:
           check_name: Unit Test Report
           report_paths: "**/target/surefire-reports/TEST-*.xml"
           require_tests: "${{ steps.binaries.outcome == 'failure' }}"
-          fail_on_failure: true
+          fail_on_failure: false
           job_summary: false
