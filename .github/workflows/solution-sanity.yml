@@ -25,8 +25,7 @@ jobs:
       - uses: ./.github/actions/prepare
         with:
           tools: python java
-#      - run: ansible-playbook sources.yml -l lib:app
-      - run: echo foo
+      - run: ansible-playbook sources.yml -l lib:app
         working-directory: .dx
         env:
           GITHUB_ACTOR: ${{ github.actor }}
