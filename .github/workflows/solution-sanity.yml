@@ -26,7 +26,7 @@ jobs:
         with:
           tools: python java
 #      - run: ansible-playbook sources.yml -l lib:app
-      - run: echo foo
+      - run: exit 1
         working-directory: .dx
         env:
           GITHUB_ACTOR: ${{ github.actor }}
@@ -41,10 +41,10 @@ jobs:
           GITHUB_ACTOR: ${{ github.actor }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - uses: mikepenz/action-junit-report@v4
-        if: ${{ !cancelled() }}
+        if: ${{ steps.binaries.outcome == 'success' or steps.binaries.outcome == 'failure' }}
         with:
           check_name: Unit Test Report
-          report_paths: "**/surefire-reports/TEST-*.xml"
+          report_paths: "**/target/surefire-reports/TEST-*.xml"
           require_tests: "${{ steps.binaries.outcome == 'failure' }}"
           fail_on_failure: true
           job_summary: false
