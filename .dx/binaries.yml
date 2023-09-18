@@ -81,20 +81,18 @@
 #          deploy
 #          {% endif %}
 
-#- name: Binaries
-#  hosts: test
-#  run_once: true
-#  tasks:
-#    - name: Create binaries
-#      ansible.builtin.command:
-#        cmd: >
-#          mvn
-#          --no-snapshot-updates
-#          --batch-mode
-#          clean
-#          test-compile
-#          --define lib.version={{ lib_version }}
-#        chdir: "{{ playbook_dir }}/../tests"
-#        strip_empty_ends: false
-#      changed_when: true
-#      when: hostvars.lib.binary_status|default({}) is changed
+- name: Binaries
+  hosts: test
+  run_once: true
+  tasks:
+    - name: Create binaries
+      ansible.builtin.command:
+        cmd: >
+          mvn
+          --no-snapshot-updates
+          --batch-mode
+          clean
+          test-compile
+        chdir: "{{ playbook_dir }}/../tests"
+        strip_empty_ends: false
+      changed_when: true

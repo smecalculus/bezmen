@@ -5,6 +5,5 @@ import org.junit.jupiter.api.Test;
 class SepulkaDaoMyBatisTest {
 
     @Test
-    void foo() {
-    }
+    void foo() {}
 }

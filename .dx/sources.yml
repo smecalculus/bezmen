@@ -7,7 +7,7 @@
       ansible.builtin.command:
         cmd: >
           mvn
-          --no-snapshot-updates
+          --offline
           --batch-mode
           enforcer:enforce
           spotless:check

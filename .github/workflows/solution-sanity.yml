@@ -25,11 +25,11 @@ jobs:
       - uses: ./.github/actions/prepare
         with:
           tools: python java
-      - run: ansible-playbook sources.yml -l lib:app
-        working-directory: .dx
-        env:
-          GITHUB_ACTOR: ${{ github.actor }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#      - run: ansible-playbook sources.yml -l lib:app
+#        working-directory: .dx
+#        env:
+#          GITHUB_ACTOR: ${{ github.actor }}
+#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - id: binaries
         run: >
           ansible-playbook binaries.yml
