@@ -41,3 +41,17 @@ stack_images:
   pipeline: "{{ image_repo }}/{{ organization }}/{{ project }}/stack/pipeline-{{ environ }}"
 
 docker_entity: "{{ 'image' if image_repo == 'local' else 'manifest' }}"
+
+app_cids:
+  foo: "{{ lookup('ansible.builtin.pipe', 'git rev-parse HEAD:apps/foo')[:7] }}"
+
+app_deps:
+  foo: [essentials, construction, client, messaging, data]
+
+lib_cids:
+  client: "{{ lookup('ansible.builtin.pipe', 'git rev-parse HEAD:libs/client')[:7] }}"
+  construction: "{{ lookup('ansible.builtin.pipe', 'git rev-parse HEAD:libs/construction')[:7] }}"
+  data: "{{ lookup('ansible.builtin.pipe', 'git rev-parse HEAD:libs/data')[:7] }}"
+  essentials: "{{ lookup('ansible.builtin.pipe', 'git rev-parse HEAD:libs/essentials')[:7] }}"
+  messaging: "{{ lookup('ansible.builtin.pipe', 'git rev-parse HEAD:libs/messaging')[:7] }}"
+  testing: "{{ lookup('ansible.builtin.pipe', 'git rev-parse HEAD:libs/testing')[:7] }}"

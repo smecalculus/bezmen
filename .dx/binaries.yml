@@ -3,27 +3,27 @@
   hosts: lib
   run_once: true
   tasks:
-    - name: Capture status
-      ansible.builtin.command:
-        # todo: try to implement more lightweight check
-        cmd: >
-          mvn
-          {% if binary_repo == 'local' %}
-          --offline
-          {% else %}
-          --define remoteRepositories=github::::https://{{ binary_repo }}/smecalculus/bezmen
-          {% endif %}
-          dependency:get
-          --define transitive=false
-          --define artifact=smecalculus.bezmen:libs:{{ lib_version }}:pom
-        chdir: "{{ playbook_dir }}/../libs"
-      register: binary_status
-      changed_when: binary_status.rc != 0
-      failed_when: false
-    - name: Status command
-      ansible.builtin.debug:
-        msg: "{{ binary_status.cmd|join(' ') }}"
-      when: binary_status is changed
+#    - name: Capture status
+#      ansible.builtin.command:
+#        # todo: try to implement more lightweight check
+#        cmd: >
+#          mvn
+#          {% if binary_repo == 'local' %}
+#          --offline
+#          {% else %}
+#          --define remoteRepositories=github::::https://{{ binary_repo }}/smecalculus/bezmen
+#          {% endif %}
+#          dependency:get
+#          --define transitive=false
+#          --define artifact=smecalculus.bezmen:libs:{{ lib_version }}:pom
+#        chdir: "{{ playbook_dir }}/../libs"
+#      register: binary_status
+#      changed_when: binary_status.rc != 0
+#      failed_when: false
+#    - name: Status command
+#      ansible.builtin.debug:
+#        msg: "{{ binary_status.cmd|join(' ') }}"
+#      when: binary_status is changed
     - name: Create binaries
       ansible.builtin.command:
         cmd: >
@@ -38,34 +38,37 @@
           {% else %}
           install
           {% endif %}
-          --define revision={{ lib_version }}
         chdir: "{{ playbook_dir }}/../libs"
       changed_when: true
-      when: binary_status is changed
 
 - name: Binaries
   hosts: app
   run_once: true
   tasks:
-    - name: Capture cid
+    - name: Capture cid's
       ansible.builtin.command:
         cmd: git hash-object --stdin
         stdin: |
-          {{ lib_cid }}
-          {{ app_cid }}
+          {{ app_cids[app] }}
+          {% for lib in app_deps[app] %}
+          {{ lib_cids[lib] }}
+          {% endfor %}
       # TODO: try to choose better name
       register: image_cid
       changed_when: false
+      loop: "{{ app_images.keys() }}"
+      loop_control:
+        loop_var: app
       tags: [always]
     - name: Capture statuses
       ansible.builtin.command:
-        cmd: docker {{ docker_entity }} inspect {{ item.value }}:{{ image_cid.stdout[:7] }}
+        cmd: docker {{ docker_entity }} inspect {{ app_images[item.app] }}:{{ item.stdout[:7] }}
       register: image_status
       changed_when: image_status.rc != 0
       failed_when: false
-      loop: "{{ app_images|dict2items }}"
+      loop: "{{ image_cid.results }}"
       loop_control:
-        label: "{{ item.key }}"
+        label: "{{ item.app }}"
       tags: [always]
     - name: Status commands
       ansible.builtin.debug:
@@ -80,36 +83,40 @@
           --fail-fast
           --batch-mode
           --threads 1C
-          {% if not hostvars.lib.binary_status|default({}) is changed %}
-          --projects {{ image_status.results|select('changed')|map(attribute='item.key')|join(',') }}
-          {% endif %}
+          --projects {{ image_status.results|select('changed')|map(attribute='item.app')|join(',') }}
           clean
-          {% if up_to_images|default(false) %}
-          verify
-          {% else %}
           package
-          {% endif %}
           --define revision={{ app_version }}
-          --define lib.version={{ lib_version }}
         chdir: "{{ playbook_dir }}/../apps"
         strip_empty_ends: false
       changed_when: true
       when: image_status is changed
 
-- name: Binaries
-  hosts: test
-  run_once: true
-  tasks:
-    - name: Create binaries
-      ansible.builtin.command:
-        cmd: >
-          mvn
-          --no-snapshot-updates
-          --batch-mode
-          clean
-          test-compile
-          --define lib.version={{ lib_version }}
-        chdir: "{{ playbook_dir }}/../tests"
-        strip_empty_ends: false
-      changed_when: true
-      when: hostvars.lib.binary_status|default({}) is changed
+#          {% if hostvars.lib.binary_status|default({}) is changed %}
+#          --also-make
+#          {% endif %}
+#          {% if not up_to_images|default(false) %}
+#          package
+#          {% elif focus == 'pipeline' %}
+#          install
+#          {% else %}
+#          deploy
+#          {% endif %}
+
+#- name: Binaries
+#  hosts: test
+#  run_once: true
+#  tasks:
+#    - name: Create binaries
+#      ansible.builtin.command:
+#        cmd: >
+#          mvn
+#          --no-snapshot-updates
+#          --batch-mode
+#          clean
+#          test-compile
+#          --define lib.version={{ lib_version }}
+#        chdir: "{{ playbook_dir }}/../tests"
+#        strip_empty_ends: false
+#      changed_when: true
+#      when: hostvars.lib.binary_status|default({}) is changed
