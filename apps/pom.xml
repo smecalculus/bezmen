@@ -16,7 +16,6 @@
 
   <properties>
     <revision>0.1.0-SNAPSHOT</revision>
-    <lib.version>0.1.0-SNAPSHOT</lib.version>
     <lombok.version>1.18.28</lombok.version>
     <mapstruct.version>1.5.5.Final</mapstruct.version>
     <skipTests>false</skipTests>
@@ -44,7 +43,7 @@
       <dependency>
         <groupId>${project.groupId}</groupId>
         <artifactId>libs</artifactId>
-        <version>${lib.version}</version>
+        <version>0.1.0-SNAPSHOT</version>
         <type>pom</type>
         <scope>import</scope>
       </dependency>
