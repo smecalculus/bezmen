@@ -431,25 +431,6 @@
           <version>3.6.0</version>
           <executions>
             <execution>
-              <id>analyze</id>
-              <goals>
-                <goal>analyze-only</goal>
-              </goals>
-              <configuration>
-                <verbose>true</verbose>
-                <failOnWarning>true</failOnWarning>
-                <ignoreUnusedRuntime>true</ignoreUnusedRuntime>
-                <ignoredUsedUndeclaredDependencies>
-                  <ignoredUsedUndeclaredDependency>*:*</ignoredUsedUndeclaredDependency>
-                </ignoredUsedUndeclaredDependencies>
-                <ignoredUnusedDeclaredDependencies combine.children="append">
-                  <ignoredUnusedDeclaredDependency>org.projectlombok:lombok</ignoredUnusedDeclaredDependency>
-                  <ignoredUnusedDeclaredDependency>org.junit.jupiter:junit-jupiter-engine
-                  </ignoredUnusedDeclaredDependency>
-                </ignoredUnusedDeclaredDependencies>
-              </configuration>
-            </execution>
-            <execution>
               <id>reset</id>
               <phase>clean</phase>
               <goals>

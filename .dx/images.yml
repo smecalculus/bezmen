@@ -10,13 +10,13 @@
   tasks:
     - name: Capture statuses
       ansible.builtin.command:
-        cmd: docker {{ docker_entity }} inspect {{ item.value }}:{{ schema_cid }}
+        cmd: docker {{ docker_entity }} inspect {{ schema_images[schema] }}:{{ schema_cids[schema] }}
       register: image_status
       changed_when: image_status.rc != 0
       failed_when: false
-      loop: "{{ schema_images|dict2items }}"
+      loop: "{{ schema_images.keys() }}"
       loop_control:
-        label: "{{ item.key }}"
+        loop_var: schema
     - name: Status commands
       ansible.builtin.debug:
         msg: "{{ image_status.results|map(attribute='cmd')|map('join', ' ') }}"
@@ -25,11 +25,13 @@
       ansible.builtin.include_role:
         name: image
       vars:
-        image_tag: "{{ schema_cid }}"
-        image_name: "{{ item.value }}"
-        image_home: "{{ playbook_dir }}/../schemas/{{ item.key }}"
+        image_tag: "{{ schema_cids[schema] }}"
+        image_name: "{{ schema_images[schema] }}"
+        image_home: "{{ playbook_dir }}/../schemas/{{ schema }}"
         image_push: "{{ focus == 'solution' }}"
-      loop: "{{ image_status.results|select('changed')|map(attribute='item') }}"
+      loop: "{{ image_status.results|select('changed')|map(attribute='schema') }}"
+      loop_control:
+        loop_var: schema
 
 - name: Images
   hosts: app
@@ -43,7 +45,7 @@
           --batch-mode
           clean
           antrun:run@coverage
-        chdir: "{{ playbook_dir }}/../.tools"
+        chdir: "{{ playbook_dir }}/../tools"
         strip_empty_ends: false
       changed_when: true
       when: image_status is changed
@@ -51,9 +53,9 @@
       ansible.builtin.include_role:
         name: image
       vars:
-        image_tag: "{{ image_cid.stdout[:7] }}"
-        image_name: "{{ item.value }}"
-        image_home: "{{ playbook_dir }}/../apps/{{ item.key }}"
+        image_tag: "{{ item.stdout[:7] }}"
+        image_name: "{{ app_images[item.app] }}"
+        image_home: "{{ playbook_dir }}/../apps/{{ item.app }}"
         image_context: target/docker-context
         image_push: "{{ focus == 'solution' }}"
       loop: "{{ image_status.results|select('changed')|map(attribute='item') }}"

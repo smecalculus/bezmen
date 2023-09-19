@@ -16,7 +16,6 @@
 
   <properties>
     <prefs>turing</prefs>
-    <lib.version>LATEST</lib.version>
     <lombok.version>1.18.28</lombok.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
@@ -28,20 +27,12 @@
     </repository>
   </repositories>
 
-  <dependencies>
-    <dependency>
-      <groupId>org.projectlombok</groupId>
-      <artifactId>lombok</artifactId>
-      <scope>provided</scope>
-    </dependency>
-  </dependencies>
-
   <dependencyManagement>
     <dependencies>
       <dependency>
         <groupId>${project.groupId}</groupId>
         <artifactId>libs</artifactId>
-        <version>${lib.version}</version>
+        <version>0.1.0-SNAPSHOT</version>
         <type>pom</type>
         <scope>import</scope>
       </dependency>
