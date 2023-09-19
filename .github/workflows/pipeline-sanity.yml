@@ -7,7 +7,7 @@ on:
       - main
     paths:  # waiting for https://github.com/actions/runner/issues/2324
       - .dx/**
-      - .tools/**
+      - tools/**
       - .environs/**
       - .github/**
   workflow_dispatch:

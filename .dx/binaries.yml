@@ -18,15 +18,18 @@
       loop_control:
         loop_var: app
       tags: [always]
+    - name: Declare cid's
+      set_fact:
+        image_cids: "{{ image_cid.results|items2dict(key_name='app', value_name='stdout') }}"
     - name: Capture statuses
       ansible.builtin.command:
-        cmd: docker {{ docker_entity }} inspect {{ app_images[item.app] }}:{{ item.stdout[:7] }}
+        cmd: docker {{ docker_entity }} inspect {{ app_images[app] }}:{{ image_cids[app][:7] }}
       register: image_status
       changed_when: image_status.rc != 0
       failed_when: false
-      loop: "{{ image_cid.results }}"
+      loop: "{{ image_cids.keys() }}"
       loop_control:
-        label: "{{ item.app }}"
+        loop_var: app
       tags: [always]
     - name: Status commands
       ansible.builtin.debug:
@@ -41,7 +44,7 @@
           --fail-fast
           --batch-mode
           --threads 1C
-          --projects {{ image_status.results|select('changed')|map(attribute='item.app')|map('regex_replace', '^', 'apps/')|join(',') }}
+          --projects {{ image_status.results|select('changed')|map(attribute='app')|map('regex_replace', '^', 'apps/')|join(',') }}
           --also-make
           clean
           {% if focus == 'solution' and up_to_images|default(false) %}

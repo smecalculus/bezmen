@@ -27,21 +27,23 @@
       mvn
       --no-snapshot-updates
       --batch-mode
-      --projects e2e
+      --threads 1C
+      --projects tests/e2e
       --activate-profiles {{ usage }}
-      --define lib.version={{ lib_version }}
+      --also-make
       clean
       test
+      --define prefs={{ prefs }}
       {% if test_failure_ignore is defined %}
       --define maven.test.failure.ignore={{ test_failure_ignore }}
       {% endif %}
-      --define prefs={{ prefs }}
       {% if reminder is defined %}
       --define bezmen.sharding.reminder={{ reminder }}
       {% endif %}
       {% if modulus is defined %}
       --define bezmen.sharding.modulus={{ modulus }}
       {% endif %}
-    chdir: "{{ playbook_dir }}/../tests"
+      --define skipUnits=true
+    chdir: "{{ playbook_dir }}/.."
     strip_empty_ends: false
   changed_when: true

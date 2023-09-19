@@ -69,5 +69,5 @@ jobs:
         if: ${{ !cancelled() }}
         with:
           name: test-coverage-report
-          path: .tools/target/coverage
+          path: tools/target/coverage
           if-no-files-found: ignore
