@@ -57,24 +57,6 @@
       <plugin>
         <artifactId>maven-failsafe-plugin</artifactId>
       </plugin>
-      <plugin>
-        <artifactId>maven-dependency-plugin</artifactId>
-        <executions>
-          <execution>
-            <id>analyze</id>
-            <configuration>
-              <usedDependencies>
-                <usedDependency>com.h2database:h2</usedDependency>
-                <usedDependency>org.postgresql:postgresql</usedDependency>
-                <usedDependency>smecalculus.bezmen:testing</usedDependency>
-              </usedDependencies>
-              <ignoredNonTestScopedDependencies>
-                <ignoredNonTestScopedDependency>org.springframework:spring-beans</ignoredNonTestScopedDependency>
-              </ignoredNonTestScopedDependencies>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
     </plugins>
   </build>
 </project>

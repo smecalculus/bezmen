@@ -75,21 +75,6 @@
               </artifactItems>
             </configuration>
           </execution>
-          <execution>
-            <id>analyze</id>
-            <configuration>
-              <usedDependencies>
-                <usedDependency>smecalculus.bezmen:construction</usedDependency>
-              </usedDependencies>
-              <ignoredNonTestScopedDependencies>
-                <ignoredNonTestScopedDependency>org.springframework:spring-beans</ignoredNonTestScopedDependency>
-                <ignoredNonTestScopedDependency>org.springframework:spring-jdbc</ignoredNonTestScopedDependency>
-                <ignoredNonTestScopedDependency>org.springframework:spring-tx</ignoredNonTestScopedDependency>
-                <ignoredNonTestScopedDependency>org.mybatis:mybatis-spring</ignoredNonTestScopedDependency>
-                <ignoredNonTestScopedDependency>org.springframework.data:spring-data-jdbc</ignoredNonTestScopedDependency>
-              </ignoredNonTestScopedDependencies>
-            </configuration>
-          </execution>
         </executions>
       </plugin>
     </plugins>

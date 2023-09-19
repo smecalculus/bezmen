@@ -26,22 +26,4 @@
       <artifactId>jakarta.servlet-api</artifactId>
     </dependency>
   </dependencies>
-
-  <build>
-    <plugins>
-      <plugin>
-        <artifactId>maven-dependency-plugin</artifactId>
-        <executions>
-          <execution>
-            <id>analyze</id>
-            <configuration>
-              <usedDependencies>
-                <usedDependency>jakarta.servlet:jakarta.servlet-api</usedDependency>
-              </usedDependencies>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-    </plugins>
-  </build>
 </project>

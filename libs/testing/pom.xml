@@ -84,27 +84,6 @@
       <plugin>
         <artifactId>maven-resources-plugin</artifactId>
       </plugin>
-      <plugin>
-        <artifactId>maven-dependency-plugin</artifactId>
-        <executions>
-          <execution>
-            <id>analyze</id>
-            <configuration>
-              <usedDependencies>
-                <usedDependency>org.liquibase:liquibase-core</usedDependency>
-                <usedDependency>org.assertj:assertj-core</usedDependency>
-                <usedDependency>org.springframework:spring-test</usedDependency>
-                <usedDependency>org.mockito:mockito-core</usedDependency>
-                <usedDependency>org.awaitility:awaitility</usedDependency>
-                <usedDependency>org.springframework:spring-webflux</usedDependency>
-                <usedDependency>io.projectreactor:reactor-core</usedDependency>
-                <usedDependency>org.reactivestreams:reactive-streams</usedDependency>
-                <usedDependency>org.junit.platform:junit-platform-suite</usedDependency>
-              </usedDependencies>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
     </plugins>
   </build>
 </project>

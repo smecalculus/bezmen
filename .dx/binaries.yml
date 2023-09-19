@@ -19,7 +19,7 @@
         loop_var: app
       tags: [always]
     - name: Declare cid's
-      set_fact:
+      ansible.builtin.set_fact:
         image_cids: "{{ image_cid.results|items2dict(key_name='app', value_name='stdout') }}"
     - name: Capture statuses
       ansible.builtin.command:
@@ -44,7 +44,13 @@
           --fail-fast
           --batch-mode
           --threads 1C
-          --projects {{ image_status.results|select('changed')|map(attribute='app')|map('regex_replace', '^', 'apps/')|join(',') }}
+          --projects {{ 
+            image_status.results |
+            select('changed') |
+            map(attribute='app') |
+            map('regex_replace', '^', 'apps/') |
+            join(',') 
+          }}
           --also-make
           clean
           {% if focus == 'solution' and up_to_images|default(false) %}

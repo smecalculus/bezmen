@@ -73,29 +73,4 @@
       <artifactId>kotlin-reflect</artifactId>
     </dependency>
   </dependencies>
-
-  <build>
-    <plugins>
-      <plugin>
-        <artifactId>maven-dependency-plugin</artifactId>
-        <executions>
-          <execution>
-            <id>analyze</id>
-            <configuration>
-              <usedDependencies>
-                <usedDependency>org.mapstruct:mapstruct</usedDependency>
-                <usedDependency>com.github.spotbugs:spotbugs-annotations</usedDependency>
-                <usedDependency>org.hibernate.validator:hibernate-validator</usedDependency>
-                <usedDependency>org.glassfish.expressly:expressly</usedDependency>
-                <usedDependency>org.slf4j:slf4j-api</usedDependency>
-                <usedDependency>ch.qos.logback:logback-classic</usedDependency>
-                <usedDependency>org.jetbrains.kotlin:kotlin-stdlib</usedDependency>
-                <usedDependency>org.jetbrains.kotlin:kotlin-reflect</usedDependency>
-              </usedDependencies>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-    </plugins>
-  </build>
 </project>
