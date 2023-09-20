@@ -103,14 +103,13 @@ jobs:
           tools: python java docker
           token: ${{ secrets.GITHUB_TOKEN }}
       - uses: actions/download-artifact@v3.0.2
-        continue-on-error: true  # it's ok because solution compilation can be skipped
+        continue-on-error: true  # it's ok because stack building can be skipped
         with:
           name: solution-${{ matrix.usage }}-${{ matrix.prefs }}
           path: solutions/target/context
       - run: >
           ansible-playbook stacks.yml -t test
           -e image_repo=${{ env.IMAGE_REPO }}
-          -e test_failure_ignore=true
           -e usage=${{ matrix.usage }}
           -e prefs=${{ matrix.prefs }}
           -e reminder=${{ matrix.shard }}
@@ -145,7 +144,7 @@ jobs:
           tools: python docker
           token: ${{ secrets.GITHUB_TOKEN }}
       - uses: actions/download-artifact@v3.0.2
-        continue-on-error: true  # it's ok because solution compilation can be skipped
+        continue-on-error: true  # it's ok because stack building can be skipped
         with:
           name: solution-${{ matrix.usage }}-${{ matrix.prefs }}
           path: solutions/target/context
