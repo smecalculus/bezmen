@@ -1,6 +1,7 @@
 ---
 all:
   hosts:
+    codebase:
     lib:
     app:
     schema:

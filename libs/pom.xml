@@ -487,7 +487,6 @@
           <configuration>
             <rules>
               <banDuplicatePomDependencyVersions/>
-              <reactorModuleConvergence/>
               <requireProfileIdsExist/>
               <dependencyConvergence/>
               <requireUpperBoundDeps/>

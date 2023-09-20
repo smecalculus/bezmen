@@ -1,6 +1,6 @@
 ---
 - name: Sources
-  hosts: lib
+  hosts: codebase
   run_once: true
   tasks:
     - name: Analyze
@@ -9,46 +9,16 @@
           mvn
           --no-snapshot-updates
           --batch-mode
+          {% if focus == 'solution' %}
+          --projects libs,apps
+          {% elif focus == 'pipeline' %}
+          --projects tools,tests
+          {% endif %}
           enforcer:enforce
           spotless:check
-        chdir: "{{ playbook_dir }}/../libs"
+        chdir: "{{ playbook_dir }}/.."
         strip_empty_ends: false
       changed_when: false
-
-- name: Sources
-  hosts: app
-  run_once: true
-  tasks:
-    - name: Analyze
-      ansible.builtin.command:
-        cmd: >
-          mvn
-          --no-snapshot-updates
-          --batch-mode
-          spotless:check
-        chdir: "{{ playbook_dir }}/../apps"
-        strip_empty_ends: false
-      changed_when: false
-
-- name: Sources
-  hosts: test
-  run_once: true
-  tasks:
-    - name: Analyze
-      ansible.builtin.command:
-        cmd: >
-          mvn
-          --no-snapshot-updates
-          --batch-mode
-          spotless:check
-        chdir: "{{ playbook_dir }}/../tests"
-        strip_empty_ends: false
-      changed_when: false
-
-- name: Sources
-  hosts: pipeline
-  run_once: true
-  tasks:
     - name: Analyze
       ansible.builtin.command:
         # list all top level playbooks
@@ -58,8 +28,10 @@
           stacks.yml
         strip_empty_ends: false
       changed_when: false
+      when: focus != 'solution'
     - name: Analyze
       ansible.builtin.command:
         cmd: yamllint ../.github
         strip_empty_ends: false
       changed_when: false
+      when: focus != 'solution'

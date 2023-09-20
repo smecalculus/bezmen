@@ -44,12 +44,12 @@
           --fail-fast
           --batch-mode
           --threads 1C
-          --projects {{ 
-            image_status.results |
-            select('changed') |
-            map(attribute='app') |
-            map('regex_replace', '^', 'apps/') |
-            join(',') 
+          --projects {{
+            image_status.results
+            | select('changed')
+            | map(attribute='app')
+            | map('regex_replace', '^', 'apps/')
+            | join(',')
           }}
           --also-make
           clean
