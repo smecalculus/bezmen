@@ -160,8 +160,8 @@ jobs:
   stack-reporting:
     name: Stack reporting
     timeout-minutes: 5
-    needs: [stack-packaging]
-    if: ${{ !cancelled() && (needs.stack-packaging.result == 'success' || needs.stack-packaging.result == 'failure') }}
+    needs: [stack-testing]
+    if: ${{ !cancelled() && (needs.stack-testing.result == 'success' || needs.stack-testing.result == 'failure') }}
     runs-on: ubuntu-22.04
     permissions:
       checks: write
@@ -174,6 +174,6 @@ jobs:
         with:
           check_name: E2E Test Report
           report_paths: "artifacts/e2e-test-report-*/**/TEST-*.xml"
-          require_tests: "${{ steps.images.outcome == 'failure' }}"
+          require_tests: "${{ needs.stack-testing.result == 'failure' }}"
           fail_on_failure: false
           job_summary: false
