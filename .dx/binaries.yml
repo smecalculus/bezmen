@@ -21,6 +21,7 @@
     - name: Declare cid's
       ansible.builtin.set_fact:
         image_cids: "{{ image_cid.results|items2dict(key_name='app', value_name='stdout') }}"
+      tags: [always]
     - name: Capture statuses
       ansible.builtin.command:
         cmd: docker {{ docker_entity }} inspect {{ app_images[app] }}:{{ image_cids[app][:7] }}
