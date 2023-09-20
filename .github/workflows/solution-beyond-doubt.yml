@@ -161,7 +161,7 @@ jobs:
     name: Stack reporting
     timeout-minutes: 5
     needs: [stack-packaging]
-    if: ${{ !cancelled() && (jobs.stack-testing.result == 'success' || jobs.stack-testing.result == 'failure') }}
+    if: ${{ !cancelled() && (needs.stack-packaging.result == 'success' || needs.stack-packaging.result == 'failure') }}
     runs-on: ubuntu-22.04
     permissions:
       checks: write
