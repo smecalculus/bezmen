@@ -12,23 +12,8 @@ env:
   IMAGE_REPO: ghcr.io
 
 jobs:
-  sources:
-    name: Sources
-    timeout-minutes: 5
-    runs-on: ubuntu-22.04
-    steps:
-      - uses: actions/checkout@v4.0.0
-      - uses: ./.github/actions/prepare
-        with:
-          tools: python java
-      - run: ansible-playbook sources.yml -l lib:app
-        working-directory: .dx
-        env:
-          GITHUB_ACTOR: ${{ github.actor }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-  binaries-and-images:
-    name: Binaries & Images
+  up-to-images:
+    name: Up to images
     timeout-minutes: 10
     runs-on: ubuntu-22.04
     permissions:
@@ -40,7 +25,13 @@ jobs:
         with:
           tools: python java docker
           token: ${{ secrets.GITHUB_TOKEN }}
-      - run: >
+      - run: ansible-playbook sources.yml -e focus=solution
+        working-directory: .dx
+        env:
+          GITHUB_ACTOR: ${{ github.actor }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - id: images
+        run: >
           ansible-playbook images.yml
           -e binary_repo=${{ env.BINARY_REPO }}
           -e image_repo=${{ env.IMAGE_REPO }}
@@ -49,37 +40,27 @@ jobs:
         env:
           GITHUB_ACTOR: ${{ github.actor }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - uses: EnricoMi/publish-unit-test-result-action@v2.9.0
-        if: ${{ !cancelled() }}
+      - uses: mikepenz/action-junit-report@v4
+        if: ${{ !cancelled() && (steps.images.outcome == 'success' || steps.images.outcome == 'failure') }}
         with:
           check_name: Unit Test Report
-          check_run_annotations: none
-          compare_to_earlier_commit: false
-          action_fail_on_inconclusive: true
-          action_fail: true
+          report_paths: "**/target/surefire-reports/TEST-*.xml"
+          require_tests: "${{ steps.images.outcome == 'failure' }}"
+          fail_on_failure: false
           job_summary: false
-          comment_mode: off
-          files: |
-            libs/*/target/surefire-reports/TEST-*.xml
-            apps/*/target/surefire-reports/TEST-*.xml
-      - uses: EnricoMi/publish-unit-test-result-action@v2.9.0
-        if: ${{ !cancelled() }}
+      - uses: mikepenz/action-junit-report@v4
+        if: ${{ !cancelled() && (steps.images.outcome == 'success' || steps.images.outcome == 'failure') }}
         with:
           check_name: Integration Test Report
-          check_run_annotations: none
-          compare_to_earlier_commit: false
-          action_fail_on_inconclusive: true
-          action_fail: true
+          report_paths: "**/target/failsafe-reports/TEST-*.xml"
+          require_tests: "${{ steps.images.outcome == 'failure' }}"
+          fail_on_failure: false
           job_summary: false
-          comment_mode: off
-          files: |
-            libs/*/target/failsafe-reports/TEST-*.xml
-            apps/*/target/failsafe-reports/TEST-*.xml
 
   stack-building:
     name: Stack building
     timeout-minutes: 5
-    needs: [sources, binaries-and-images]
+    needs: [up-to-images]
     strategy:
       fail-fast: false
       matrix:
@@ -179,7 +160,8 @@ jobs:
   stack-reporting:
     name: Stack reporting
     timeout-minutes: 5
-    needs: [stack-packaging]
+    needs: [stack-testing]
+    if: ${{ !cancelled() && (needs.stack-testing.result == 'success' || needs.stack-testing.result == 'failure') }}
     runs-on: ubuntu-22.04
     permissions:
       checks: write
@@ -188,13 +170,10 @@ jobs:
         with:
           path: artifacts
       - run: ls -R
-      - uses: EnricoMi/publish-unit-test-result-action@v2.9.0
+      - uses: mikepenz/action-junit-report@v4
         with:
           check_name: E2E Test Report
-          check_run_annotations: none
-          compare_to_earlier_commit: false
-          action_fail_on_inconclusive: true
-          action_fail: true
+          report_paths: "artifacts/e2e-test-report-*/**/TEST-*.xml"
+          require_tests: "${{ needs.stack-testing.result == 'failure' }}"
+          fail_on_failure: false
           job_summary: false
-          comment_mode: off
-          files: artifacts/e2e-test-report-*/**/TEST-*.xml

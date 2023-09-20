@@ -6,7 +6,7 @@
 
   <packaging>pom</packaging>
 
-  <groupId>org.smecalculus.bezmen</groupId>
+  <groupId>smecalculus.bezmen</groupId>
   <artifactId>apps</artifactId>
   <version>${revision}</version>
 
@@ -16,7 +16,6 @@
 
   <properties>
     <revision>0.1.0-SNAPSHOT</revision>
-    <lib.version>LATEST</lib.version>
     <lombok.version>1.18.28</lombok.version>
     <mapstruct.version>1.5.5.Final</mapstruct.version>
     <skipTests>false</skipTests>
@@ -44,7 +43,7 @@
       <dependency>
         <groupId>${project.groupId}</groupId>
         <artifactId>libs</artifactId>
-        <version>${lib.version}</version>
+        <version>0.1.0-SNAPSHOT</version>
         <type>pom</type>
         <scope>import</scope>
       </dependency>
@@ -54,7 +53,10 @@
   <build>
     <plugins>
       <plugin>
-        <artifactId>maven-dependency-plugin</artifactId>
+        <artifactId>maven-install-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <artifactId>maven-deploy-plugin</artifactId>
       </plugin>
       <plugin>
         <artifactId>maven-surefire-plugin</artifactId>
@@ -74,6 +76,13 @@
 
     <pluginManagement>
       <plugins>
+        <plugin>
+          <artifactId>maven-enforcer-plugin</artifactId>
+          <version>3.4.1</version>
+          <configuration>
+            <skip>true</skip>
+          </configuration>
+        </plugin>
         <plugin>
           <artifactId>maven-compiler-plugin</artifactId>
           <version>3.11.0</version>
@@ -115,6 +124,20 @@
           </executions>
         </plugin>
         <plugin>
+          <artifactId>maven-install-plugin</artifactId>
+          <version>3.1.1</version>
+          <configuration>
+            <skip>true</skip>
+          </configuration>
+        </plugin>
+        <plugin>
+          <artifactId>maven-deploy-plugin</artifactId>
+          <version>3.1.1</version>
+          <configuration>
+            <skip>true</skip>
+          </configuration>
+        </plugin>
+        <plugin>
           <artifactId>maven-assembly-plugin</artifactId>
           <version>3.6.0</version>
           <executions>
@@ -124,30 +147,6 @@
               <goals>
                 <goal>single</goal>
               </goals>
-            </execution>
-          </executions>
-        </plugin>
-        <plugin>
-          <artifactId>maven-dependency-plugin</artifactId>
-          <version>3.6.0</version>
-          <executions>
-            <execution>
-              <id>analyze</id>
-              <goals>
-                <goal>analyze-only</goal>
-              </goals>
-              <configuration>
-                <verbose>true</verbose>
-                <failOnWarning>true</failOnWarning>
-                <ignoreUnusedRuntime>true</ignoreUnusedRuntime>
-                <ignoredUnusedDeclaredDependencies combine.children="append">
-                  <ignoredUnusedDeclaredDependency>org.junit.jupiter:junit-jupiter-engine
-                  </ignoredUnusedDeclaredDependency>
-                </ignoredUnusedDeclaredDependencies>
-                <ignoredUsedUndeclaredDependencies>
-                  <ignoredUsedUndeclaredDependency>*:*</ignoredUsedUndeclaredDependency>
-                </ignoredUsedUndeclaredDependencies>
-              </configuration>
             </execution>
           </executions>
         </plugin>

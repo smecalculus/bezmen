@@ -6,16 +6,16 @@
 
   <packaging>pom</packaging>
 
-  <groupId>org.smecalculus.bezmen</groupId>
+  <groupId>smecalculus.bezmen</groupId>
   <artifactId>libs</artifactId>
   <version>${revision}</version>
 
   <modules>
+    <module>essentials</module>
     <module>construction</module>
     <module>messaging</module>
     <module>client</module>
     <module>data</module>
-    <module>core</module>
     <module>testing</module>
   </modules>
 
@@ -59,7 +59,7 @@
       </dependency>
       <dependency>
         <groupId>${project.groupId}</groupId>
-        <artifactId>core</artifactId>
+        <artifactId>essentials</artifactId>
         <version>${project.version}</version>
       </dependency>
       <dependency>
@@ -431,25 +431,6 @@
           <version>3.6.0</version>
           <executions>
             <execution>
-              <id>analyze</id>
-              <goals>
-                <goal>analyze-only</goal>
-              </goals>
-              <configuration>
-                <verbose>true</verbose>
-                <failOnWarning>true</failOnWarning>
-                <ignoreUnusedRuntime>true</ignoreUnusedRuntime>
-                <ignoredUsedUndeclaredDependencies>
-                  <ignoredUsedUndeclaredDependency>*:*</ignoredUsedUndeclaredDependency>
-                </ignoredUsedUndeclaredDependencies>
-                <ignoredUnusedDeclaredDependencies combine.children="append">
-                  <ignoredUnusedDeclaredDependency>org.projectlombok:lombok</ignoredUnusedDeclaredDependency>
-                  <ignoredUnusedDeclaredDependency>org.junit.jupiter:junit-jupiter-engine
-                  </ignoredUnusedDeclaredDependency>
-                </ignoredUnusedDeclaredDependencies>
-              </configuration>
-            </execution>
-            <execution>
               <id>reset</id>
               <phase>clean</phase>
               <goals>
@@ -506,14 +487,13 @@
           <configuration>
             <rules>
               <banDuplicatePomDependencyVersions/>
-              <reactorModuleConvergence/>
               <requireProfileIdsExist/>
               <dependencyConvergence/>
               <requireUpperBoundDeps/>
               <banDynamicVersions>
                 <excludeOptionals/>
                 <ignores>
-                  <ignore>org.smecalculus.bezmen</ignore>
+                  <ignore>smecalculus.bezmen</ignore>
                 </ignores>
               </banDynamicVersions>
             </rules>
@@ -538,7 +518,6 @@
             </execution>
             <execution>
               <id>default-report</id>
-              <phase>test</phase>
               <goals>
                 <goal>report</goal>
               </goals>

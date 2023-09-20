@@ -15,15 +15,15 @@ updates:
     schedule:
       interval: "weekly"
     ignore:
-      - dependency-name: "org.smecalculus.bezmen:*"
+      - dependency-name: "smecalculus.bezmen:*"
   - package-ecosystem: "maven"
     directory: "/tests"
     schedule:
       interval: "weekly"
     ignore:
-      - dependency-name: "org.smecalculus.bezmen:*"
+      - dependency-name: "smecalculus.bezmen:*"
   - package-ecosystem: "maven"
-    directory: "/.tools"
+    directory: "/tools"
     schedule:
       interval: "weekly"
   - package-ecosystem: "docker"

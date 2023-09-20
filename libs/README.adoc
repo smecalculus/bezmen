@@ -6,7 +6,7 @@ include::client/README.adoc[]
 
 === Core
 
-include::core/README.adoc[]
+include::essentials/README.adoc[]
 
 === Construction
 

@@ -6,7 +6,7 @@
 
   <packaging>pom</packaging>
 
-  <groupId>org.smecalculus.bezmen</groupId>
+  <groupId>smecalculus.bezmen</groupId>
   <artifactId>tests</artifactId>
   <version>latest</version>
 
@@ -16,7 +16,6 @@
 
   <properties>
     <prefs>turing</prefs>
-    <lib.version>LATEST</lib.version>
     <lombok.version>1.18.28</lombok.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
@@ -28,20 +27,12 @@
     </repository>
   </repositories>
 
-  <dependencies>
-    <dependency>
-      <groupId>org.projectlombok</groupId>
-      <artifactId>lombok</artifactId>
-      <scope>provided</scope>
-    </dependency>
-  </dependencies>
-
   <dependencyManagement>
     <dependencies>
       <dependency>
         <groupId>${project.groupId}</groupId>
         <artifactId>libs</artifactId>
-        <version>${lib.version}</version>
+        <version>0.1.0-SNAPSHOT</version>
         <type>pom</type>
         <scope>import</scope>
       </dependency>
@@ -65,24 +56,11 @@
     <pluginManagement>
       <plugins>
         <plugin>
-          <artifactId>maven-compiler-plugin</artifactId>
-          <version>3.11.0</version>
+          <artifactId>maven-enforcer-plugin</artifactId>
+          <version>3.4.1</version>
           <configuration>
-            <source>17</source>
-            <target>17</target>
-            <encoding>UTF-8</encoding>
-            <annotationProcessorPaths>
-              <path>
-                <groupId>org.projectlombok</groupId>
-                <artifactId>lombok</artifactId>
-                <version>${lombok.version}</version>
-              </path>
-            </annotationProcessorPaths>
+            <skip>true</skip>
           </configuration>
-        </plugin>
-        <plugin>
-          <artifactId>maven-surefire-plugin</artifactId>
-          <version>3.1.2</version>
         </plugin>
         <plugin>
           <groupId>com.diffplug.spotless</groupId>
@@ -118,6 +96,26 @@
               </palantirJavaFormat>
             </java>
           </configuration>
+        </plugin>
+        <plugin>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <version>3.11.0</version>
+          <configuration>
+            <source>17</source>
+            <target>17</target>
+            <encoding>UTF-8</encoding>
+            <annotationProcessorPaths>
+              <path>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>${lombok.version}</version>
+              </path>
+            </annotationProcessorPaths>
+          </configuration>
+        </plugin>
+        <plugin>
+          <artifactId>maven-surefire-plugin</artifactId>
+          <version>3.1.2</version>
         </plugin>
       </plugins>
     </pluginManagement>

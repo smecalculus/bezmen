@@ -1,11 +1,16 @@
 ---
 all:
   hosts:
-    lib:
     app:
     schema:
     test:
-    dx:
+  vars:
+    ansible_connection: local
+codebase:
+  hosts:
+    java:
+    ansible:
+    github:
   vars:
     ansible_connection: local
 stack:

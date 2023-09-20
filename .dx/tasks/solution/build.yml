@@ -23,9 +23,9 @@
     strip_empty_ends: false
     chdir: "{{ playbook_dir }}/../solutions"
   environment:
-    SCHEMA_TAG: "{{ schema_cid }}"
+    SCHEMA_TAG: "{{ schema_cids.postgres }}"
     SCHEMA_IMAGE: "{{ schema_images.postgres }}"
-    FOO_TAG: "{{ hostvars.app.image_cid.stdout[:7] }}"
+    FOO_TAG: "{{ hostvars.app.image_cids.foo[:7] }}"
     FOO_IMAGE: "{{ app_images.foo }}"
   changed_when: true
 

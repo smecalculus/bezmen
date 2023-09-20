@@ -7,7 +7,7 @@ on:
       - main
     paths:  # waiting for https://github.com/actions/runner/issues/2324
       - .dx/**
-      - .tools/**
+      - tools/**
       - .environs/**
       - .github/**
   workflow_dispatch:
@@ -30,7 +30,7 @@ jobs:
         with:
           revision: ${{ matrix.environ.name }}
           tools: python java
-      - run: ansible-playbook sources.yml -l test:pipeline
+      - run: ansible-playbook sources.yml -e focus=pipeline
         working-directory: .dx
         env:
           GITHUB_ACTOR: ${{ github.actor }}
