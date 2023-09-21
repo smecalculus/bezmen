@@ -11,11 +11,11 @@
   <version>${revision}</version>
 
   <modules>
+    <module>signatures</module>
     <module>essentials</module>
     <module>construction</module>
     <module>messaging</module>
-    <module>client</module>
-    <module>data</module>
+    <module>storage</module>
     <module>testing</module>
   </modules>
 
@@ -48,6 +48,11 @@
       <artifactId>lombok</artifactId>
       <scope>provided</scope>
     </dependency>
+    <dependency>
+      <groupId>org.mapstruct</groupId>
+      <artifactId>mapstruct</artifactId>
+      <scope>provided</scope>
+    </dependency>
   </dependencies>
 
   <dependencyManagement>
@@ -59,12 +64,12 @@
       </dependency>
       <dependency>
         <groupId>${project.groupId}</groupId>
-        <artifactId>essentials</artifactId>
+        <artifactId>signatures</artifactId>
         <version>${project.version}</version>
       </dependency>
       <dependency>
         <groupId>${project.groupId}</groupId>
-        <artifactId>client</artifactId>
+        <artifactId>essentials</artifactId>
         <version>${project.version}</version>
       </dependency>
       <dependency>
@@ -74,7 +79,7 @@
       </dependency>
       <dependency>
         <groupId>${project.groupId}</groupId>
-        <artifactId>data</artifactId>
+        <artifactId>storage</artifactId>
         <version>${project.version}</version>
       </dependency>
       <dependency>
@@ -426,28 +431,28 @@
             </execution>
           </executions>
         </plugin>
-        <plugin>
-          <artifactId>maven-dependency-plugin</artifactId>
-          <version>3.6.0</version>
-          <executions>
-            <execution>
-              <id>reset</id>
-              <phase>clean</phase>
-              <goals>
-                <goal>purge-local-repository</goal>
-              </goals>
-              <configuration>
-                <verbose>true</verbose>
-                <reResolve>false</reResolve>
-                <actTransitively>false</actTransitively>
-                <resolutionFuzziness>artifactId</resolutionFuzziness>
-                <manualIncludes>
-                  <manualInclude>${project.groupId}:${project.artifactId}</manualInclude>
-                </manualIncludes>
-              </configuration>
-            </execution>
-          </executions>
-        </plugin>
+<!--        <plugin>-->
+<!--          <artifactId>maven-dependency-plugin</artifactId>-->
+<!--          <version>3.6.0</version>-->
+<!--          <executions>-->
+<!--            <execution>-->
+<!--              <id>reset</id>-->
+<!--              <phase>clean</phase>-->
+<!--              <goals>-->
+<!--                <goal>purge-local-repository</goal>-->
+<!--              </goals>-->
+<!--              <configuration>-->
+<!--                <verbose>true</verbose>-->
+<!--                <reResolve>false</reResolve>-->
+<!--                <actTransitively>false</actTransitively>-->
+<!--                <resolutionFuzziness>artifactId</resolutionFuzziness>-->
+<!--                <manualIncludes>-->
+<!--                  <manualInclude>${project.groupId}:${project.artifactId}</manualInclude>-->
+<!--                </manualIncludes>-->
+<!--              </configuration>-->
+<!--            </execution>-->
+<!--          </executions>-->
+<!--        </plugin>-->
         <plugin>
           <groupId>com.diffplug.spotless</groupId>
           <artifactId>spotless-maven-plugin</artifactId>

@@ -19,7 +19,7 @@
   <dependencies>
     <dependency>
       <groupId>${project.groupId}</groupId>
-      <artifactId>client</artifactId>
+      <artifactId>messaging</artifactId>
     </dependency>
     <dependency>
       <groupId>${project.groupId}</groupId>

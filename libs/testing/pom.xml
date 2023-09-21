@@ -15,11 +15,11 @@
   <dependencies>
     <dependency>
       <groupId>${project.groupId}</groupId>
-      <artifactId>essentials</artifactId>
+      <artifactId>signatures</artifactId>
     </dependency>
     <dependency>
       <groupId>${project.groupId}</groupId>
-      <artifactId>client</artifactId>
+      <artifactId>essentials</artifactId>
     </dependency>
 
     <dependency>

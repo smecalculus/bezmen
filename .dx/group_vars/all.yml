@@ -7,9 +7,9 @@ prefs: turing
 
 lib_cid: "{{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=libs')[:7] }}"
 lib_cids:
-  client: "{{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=libs/client')[:7] }}"
+  signatures: "{{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=libs/signatures')[:7] }}"
   construction: "{{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=libs/construction')[:7] }}"
-  data: "{{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=libs/data')[:7] }}"
+  storage: "{{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=libs/storage')[:7] }}"
   essentials: "{{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=libs/essentials')[:7] }}"
   messaging: "{{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=libs/messaging')[:7] }}"
   testing: "{{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=libs/testing')[:7] }}"
@@ -52,4 +52,4 @@ stack_images:
 docker_entity: "{{ 'image' if image_repo == 'local' else 'manifest' }}"
 
 app_deps:
-  foo: [essentials, construction, client, messaging, data]
+  foo: [essentials, construction, signatures, messaging, storage]

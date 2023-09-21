@@ -8,11 +8,9 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import smecalculus.bezmen.configuration.spec.MessagingConfig;
-import smecalculus.bezmen.configuration.spec.MessagingProps;
-import smecalculus.bezmen.construction.spec.ConfigBeans;
-import smecalculus.bezmen.construction.spec.MessagingConfigBeans;
-import smecalculus.bezmen.construction.spec.ValidationBeans;
+import smecalculus.bezmen.construction.ConfigBeans;
+import smecalculus.bezmen.construction.MessagingConfigBeans;
+import smecalculus.bezmen.construction.ValidationBeans;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = {ConfigBeans.class, ValidationBeans.class, MessagingConfigBeans.class})

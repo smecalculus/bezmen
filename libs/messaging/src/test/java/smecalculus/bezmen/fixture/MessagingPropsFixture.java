@@ -2,7 +2,7 @@ package smecalculus.bezmen.fixture;
 
 import static smecalculus.bezmen.fixture.ProtocolPropsFixture.protocolProps;
 
-import smecalculus.bezmen.configuration.spec.MessagingProps;
+import smecalculus.bezmen.configuration.MessagingProps;
 
 public class MessagingPropsFixture {
     public static MessagingProps.Builder messagingProps() {

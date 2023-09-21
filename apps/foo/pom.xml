@@ -32,7 +32,7 @@
 
     <dependency>
       <groupId>${project.groupId}</groupId>
-      <artifactId>data</artifactId>
+      <artifactId>storage</artifactId>
     </dependency>
 
     <dependency>

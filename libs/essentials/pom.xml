@@ -15,22 +15,9 @@
   <dependencies>
     <dependency>
       <groupId>${project.groupId}</groupId>
-      <artifactId>client</artifactId>
+      <artifactId>signatures</artifactId>
     </dependency>
-    <!--VALIDATING-->
-    <dependency>
-      <groupId>jakarta.validation</groupId>
-      <artifactId>jakarta.validation-api</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.hibernate.validator</groupId>
-      <artifactId>hibernate-validator</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.glassfish.expressly</groupId>
-      <artifactId>expressly</artifactId>
-    </dependency>
-    <!--CONFIGURING-->
+    <!--CONFIGURATION-->
     <dependency>
       <groupId>com.typesafe</groupId>
       <artifactId>config</artifactId>

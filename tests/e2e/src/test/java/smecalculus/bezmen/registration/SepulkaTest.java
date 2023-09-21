@@ -15,9 +15,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import smecalculus.bezmen.StandBeans;
-import smecalculus.bezmen.messaging.spec.BezmenClient;
-import smecalculus.bezmen.messaging.spec.SepulkaRegReq;
-import smecalculus.bezmen.messaging.spec.SepulkaRegRes;
+import smecalculus.bezmen.messaging.BezmenClient;
+import smecalculus.bezmen.messaging.SepulkaRegReq;
+import smecalculus.bezmen.messaging.SepulkaRegRes;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = StandBeans.class)
@@ -48,13 +48,13 @@ public class SepulkaTest {
     }
 
     @Test
-    @EnabledIfSystemProperty(named = "data.vendor.mode", matches = "postgres")
+    @EnabledIfSystemProperty(named = "storage.vendor.mode", matches = "postgres")
     void postgresSpecificTest() {
         // empty
     }
 
     @Test
-    @EnabledIfSystemProperty(named = "data.vendor.mode", matches = "sqlite")
+    @EnabledIfSystemProperty(named = "storage.vendor.mode", matches = "sqlite")
     void sqliteSpecificTest() {
         // empty
     }
