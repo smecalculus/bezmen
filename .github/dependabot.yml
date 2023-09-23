@@ -11,7 +11,7 @@ updates:
     schedule:
       interval: "daily"
     groups:
-      SpringFramework:
+      spring-framework:
         patterns:
           - "org.springframework*"
   - package-ecosystem: "maven"

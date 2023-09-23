@@ -32,6 +32,7 @@
     <mockito.version>5.5.0</mockito.version>
     <skipTests>false</skipTests>
     <skipUnits>${skipTests}</skipUnits>
+    <isPrivate>true</isPrivate>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
 
@@ -324,21 +325,20 @@
   <build>
     <plugins>
       <plugin>
-        <artifactId>maven-surefire-plugin</artifactId>
-      </plugin>
-      <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>flatten-maven-plugin</artifactId>
       </plugin>
       <plugin>
-        <artifactId>maven-dependency-plugin</artifactId>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-enforcer-plugin</artifactId>
       </plugin>
       <plugin>
         <groupId>com.diffplug.spotless</groupId>
         <artifactId>spotless-maven-plugin</artifactId>
       </plugin>
       <plugin>
-        <artifactId>maven-enforcer-plugin</artifactId>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
       </plugin>
       <plugin>
         <groupId>org.jacoco</groupId>
@@ -367,6 +367,7 @@
     <pluginManagement>
       <plugins>
         <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-compiler-plugin</artifactId>
           <version>3.11.0</version>
           <!-- TODO: подумать о том, чтобы вынести конфигурации из pluginManagement -->
@@ -394,10 +395,12 @@
           <version>${kotlin.version}</version>
         </plugin>
         <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-resources-plugin</artifactId>
           <version>3.3.1</version>
         </plugin>
         <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-surefire-plugin</artifactId>
           <version>3.1.2</version>
           <configuration>
@@ -405,6 +408,7 @@
           </configuration>
         </plugin>
         <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-failsafe-plugin</artifactId>
           <version>3.1.2</version>
           <executions>
@@ -443,28 +447,6 @@
             </execution>
           </executions>
         </plugin>
-<!--        <plugin>-->
-<!--          <artifactId>maven-dependency-plugin</artifactId>-->
-<!--          <version>3.6.0</version>-->
-<!--          <executions>-->
-<!--            <execution>-->
-<!--              <id>reset</id>-->
-<!--              <phase>clean</phase>-->
-<!--              <goals>-->
-<!--                <goal>purge-local-repository</goal>-->
-<!--              </goals>-->
-<!--              <configuration>-->
-<!--                <verbose>true</verbose>-->
-<!--                <reResolve>false</reResolve>-->
-<!--                <actTransitively>false</actTransitively>-->
-<!--                <resolutionFuzziness>artifactId</resolutionFuzziness>-->
-<!--                <manualIncludes>-->
-<!--                  <manualInclude>${project.groupId}:${project.artifactId}</manualInclude>-->
-<!--                </manualIncludes>-->
-<!--              </configuration>-->
-<!--            </execution>-->
-<!--          </executions>-->
-<!--        </plugin>-->
         <plugin>
           <groupId>com.diffplug.spotless</groupId>
           <artifactId>spotless-maven-plugin</artifactId>
@@ -499,6 +481,7 @@
           </configuration>
         </plugin>
         <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-enforcer-plugin</artifactId>
           <version>3.4.1</version>
           <configuration>
@@ -507,8 +490,12 @@
               <requireProfileIdsExist/>
               <dependencyConvergence/>
               <requireUpperBoundDeps/>
+              <requireReleaseDeps>
+                <excludes>
+                  <exclude>smecalculus.bezmen</exclude>
+                </excludes>
+              </requireReleaseDeps>
               <banDynamicVersions>
-                <excludeOptionals/>
                 <ignores>
                   <ignore>smecalculus.bezmen</ignore>
                 </ignores>
@@ -546,6 +533,22 @@
               </goals>
             </execution>
           </executions>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-install-plugin</artifactId>
+          <version>3.1.1</version>
+          <configuration>
+            <skip>${isPrivate}</skip>
+          </configuration>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-deploy-plugin</artifactId>
+          <version>3.1.1</version>
+          <configuration>
+            <skip>${isPrivate}</skip>
+          </configuration>
         </plugin>
       </plugins>
     </pluginManagement>

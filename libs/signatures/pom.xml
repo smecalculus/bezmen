@@ -12,6 +12,10 @@
 
   <artifactId>signatures</artifactId>
 
+  <properties>
+    <isPrivate>false</isPrivate>
+  </properties>
+
   <dependencies>
     <dependency>
       <groupId>jakarta.validation</groupId>

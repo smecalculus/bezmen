@@ -12,6 +12,10 @@
 
   <artifactId>messaging</artifactId>
 
+  <properties>
+    <isPrivate>false</isPrivate>
+  </properties>
+
   <dependencies>
     <dependency>
       <groupId>${project.groupId}</groupId>
