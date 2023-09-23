@@ -1,3 +1,3 @@
-package smecalculus.bezmen.messaging;
+package smecalculus.bezmen.messaging.client;
 
 public interface BezmenClient extends FooClient {}

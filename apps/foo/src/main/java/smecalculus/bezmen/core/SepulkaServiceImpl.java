@@ -4,7 +4,7 @@ import static java.util.UUID.randomUUID;
 
 import java.util.List;
 import lombok.NonNull;
-import smecalculus.bezmen.messaging.SepulkaRegReq;
+import smecalculus.bezmen.messaging.client.SepulkaRegReq;
 import smecalculus.bezmen.storage.SepulkaDao;
 
 public record SepulkaServiceImpl(@NonNull SepulkaDao sepulkaDao) implements SepulkaService {

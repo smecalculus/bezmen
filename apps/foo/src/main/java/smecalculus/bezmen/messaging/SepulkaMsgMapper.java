@@ -1,6 +1,8 @@
 package smecalculus.bezmen.messaging;
 
 import org.mapstruct.Mapper;
+import smecalculus.bezmen.messaging.client.SepulkaRegReq;
+import smecalculus.bezmen.messaging.client.SepulkaRegRes;
 
 @Mapper
 public interface SepulkaMsgMapper {

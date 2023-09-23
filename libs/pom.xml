@@ -69,6 +69,12 @@
       </dependency>
       <dependency>
         <groupId>${project.groupId}</groupId>
+        <artifactId>signatures</artifactId>
+        <version>${project.version}</version>
+        <classifier>client</classifier>
+      </dependency>
+      <dependency>
+        <groupId>${project.groupId}</groupId>
         <artifactId>essentials</artifactId>
         <version>${project.version}</version>
       </dependency>
@@ -76,6 +82,12 @@
         <groupId>${project.groupId}</groupId>
         <artifactId>messaging</artifactId>
         <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>${project.groupId}</groupId>
+        <artifactId>messaging</artifactId>
+        <version>${project.version}</version>
+        <classifier>client</classifier>
       </dependency>
       <dependency>
         <groupId>${project.groupId}</groupId>

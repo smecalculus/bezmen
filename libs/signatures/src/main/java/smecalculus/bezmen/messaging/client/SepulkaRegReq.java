@@ -1,4 +1,4 @@
-package smecalculus.bezmen.messaging;
+package smecalculus.bezmen.messaging.client;
 
 import lombok.NonNull;
 

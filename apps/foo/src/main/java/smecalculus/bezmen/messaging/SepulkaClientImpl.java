@@ -4,6 +4,9 @@ import lombok.NonNull;
 import smecalculus.bezmen.core.Sepulka;
 import smecalculus.bezmen.core.SepulkaConverter;
 import smecalculus.bezmen.core.SepulkaService;
+import smecalculus.bezmen.messaging.client.SepulkaClient;
+import smecalculus.bezmen.messaging.client.SepulkaRegReq;
+import smecalculus.bezmen.messaging.client.SepulkaRegRes;
 import smecalculus.bezmen.validation.EdgeValidator;
 
 public record SepulkaClientImpl(

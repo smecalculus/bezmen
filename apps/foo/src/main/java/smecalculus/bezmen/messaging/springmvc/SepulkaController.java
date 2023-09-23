@@ -6,12 +6,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import smecalculus.bezmen.messaging.SepulkaClient;
 import smecalculus.bezmen.messaging.SepulkaMsgMapper;
-import smecalculus.bezmen.messaging.SepulkaRegReq;
 import smecalculus.bezmen.messaging.SepulkaRegReqMsg;
-import smecalculus.bezmen.messaging.SepulkaRegRes;
 import smecalculus.bezmen.messaging.SepulkaRegResMsg;
+import smecalculus.bezmen.messaging.client.SepulkaClient;
+import smecalculus.bezmen.messaging.client.SepulkaRegReq;
+import smecalculus.bezmen.messaging.client.SepulkaRegRes;
 
 @RestController
 @RequestMapping("sepulkas")

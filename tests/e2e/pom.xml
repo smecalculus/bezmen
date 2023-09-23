@@ -20,6 +20,7 @@
     <dependency>
       <groupId>${project.groupId}</groupId>
       <artifactId>messaging</artifactId>
+      <classifier>client</classifier>
     </dependency>
     <dependency>
       <groupId>${project.groupId}</groupId>

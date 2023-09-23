@@ -3,6 +3,9 @@ package smecalculus.bezmen.messaging;
 import lombok.NonNull;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.reactive.server.WebTestClient;
+import smecalculus.bezmen.messaging.client.SepulkaClient;
+import smecalculus.bezmen.messaging.client.SepulkaRegReq;
+import smecalculus.bezmen.messaging.client.SepulkaRegRes;
 
 public record SepulkaClientSpringWeb(@NonNull WebTestClient client, @NonNull SepulkaMsgMapper mapper)
         implements SepulkaClient {

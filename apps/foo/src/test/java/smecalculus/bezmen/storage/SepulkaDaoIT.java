@@ -1,7 +1,7 @@
 package smecalculus.bezmen.storage;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static smecalculus.bezmen.fixture.SepulkaFixtures.sepulkaBuilder;
+import static smecalculus.bezmen.core.SepulkaEg.Pojo.sepulka;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -23,7 +23,7 @@ abstract class SepulkaDaoIT {
     @Test
     void shouldSaveOneSepulka() {
         // given
-        Sepulka expectedSepulka = sepulkaBuilder().build();
+        Sepulka expectedSepulka = sepulka();
         // when
         Sepulka actualSepulka1 = sepulkaDao.save(expectedSepulka);
         // and

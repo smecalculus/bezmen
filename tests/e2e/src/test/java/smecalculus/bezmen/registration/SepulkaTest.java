@@ -3,8 +3,8 @@ package smecalculus.bezmen.registration;
 import static java.time.Duration.ofSeconds;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.awaitility.Awaitility.await;
-import static smecalculus.bezmen.fixture.SepulkaFixtures.sepulkaRegReqPojo;
-import static smecalculus.bezmen.fixture.SepulkaFixtures.sepulkaRegResPojo;
+import static smecalculus.bezmen.messaging.client.SepulkaRegReqEg.Pojo.sepulkaRegReq;
+import static smecalculus.bezmen.messaging.client.SepulkaRegResEg.Pojo.sepulkaRegRes;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Tag;
@@ -15,9 +15,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import smecalculus.bezmen.StandBeans;
-import smecalculus.bezmen.messaging.BezmenClient;
-import smecalculus.bezmen.messaging.SepulkaRegReq;
-import smecalculus.bezmen.messaging.SepulkaRegRes;
+import smecalculus.bezmen.messaging.client.BezmenClient;
+import smecalculus.bezmen.messaging.client.SepulkaRegReq;
+import smecalculus.bezmen.messaging.client.SepulkaRegRes;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = StandBeans.class)
@@ -35,9 +35,9 @@ public class SepulkaTest {
     @Tag("smoke")
     void shouldRegisterSepulka() {
         // given
-        SepulkaRegReq request = sepulkaRegReqPojo();
+        SepulkaRegReq request = sepulkaRegReq();
         // and
-        SepulkaRegRes expectedResponse = sepulkaRegResPojo();
+        SepulkaRegRes expectedResponse = sepulkaRegRes();
         // when
         SepulkaRegRes actualResponse = bezmenClient.register(request);
         // then
