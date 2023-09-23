@@ -25,7 +25,7 @@ jobs:
             os: ubuntu-20.04
     runs-on: ${{ matrix.environ.os }}
     steps:
-      - uses: actions/checkout@v4.0.0
+      - uses: actions/checkout@v4.1.0
       - uses: ./.github/actions/prepare
         with:
           revision: ${{ matrix.environ.name }}
