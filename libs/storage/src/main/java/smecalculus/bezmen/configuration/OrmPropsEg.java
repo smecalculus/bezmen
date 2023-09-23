@@ -10,6 +10,7 @@ public class OrmPropsEg {
             return ormPropsCfg;
         }
     }
+
     public static class Builders {
         public static OrmProps.Builder ormProps() {
             return OrmProps.builder().mode(SPRING_DATA);
