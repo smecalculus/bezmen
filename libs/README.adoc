@@ -18,7 +18,7 @@ include::messaging/README.adoc[]
 
 === Data
 
-include::data/README.adoc[]
+include::storage/README.adoc[]
 
 === Testing
 

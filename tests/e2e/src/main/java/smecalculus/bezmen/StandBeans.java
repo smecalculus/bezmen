@@ -4,8 +4,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.net.http.HttpClient;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import smecalculus.bezmen.messaging.impl.BezmenClientJavaHttp;
-import smecalculus.bezmen.messaging.spec.BezmenClient;
+import smecalculus.bezmen.messaging.client.BezmenClient;
+import smecalculus.bezmen.messaging.client.BezmenClientJavaHttp;
 
 @Configuration(proxyBeanMethods = false)
 public class StandBeans {
