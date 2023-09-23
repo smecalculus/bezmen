@@ -23,6 +23,5 @@ public class SepulkaEg {
         public static Sepulka.Builder sepulka(UUID id) {
             return sepulka().id(id);
         }
-
     }
 }
