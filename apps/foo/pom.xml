@@ -23,13 +23,8 @@
     </dependency>
     <dependency>
       <groupId>${project.groupId}</groupId>
-      <artifactId>client</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>${project.groupId}</groupId>
       <artifactId>messaging</artifactId>
     </dependency>
-
     <dependency>
       <groupId>${project.groupId}</groupId>
       <artifactId>storage</artifactId>

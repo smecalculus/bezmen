@@ -5,6 +5,22 @@ import static smecalculus.bezmen.configuration.OrmMode.SPRING_DATA;
 import static smecalculus.bezmen.configuration.WebMode.SPRING_MVC;
 
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.actuate.autoconfigure.health.HealthContributorAutoConfiguration;
+import org.springframework.boot.actuate.autoconfigure.jdbc.DataSourceHealthContributorAutoConfiguration;
+import org.springframework.boot.actuate.autoconfigure.system.DiskSpaceHealthContributorAutoConfiguration;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.autoconfigure.aop.AopAutoConfiguration;
+import org.springframework.boot.autoconfigure.context.LifecycleAutoConfiguration;
+import org.springframework.boot.autoconfigure.context.PropertyPlaceholderAutoConfiguration;
+import org.springframework.boot.autoconfigure.dao.PersistenceExceptionTranslationAutoConfiguration;
+import org.springframework.boot.autoconfigure.data.web.SpringDataWebAutoConfiguration;
+import org.springframework.boot.autoconfigure.http.HttpMessageConvertersAutoConfiguration;
+import org.springframework.boot.autoconfigure.liquibase.LiquibaseAutoConfiguration;
+import org.springframework.boot.autoconfigure.task.TaskExecutionAutoConfiguration;
+import org.springframework.boot.autoconfigure.task.TaskSchedulingAutoConfiguration;
+import org.springframework.boot.autoconfigure.web.client.RestTemplateAutoConfiguration;
+import org.springframework.boot.autoconfigure.web.embedded.EmbeddedWebServerFactoryCustomizerAutoConfiguration;
+import org.springframework.boot.autoconfigure.web.servlet.MultipartAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
@@ -27,24 +43,24 @@ import smecalculus.bezmen.storage.springdata.SepulkaRepository;
 import smecalculus.bezmen.validation.EdgeValidator;
 
 @Import({ConfigBeans.class, ValidationBeans.class, MessagingBeans.class, StorageBeans.class})
-//@EnableAutoConfiguration(
-//        exclude = {
-//            LiquibaseAutoConfiguration.class,
-//            AopAutoConfiguration.class,
-//            DataSourceHealthContributorAutoConfiguration.class,
-//            DiskSpaceHealthContributorAutoConfiguration.class,
-//            EmbeddedWebServerFactoryCustomizerAutoConfiguration.class,
-//            PersistenceExceptionTranslationAutoConfiguration.class,
-//            SpringDataWebAutoConfiguration.class,
-//            HealthContributorAutoConfiguration.class,
-//            HttpMessageConvertersAutoConfiguration.class,
-//            LifecycleAutoConfiguration.class,
-//            MultipartAutoConfiguration.class,
-//            PropertyPlaceholderAutoConfiguration.class,
-//            RestTemplateAutoConfiguration.class,
-//            TaskExecutionAutoConfiguration.class,
-//            TaskSchedulingAutoConfiguration.class
-//        })
+@EnableAutoConfiguration(
+        exclude = {
+            LiquibaseAutoConfiguration.class,
+            AopAutoConfiguration.class,
+            DataSourceHealthContributorAutoConfiguration.class,
+            DiskSpaceHealthContributorAutoConfiguration.class,
+            EmbeddedWebServerFactoryCustomizerAutoConfiguration.class,
+            PersistenceExceptionTranslationAutoConfiguration.class,
+            SpringDataWebAutoConfiguration.class,
+            HealthContributorAutoConfiguration.class,
+            HttpMessageConvertersAutoConfiguration.class,
+            LifecycleAutoConfiguration.class,
+            MultipartAutoConfiguration.class,
+            PropertyPlaceholderAutoConfiguration.class,
+            RestTemplateAutoConfiguration.class,
+            TaskExecutionAutoConfiguration.class,
+            TaskSchedulingAutoConfiguration.class
+        })
 @Configuration(proxyBeanMethods = false)
 public class App {
 

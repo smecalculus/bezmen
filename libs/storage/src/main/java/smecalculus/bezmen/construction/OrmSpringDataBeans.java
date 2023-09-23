@@ -18,7 +18,7 @@ import smecalculus.bezmen.configuration.VendorProps;
 
 @Configuration(proxyBeanMethods = false)
 @ConditionalOnOrmMode(SPRING_DATA)
-@EnableJdbcRepositories("smecalculus.bezmen.data.springdata")
+@EnableJdbcRepositories("smecalculus.bezmen.storage.springdata")
 public class OrmSpringDataBeans extends AbstractJdbcConfiguration {
 
     @Bean

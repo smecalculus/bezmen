@@ -15,7 +15,7 @@ lib_cids:
   testing: "{{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=libs/testing')[:7] }}"
 app_cid: "{{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=apps')[:7] }}"
 app_cids:
-  foo: "{{ lookup('ansible.builtin.pipe', 'git rev-parse HEAD:apps/foo')[:7] }}"
+  foo: "{{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=apps/foo')[:7] }}"
 schema_cid: "{{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=schemas')[:7] }}"
 schema_cids:
   postgres: "{{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=schemas/postgres')[:7] }}"
