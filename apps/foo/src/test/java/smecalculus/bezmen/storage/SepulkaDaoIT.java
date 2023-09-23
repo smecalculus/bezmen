@@ -1,7 +1,7 @@
 package smecalculus.bezmen.storage;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static smecalculus.bezmen.core.SepulkaEg.Pojo.sepulka;
+import static smecalculus.bezmen.core.SepulkaEg.Pojos.sepulka;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

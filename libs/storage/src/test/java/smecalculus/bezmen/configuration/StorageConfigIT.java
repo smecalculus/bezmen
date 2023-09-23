@@ -1,7 +1,7 @@
 package smecalculus.bezmen.configuration;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static smecalculus.bezmen.fixture.DataPropsFixture.dataProps;
+import static smecalculus.bezmen.configuration.StoragePropsEg.Builders.storageProps;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -22,7 +22,7 @@ abstract class StorageConfigIT {
     @Test
     void defaultConfShouldBeBackwardCompatible() {
         // given
-        StorageProps expectedStorageProps = dataProps().build();
+        StorageProps expectedStorageProps = storageProps().build();
         // when
         StorageProps actualStorageProps = storageConfig.getStorageProps();
         // then

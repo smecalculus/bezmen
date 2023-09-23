@@ -3,7 +3,7 @@ package smecalculus.bezmen.configuration;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static smecalculus.bezmen.fixture.DataPropsFixture.storagePropsCfg;
+import static smecalculus.bezmen.configuration.StoragePropsEg.Pojos.storagePropsCfg;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

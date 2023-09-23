@@ -62,7 +62,7 @@ public class SepulkaDaoBeans {
         }
 
         @Bean
-        public StorageProps dataProps() {
+        public StorageProps storageProps() {
             return StorageProps.builder()
                     .ormProps(OrmProps.builder().mode(SPRING_DATA).build())
                     .vendorProps(VendorProps.builder().mode(POSTGRES).build())

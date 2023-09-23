@@ -5,17 +5,17 @@ import java.util.UUID;
 public class SepulkaEg {
     public static final String NAME = "foo";
 
-    public static class Pojo {
+    public static class Pojos {
         public static Sepulka sepulka() {
-            return Template.sepulka().build();
+            return Builders.sepulka().build();
         }
 
         public static Sepulka sepulka(UUID id) {
-            return Template.sepulka(id).build();
+            return Builders.sepulka(id).build();
         }
     }
 
-    public static class Template {
+    public static class Builders {
         public static Sepulka.Builder sepulka() {
             return Sepulka.builder().id(UUID.randomUUID()).name(NAME);
         }

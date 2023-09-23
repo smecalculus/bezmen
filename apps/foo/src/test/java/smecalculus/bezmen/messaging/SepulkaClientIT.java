@@ -3,9 +3,9 @@ package smecalculus.bezmen.messaging;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
-import static smecalculus.bezmen.core.SepulkaEg.Pojo.sepulka;
-import static smecalculus.bezmen.messaging.client.SepulkaRegReqEg.Pojo.sepulkaRegReq;
-import static smecalculus.bezmen.messaging.client.SepulkaRegResEg.Pojo.sepulkaRegRes;
+import static smecalculus.bezmen.core.SepulkaEg.Pojos.sepulka;
+import static smecalculus.bezmen.messaging.client.SepulkaRegReqEg.Pojos.sepulkaRegReq;
+import static smecalculus.bezmen.messaging.client.SepulkaRegResEg.Pojos.sepulkaRegRes;
 
 import java.util.UUID;
 import org.junit.jupiter.api.Test;

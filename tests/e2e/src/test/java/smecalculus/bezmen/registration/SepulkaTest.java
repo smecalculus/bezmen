@@ -3,8 +3,8 @@ package smecalculus.bezmen.registration;
 import static java.time.Duration.ofSeconds;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.awaitility.Awaitility.await;
-import static smecalculus.bezmen.messaging.client.SepulkaRegReqEg.Pojo.sepulkaRegReq;
-import static smecalculus.bezmen.messaging.client.SepulkaRegResEg.Pojo.sepulkaRegRes;
+import static smecalculus.bezmen.messaging.client.SepulkaRegReqEg.Pojos.sepulkaRegReq;
+import static smecalculus.bezmen.messaging.client.SepulkaRegResEg.Pojos.sepulkaRegRes;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Tag;

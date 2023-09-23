@@ -1,7 +1,7 @@
 package smecalculus.bezmen.configuration;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static smecalculus.bezmen.fixture.MessagingPropsFixture.messagingProps;
+import static smecalculus.bezmen.configuration.MessagingPropsEg.Builders.messagingProps;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

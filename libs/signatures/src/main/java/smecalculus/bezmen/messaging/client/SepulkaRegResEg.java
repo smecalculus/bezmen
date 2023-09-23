@@ -5,7 +5,7 @@ import java.util.UUID;
 public class SepulkaRegResEg {
     public static final String NAME = "foo";
 
-    public static class Pojo {
+    public static class Pojos {
         public static SepulkaRegRes sepulkaRegRes() {
             return new SepulkaRegRes(UUID.randomUUID(), NAME);
         }
