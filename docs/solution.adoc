@@ -1,0 +1,35 @@
+= Решение
+
+== Интерфейсы
+
+:table-caption:
+
+.Human machine interfaces (HMI)
+|===
+h| ^h|Разработка ^h|Внедрение ^h|Эксплуатация
+
+>.^h|Пользователь
+.^|Client toolchain plugin
+.^|Client installer
+.^|Graphical user interface
+
+>.^h|Оператор
+.^|Admin toolchain plugin
+.^|Server installer
+.^|Observation & management tools
+|===
+
+.Application programming interfaces (API)
+|===
+h| ^h|Разработка ^h|Внедрение ^h|Эксплуатация
+
+>.^h|Пользователь
+.^|Client SDK
+.^|Client updater
+.^|Client API
+
+>.^h|Оператор
+.^|Observation & management SDK
+.^|Server operator
+.^|Observation & management API
+|===

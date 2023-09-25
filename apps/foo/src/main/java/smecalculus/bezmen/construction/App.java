@@ -38,24 +38,21 @@ import smecalculus.bezmen.storage.mybatis.SepulkaSqlMapper;
 import smecalculus.bezmen.storage.springdata.SepulkaRepository;
 import smecalculus.bezmen.validation.EdgeValidator;
 
+@Configuration(proxyBeanMethods = false)
 @Import({ConfigBeans.class, ValidationBeans.class, MessagingBeans.class, StorageBeans.class})
 @ImportAutoConfiguration({
-        ServletWebServerFactoryAutoConfiguration.class,
-        DispatcherServletAutoConfiguration.class,
-        ErrorMvcAutoConfiguration.class,
-        JacksonAutoConfiguration.class,
-
-        EndpointAutoConfiguration.class,
-        WebEndpointAutoConfiguration.class,
-        HealthEndpointAutoConfiguration.class,
-
-        ManagementContextAutoConfiguration.class,
-        ServletManagementContextAutoConfiguration.class,
-
-        ObservationAutoConfiguration.class,
-        WebMvcObservationAutoConfiguration.class
+    ServletWebServerFactoryAutoConfiguration.class,
+    DispatcherServletAutoConfiguration.class,
+    ErrorMvcAutoConfiguration.class,
+    JacksonAutoConfiguration.class,
+    EndpointAutoConfiguration.class,
+    WebEndpointAutoConfiguration.class,
+    HealthEndpointAutoConfiguration.class,
+    ManagementContextAutoConfiguration.class,
+    ServletManagementContextAutoConfiguration.class,
+    ObservationAutoConfiguration.class,
+    WebMvcObservationAutoConfiguration.class
 })
-@Configuration(proxyBeanMethods = false)
 public class App {
 
     public static void main(String[] args) {
