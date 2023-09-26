@@ -3,18 +3,17 @@
 == Интерфейсы
 
 :table-caption:
-:table-stripes: none
 
 .Human machine interfaces (HMI)
 |===
 h| ^h|Разработка ^h|Внедрение ^h|Эксплуатация
 
->.^h|Пользователь
+^h|Пользователь
 .^|Client toolchain plugin
 .^|Client installer
 .^|Graphical user interface
 
->.^h|Оператор
+^h|Оператор
 .^|Admin toolchain plugin
 .^|Server installer
 .^|Observation & management tools
@@ -24,12 +23,12 @@ h| ^h|Разработка ^h|Внедрение ^h|Эксплуатация
 |===
 h| ^h|Разработка ^h|Внедрение ^h|Эксплуатация
 
->.^h|Пользователь
+^h|Пользователь
 .^|Client SDK
 .^|Client updater
 .^|Client API
 
->.^h|Оператор
+^h|Оператор
 .^|Observation & management SDK
 .^|Server operator
 .^|Observation & management API
