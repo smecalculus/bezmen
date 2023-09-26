@@ -3,6 +3,7 @@
 == Интерфейсы
 
 :table-caption:
+:table-stripes: none
 
 .Human machine interfaces (HMI)
 |===
