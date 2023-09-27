@@ -1,6 +1,10 @@
 = Решение
 
-== Интерфейсы
+== Обмен сообщениями
+
+Обмен сообщениями по интерфейсу с отображением и передачей согласно протоколу.
+
+=== Интерфейсы
 
 [caption=""]
 .Human machine interfaces (HMI)
@@ -8,12 +12,12 @@
 | ^|Разработка ^|Внедрение ^|Эксплуатация
 
 s|Пользователь
-|Client toolchain plugin
-|Client installer
+|Client developer plugin
+|Client application installer
 |Graphical user interface
 
 s|Оператор
-|Admin toolchain plugin
+|Server operator footnote:[Сотрудник эксплуатации] plugin
 |Server installer
 |Observation & management tools
 |===
@@ -24,16 +28,38 @@ s|Оператор
 | ^|Разработка ^|Внедрение ^|Эксплуатация
 
 s|Пользователь
-|Client SDK
-|Client updater
-|Client API
+|Client developer SDK
+|Client application updater
+|Client developer API
 
 s|Оператор
-|Observation & management SDK
-|Server operator footnote:[Подробнее в https://operatorhub.io/what-is-an-operator[статье].]
+|Server operator SDK
+|Server operator footnote:[Шаблон проектирования https://operatorhub.io/what-is-an-operator] software
 |Observation & management API
 |===
 
-== Обмен сообщениями
+=== Отображение домен-сообщения
 
-Интерфейсы реализуются поверх слоя обмена сообщениями, который отвечает за поддержку необходимых протоколов.
+Шаблон проектирования `Message Mapping`.
+
+=== Протоколы
+
+* HTTP
+
+== Хранение
+
+Хранение по схеме с отображением и передачей вендору.
+
+=== Схемы
+
+* Relational
+* Event log
+* Key-value
+
+=== Отображение домен-данные
+
+Шаблон проектирования `Object-Relational Mapping`.
+
+=== Вендоры
+
+* PostgreSQL
