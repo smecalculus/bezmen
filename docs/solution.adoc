@@ -2,34 +2,37 @@
 
 == Интерфейсы
 
-:table-caption:
-
+[caption=""]
 .Human machine interfaces (HMI)
 |===
-h| ^h|Разработка ^h|Внедрение ^h|Эксплуатация
+^h| ^h|Разработка ^h|Внедрение ^h|Эксплуатация
 
-^h|Пользователь
-.^|Client toolchain plugin
-.^|Client installer
-.^|Graphical user interface
+h|Пользователь
+|Client toolchain plugin
+|Client installer
+|Graphical user interface
 
-^h|Оператор
-.^|Admin toolchain plugin
-.^|Server installer
-.^|Observation & management tools
+h|Оператор
+|Admin toolchain plugin
+|Server installer
+|Observation & management tools
 |===
 
+[caption=""]
 .Application programming interfaces (API)
 |===
-h| ^h|Разработка ^h|Внедрение ^h|Эксплуатация
+^h| ^h|Разработка ^h|Внедрение ^h|Эксплуатация
 
-^h|Пользователь
+^.^h|Пользователь
 .^|Client SDK
 .^|Client updater
 .^|Client API
 
-^h|Оператор
-.^|Observation & management SDK
-.^|Server operator
+^.^h|Оператор .^|Observation & management SDK
+.^|Server operator footnote:[Подробнее в https://operatorhub.io/what-is-an-operator[статье].]
 .^|Observation & management API
 |===
+
+== Обмен сообщениями
+
+Интерфейсы реализуются поверх слоя обмена сообщениями, который отвечает за поддержку необходимых протоколов.
