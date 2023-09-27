@@ -6,7 +6,7 @@
 .Human machine interfaces (HMI)
 [%noheader]
 |===
-| ^|*Разработка* ^|*Внедрение* ^|*Эксплуатация*
+| ^h|Разработка ^h|Внедрение ^h|Эксплуатация
 
 |*Пользователь*
 |Client toolchain plugin
