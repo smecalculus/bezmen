@@ -4,16 +4,15 @@
 
 [caption=""]
 .Human machine interfaces (HMI)
-[%noheader]
 |===
-| ^h|Разработка ^h|Внедрение ^h|Эксплуатация
+| ^|Разработка ^|Внедрение ^|Эксплуатация
 
-|*Пользователь*
+s|Пользователь
 |Client toolchain plugin
 |Client installer
 |Graphical user interface
 
-|*Оператор*
+s|Оператор
 |Admin toolchain plugin
 |Server installer
 |Observation & management tools
@@ -22,17 +21,17 @@
 [caption=""]
 .Application programming interfaces (API)
 |===
-^h| ^h|Разработка ^h|Внедрение ^h|Эксплуатация
+| ^|Разработка ^|Внедрение ^|Эксплуатация
 
-|*Пользователь*
-.^|Client SDK
-.^|Client updater
-.^|Client API
+s|Пользователь
+|Client SDK
+|Client updater
+|Client API
 
-|*Оператор*
-.^|Observation & management SDK
-.^|Server operator footnote:[Подробнее в https://operatorhub.io/what-is-an-operator[статье].]
-.^|Observation & management API
+s|Оператор
+|Observation & management SDK
+|Server operator footnote:[Подробнее в https://operatorhub.io/what-is-an-operator[статье].]
+|Observation & management API
 |===
 
 == Обмен сообщениями
