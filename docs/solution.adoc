@@ -7,12 +7,12 @@
 |===
 ^h| ^h|Разработка ^h|Внедрение ^h|Эксплуатация
 
-h|Пользователь
+|*Пользователь*
 |Client toolchain plugin
 |Client installer
 |Graphical user interface
 
-h|Оператор
+|*Оператор*
 |Admin toolchain plugin
 |Server installer
 |Observation & management tools
