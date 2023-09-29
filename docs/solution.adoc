@@ -2,7 +2,7 @@
 
 == Обмен сообщениями
 
-Обмен сообщениями по интерфейсу с отображением и передачей согласно протоколу.
+Обмен сообщениями по интерфейсу с отображением и передачей согласно протоколу коммуникации.
 
 === Интерфейсы
 
@@ -17,7 +17,7 @@ s|Пользователь
 |Graphical user interface
 
 s|Оператор
-|Server operator footnote:[Сотрудник эксплуатации] plugin
+|Server operator footnote:a[Сотрудник эксплуатации] plugin
 |Server installer
 |Observation & management tools
 |===
@@ -34,7 +34,7 @@ s|Пользователь
 
 s|Оператор
 |Server operator SDK
-|Server operator footnote:[Шаблон проектирования https://operatorhub.io/what-is-an-operator] software
+|Server operator footnote:b[Шаблон проектирования https://operatorhub.io/what-is-an-operator] software
 |Observation & management API
 |===
 
@@ -48,18 +48,46 @@ s|Оператор
 
 == Хранение
 
-Хранение по схеме с отображением и передачей вендору.
+Хранение по интерфейсу с отображением и передачей согласно протоколу коммуникации.
 
-=== Схемы
+=== Интерфейсы
 
-* Relational
-* Event log
-* Key-value
+[caption=""]
+.Human machine interfaces (HMI)
+|===
+| ^|Разработка ^|Внедрение ^|Эксплуатация
+
+s|Разработчик
+|Schema modeler
+|Schema migrator
+|Data viewer
+
+s|DBA
+|Storage designer
+|Storage installer
+|Observation & administration tools
+|===
+
+[caption=""]
+.Application programming interfaces (API)
+|===
+| ^|Разработка ^|Внедрение ^|Эксплуатация
+
+s|Разработчик
+|Persistence framework
+|Migration framework
+|Wire protocol
+
+s|DBA
+|Storage SDK
+|Storage operator footnote:b[] software
+|Observation & administration API
+|===
 
 === Отображение домен-данные
 
 Шаблон проектирования `Object-Relational Mapping`.
 
-=== Вендоры
+=== Протоколы
 
 * PostgreSQL
