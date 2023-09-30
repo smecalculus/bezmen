@@ -3,4 +3,4 @@ package smecalculus.bezmen.configuration;
 import lombok.Builder;
 
 @Builder
-public record WebProps(WebMode webMode) {}
+public record MessageMappingProps(MessageMappingMode mappingMode) {}

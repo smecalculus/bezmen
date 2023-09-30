@@ -1,6 +1,6 @@
 package smecalculus.bezmen.construction;
 
-import static smecalculus.bezmen.configuration.OrmMode.MY_BATIS;
+import static smecalculus.bezmen.configuration.StateMappingMode.MY_BATIS;
 
 import javax.sql.DataSource;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -10,9 +10,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration(proxyBeanMethods = false)
-@ConditionalOnOrmMode(MY_BATIS)
+@ConditionalOnStateMappingMode(MY_BATIS)
 @MapperScan(basePackages = "smecalculus.bezmen.storage.mybatis")
-public class OrmMyBatisBeans {
+public class MappingMyBatisBeans {
 
     @Bean
     public SqlSessionFactory sqlSessionFactory(DataSource dataSource) throws Exception {

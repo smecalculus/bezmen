@@ -2,28 +2,28 @@ package smecalculus.bezmen.construction;
 
 import static java.util.Objects.nonNull;
 import static org.springframework.context.annotation.ConfigurationCondition.ConfigurationPhase.REGISTER_BEAN;
-import static smecalculus.bezmen.configuration.MessagingProtocol.HTTP;
+import static smecalculus.bezmen.configuration.MessagingProtocolMode.HTTP;
 
 import java.util.Map;
 import org.springframework.context.annotation.ConditionContext;
 import org.springframework.context.annotation.ConfigurationCondition;
 import org.springframework.core.type.AnnotatedTypeMetadata;
 import smecalculus.bezmen.configuration.HttpProps;
+import smecalculus.bezmen.configuration.MessageMappingMode;
 import smecalculus.bezmen.configuration.MessagingProps;
-import smecalculus.bezmen.configuration.WebMode;
 
-class WebModeCondition implements ConfigurationCondition {
+class MessageMappingModeCondition implements ConfigurationCondition {
 
     @Override
     public boolean matches(ConditionContext context, AnnotatedTypeMetadata metadata) {
-        Map<String, Object> attributes = metadata.getAnnotationAttributes(ConditionalOnWebMode.class.getName());
-        WebMode mode = (WebMode) attributes.get("value");
+        Map<String, Object> attributes = metadata.getAnnotationAttributes(ConditionalOnMessageMappingMode.class.getName());
+        MessageMappingMode mode = (MessageMappingMode) attributes.get("value");
         MessagingProps messagingProps = context.getBeanFactory().getBean(MessagingProps.class);
-        if (!messagingProps.protocolProps().types().contains(HTTP)) {
+        if (!messagingProps.protocolProps().protocolModes().contains(HTTP)) {
             return false;
         }
         HttpProps httpProps = messagingProps.protocolProps().httpProps();
-        return nonNull(httpProps) && mode == httpProps.webProps().webMode();
+        return nonNull(httpProps) && mode == httpProps.mappingProps().mappingMode();
     }
 
     @Override

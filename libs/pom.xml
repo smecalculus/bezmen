@@ -13,7 +13,7 @@
   <modules>
     <module>signatures</module>
     <module>essentials</module>
-    <module>construction</module>
+<!--    <module>construction</module>-->
     <module>messaging</module>
     <module>storage</module>
     <module>testing</module>
@@ -58,11 +58,6 @@
 
   <dependencyManagement>
     <dependencies>
-      <dependency>
-        <groupId>${project.groupId}</groupId>
-        <artifactId>construction</artifactId>
-        <version>${project.version}</version>
-      </dependency>
       <dependency>
         <groupId>${project.groupId}</groupId>
         <artifactId>signatures</artifactId>

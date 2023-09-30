@@ -7,5 +7,5 @@ import lombok.Data;
 public class MessagingPropsCfg {
 
     @NotNull
-    ProtocolPropsCfg protocol;
+    MessagingProtocolPropsCfg protocol;
 }

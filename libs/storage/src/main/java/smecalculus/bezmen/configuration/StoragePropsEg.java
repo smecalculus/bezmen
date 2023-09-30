@@ -1,16 +1,16 @@
 package smecalculus.bezmen.configuration;
 
-import static smecalculus.bezmen.configuration.OrmPropsEg.Builders.ormProps;
-import static smecalculus.bezmen.configuration.OrmPropsEg.Pojos.ormPropsCfg;
-import static smecalculus.bezmen.configuration.VendorPropsEg.Builders.vendorProps;
-import static smecalculus.bezmen.configuration.VendorPropsEg.Pojos.vendorPropsCfg;
+import static smecalculus.bezmen.configuration.StateMappingPropsEg.Builders.stateMappingProps;
+import static smecalculus.bezmen.configuration.StateMappingPropsEg.Pojos.stateMappingPropsCfg;
+import static smecalculus.bezmen.configuration.StorageProtocolPropsEg.Builders.storageProtocolProps;
+import static smecalculus.bezmen.configuration.StorageProtocolPropsEg.Pojos.storageProtocolPropsCfg;
 
 public class StoragePropsEg {
     public static class Pojos {
         public static StoragePropsCfg storagePropsCfg() {
             StoragePropsCfg storagePropsCfg = new StoragePropsCfg();
-            storagePropsCfg.setVendor(vendorPropsCfg());
-            storagePropsCfg.setOrm(ormPropsCfg());
+            storagePropsCfg.setProtocol(storageProtocolPropsCfg());
+            storagePropsCfg.setMapping(stateMappingPropsCfg());
             return storagePropsCfg;
         }
     }
@@ -18,8 +18,8 @@ public class StoragePropsEg {
     public static class Builders {
         public static StorageProps.Builder storageProps() {
             return StorageProps.builder()
-                    .vendorProps(vendorProps().build())
-                    .ormProps(ormProps().build());
+                    .protocolProps(storageProtocolProps().build())
+                    .mappingProps(stateMappingProps().build());
         }
     }
 }

@@ -1,6 +1,6 @@
 package smecalculus.bezmen.construction;
 
-import static smecalculus.bezmen.configuration.OrmMode.SPRING_DATA;
+import static smecalculus.bezmen.configuration.StateMappingMode.SPRING_DATA;
 
 import javax.sql.DataSource;
 import org.springframework.context.annotation.Bean;
@@ -14,12 +14,12 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.transaction.PlatformTransactionManager;
 import smecalculus.bezmen.configuration.StorageProps;
-import smecalculus.bezmen.configuration.VendorProps;
+import smecalculus.bezmen.configuration.StorageProtocolProps;
 
 @Configuration(proxyBeanMethods = false)
-@ConditionalOnOrmMode(SPRING_DATA)
+@ConditionalOnStateMappingMode(SPRING_DATA)
 @EnableJdbcRepositories("smecalculus.bezmen.storage.springdata")
-public class OrmSpringDataBeans extends AbstractJdbcConfiguration {
+public class MappingSpringDataBeans extends AbstractJdbcConfiguration {
 
     @Bean
     public NamedParameterJdbcTemplate namedParameterJdbcTemplate(DataSource dataSource) {
@@ -33,8 +33,8 @@ public class OrmSpringDataBeans extends AbstractJdbcConfiguration {
 
     @Bean
     public Dialect dialect(StorageProps storageProps) {
-        VendorProps vendorProps = storageProps.vendorProps();
-        return switch (vendorProps.mode()) {
+        StorageProtocolProps storageProtocolProps = storageProps.protocolProps();
+        return switch (storageProtocolProps.protocolMode()) {
             case H2 -> H2Dialect.INSTANCE;
             case POSTGRES -> PostgresDialect.INSTANCE;
         };

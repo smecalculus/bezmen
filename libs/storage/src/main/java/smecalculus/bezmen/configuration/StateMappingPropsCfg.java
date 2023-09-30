@@ -4,8 +4,8 @@ import lombok.Data;
 import smecalculus.bezmen.validation.ValueOfEnum;
 
 @Data
-public class WebPropsCfg {
+public class StateMappingPropsCfg {
 
-    @ValueOfEnum(WebMode.class)
-    String mode;
+    @ValueOfEnum(StateMappingMode.class)
+    private String mode;
 }

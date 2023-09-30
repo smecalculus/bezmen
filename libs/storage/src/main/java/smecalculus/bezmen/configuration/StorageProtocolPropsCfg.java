@@ -5,9 +5,9 @@ import lombok.Data;
 import smecalculus.bezmen.validation.ValueOfEnum;
 
 @Data
-public class VendorPropsCfg {
+public class StorageProtocolPropsCfg {
 
-    @ValueOfEnum(VendorMode.class)
+    @ValueOfEnum(StorageProtocolMode.class)
     String mode;
 
     @Optional

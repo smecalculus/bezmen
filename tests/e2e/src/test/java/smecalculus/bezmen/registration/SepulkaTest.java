@@ -48,13 +48,13 @@ public class SepulkaTest {
     }
 
     @Test
-    @EnabledIfSystemProperty(named = "storage.vendor.mode", matches = "postgres")
+    @EnabledIfSystemProperty(named = "storage.protocol.mode", matches = "postgres")
     void postgresSpecificTest() {
         // empty
     }
 
     @Test
-    @EnabledIfSystemProperty(named = "storage.vendor.mode", matches = "sqlite")
+    @EnabledIfSystemProperty(named = "storage.protocol.mode", matches = "sqlite")
     void sqliteSpecificTest() {
         // empty
     }

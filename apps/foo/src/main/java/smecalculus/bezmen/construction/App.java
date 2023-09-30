@@ -1,8 +1,8 @@
 package smecalculus.bezmen.construction;
 
-import static smecalculus.bezmen.configuration.OrmMode.MY_BATIS;
-import static smecalculus.bezmen.configuration.OrmMode.SPRING_DATA;
-import static smecalculus.bezmen.configuration.WebMode.SPRING_MVC;
+import static smecalculus.bezmen.configuration.MessageMappingMode.SPRING_WEB;
+import static smecalculus.bezmen.configuration.StateMappingMode.MY_BATIS;
+import static smecalculus.bezmen.configuration.StateMappingMode.SPRING_DATA;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.actuate.autoconfigure.endpoint.EndpointAutoConfiguration;
@@ -14,9 +14,6 @@ import org.springframework.boot.actuate.autoconfigure.web.server.ManagementConte
 import org.springframework.boot.actuate.autoconfigure.web.servlet.ServletManagementContextAutoConfiguration;
 import org.springframework.boot.autoconfigure.ImportAutoConfiguration;
 import org.springframework.boot.autoconfigure.jackson.JacksonAutoConfiguration;
-import org.springframework.boot.autoconfigure.web.servlet.DispatcherServletAutoConfiguration;
-import org.springframework.boot.autoconfigure.web.servlet.ServletWebServerFactoryAutoConfiguration;
-import org.springframework.boot.autoconfigure.web.servlet.error.ErrorMvcAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
@@ -41,17 +38,14 @@ import smecalculus.bezmen.validation.EdgeValidator;
 @Configuration(proxyBeanMethods = false)
 @Import({ConfigBeans.class, ValidationBeans.class, MessagingBeans.class, StorageBeans.class})
 @ImportAutoConfiguration({
-    ServletWebServerFactoryAutoConfiguration.class,
-    DispatcherServletAutoConfiguration.class,
-    ErrorMvcAutoConfiguration.class,
-    JacksonAutoConfiguration.class,
-    EndpointAutoConfiguration.class,
-    WebEndpointAutoConfiguration.class,
-    HealthEndpointAutoConfiguration.class,
-    ManagementContextAutoConfiguration.class,
-    ServletManagementContextAutoConfiguration.class,
-    ObservationAutoConfiguration.class,
-    WebMvcObservationAutoConfiguration.class
+        JacksonAutoConfiguration.class,
+        EndpointAutoConfiguration.class,
+        WebEndpointAutoConfiguration.class,
+        HealthEndpointAutoConfiguration.class,
+        ManagementContextAutoConfiguration.class,
+        ServletManagementContextAutoConfiguration.class,
+        ObservationAutoConfiguration.class,
+        WebMvcObservationAutoConfiguration.class
 })
 public class App {
 
@@ -60,7 +54,7 @@ public class App {
     }
 
     @Bean
-    @ConditionalOnWebMode(SPRING_MVC)
+    @ConditionalOnMessageMappingMode(SPRING_WEB)
     SepulkaController sepulkaController(SepulkaClient client, SepulkaMsgMapper mapper) {
         return new SepulkaController(client, mapper);
     }
@@ -86,13 +80,13 @@ public class App {
     }
 
     @Bean
-    @ConditionalOnOrmMode(SPRING_DATA)
+    @ConditionalOnStateMappingMode(SPRING_DATA)
     SepulkaDaoSpringData sepulkaDaoSpringData(SepulkaRecMapper mapper, SepulkaRepository repository) {
         return new SepulkaDaoSpringData(mapper, repository);
     }
 
     @Bean
-    @ConditionalOnOrmMode(MY_BATIS)
+    @ConditionalOnStateMappingMode(MY_BATIS)
     SepulkaDaoMyBatis sepulkaDaoMyBatis(SepulkaRecMapper recMapper, SepulkaSqlMapper sqlMapper) {
         return new SepulkaDaoMyBatis(recMapper, sqlMapper);
     }

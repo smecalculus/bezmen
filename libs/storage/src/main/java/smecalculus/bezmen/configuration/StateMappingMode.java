@@ -1,6 +1,6 @@
 package smecalculus.bezmen.configuration;
 
-public enum OrmMode {
+public enum StateMappingMode {
     SPRING_DATA,
     MY_BATIS
 }
