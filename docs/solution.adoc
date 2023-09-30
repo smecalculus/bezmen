@@ -2,92 +2,46 @@
 
 == Обмен сообщениями
 
-Обмен сообщениями по интерфейсу с отображением и передачей согласно протоколу коммуникации.
+Принимаем/отправляем сообщения в рамках некоторого протокола, отображая их в доменные объекты.
 
-=== Интерфейсы
+=== Протокол
 
-[caption=""]
-.Human machine interfaces (HMI)
-|===
-| ^|Разработка ^|Внедрение ^|Эксплуатация
+Wire protocol footnote:[Подробнее https://en.wikipedia.org/wiki/Wire_protocol] - протокол прикладного уровня, который используется для коммуникации между сервером и клиентом.
 
-s|Пользователь
-|Client developer plugin
-|Client application installer
-|Graphical user interface
+NOTE: Обычно используются стандартные протоколы, реже - кастомные.
 
-s|Оператор
-|Server operator footnote:a[Сотрудник эксплуатации] plugin
-|Server installer
-|Observation & management tools
-|===
+==== HTTP
 
-[caption=""]
-.Application programming interfaces (API)
-|===
-| ^|Разработка ^|Внедрение ^|Эксплуатация
+Стандартный протокол HTTP
 
-s|Пользователь
-|Client developer SDK
-|Client application updater
-|Client developer API
+=== Отображение
 
-s|Оператор
-|Server operator SDK
-|Server operator footnote:b[Шаблон проектирования https://operatorhub.io/what-is-an-operator] software
-|Observation & management API
-|===
+NOTE: Шаблон проектирования `Message Mapping`.
 
-=== Отображение домен-сообщения
+==== SpringMeb
 
-Шаблон проектирования `Message Mapping`.
+Отображение SpringMeb
 
-=== Протоколы
+== Хранение состояния
 
-* HTTP
+Запоминаем/вспоминаем состояние в рамках некоторого протокола, отображая его в доменные объекты.
 
-== Хранение
+=== Отображение
 
-Хранение по интерфейсу с отображением и передачей согласно протоколу коммуникации.
+NOTE: Шаблон проектирования `Object-Relational Mapping`.
 
-=== Интерфейсы
+==== MyBatis
 
-[caption=""]
-.Human machine interfaces (HMI)
-|===
-| ^|Разработка ^|Внедрение ^|Эксплуатация
+Отображение MyBatis
 
-s|Разработчик
-|Schema modeler
-|Schema migrator
-|Data viewer
+==== SpringData
 
-s|DBA
-|Storage designer
-|Storage installer
-|Observation & administration tools
-|===
+Отображение SpringData
 
-[caption=""]
-.Application programming interfaces (API)
-|===
-| ^|Разработка ^|Внедрение ^|Эксплуатация
+=== Протокол
 
-s|Разработчик
-|Persistence framework
-|Migration framework
-|Wire protocol
+NOTE: Обычно используются кастомные протоколы, реже - стандартные.
 
-s|DBA
-|Storage SDK
-|Storage operator footnote:b[] software
-|Observation & administration API
-|===
+==== PostgreSQL
 
-=== Отображение домен-данные
-
-Шаблон проектирования `Object-Relational Mapping`.
-
-=== Протоколы
-
-* PostgreSQL
+Кастомный протокол PostgreSQL
