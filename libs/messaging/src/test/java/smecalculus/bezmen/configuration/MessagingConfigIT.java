@@ -20,12 +20,12 @@ abstract class MessagingConfigIT {
     MessagingConfig messagingConfig;
 
     @Test
-    void defaultConfShouldBeBackwardCompatible() {
+    void defaultConfigShouldBeBackwardCompatible() {
         // given
-        MessagingProps expectedMessagingProps = messagingProps().build();
+        MessagingProps expectedProps = messagingProps().build();
         // when
-        MessagingProps actualMessagingProps = messagingConfig.getMessagingProps();
+        MessagingProps actualProps = messagingConfig.getMessagingProps();
         // then
-        assertThat(actualMessagingProps).isEqualTo(expectedMessagingProps);
+        assertThat(actualProps).isEqualTo(expectedProps);
     }
 }

@@ -1,6 +1,6 @@
 package smecalculus.bezmen.configuration;
 
-public enum VendorMode {
+public enum StorageProtocolMode {
     H2,
     POSTGRES
 }

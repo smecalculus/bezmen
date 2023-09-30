@@ -9,20 +9,21 @@ public interface MessagingCfgMapper {
     @Mapping(source = "protocol", target = "protocolProps")
     MessagingProps toDomain(MessagingPropsCfg messagingPropsCfg);
 
+    @Mapping(source = "modes", target = "protocolModes")
     @Mapping(source = "http", target = "httpProps")
-    ProtocolProps toDomain(ProtocolPropsCfg protocolPropsCfg);
+    MessagingProtocolProps toDomain(MessagingProtocolPropsCfg protocolPropsCfg);
 
-    @Mapping(source = "web", target = "webProps")
+    @Mapping(source = "mapping", target = "mappingProps")
     HttpProps toDomain(HttpPropsCfg httpPropsCfg);
 
-    @Mapping(source = "mode", target = "webMode")
-    WebProps toDomain(WebPropsCfg webPropsCfg);
+    @Mapping(source = "mode", target = "mappingMode")
+    MessageMappingProps toDomain(MessageMappingPropsCfg mappingPropsCfg);
 
-    default MessagingProtocol toMessagingProtocol(String value) {
-        return MessagingProtocol.valueOf(value.toUpperCase());
+    default MessagingProtocolMode toProtocolMode(String value) {
+        return MessagingProtocolMode.valueOf(value.toUpperCase());
     }
 
-    default WebMode toWebMode(String value) {
-        return WebMode.valueOf(value.toUpperCase());
+    default MessageMappingMode toMappingMode(String value) {
+        return MessageMappingMode.valueOf(value.toUpperCase());
     }
 }

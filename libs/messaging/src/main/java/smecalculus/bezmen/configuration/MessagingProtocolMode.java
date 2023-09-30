@@ -1,5 +1,5 @@
 package smecalculus.bezmen.configuration;
 
-public enum MessagingProtocol {
+public enum MessagingProtocolMode {
     HTTP
 }

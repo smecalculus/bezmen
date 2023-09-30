@@ -15,7 +15,7 @@ import smecalculus.bezmen.messaging.SepulkaClientSpringWeb;
 import smecalculus.bezmen.messaging.SepulkaMsgMapper;
 import smecalculus.bezmen.messaging.SepulkaMsgMapperImpl;
 import smecalculus.bezmen.messaging.client.SepulkaClient;
-import smecalculus.bezmen.messaging.springmvc.SepulkaController;
+import smecalculus.bezmen.messaging.springwebmvc.SepulkaController;
 import smecalculus.bezmen.validation.EdgeValidator;
 
 @Import(ValidationBeans.class)

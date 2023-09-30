@@ -28,7 +28,7 @@ public class SepulkaTest {
 
     @BeforeAll
     void beforeAll() {
-        await().atMost(ofSeconds(5)).until(bezmenClient::isReady);
+        await("isReady").atMost(ofSeconds(5)).until(bezmenClient::isReady);
     }
 
     @Test
@@ -48,13 +48,13 @@ public class SepulkaTest {
     }
 
     @Test
-    @EnabledIfSystemProperty(named = "storage.vendor.mode", matches = "postgres")
+    @EnabledIfSystemProperty(named = "storage.protocol.mode", matches = "postgres")
     void postgresSpecificTest() {
         // empty
     }
 
     @Test
-    @EnabledIfSystemProperty(named = "storage.vendor.mode", matches = "sqlite")
+    @EnabledIfSystemProperty(named = "storage.protocol.mode", matches = "sqlite")
     void sqliteSpecificTest() {
         // empty
     }

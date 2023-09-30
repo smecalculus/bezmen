@@ -8,11 +8,11 @@ import lombok.Data;
 import smecalculus.bezmen.validation.ValueOfEnum;
 
 @Data
-public class ProtocolPropsCfg {
+public class MessagingProtocolPropsCfg {
 
     @NotNull
     @Size(min = 1)
-    Set<@ValueOfEnum(MessagingProtocol.class) String> types;
+    Set<@ValueOfEnum(MessagingProtocolMode.class) String> modes;
 
     @Optional
     HttpPropsCfg http;

@@ -1,9 +1,9 @@
 package smecalculus.bezmen.construction;
 
 import static java.util.stream.Collectors.joining;
-import static smecalculus.bezmen.configuration.OrmMode.MY_BATIS;
-import static smecalculus.bezmen.configuration.OrmMode.SPRING_DATA;
-import static smecalculus.bezmen.configuration.VendorMode.POSTGRES;
+import static smecalculus.bezmen.configuration.StateMappingMode.MY_BATIS;
+import static smecalculus.bezmen.configuration.StateMappingMode.SPRING_DATA;
+import static smecalculus.bezmen.configuration.StorageProtocolMode.POSTGRES;
 
 import java.util.Collection;
 import java.util.List;
@@ -13,9 +13,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
-import smecalculus.bezmen.configuration.OrmProps;
+import smecalculus.bezmen.configuration.StateMappingProps;
 import smecalculus.bezmen.configuration.StorageProps;
-import smecalculus.bezmen.configuration.VendorProps;
+import smecalculus.bezmen.configuration.StorageProtocolProps;
 import smecalculus.bezmen.storage.SepulkaDao;
 import smecalculus.bezmen.storage.SepulkaDaoMyBatis;
 import smecalculus.bezmen.storage.SepulkaDaoSpringData;
@@ -33,7 +33,7 @@ public class SepulkaDaoBeans {
     public DataSource dataSource(StorageProps storageProps) {
         List<String> common = List.of("DB_CLOSE_DELAY=-1");
         List<String> specific =
-                switch (storageProps.vendorProps().mode()) {
+                switch (storageProps.protocolProps().protocolMode()) {
                     case H2 -> List.of("MODE=STRICT");
                     case POSTGRES -> List.of("MODE=PostgreSQL", "DATABASE_TO_LOWER=TRUE", "DEFAULT_NULL_ORDERING=HIGH");
                 };
@@ -64,8 +64,11 @@ public class SepulkaDaoBeans {
         @Bean
         public StorageProps storageProps() {
             return StorageProps.builder()
-                    .ormProps(OrmProps.builder().mode(SPRING_DATA).build())
-                    .vendorProps(VendorProps.builder().mode(POSTGRES).build())
+                    .mappingProps(
+                            StateMappingProps.builder().mappingMode(SPRING_DATA).build())
+                    .protocolProps(StorageProtocolProps.builder()
+                            .protocolMode(POSTGRES)
+                            .build())
                     .build();
         }
     }
@@ -81,8 +84,11 @@ public class SepulkaDaoBeans {
         @Bean
         public StorageProps storageProps() {
             return StorageProps.builder()
-                    .ormProps(OrmProps.builder().mode(MY_BATIS).build())
-                    .vendorProps(VendorProps.builder().mode(POSTGRES).build())
+                    .mappingProps(
+                            StateMappingProps.builder().mappingMode(MY_BATIS).build())
+                    .protocolProps(StorageProtocolProps.builder()
+                            .protocolMode(POSTGRES)
+                            .build())
                     .build();
         }
     }

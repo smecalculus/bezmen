@@ -4,8 +4,8 @@ import lombok.Data;
 import smecalculus.bezmen.validation.ValueOfEnum;
 
 @Data
-public class OrmPropsCfg {
+public class MessageMappingPropsCfg {
 
-    @ValueOfEnum(OrmMode.class)
-    private String mode;
+    @ValueOfEnum(MessageMappingMode.class)
+    String mode;
 }

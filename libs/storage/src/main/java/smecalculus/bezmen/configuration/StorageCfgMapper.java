@@ -6,21 +6,23 @@ import org.mapstruct.Mapping;
 @Mapper
 public interface StorageCfgMapper {
 
-    @Mapping(source = "vendor", target = "vendorProps")
-    @Mapping(source = "orm", target = "ormProps")
+    @Mapping(source = "protocol", target = "protocolProps")
+    @Mapping(source = "mapping", target = "mappingProps")
     StorageProps toDomain(StoragePropsCfg storagePropsCfg);
 
+    @Mapping(source = "mode", target = "protocolMode")
     @Mapping(source = "h2", target = "h2Props")
     @Mapping(source = "postgres", target = "postgresProps")
-    VendorProps toDomain(VendorPropsCfg vendorPropsCfg);
+    StorageProtocolProps toDomain(StorageProtocolPropsCfg propsCfg);
 
-    OrmProps toDomain(OrmPropsCfg ormPropsCfg);
+    @Mapping(source = "mode", target = "mappingMode")
+    StateMappingProps toDomain(StateMappingPropsCfg propsCfg);
 
-    default VendorMode toVendorMode(String mode) {
-        return VendorMode.valueOf(mode.toUpperCase());
+    default StorageProtocolMode toProtocolMode(String mode) {
+        return StorageProtocolMode.valueOf(mode.toUpperCase());
     }
 
-    default OrmMode toOrmMode(String mode) {
-        return OrmMode.valueOf(mode.toUpperCase());
+    default StateMappingMode toMappingMode(String mode) {
+        return StateMappingMode.valueOf(mode.toUpperCase());
     }
 }

@@ -7,8 +7,8 @@ import lombok.Data;
 public class StoragePropsCfg {
 
     @NotNull
-    VendorPropsCfg vendor;
+    StorageProtocolPropsCfg protocol;
 
     @NotNull
-    OrmPropsCfg orm;
+    StateMappingPropsCfg mapping;
 }
