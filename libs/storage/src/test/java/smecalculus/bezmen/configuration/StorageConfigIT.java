@@ -20,12 +20,12 @@ abstract class StorageConfigIT {
     StorageConfig storageConfig;
 
     @Test
-    void defaultConfShouldBeBackwardCompatible() {
+    void defaultConfigShouldBeBackwardCompatible() {
         // given
-        StorageProps expectedStorageProps = storageProps().build();
+        StorageProps expectedProps = storageProps().build();
         // when
-        StorageProps actualStorageProps = storageConfig.getStorageProps();
+        StorageProps actualProps = storageConfig.getStorageProps();
         // then
-        assertThat(actualStorageProps).isEqualTo(expectedStorageProps);
+        assertThat(actualProps).isEqualTo(expectedProps);
     }
 }

@@ -1,6 +1,6 @@
 package smecalculus.bezmen.construction;
 
-import static smecalculus.bezmen.configuration.MessageMappingMode.SPRING_WEB;
+import static smecalculus.bezmen.configuration.MessageMappingMode.SPRING_WEB_MVC;
 import static smecalculus.bezmen.configuration.StateMappingMode.MY_BATIS;
 import static smecalculus.bezmen.configuration.StateMappingMode.SPRING_DATA;
 
@@ -13,7 +13,6 @@ import org.springframework.boot.actuate.autoconfigure.observation.web.servlet.We
 import org.springframework.boot.actuate.autoconfigure.web.server.ManagementContextAutoConfiguration;
 import org.springframework.boot.actuate.autoconfigure.web.servlet.ServletManagementContextAutoConfiguration;
 import org.springframework.boot.autoconfigure.ImportAutoConfiguration;
-import org.springframework.boot.autoconfigure.jackson.JacksonAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
@@ -25,7 +24,7 @@ import smecalculus.bezmen.messaging.SepulkaClientImpl;
 import smecalculus.bezmen.messaging.SepulkaMsgMapper;
 import smecalculus.bezmen.messaging.SepulkaMsgMapperImpl;
 import smecalculus.bezmen.messaging.client.SepulkaClient;
-import smecalculus.bezmen.messaging.springmvc.SepulkaController;
+import smecalculus.bezmen.messaging.springwebmvc.SepulkaController;
 import smecalculus.bezmen.storage.SepulkaDao;
 import smecalculus.bezmen.storage.SepulkaDaoMyBatis;
 import smecalculus.bezmen.storage.SepulkaDaoSpringData;
@@ -38,12 +37,11 @@ import smecalculus.bezmen.validation.EdgeValidator;
 @Configuration(proxyBeanMethods = false)
 @Import({ConfigBeans.class, ValidationBeans.class, MessagingBeans.class, StorageBeans.class})
 @ImportAutoConfiguration({
-    JacksonAutoConfiguration.class,
+    ManagementContextAutoConfiguration.class,
+    ServletManagementContextAutoConfiguration.class,
     EndpointAutoConfiguration.class,
     WebEndpointAutoConfiguration.class,
     HealthEndpointAutoConfiguration.class,
-    ManagementContextAutoConfiguration.class,
-    ServletManagementContextAutoConfiguration.class,
     ObservationAutoConfiguration.class,
     WebMvcObservationAutoConfiguration.class
 })
@@ -54,8 +52,8 @@ public class App {
     }
 
     @Bean
-    @ConditionalOnMessageMappingMode(SPRING_WEB)
-    SepulkaController sepulkaController(SepulkaClient client, SepulkaMsgMapper mapper) {
+    @ConditionalOnMessageMappingMode(SPRING_WEB_MVC)
+    SepulkaController sepulkaControllerSpringWeb(SepulkaClient client, SepulkaMsgMapper mapper) {
         return new SepulkaController(client, mapper);
     }
 

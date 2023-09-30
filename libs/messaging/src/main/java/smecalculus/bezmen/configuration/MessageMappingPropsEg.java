@@ -1,11 +1,11 @@
 package smecalculus.bezmen.configuration;
 
-import static smecalculus.bezmen.configuration.MessageMappingMode.SPRING_WEB;
+import static smecalculus.bezmen.configuration.MessageMappingMode.SPRING_WEB_MVC;
 
 public class MessageMappingPropsEg {
     public static class Builders {
         public static MessageMappingProps.Builder messageMappingProps() {
-            return MessageMappingProps.builder().mappingMode(SPRING_WEB);
+            return MessageMappingProps.builder().mappingMode(SPRING_WEB_MVC);
         }
     }
 }

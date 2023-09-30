@@ -28,7 +28,7 @@ public class SepulkaTest {
 
     @BeforeAll
     void beforeAll() {
-        await().atMost(ofSeconds(5)).until(bezmenClient::isReady);
+        await("isReady").atMost(ofSeconds(5)).until(bezmenClient::isReady);
     }
 
     @Test

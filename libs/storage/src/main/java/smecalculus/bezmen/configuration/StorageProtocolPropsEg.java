@@ -18,7 +18,11 @@ public class StorageProtocolPropsEg {
                             .username("sa")
                             .password("sa")
                             .build())
-                    .postgresProps(null);
+                    .postgresProps(PostgresProps.builder()
+                            .url("jdbc:postgresql://localhost:5432/bezmen")
+                            .username("bezmen")
+                            .password("bezmen")
+                            .build());
         }
     }
 }
