@@ -6,9 +6,5 @@ import org.springframework.boot.autoconfigure.web.servlet.ServletWebServerFactor
 import org.springframework.context.annotation.Configuration;
 
 @Configuration(proxyBeanMethods = false)
-@ImportAutoConfiguration({
-        ServletWebServerFactoryAutoConfiguration.class,
-        DispatcherServletAutoConfiguration.class
-})
-public class ProtocolHttpBeans {
-}
+@ImportAutoConfiguration({ServletWebServerFactoryAutoConfiguration.class, DispatcherServletAutoConfiguration.class})
+public class ProtocolHttpBeans {}

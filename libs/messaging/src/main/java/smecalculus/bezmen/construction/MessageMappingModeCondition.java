@@ -16,7 +16,8 @@ class MessageMappingModeCondition implements ConfigurationCondition {
 
     @Override
     public boolean matches(ConditionContext context, AnnotatedTypeMetadata metadata) {
-        Map<String, Object> attributes = metadata.getAnnotationAttributes(ConditionalOnMessageMappingMode.class.getName());
+        Map<String, Object> attributes =
+                metadata.getAnnotationAttributes(ConditionalOnMessageMappingMode.class.getName());
         MessageMappingMode mode = (MessageMappingMode) attributes.get("value");
         MessagingProps messagingProps = context.getBeanFactory().getBean(MessagingProps.class);
         if (!messagingProps.protocolProps().protocolModes().contains(HTTP)) {

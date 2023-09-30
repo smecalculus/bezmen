@@ -13,7 +13,8 @@ class StateMappingModeCondition implements ConfigurationCondition {
 
     @Override
     public boolean matches(ConditionContext context, AnnotatedTypeMetadata metadata) {
-        Map<String, Object> attributes = metadata.getAnnotationAttributes(ConditionalOnStateMappingMode.class.getName());
+        Map<String, Object> attributes =
+                metadata.getAnnotationAttributes(ConditionalOnStateMappingMode.class.getName());
         StateMappingMode mode = (StateMappingMode) attributes.get("value");
         StorageProps props = context.getBeanFactory().getBean(StorageProps.class);
         return mode == props.mappingProps().mappingMode();

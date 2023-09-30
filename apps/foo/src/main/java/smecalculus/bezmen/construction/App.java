@@ -38,14 +38,14 @@ import smecalculus.bezmen.validation.EdgeValidator;
 @Configuration(proxyBeanMethods = false)
 @Import({ConfigBeans.class, ValidationBeans.class, MessagingBeans.class, StorageBeans.class})
 @ImportAutoConfiguration({
-        JacksonAutoConfiguration.class,
-        EndpointAutoConfiguration.class,
-        WebEndpointAutoConfiguration.class,
-        HealthEndpointAutoConfiguration.class,
-        ManagementContextAutoConfiguration.class,
-        ServletManagementContextAutoConfiguration.class,
-        ObservationAutoConfiguration.class,
-        WebMvcObservationAutoConfiguration.class
+    JacksonAutoConfiguration.class,
+    EndpointAutoConfiguration.class,
+    WebEndpointAutoConfiguration.class,
+    HealthEndpointAutoConfiguration.class,
+    ManagementContextAutoConfiguration.class,
+    ServletManagementContextAutoConfiguration.class,
+    ObservationAutoConfiguration.class,
+    WebMvcObservationAutoConfiguration.class
 })
 public class App {
 

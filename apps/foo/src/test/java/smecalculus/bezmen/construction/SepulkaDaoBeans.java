@@ -64,8 +64,11 @@ public class SepulkaDaoBeans {
         @Bean
         public StorageProps storageProps() {
             return StorageProps.builder()
-                    .mappingProps(StateMappingProps.builder().mappingMode(SPRING_DATA).build())
-                    .protocolProps(StorageProtocolProps.builder().protocolMode(POSTGRES).build())
+                    .mappingProps(
+                            StateMappingProps.builder().mappingMode(SPRING_DATA).build())
+                    .protocolProps(StorageProtocolProps.builder()
+                            .protocolMode(POSTGRES)
+                            .build())
                     .build();
         }
     }
@@ -81,8 +84,11 @@ public class SepulkaDaoBeans {
         @Bean
         public StorageProps storageProps() {
             return StorageProps.builder()
-                    .mappingProps(StateMappingProps.builder().mappingMode(MY_BATIS).build())
-                    .protocolProps(StorageProtocolProps.builder().protocolMode(POSTGRES).build())
+                    .mappingProps(
+                            StateMappingProps.builder().mappingMode(MY_BATIS).build())
+                    .protocolProps(StorageProtocolProps.builder()
+                            .protocolMode(POSTGRES)
+                            .build())
                     .build();
         }
     }
