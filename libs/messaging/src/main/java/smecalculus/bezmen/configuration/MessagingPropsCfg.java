@@ -8,4 +8,7 @@ public class MessagingPropsCfg {
 
     @NotNull
     MessagingProtocolPropsCfg protocol;
+
+    @NotNull
+    MessageMappingPropsCfg mapping;
 }

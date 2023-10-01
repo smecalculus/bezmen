@@ -10,6 +10,6 @@ import smecalculus.bezmen.configuration.MessagingProtocolMode;
 @Target({ElementType.TYPE, ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
 @Conditional(MessagingProtocolModeCondition.class)
-public @interface ConditionalOnMessagingProtocolMode {
-    MessagingProtocolMode value();
+public @interface ConditionalOnMessagingProtocolModes {
+    MessagingProtocolMode[] value();
 }

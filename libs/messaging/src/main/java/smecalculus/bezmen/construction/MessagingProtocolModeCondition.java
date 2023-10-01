@@ -3,6 +3,8 @@ package smecalculus.bezmen.construction;
 import static org.springframework.context.annotation.ConfigurationCondition.ConfigurationPhase.REGISTER_BEAN;
 
 import java.util.Map;
+import java.util.Set;
+import java.util.stream.Stream;
 import org.springframework.context.annotation.ConditionContext;
 import org.springframework.context.annotation.ConfigurationCondition;
 import org.springframework.core.type.AnnotatedTypeMetadata;
@@ -14,10 +16,11 @@ class MessagingProtocolModeCondition implements ConfigurationCondition {
     @Override
     public boolean matches(ConditionContext context, AnnotatedTypeMetadata metadata) {
         Map<String, Object> attributes =
-                metadata.getAnnotationAttributes(ConditionalOnMessagingProtocolMode.class.getName());
-        MessagingProtocolMode mode = (MessagingProtocolMode) attributes.get("value");
+                metadata.getAnnotationAttributes(ConditionalOnMessagingProtocolModes.class.getName());
+        MessagingProtocolMode[] expectedModes = (MessagingProtocolMode[]) attributes.get("value");
         MessagingProps messagingProps = context.getBeanFactory().getBean(MessagingProps.class);
-        return messagingProps.protocolProps().protocolModes().contains(mode);
+        Set<MessagingProtocolMode> actualModes = messagingProps.protocolProps().protocolModes();
+        return Stream.of(expectedModes).anyMatch(actualModes::contains);
     }
 
     @Override

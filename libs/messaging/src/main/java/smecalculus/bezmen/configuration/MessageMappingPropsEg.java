@@ -1,11 +1,12 @@
 package smecalculus.bezmen.configuration;
 
-import static smecalculus.bezmen.configuration.MessageMappingMode.SPRING_WEB_MVC;
+import static java.util.Collections.singleton;
+import static smecalculus.bezmen.configuration.MessageMappingMode.SPRING_MVC;
 
 public class MessageMappingPropsEg {
     public static class Builders {
         public static MessageMappingProps.Builder messageMappingProps() {
-            return MessageMappingProps.builder().mappingMode(SPRING_WEB_MVC);
+            return MessageMappingProps.builder().mappingModes(singleton(SPRING_MVC));
         }
     }
 }

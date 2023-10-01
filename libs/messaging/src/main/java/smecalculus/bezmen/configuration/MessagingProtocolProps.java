@@ -5,4 +5,4 @@ import lombok.Builder;
 import lombok.NonNull;
 
 @Builder
-public record MessagingProtocolProps(@NonNull Set<MessagingProtocolMode> protocolModes, HttpProps httpProps) {}
+public record MessagingProtocolProps(@NonNull Set<MessagingProtocolMode> protocolModes) {}
