@@ -7,16 +7,16 @@ import org.mapstruct.Mapping;
 public interface MessagingCfgMapper {
 
     @Mapping(source = "protocol", target = "protocolProps")
+    @Mapping(source = "mapping", target = "mappingProps")
     MessagingProps toDomain(MessagingPropsCfg messagingPropsCfg);
 
     @Mapping(source = "modes", target = "protocolModes")
     @Mapping(source = "http", target = "httpProps")
     MessagingProtocolProps toDomain(MessagingProtocolPropsCfg protocolPropsCfg);
 
-    @Mapping(source = "mapping", target = "mappingProps")
     HttpProps toDomain(HttpPropsCfg httpPropsCfg);
 
-    @Mapping(source = "mode", target = "mappingMode")
+    @Mapping(source = "modes", target = "mappingModes")
     MessageMappingProps toDomain(MessageMappingPropsCfg mappingPropsCfg);
 
     default MessagingProtocolMode toProtocolMode(String value) {
