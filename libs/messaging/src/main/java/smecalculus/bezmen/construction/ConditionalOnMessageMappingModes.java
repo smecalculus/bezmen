@@ -10,6 +10,6 @@ import smecalculus.bezmen.configuration.MessageMappingMode;
 @Target({ElementType.TYPE, ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
 @Conditional(MessageMappingModeCondition.class)
-public @interface ConditionalOnMessageMappingMode {
-    MessageMappingMode value();
+public @interface ConditionalOnMessageMappingModes {
+    MessageMappingMode[] value();
 }

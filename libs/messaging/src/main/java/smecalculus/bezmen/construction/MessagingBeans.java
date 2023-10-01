@@ -5,8 +5,9 @@ import org.springframework.context.annotation.Import;
 
 @Import({
     MessagingConfigBeans.class,
-    MappingSpringWebBeans.class,
+    MappingSpringWebMvcBeans.class,
     MappingSpringWebManagementBeans.class,
+    MappingSpringJmxManagementBeans.class,
     ProtocolHttpBeans.class,
     ProtocolJmxBeans.class
 })

@@ -1,6 +1,6 @@
 package smecalculus.bezmen.construction;
 
-import static smecalculus.bezmen.configuration.MessageMappingMode.SPRING_WEB_MANAGEMENT;
+import static smecalculus.bezmen.configuration.MessageMappingMode.SPRING_MANAGEMENT;
 import static smecalculus.bezmen.configuration.MessagingProtocolMode.HTTP;
 
 import org.springframework.boot.actuate.autoconfigure.endpoint.EndpointAutoConfiguration;
@@ -11,8 +11,8 @@ import org.springframework.boot.actuate.autoconfigure.web.servlet.ServletManagem
 import org.springframework.boot.autoconfigure.ImportAutoConfiguration;
 import org.springframework.context.annotation.Configuration;
 
-@ConditionalOnMessagingProtocolMode(HTTP)
-@ConditionalOnMessageMappingMode(SPRING_WEB_MANAGEMENT)
+@ConditionalOnMessagingProtocolModes(HTTP)
+@ConditionalOnMessageMappingModes(SPRING_MANAGEMENT)
 @ImportAutoConfiguration({
     ManagementContextAutoConfiguration.class,
     ServletManagementContextAutoConfiguration.class,

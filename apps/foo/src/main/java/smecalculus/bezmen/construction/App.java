@@ -1,13 +1,10 @@
 package smecalculus.bezmen.construction;
 
-import static smecalculus.bezmen.configuration.MessageMappingMode.SPRING_WEB_MVC;
+import static smecalculus.bezmen.configuration.MessageMappingMode.SPRING_MVC;
 import static smecalculus.bezmen.configuration.StateMappingMode.MY_BATIS;
 import static smecalculus.bezmen.configuration.StateMappingMode.SPRING_DATA;
 
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.actuate.autoconfigure.observation.ObservationAutoConfiguration;
-import org.springframework.boot.actuate.autoconfigure.observation.web.servlet.WebMvcObservationAutoConfiguration;
-import org.springframework.boot.autoconfigure.ImportAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
@@ -30,7 +27,6 @@ import smecalculus.bezmen.storage.springdata.SepulkaRepository;
 import smecalculus.bezmen.validation.EdgeValidator;
 
 @Import({ConfigBeans.class, ValidationBeans.class, MessagingBeans.class, StorageBeans.class})
-@ImportAutoConfiguration({ObservationAutoConfiguration.class, WebMvcObservationAutoConfiguration.class})
 @Configuration(proxyBeanMethods = false)
 public class App {
 
@@ -39,7 +35,7 @@ public class App {
     }
 
     @Bean
-    @ConditionalOnMessageMappingMode(SPRING_WEB_MVC)
+    @ConditionalOnMessageMappingModes(SPRING_MVC)
     SepulkaController sepulkaControllerSpringWeb(SepulkaClient client, SepulkaMsgMapper mapper) {
         return new SepulkaController(client, mapper);
     }
