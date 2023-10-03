@@ -1,4 +1,4 @@
-package smecalculus.bezmen.messaging.springwebmvc;
+package smecalculus.bezmen.messaging.springmvc;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

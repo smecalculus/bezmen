@@ -16,7 +16,7 @@ import smecalculus.bezmen.messaging.SepulkaClientImpl;
 import smecalculus.bezmen.messaging.SepulkaMsgMapper;
 import smecalculus.bezmen.messaging.SepulkaMsgMapperImpl;
 import smecalculus.bezmen.messaging.client.SepulkaClient;
-import smecalculus.bezmen.messaging.springwebmvc.SepulkaController;
+import smecalculus.bezmen.messaging.springmvc.SepulkaController;
 import smecalculus.bezmen.storage.SepulkaDao;
 import smecalculus.bezmen.storage.SepulkaDaoMyBatis;
 import smecalculus.bezmen.storage.SepulkaDaoSpringData;

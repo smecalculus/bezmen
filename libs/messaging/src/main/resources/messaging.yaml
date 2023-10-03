@@ -1,0 +1,6 @@
+bezmen:
+  messaging:
+    protocol:
+      modes: [http]
+    mapping:
+      modes: [spring_mvc]

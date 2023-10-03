@@ -1,4 +1,4 @@
-package smecalculus.bezmen.configuration;
+package smecalculus.bezmen.construction;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -7,19 +7,25 @@ import static smecalculus.bezmen.configuration.StoragePropsEg.Pojos.storageProps
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import smecalculus.bezmen.configuration.ConfigKeeper;
+import smecalculus.bezmen.configuration.StorageCfgMapper;
+import smecalculus.bezmen.configuration.StorageCfgMapperImpl;
+import smecalculus.bezmen.configuration.StoragePropsCfg;
 import smecalculus.bezmen.validation.EdgeValidator;
 
-abstract class StorageConfigTest {
+class StorageConfigBeansTest {
 
-    private StorageConfig storageConfig;
+    private StorageConfigBeans configBeans;
     private EdgeValidator validatorMock;
     private ConfigKeeper keeperMock;
+    private StorageCfgMapper mapper;
 
     @BeforeEach
     void setUp() {
+        configBeans = new StorageConfigBeans();
         validatorMock = mock(EdgeValidator.class);
         keeperMock = mock(ConfigKeeper.class);
-        storageConfig = new StorageConfigImpl(keeperMock, validatorMock, new StorageCfgMapperImpl());
+        mapper = new StorageCfgMapperImpl();
     }
 
     @Test
@@ -29,7 +35,7 @@ abstract class StorageConfigTest {
         // and
         when(keeperMock.read("bezmen.storage", StoragePropsCfg.class)).thenReturn(expectedStorageProps);
         // when
-        storageConfig.getStorageProps();
+        configBeans.storageProps(keeperMock, validatorMock, mapper);
         // then
         verify(validatorMock).validate(expectedStorageProps);
     }
