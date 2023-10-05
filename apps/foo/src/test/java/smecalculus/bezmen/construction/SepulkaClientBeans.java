@@ -40,7 +40,8 @@ public class SepulkaClientBeans {
     @Bean
     SepulkaClient externalClient(EdgeValidator validator, SepulkaClient internalClient) {
         SepulkaMsgMapper mapper = new SepulkaMsgMapperImpl();
-        WebTestClient client = MockMvcWebTestClient.bindToController(new SepulkaController(validator, internalClient, mapper))
+        WebTestClient client = MockMvcWebTestClient.bindToController(
+                        new SepulkaController(validator, internalClient, mapper))
                 .build();
         return new SepulkaClientSpringWeb(client, mapper);
     }

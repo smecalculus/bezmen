@@ -38,7 +38,8 @@ public class App {
 
     @Bean
     @ConditionalOnMessageMappingModes(SPRING_MVC)
-    SepulkaController sepulkaControllerSpringMvc(EdgeValidator validator, SepulkaClient client, SepulkaMsgMapper mapper) {
+    SepulkaController sepulkaControllerSpringMvc(
+            EdgeValidator validator, SepulkaClient client, SepulkaMsgMapper mapper) {
         return new SepulkaController(validator, client, mapper);
     }
 
