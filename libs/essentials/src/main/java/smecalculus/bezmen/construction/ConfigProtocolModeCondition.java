@@ -15,7 +15,8 @@ class ConfigProtocolModeCondition implements ConfigurationCondition {
         Map<String, Object> attributes =
                 metadata.getAnnotationAttributes(ConditionalOnConfigProtocolMode.class.getName());
         ConfigProtocolMode expectedMode = (ConfigProtocolMode) attributes.get("value");
-        String actualMode = context.getEnvironment().getProperty("bezmen.config.protocol.mode", ConfigProtocolMode.FILE_SYSTEM.name());
+        String actualMode = context.getEnvironment()
+                .getProperty("bezmen.config.protocol.mode", ConfigProtocolMode.FILE_SYSTEM.name());
         return expectedMode.name().equalsIgnoreCase(actualMode);
     }
 

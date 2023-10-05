@@ -15,7 +15,8 @@ class ConfigMappingModeCondition implements ConfigurationCondition {
         Map<String, Object> attributes =
                 metadata.getAnnotationAttributes(ConditionalOnConfigMappingMode.class.getName());
         ConfigMappingMode expectedMode = (ConfigMappingMode) attributes.get("value");
-        String actualMode = context.getEnvironment().getProperty("bezmen.config.mapping.mode", ConfigMappingMode.LIGHTBEND_CONFIG.name());
+        String actualMode = context.getEnvironment()
+                .getProperty("bezmen.config.mapping.mode", ConfigMappingMode.LIGHTBEND_CONFIG.name());
         return expectedMode.name().equalsIgnoreCase(actualMode);
     }
 
