@@ -8,6 +8,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
+import org.springframework.context.annotation.PropertySource;
 import smecalculus.bezmen.core.SepulkaConverter;
 import smecalculus.bezmen.core.SepulkaConverterImpl;
 import smecalculus.bezmen.core.SepulkaService;
@@ -27,6 +28,7 @@ import smecalculus.bezmen.storage.springdata.SepulkaRepository;
 import smecalculus.bezmen.validation.EdgeValidator;
 
 @Import({ConfigBeans.class, ValidationBeans.class, MessagingBeans.class, StorageBeans.class})
+@PropertySource("classpath:application.properties")
 @Configuration(proxyBeanMethods = false)
 public class App {
 

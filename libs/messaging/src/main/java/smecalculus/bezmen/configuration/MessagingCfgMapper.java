@@ -8,13 +8,13 @@ public interface MessagingCfgMapper {
 
     @Mapping(source = "protocol", target = "protocolProps")
     @Mapping(source = "mapping", target = "mappingProps")
-    MessagingProps toDomain(MessagingPropsCfg messagingPropsCfg);
+    MessagingProps toDomain(MessagingPropsCfg propsCfg);
 
     @Mapping(source = "modes", target = "protocolModes")
-    MessagingProtocolProps toDomain(MessagingProtocolPropsCfg protocolPropsCfg);
+    MessagingProtocolProps toDomain(MessagingProtocolPropsCfg propsCfg);
 
     @Mapping(source = "modes", target = "mappingModes")
-    MessageMappingProps toDomain(MessageMappingPropsCfg mappingPropsCfg);
+    MessageMappingProps toDomain(MessageMappingPropsCfg propsCfg);
 
     default MessagingProtocolMode toProtocolMode(String value) {
         return MessagingProtocolMode.valueOf(value.toUpperCase());

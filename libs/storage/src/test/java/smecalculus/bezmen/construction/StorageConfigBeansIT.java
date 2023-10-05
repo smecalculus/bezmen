@@ -11,15 +11,15 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import smecalculus.bezmen.configuration.StorageProps;
 
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = {ConfigBeans.class, ValidationBeans.class, StorageConfigBeans.class})
-class StorageConfigBeansIT {
+@ContextConfiguration(classes = {StorageConfigBeans.class, ConfigBeans.class, ValidationBeans.class})
+abstract class StorageConfigBeansIT {
 
     @Test
     void defaultConfigShouldBeBackwardCompatible(@Autowired StorageProps actualProps) {
         // given
         StorageProps expectedProps = storageProps().build();
         // when
-        // construction
+        // default construction
         // then
         assertThat(actualProps).isEqualTo(expectedProps);
     }

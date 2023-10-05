@@ -11,15 +11,15 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import smecalculus.bezmen.configuration.MessagingProps;
 
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = {ConfigBeans.class, ValidationBeans.class, MessagingConfigBeans.class})
-class MessagingConfigBeansIT {
+@ContextConfiguration(classes = {MessagingConfigBeans.class, ConfigBeans.class, ValidationBeans.class})
+abstract class MessagingConfigBeansIT {
 
     @Test
     void defaultConfigShouldBeBackwardCompatible(@Autowired MessagingProps actualProps) {
         // given
         MessagingProps expectedProps = messagingProps().build();
         // when
-        // construction
+        // default construction
         // then
         assertThat(actualProps).isEqualTo(expectedProps);
     }

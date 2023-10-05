@@ -15,28 +15,26 @@ import smecalculus.bezmen.validation.EdgeValidator;
 
 class StorageConfigBeansTest {
 
-    private StorageConfigBeans configBeans;
+    private final StorageConfigBeans config = new StorageConfigBeans();
+    private final StorageCfgMapper mapper = new StorageCfgMapperImpl();
     private EdgeValidator validatorMock;
     private ConfigKeeper keeperMock;
-    private StorageCfgMapper mapper;
 
     @BeforeEach
     void setUp() {
-        configBeans = new StorageConfigBeans();
         validatorMock = mock(EdgeValidator.class);
         keeperMock = mock(ConfigKeeper.class);
-        mapper = new StorageCfgMapperImpl();
     }
 
     @Test
     void shouldValidateConf() {
         // given
-        StoragePropsCfg expectedStorageProps = storagePropsCfg();
+        StoragePropsCfg expectedProps = storagePropsCfg();
         // and
-        when(keeperMock.read("bezmen.storage", StoragePropsCfg.class)).thenReturn(expectedStorageProps);
+        when(keeperMock.read("bezmen.storage", StoragePropsCfg.class)).thenReturn(expectedProps);
         // when
-        configBeans.storageProps(keeperMock, validatorMock, mapper);
+        config.storageProps(keeperMock, validatorMock, mapper);
         // then
-        verify(validatorMock).validate(expectedStorageProps);
+        verify(validatorMock).validate(expectedProps);
     }
 }

@@ -1,6 +1,0 @@
----
-spring:
-  config:
-    import:
-      - classpath:messaging.yaml
-      - classpath:storage.yaml

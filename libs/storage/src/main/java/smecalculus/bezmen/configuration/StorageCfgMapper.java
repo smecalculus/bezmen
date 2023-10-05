@@ -8,7 +8,7 @@ public interface StorageCfgMapper {
 
     @Mapping(source = "protocol", target = "protocolProps")
     @Mapping(source = "mapping", target = "mappingProps")
-    StorageProps toDomain(StoragePropsCfg storagePropsCfg);
+    StorageProps toDomain(StoragePropsCfg propsCfg);
 
     @Mapping(source = "mode", target = "protocolMode")
     @Mapping(source = "h2", target = "h2Props")

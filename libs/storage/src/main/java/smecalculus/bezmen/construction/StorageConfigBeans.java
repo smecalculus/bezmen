@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 import smecalculus.bezmen.configuration.ConfigKeeper;
 import smecalculus.bezmen.configuration.StorageCfgMapper;
 import smecalculus.bezmen.configuration.StorageCfgMapperImpl;
@@ -11,6 +12,7 @@ import smecalculus.bezmen.configuration.StorageProps;
 import smecalculus.bezmen.configuration.StoragePropsCfg;
 import smecalculus.bezmen.validation.EdgeValidator;
 
+@PropertySource("classpath:storage.properties")
 @Configuration(proxyBeanMethods = false)
 public class StorageConfigBeans {
 
