@@ -1,17 +1,22 @@
 package smecalculus.bezmen.construction;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 import smecalculus.bezmen.configuration.ConfigKeeper;
 import smecalculus.bezmen.configuration.MessagingCfgMapper;
 import smecalculus.bezmen.configuration.MessagingCfgMapperImpl;
-import smecalculus.bezmen.configuration.MessagingConfig;
-import smecalculus.bezmen.configuration.MessagingConfigImpl;
 import smecalculus.bezmen.configuration.MessagingProps;
+import smecalculus.bezmen.configuration.MessagingPropsCfg;
 import smecalculus.bezmen.validation.EdgeValidator;
 
+@PropertySource("classpath:messaging.properties")
 @Configuration(proxyBeanMethods = false)
 public class MessagingConfigBeans {
+
+    private static final Logger LOG = LoggerFactory.getLogger(MessagingConfigBeans.class);
 
     @Bean
     MessagingCfgMapper messagingCfgMapper() {
@@ -19,12 +24,10 @@ public class MessagingConfigBeans {
     }
 
     @Bean
-    MessagingConfig messagingConfig(ConfigKeeper keeper, EdgeValidator validator, MessagingCfgMapper mapper) {
-        return new MessagingConfigImpl(keeper, validator, mapper);
-    }
-
-    @Bean
-    MessagingProps messagingProps(MessagingConfig config) {
-        return config.getMessagingProps();
+    MessagingProps messagingProps(ConfigKeeper keeper, EdgeValidator validator, MessagingCfgMapper mapper) {
+        MessagingPropsCfg propsCfg = keeper.read("bezmen.messaging", MessagingPropsCfg.class);
+        validator.validate(propsCfg);
+        LOG.info("Read {}", propsCfg);
+        return mapper.toDomain(propsCfg);
     }
 }

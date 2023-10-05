@@ -1,4 +1,4 @@
-package smecalculus.bezmen.configuration;
+package smecalculus.bezmen.construction;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static smecalculus.bezmen.configuration.StoragePropsEg.Builders.storageProps;
@@ -8,23 +8,18 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import smecalculus.bezmen.construction.ConfigBeans;
-import smecalculus.bezmen.construction.StorageConfigBeans;
-import smecalculus.bezmen.construction.ValidationBeans;
+import smecalculus.bezmen.configuration.StorageProps;
 
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = {ConfigBeans.class, ValidationBeans.class, StorageConfigBeans.class})
-abstract class StorageConfigIT {
-
-    @Autowired
-    StorageConfig storageConfig;
+@ContextConfiguration(classes = {StorageConfigBeans.class, ConfigBeans.class, ValidationBeans.class})
+abstract class StorageConfigBeansIT {
 
     @Test
-    void defaultConfigShouldBeBackwardCompatible() {
+    void defaultConfigShouldBeBackwardCompatible(@Autowired StorageProps actualProps) {
         // given
         StorageProps expectedProps = storageProps().build();
         // when
-        StorageProps actualProps = storageConfig.getStorageProps();
+        // default construction
         // then
         assertThat(actualProps).isEqualTo(expectedProps);
     }

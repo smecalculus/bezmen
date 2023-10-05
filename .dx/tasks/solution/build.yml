@@ -11,6 +11,13 @@
     recurse: true
 
 - name: Build spec
+  vars:
+    config_files:
+      turing: application.yaml
+      church: application.conf
+    config_mapping_modes:
+      turing: spring_config
+      church: lightbend_config
   ansible.builtin.command:
     cmd: >
       docker compose
@@ -27,10 +34,18 @@
     SCHEMA_IMAGE: "{{ schema_images.postgres }}"
     FOO_TAG: "{{ hostvars.app.image_cids.foo[:7] }}"
     FOO_IMAGE: "{{ app_images.foo }}"
+    CONFIG_FILE_NAME: "{{ config_files[prefs] }}"
+    CONFIG_MAPPING_MODE: "{{ config_mapping_modes[prefs] }}"
   changed_when: true
 
 - name: Build conf
+  vars:
+    config_extensions:
+      turing: yaml
+      church: conf
   ansible.builtin.command:
-    cmd: cp basis/{{ prefs }}.conf target/context/bezmen.conf
+    cmd: >
+      cp basis/{{ prefs }}.{{ config_extensions[prefs] }}
+      target/context/application.{{ config_extensions[prefs] }}
     chdir: "{{ playbook_dir }}/../solutions"
   changed_when: true

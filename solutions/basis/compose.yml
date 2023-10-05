@@ -7,7 +7,7 @@ networks:
 configs:
   bezmen:
     name: bezmen
-    file: ./bezmen.conf
+    file: ./${CONFIG_FILE_NAME}
 
 services:
   db:
@@ -85,7 +85,10 @@ services:
       - 8080:8080
     configs:
       - source: bezmen
-        target: /home/bezmen/foo/application.conf
+        target: /home/bezmen/${CONFIG_FILE_NAME}
+    command: >
+      --bezmen.config.mapping.mode=${CONFIG_MAPPING_MODE}
+      --spring.config.location=optional:file:application.yaml
     depends_on:
       schema-owner:
         condition: service_completed_successfully

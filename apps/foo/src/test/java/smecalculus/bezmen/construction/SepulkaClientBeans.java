@@ -15,7 +15,7 @@ import smecalculus.bezmen.messaging.SepulkaClientSpringWeb;
 import smecalculus.bezmen.messaging.SepulkaMsgMapper;
 import smecalculus.bezmen.messaging.SepulkaMsgMapperImpl;
 import smecalculus.bezmen.messaging.client.SepulkaClient;
-import smecalculus.bezmen.messaging.springwebmvc.SepulkaController;
+import smecalculus.bezmen.messaging.springmvc.SepulkaController;
 import smecalculus.bezmen.validation.EdgeValidator;
 
 @Import(ValidationBeans.class)
@@ -33,14 +33,15 @@ public class SepulkaClientBeans {
     }
 
     @Bean
-    SepulkaClient internalClient(EdgeValidator validator, SepulkaService service, SepulkaConverterImpl converter) {
-        return new SepulkaClientImpl(validator, service, converter);
+    SepulkaClient internalClient(SepulkaService service, SepulkaConverterImpl converter) {
+        return new SepulkaClientImpl(service, converter);
     }
 
     @Bean
-    SepulkaClient externalClient(SepulkaClient internalClient) {
+    SepulkaClient externalClient(EdgeValidator validator, SepulkaClient internalClient) {
         SepulkaMsgMapper mapper = new SepulkaMsgMapperImpl();
-        WebTestClient client = MockMvcWebTestClient.bindToController(new SepulkaController(internalClient, mapper))
+        WebTestClient client = MockMvcWebTestClient.bindToController(
+                        new SepulkaController(validator, internalClient, mapper))
                 .build();
         return new SepulkaClientSpringWeb(client, mapper);
     }

@@ -1,5 +1,5 @@
 package smecalculus.bezmen.configuration;
 
-public enum ConfigMode {
+public enum ConfigProtocolMode {
     FILE_SYSTEM
 }
