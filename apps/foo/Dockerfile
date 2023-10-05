@@ -6,6 +6,6 @@ COPY libs libs
 COPY app*.jar app.jar
 ENTRYPOINT [ \
     "java", "-cp", "app.jar:libs/*", \
-    "-Dconfig.file=${CONFIG_FILE_NAME}", \
+    "-Dconfig.file=application.conf", \
     "smecalculus.bezmen.construction.App" \
 ]

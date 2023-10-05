@@ -88,7 +88,7 @@ services:
         target: /home/bezmen/${CONFIG_FILE_NAME}
     command: >
       --bezmen.config.mapping.mode=${CONFIG_MAPPING_MODE}
-      --spring.config.location=optional:file:${CONFIG_FILE_NAME}
+      --spring.config.location=optional:file:application.yaml
     depends_on:
       schema-owner:
         condition: service_completed_successfully
