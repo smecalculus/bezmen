@@ -22,6 +22,7 @@ public record SepulkaController(
 
     @PostMapping
     ResponseEntity<SepulkaRegResMsg> register(@RequestBody SepulkaRegReqMsg sepulkaRegReqMsg) {
+        // TODO: контроллер отвечает только за сборку msg-модели и валидацию
         validator.validate(sepulkaRegReqMsg);
         SepulkaRegReq sepulkaRegReq = mapper.toDomain(sepulkaRegReqMsg);
         SepulkaRegRes sepulkaRegRes = client.register(sepulkaRegReq);

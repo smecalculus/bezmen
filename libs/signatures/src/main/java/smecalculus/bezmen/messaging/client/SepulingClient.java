@@ -1,5 +1,5 @@
 package smecalculus.bezmen.messaging.client;
 
-interface FooClient extends SepulkaClient {
+interface SepulingClient extends SepulkaClient {
     boolean isReady();
 }

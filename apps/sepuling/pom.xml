@@ -10,7 +10,7 @@
     <version>${revision}</version>
   </parent>
 
-  <artifactId>app-foo</artifactId>
+  <artifactId>sepuling</artifactId>
 
   <dependencies>
     <dependency>

@@ -78,9 +78,9 @@ services:
     networks:
       bezmen: null
 
-  foo:
-    image: ${FOO_IMAGE}:${FOO_TAG}
-    container_name: app-foo
+  sepuling:
+    image: ${SEPULING_IMAGE}:${SEPULING_TAG}
+    container_name: sepuling
     ports:
       - 8080:8080
     configs:
@@ -93,6 +93,6 @@ services:
       schema-owner:
         condition: service_completed_successfully
     labels:
-      image.name: ${FOO_IMAGE}
+      image.name: ${SEPULING_IMAGE}
     networks:
       bezmen: null

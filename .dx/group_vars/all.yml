@@ -14,7 +14,7 @@ lib_cids:
   testing: "{{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=libs/testing')[:7] }}"
 app_cid: "{{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=apps')[:7] }}"
 app_cids:
-  foo: "{{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=apps/foo')[:7] }}"
+  sepuling: "{{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=apps/sepuling')[:7] }}"
 schema_cid: "{{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=schemas')[:7] }}"
 schema_cids:
   postgres: "{{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=schemas/postgres')[:7] }}"
@@ -41,7 +41,7 @@ binary_repo: local
 image_repo: local
 
 app_images:
-  foo: "{{ image_repo }}/{{ organization }}/{{ project }}/app/foo"
+  sepuling: "{{ image_repo }}/{{ organization }}/{{ project }}/app/sepuling"
 schema_images:
   postgres: "{{ image_repo }}/{{ organization }}/{{ project }}/schema/postgres"
 stack_images:
@@ -51,4 +51,4 @@ stack_images:
 docker_entity: "{{ 'image' if image_repo == 'local' else 'manifest' }}"
 
 app_deps:
-  foo: [essentials, signatures, messaging, storage]
+  sepuling: [signatures, essentials, messaging, storage]

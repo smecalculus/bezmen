@@ -10,7 +10,7 @@
           --no-snapshot-updates
           --batch-mode
           {% if focus == 'solution' %}
-          --projects apps/foo
+          --projects apps/sepuling
           {% elif focus == 'pipeline' %}
           --projects tests/e2e
           {% endif %}
