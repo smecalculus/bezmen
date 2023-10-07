@@ -28,12 +28,8 @@ public class SepulkaClientBeans {
     }
 
     @Bean
-    SepulkaSliceMapper sepulkaConverter() {
-        return new SepulkaSliceMapperImpl();
-    }
-
-    @Bean
-    SepulkaClient internalClient(SepulkaService service, SepulkaSliceMapper mapper) {
+    SepulkaClient internalClient(SepulkaService service) {
+        SepulkaSliceMapper mapper = new SepulkaSliceMapperImpl();
         return new SepulkaClientImpl(service, mapper);
     }
 
