@@ -12,10 +12,6 @@
 
   <artifactId>abstraction</artifactId>
 
-  <properties>
-    <isPrivate>false</isPrivate>
-  </properties>
-
   <dependencies>
     <dependency>
       <groupId>jakarta.validation</groupId>
@@ -28,21 +24,28 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-jar-plugin</artifactId>
-        <version>3.3.0</version>
         <executions>
           <execution>
-            <id>client</id>
+            <id>exterior-jar</id>
             <goals>
               <goal>jar</goal>
             </goals>
-            <configuration>
-              <classifier>client</classifier>
-              <includes>
-                <include>**/messaging/client/**</include>
-              </includes>
-            </configuration>
           </execution>
         </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-install-plugin</artifactId>
+        <configuration>
+          <skip>false</skip>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-deploy-plugin</artifactId>
+        <configuration>
+          <skip>false</skip>
+        </configuration>
       </plugin>
     </plugins>
   </build>
