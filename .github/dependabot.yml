@@ -19,7 +19,7 @@ updates:
     schedule:
       interval: "weekly"
   - package-ecosystem: "docker"
-    directory: "/apps/foo"
+    directory: "/apps/sepuling"
     schedule:
       interval: "weekly"
   - package-ecosystem: "pip"

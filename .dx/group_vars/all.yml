@@ -7,14 +7,14 @@ prefs: turing
 
 lib_cid: "{{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=libs')[:7] }}"
 lib_cids:
-  signatures: "{{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=libs/signatures')[:7] }}"
-  storage: "{{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=libs/storage')[:7] }}"
+  abstraction: "{{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=libs/abstraction')[:7] }}"
   essentials: "{{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=libs/essentials')[:7] }}"
   messaging: "{{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=libs/messaging')[:7] }}"
+  storage: "{{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=libs/storage')[:7] }}"
   testing: "{{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=libs/testing')[:7] }}"
 app_cid: "{{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=apps')[:7] }}"
 app_cids:
-  foo: "{{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=apps/foo')[:7] }}"
+  sepuling: "{{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=apps/sepuling')[:7] }}"
 schema_cid: "{{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=schemas')[:7] }}"
 schema_cids:
   postgres: "{{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=schemas/postgres')[:7] }}"
@@ -34,14 +34,14 @@ pipeline_cid: "{{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=.githu
 
 # solution - focus on solution changes
 # pipeline - focus on pipeline changes
-# none - without any particular focus
-focus: none
+# null - without any particular focus
+focus: null
 
 binary_repo: local
 image_repo: local
 
 app_images:
-  foo: "{{ image_repo }}/{{ organization }}/{{ project }}/app/foo"
+  sepuling: "{{ image_repo }}/{{ organization }}/{{ project }}/app/sepuling"
 schema_images:
   postgres: "{{ image_repo }}/{{ organization }}/{{ project }}/schema/postgres"
 stack_images:
@@ -51,4 +51,4 @@ stack_images:
 docker_entity: "{{ 'image' if image_repo == 'local' else 'manifest' }}"
 
 app_deps:
-  foo: [essentials, signatures, messaging, storage]
+  sepuling: [abstraction, essentials, messaging, storage]

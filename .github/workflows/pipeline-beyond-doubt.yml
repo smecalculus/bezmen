@@ -29,7 +29,7 @@ jobs:
           name: ${{ matrix.environ.name }}
           tools: python java docker
           token: ${{ secrets.GITHUB_TOKEN }}
-      - run: ansible-playbook sources.yml -e focus=pipeline
+      - run: ansible-playbook codebase.yml -e focus=pipeline
         working-directory: .dx
         env:
           GITHUB_ACTOR: ${{ github.actor }}

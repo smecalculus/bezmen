@@ -15,7 +15,7 @@
   <dependencies>
     <dependency>
       <groupId>${project.groupId}</groupId>
-      <artifactId>signatures</artifactId>
+      <artifactId>abstraction</artifactId>
       <classifier>client</classifier>
     </dependency>
 
@@ -48,10 +48,6 @@
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-webflux</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot</artifactId>
     </dependency>
 
     <dependency>
@@ -86,7 +82,7 @@
         <directory>${project.basedir}/../../schemas/h2</directory>
         <targetPath>schemas</targetPath>
         <includes>
-          <include>alfa/**</include>
+          <include>sepulkarium/**</include>
         </includes>
       </resource>
     </resources>

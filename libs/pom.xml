@@ -11,7 +11,7 @@
   <version>${revision}</version>
 
   <modules>
-    <module>signatures</module>
+    <module>abstraction</module>
     <module>essentials</module>
     <module>messaging</module>
     <module>storage</module>
@@ -59,12 +59,12 @@
     <dependencies>
       <dependency>
         <groupId>${project.groupId}</groupId>
-        <artifactId>signatures</artifactId>
+        <artifactId>abstraction</artifactId>
         <version>${project.version}</version>
       </dependency>
       <dependency>
         <groupId>${project.groupId}</groupId>
-        <artifactId>signatures</artifactId>
+        <artifactId>abstraction</artifactId>
         <version>${project.version}</version>
         <classifier>client</classifier>
       </dependency>

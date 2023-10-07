@@ -21,8 +21,8 @@
   ansible.builtin.command:
     cmd: >
       docker compose
-      --file basis/compose.yml
-      --file {{ usage }}/compose.yml
+      --file usages/basis.yml
+      --file usages/{{ usage }}.yml
       --profile {{ prefs }}
       config
       --output target/context/compose.yml
@@ -32,8 +32,8 @@
   environment:
     SCHEMA_TAG: "{{ schema_cids.postgres }}"
     SCHEMA_IMAGE: "{{ schema_images.postgres }}"
-    FOO_TAG: "{{ hostvars.app.image_cids.foo[:7] }}"
-    FOO_IMAGE: "{{ app_images.foo }}"
+    SEPULING_TAG: "{{ hostvars.app.image_cids.sepuling[:7] }}"
+    SEPULING_IMAGE: "{{ app_images.sepuling }}"
     CONFIG_FILE_NAME: "{{ config_files[prefs] }}"
     CONFIG_MAPPING_MODE: "{{ config_mapping_modes[prefs] }}"
   changed_when: true
@@ -45,7 +45,7 @@
       church: conf
   ansible.builtin.command:
     cmd: >
-      cp basis/{{ prefs }}.{{ config_extensions[prefs] }}
+      cp prefs/{{ prefs }}.{{ config_extensions[prefs] }}
       target/context/application.{{ config_extensions[prefs] }}
     chdir: "{{ playbook_dir }}/../solutions"
   changed_when: true
