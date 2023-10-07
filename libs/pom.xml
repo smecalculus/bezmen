@@ -20,7 +20,6 @@
 
   <properties>
     <revision>0.1.0-SNAPSHOT</revision>
-    <kotlin.version>1.9.10</kotlin.version>
     <lombok.version>1.18.30</lombok.version>
     <mapstruct.version>1.5.5.Final</mapstruct.version>
     <spring.version>6.0.12</spring.version>
@@ -32,6 +31,7 @@
     <skipTests>false</skipTests>
     <skipUnits>${skipTests}</skipUnits>
     <isPrivate>true</isPrivate>
+    <hasExterior>false</hasExterior>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
 
@@ -93,18 +93,6 @@
         <groupId>${project.groupId}</groupId>
         <artifactId>testing</artifactId>
         <version>${project.version}</version>
-      </dependency>
-
-      <dependency>
-        <groupId>org.jetbrains.kotlin</groupId>
-        <artifactId>kotlin-reflect</artifactId>
-        <version>${kotlin.version}</version>
-        <scope>runtime</scope>
-      </dependency>
-      <dependency>
-        <groupId>org.jetbrains.kotlin</groupId>
-        <artifactId>kotlin-stdlib</artifactId>
-        <version>${kotlin.version}</version>
       </dependency>
 
       <dependency>
@@ -337,24 +325,6 @@
         <groupId>org.jacoco</groupId>
         <artifactId>jacoco-maven-plugin</artifactId>
       </plugin>
-      <plugin>
-        <groupId>org.jetbrains.kotlin</groupId>
-        <artifactId>kotlin-maven-plugin</artifactId>
-        <executions>
-          <execution>
-            <id>compile</id>
-            <goals>
-              <goal>compile</goal>
-            </goals>
-          </execution>
-          <execution>
-            <id>test-compile</id>
-            <goals>
-              <goal>test-compile</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
     </plugins>
 
     <pluginManagement>
@@ -363,10 +333,8 @@
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-compiler-plugin</artifactId>
           <version>3.11.0</version>
-          <!-- TODO: подумать о том, чтобы вынести конфигурации из pluginManagement -->
           <configuration>
-            <source>17</source>
-            <target>17</target>
+            <release>17</release>
             <encoding>UTF-8</encoding>
             <annotationProcessorPaths>
               <path>
@@ -383,9 +351,20 @@
           </configuration>
         </plugin>
         <plugin>
-          <groupId>org.jetbrains.kotlin</groupId>
-          <artifactId>kotlin-maven-plugin</artifactId>
-          <version>${kotlin.version}</version>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-jar-plugin</artifactId>
+          <version>3.3.0</version>
+          <executions>
+            <execution>
+              <id>client-jar</id>
+              <configuration>
+                <classifier>client</classifier>
+                <includes>
+                  <include>**/exterior/**</include>
+                </includes>
+              </configuration>
+            </execution>
+          </executions>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>

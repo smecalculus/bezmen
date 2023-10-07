@@ -76,19 +76,12 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-jar-plugin</artifactId>
-        <version>3.3.0</version>
         <executions>
           <execution>
-            <id>client</id>
+            <id>client-jar</id>
             <goals>
               <goal>jar</goal>
             </goals>
-            <configuration>
-              <classifier>client</classifier>
-              <includes>
-                <include>**/messaging/client/**</include>
-              </includes>
-            </configuration>
           </execution>
         </executions>
       </plugin>

@@ -1,0 +1,14 @@
+package smecalculus.bezmen.interior.configuration;
+
+import static smecalculus.bezmen.interior.configuration.MessageMappingPropsEg.Builders.messageMappingProps;
+import static smecalculus.bezmen.interior.configuration.MessagingProtocolPropsEg.Builders.messagingProtocolProps;
+
+public class MessagingPropsEg {
+    public static class Builders {
+        public static MessagingProps.Builder messagingProps() {
+            return MessagingProps.builder()
+                    .protocolProps(messagingProtocolProps().build())
+                    .mappingProps(messageMappingProps().build());
+        }
+    }
+}
