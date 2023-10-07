@@ -14,7 +14,7 @@ import smecalculus.bezmen.core.Sepulka;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = SepulkaDaoBeans.class)
-@Sql("/schemas/alfa/truncate.sql")
+@Sql("/schemas/sepulkarium/truncate.sql")
 abstract class SepulkaDaoIT {
 
     @Autowired

@@ -82,7 +82,7 @@
         <directory>${project.basedir}/../../schemas/h2</directory>
         <targetPath>schemas</targetPath>
         <includes>
-          <include>alfa/**</include>
+          <include>sepulkarium/**</include>
         </includes>
       </resource>
     </resources>

@@ -15,8 +15,8 @@ public class TestingBeans {
         return new EmbeddedDatabaseBuilder()
                 .setType(H2)
                 .setName("testdb;DB_CLOSE_DELAY=-1;DATABASE_TO_UPPER=false;CASE_INSENSITIVE_IDENTIFIERS=true")
-                .addScript("schemas/alfa/wipe.sql")
-                .addScript("schemas/alfa/schema.sql")
+                .addScript("schemas/sepulkarium/wipe.sql")
+                .addScript("schemas/sepulkarium/schema.sql")
                 .build();
     }
 }

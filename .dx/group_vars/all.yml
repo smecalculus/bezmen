@@ -34,8 +34,8 @@ pipeline_cid: "{{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=.githu
 
 # solution - focus on solution changes
 # pipeline - focus on pipeline changes
-# none - without any particular focus
-focus: none
+# null - without any particular focus
+focus: null
 
 binary_repo: local
 image_repo: local

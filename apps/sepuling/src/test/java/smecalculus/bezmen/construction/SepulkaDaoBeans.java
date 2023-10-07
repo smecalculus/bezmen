@@ -43,8 +43,8 @@ public class SepulkaDaoBeans {
         return new EmbeddedDatabaseBuilder()
                 .setType(EmbeddedDatabaseType.H2)
                 .setName(nameWithSettings)
-                .addScript("/schemas/alfa/drop.sql")
-                .addScript("/schemas/alfa/create.sql")
+                .addScript("/schemas/sepulkarium/drop.sql")
+                .addScript("/schemas/sepulkarium/create.sql")
                 .build();
     }
 
