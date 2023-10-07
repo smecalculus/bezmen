@@ -11,7 +11,6 @@ lib_cids:
   essentials: "{{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=libs/essentials')[:7] }}"
   messaging: "{{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=libs/messaging')[:7] }}"
   storage: "{{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=libs/storage')[:7] }}"
-  messaging: "{{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=libs/messaging')[:7] }}"
   testing: "{{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=libs/testing')[:7] }}"
 app_cid: "{{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=apps')[:7] }}"
 app_cids:
