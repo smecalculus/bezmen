@@ -16,7 +16,7 @@
     <!--CORE-->
     <dependency>
       <groupId>${project.groupId}</groupId>
-      <artifactId>signatures</artifactId>
+      <artifactId>abstraction</artifactId>
     </dependency>
     <dependency>
       <groupId>org.jetbrains.kotlin</groupId>

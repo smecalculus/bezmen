@@ -15,7 +15,7 @@
   <dependencies>
     <dependency>
       <groupId>${project.groupId}</groupId>
-      <artifactId>signatures</artifactId>
+      <artifactId>abstraction</artifactId>
       <classifier>client</classifier>
     </dependency>
 

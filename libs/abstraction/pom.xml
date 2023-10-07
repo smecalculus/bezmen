@@ -10,7 +10,7 @@
     <version>${revision}</version>
   </parent>
 
-  <artifactId>signatures</artifactId>
+  <artifactId>abstraction</artifactId>
 
   <properties>
     <isPrivate>false</isPrivate>
