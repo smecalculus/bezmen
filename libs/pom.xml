@@ -30,8 +30,6 @@
     <mockito.version>5.5.0</mockito.version>
     <skipTests>false</skipTests>
     <skipUnits>${skipTests}</skipUnits>
-    <isPrivate>true</isPrivate>
-    <hasExterior>false</hasExterior>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
 
@@ -325,6 +323,22 @@
         <groupId>org.jacoco</groupId>
         <artifactId>jacoco-maven-plugin</artifactId>
       </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-install-plugin</artifactId>
+        <inherited>false</inherited>
+        <configuration>
+          <skip>false</skip>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-deploy-plugin</artifactId>
+        <inherited>false</inherited>
+        <configuration>
+          <skip>false</skip>
+        </configuration>
+      </plugin>
     </plugins>
 
     <pluginManagement>
@@ -335,7 +349,6 @@
           <version>3.11.0</version>
           <configuration>
             <release>17</release>
-            <encoding>UTF-8</encoding>
             <annotationProcessorPaths>
               <path>
                 <groupId>org.projectlombok</groupId>
@@ -348,6 +361,9 @@
                 <version>${mapstruct.version}</version>
               </path>
             </annotationProcessorPaths>
+            <compilerArgs>
+              <arg>-Amapstruct.unmappedTargetPolicy=IGNORE</arg>
+            </compilerArgs>
           </configuration>
         </plugin>
         <plugin>
@@ -356,7 +372,7 @@
           <version>3.3.0</version>
           <executions>
             <execution>
-              <id>client-jar</id>
+              <id>exterior-jar</id>
               <configuration>
                 <classifier>client</classifier>
                 <includes>
@@ -511,7 +527,7 @@
           <artifactId>maven-install-plugin</artifactId>
           <version>3.1.1</version>
           <configuration>
-            <skip>${isPrivate}</skip>
+            <skip>true</skip>
           </configuration>
         </plugin>
         <plugin>
@@ -519,7 +535,7 @@
           <artifactId>maven-deploy-plugin</artifactId>
           <version>3.1.1</version>
           <configuration>
-            <skip>${isPrivate}</skip>
+            <skip>true</skip>
           </configuration>
         </plugin>
       </plugins>
