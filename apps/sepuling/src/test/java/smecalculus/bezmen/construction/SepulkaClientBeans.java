@@ -7,9 +7,9 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import org.springframework.test.web.servlet.client.MockMvcWebTestClient;
-import smecalculus.bezmen.core.SepulkaConverter;
-import smecalculus.bezmen.core.SepulkaConverterImpl;
 import smecalculus.bezmen.core.SepulkaService;
+import smecalculus.bezmen.core.SepulkaSliceMapper;
+import smecalculus.bezmen.core.SepulkaSliceMapperImpl;
 import smecalculus.bezmen.messaging.SepulkaClientImpl;
 import smecalculus.bezmen.messaging.SepulkaClientSpringWeb;
 import smecalculus.bezmen.messaging.SepulkaMsgMapper;
@@ -28,13 +28,13 @@ public class SepulkaClientBeans {
     }
 
     @Bean
-    SepulkaConverter sepulkaConverter() {
-        return new SepulkaConverterImpl();
+    SepulkaSliceMapper sepulkaConverter() {
+        return new SepulkaSliceMapperImpl();
     }
 
     @Bean
-    SepulkaClient internalClient(SepulkaService service, SepulkaConverterImpl converter) {
-        return new SepulkaClientImpl(service, converter);
+    SepulkaClient internalClient(SepulkaService service, SepulkaSliceMapper mapper) {
+        return new SepulkaClientImpl(service, mapper);
     }
 
     @Bean

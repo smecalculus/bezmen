@@ -13,9 +13,9 @@ import java.net.http.HttpResponse.BodyHandlers;
 public record BezmenClientJavaHttp(ObjectMapper mapper, HttpClient client) implements BezmenClient {
 
     @Override
-    public SepulkaRegRes register(SepulkaRegReq request) {
+    public SepulkaRegisteredSlice register(SepulkaRegisterSlice command) {
         try {
-            String jsonRequest = mapper.writeValueAsString(request);
+            String jsonRequest = mapper.writeValueAsString(command);
             HttpRequest httpRequest = HttpRequest.newBuilder()
                     .uri(URI.create("http://localhost:8080/sepulkas"))
                     .POST(BodyPublishers.ofString(jsonRequest))
@@ -23,7 +23,7 @@ public record BezmenClientJavaHttp(ObjectMapper mapper, HttpClient client) imple
                     .header("Accept", "application/json")
                     .build();
             HttpResponse<String> httpResponse = client.send(httpRequest, BodyHandlers.ofString());
-            return mapper.readValue(httpResponse.body(), SepulkaRegRes.class);
+            return mapper.readValue(httpResponse.body(), SepulkaRegisteredSlice.class);
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         } catch (IOException | InterruptedException e) {

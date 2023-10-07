@@ -3,7 +3,6 @@ package smecalculus.bezmen.messaging;
 import lombok.Data;
 
 @Data
-public class SepulkaRegResMsg {
-    private String id;
+public class SepulkaRegisterSliceMsg {
     private String name;
 }

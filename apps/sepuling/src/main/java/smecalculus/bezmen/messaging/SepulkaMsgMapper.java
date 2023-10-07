@@ -1,16 +1,16 @@
 package smecalculus.bezmen.messaging;
 
 import org.mapstruct.Mapper;
-import smecalculus.bezmen.messaging.client.SepulkaRegReq;
-import smecalculus.bezmen.messaging.client.SepulkaRegRes;
+import smecalculus.bezmen.messaging.client.SepulkaRegisterSlice;
+import smecalculus.bezmen.messaging.client.SepulkaRegisteredSlice;
 
 @Mapper
 public interface SepulkaMsgMapper {
-    SepulkaRegReqMsg toMsg(SepulkaRegReq sepulkaRegReq);
+    SepulkaRegisterSliceMsg toMsg(SepulkaRegisterSlice slice);
 
-    SepulkaRegReq toDomain(SepulkaRegReqMsg sepulkaRegReqMsg);
+    SepulkaRegisterSlice toDomain(SepulkaRegisterSliceMsg sliceMsg);
 
-    SepulkaRegResMsg toMsg(SepulkaRegRes sepulkaRegRes);
+    SepulkaRegisteredSliceMsg toMsg(SepulkaRegisteredSlice slice);
 
-    SepulkaRegRes toDomain(SepulkaRegResMsg sepulkaRegResMsg);
+    SepulkaRegisteredSlice toDomain(SepulkaRegisteredSliceMsg sliceMsg);
 }

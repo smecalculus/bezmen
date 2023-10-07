@@ -8,11 +8,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import smecalculus.bezmen.messaging.SepulkaMsgMapper;
-import smecalculus.bezmen.messaging.SepulkaRegReqMsg;
-import smecalculus.bezmen.messaging.SepulkaRegResMsg;
+import smecalculus.bezmen.messaging.SepulkaRegisterSliceMsg;
+import smecalculus.bezmen.messaging.SepulkaRegisteredSliceMsg;
 import smecalculus.bezmen.messaging.client.SepulkaClient;
-import smecalculus.bezmen.messaging.client.SepulkaRegReq;
-import smecalculus.bezmen.messaging.client.SepulkaRegRes;
+import smecalculus.bezmen.messaging.client.SepulkaRegisterSlice;
+import smecalculus.bezmen.messaging.client.SepulkaRegisteredSlice;
 import smecalculus.bezmen.validation.EdgeValidator;
 
 @RestController
@@ -21,11 +21,10 @@ public record SepulkaController(
         @NonNull EdgeValidator validator, @NonNull SepulkaClient client, @NonNull SepulkaMsgMapper mapper) {
 
     @PostMapping
-    ResponseEntity<SepulkaRegResMsg> register(@RequestBody SepulkaRegReqMsg sepulkaRegReqMsg) {
-        // TODO: контроллер отвечает только за сборку msg-модели и валидацию
-        validator.validate(sepulkaRegReqMsg);
-        SepulkaRegReq sepulkaRegReq = mapper.toDomain(sepulkaRegReqMsg);
-        SepulkaRegRes sepulkaRegRes = client.register(sepulkaRegReq);
-        return ResponseEntity.status(HttpStatus.CREATED).body(mapper.toMsg(sepulkaRegRes));
+    ResponseEntity<SepulkaRegisteredSliceMsg> register(@RequestBody SepulkaRegisterSliceMsg sliceMsg) {
+        validator.validate(sliceMsg);
+        SepulkaRegisterSlice registerSlice = mapper.toDomain(sliceMsg);
+        SepulkaRegisteredSlice registeredSlice = client.register(registerSlice);
+        return ResponseEntity.status(HttpStatus.CREATED).body(mapper.toMsg(registeredSlice));
     }
 }
