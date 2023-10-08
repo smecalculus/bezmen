@@ -9,7 +9,7 @@
   ansible.builtin.command:
     cmd: >
       docker compose
-      --file compose.yml
+      --file compose.yaml
       --profile {{ opsenv }}
       up
       --remove-orphans

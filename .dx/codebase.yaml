@@ -31,8 +31,8 @@
         cmd: >
           ansible-lint
           toolchain.yaml
-          codebase.yml
-          stacks.yml
+          codebase.yaml
+          stacks.yaml
         strip_empty_ends: false
       changed_when: false
       when: focus != 'solution'

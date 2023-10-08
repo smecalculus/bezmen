@@ -26,14 +26,14 @@ jobs:
         with:
           tools: python java docker
           token: ${{ secrets.GITHUB_TOKEN }}
-      - run: ansible-playbook codebase.yml -e focus=solution
+      - run: ansible-playbook codebase.yaml -e focus=solution
         working-directory: .dx
         env:
           GITHUB_ACTOR: ${{ github.actor }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - id: images
         run: >
-          ansible-playbook images.yml
+          ansible-playbook images.yaml
           -e binary_repo=maven.pkg.github.com
           -e image_repo=ghcr.io
           -e focus=solution

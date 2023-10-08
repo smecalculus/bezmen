@@ -1,18 +1,21 @@
 ---
-name: Toolchain beyond doubt
+name: Toolchain sanity
 
 on:
   pull_request:
-    branches:
+    branches-ignore:
       - main
+    paths:  # waiting for https://github.com/actions/runner/issues/2324
+      - .dx/**
+      - .github/**
+      - tools/**
   workflow_dispatch:
 
 jobs:
-  everything:
-    name: Everything in ${{ matrix.devenv.name }} env
-    timeout-minutes: 10
+  up-to-binaries:
+    name: Up to binaries in ${{ matrix.devenv.name }} env
+    timeout-minutes: 5
     strategy:
-      fail-fast: false
       matrix:
         devenv:
           - name: turing
@@ -20,25 +23,19 @@ jobs:
           - name: church
             os: ubuntu-20.04
     runs-on: ${{ matrix.devenv.os }}
-    permissions:
-      packages: write
     steps:
       - uses: actions/checkout@v4.1.0
       - uses: ./.github/actions/prepare
         with:
           name: ${{ matrix.devenv.name }}
-          tools: python java docker
+          tools: python java
           token: ${{ secrets.GITHUB_TOKEN }}
-      - run: ansible-playbook codebase.yml -e focus=toolchain
+      - run: ansible-playbook codebase.yaml -e focus=toolchain
         working-directory: .dx
         env:
           GITHUB_ACTOR: ${{ github.actor }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - run: >
-          ansible-playbook stacks.yml
-          -e image_repo=ghcr.io
-          -e devenv=${{ matrix.devenv.name }}
-          -e focus=toolchain
+      - run: ansible-playbook binaries.yaml -e focus=toolchain
         working-directory: .dx
         env:
           GITHUB_ACTOR: ${{ github.actor }}

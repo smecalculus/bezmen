@@ -37,7 +37,7 @@ services:
       image.name: ${SCHEMA_IMAGE}
     command: >
       --show-banner=false
-      --changelog-file=sepulkarium/dba/changelog.yml
+      --changelog-file=sepulkarium/dba/changelog.yaml
       --url=jdbc:postgresql://db:5432/bezmen?currentSchema=public
       --liquibase-schema-name=public
       --username=postgres
@@ -60,7 +60,7 @@ services:
       image.name: ${SCHEMA_IMAGE}
     command: >
       --show-banner=false
-      --changelog-file=sepulkarium/owner/changelog.yml
+      --changelog-file=sepulkarium/owner/changelog.yaml
       --url=jdbc:postgresql://db:5432/bezmen?currentSchema=bezmen
       --liquibase-schema-name=bezmen
       --username=bezmen

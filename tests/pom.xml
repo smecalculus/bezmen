@@ -73,7 +73,7 @@
               <format>
                 <includes>
                   <include>*.xml</include>
-                  <include>*.yml</include>
+                  <include>*.yaml</include>
                   <include>*.properties</include>
                   <include>Dockerfile</include>
                 </includes>

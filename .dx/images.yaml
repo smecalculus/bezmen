@@ -1,5 +1,5 @@
 ---
-- import_playbook: binaries.yml   # noqa: name[play]
+- import_playbook: binaries.yaml   # noqa: name[play]
   vars:
     up_to_images: true
   tags: [binaries, deps]

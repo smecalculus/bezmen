@@ -1,5 +1,5 @@
 databaseChangeLog:
-  - logical-file-path: owner/changelog.yml
+  - logical-file-path: owner/changelog.yaml
   - property:
       name: author
       value: bezmen
