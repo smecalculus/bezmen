@@ -10,42 +10,37 @@
     state: directory
     recurse: true
 
+- name: Capture env
+  ansible.builtin.include_vars:
+    file: envs/ops/{{ opsenv }}.yaml
+    name: ops
+
+- name: Build conf
+  ansible.builtin.command:
+    cmd: >
+      cp props/{{ ops.config_file_name.source }}
+      target/context/{{ ops.config_file_name.target }}
+    chdir: "{{ playbook_dir }}/../solutions"
+  changed_when: true
+
 - name: Build spec
-  vars:
-    config_files:
-      turing: application.yaml
-      church: application.conf
-    config_mapping_modes:
-      turing: spring_config
-      church: lightbend_config
   ansible.builtin.command:
     cmd: >
       docker compose
       --file usages/basis.yml
       --file usages/{{ usage }}.yml
-      --profile {{ prefs }}
+      --profile {{ opsenv }}
       config
       --output target/context/compose.yml
       --no-path-resolution
     strip_empty_ends: false
     chdir: "{{ playbook_dir }}/../solutions"
   environment:
+    POSTGRES_VERSION: "{{ ops.postgres_version }}"
     SCHEMA_TAG: "{{ schema_cids.postgres }}"
     SCHEMA_IMAGE: "{{ schema_images.postgres }}"
     SEPULING_TAG: "{{ hostvars.app.image_cids.sepuling[:7] }}"
     SEPULING_IMAGE: "{{ app_images.sepuling }}"
-    CONFIG_FILE_NAME: "{{ config_files[prefs] }}"
-    CONFIG_MAPPING_MODE: "{{ config_mapping_modes[prefs] }}"
-  changed_when: true
-
-- name: Build conf
-  vars:
-    config_extensions:
-      turing: yaml
-      church: conf
-  ansible.builtin.command:
-    cmd: >
-      cp prefs/{{ prefs }}.{{ config_extensions[prefs] }}
-      target/context/application.{{ config_extensions[prefs] }}
-    chdir: "{{ playbook_dir }}/../solutions"
+    CONFIG_FILE_NAME: "{{ ops.config_file_name.target }}"
+    CONFIG_MAPPING_MODE: "{{ ops.config_mapping_mode }}"
   changed_when: true

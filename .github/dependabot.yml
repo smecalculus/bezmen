@@ -23,11 +23,11 @@ updates:
     schedule:
       interval: "weekly"
   - package-ecosystem: "pip"
-    directory: "/.environs/green"
+    directory: "/.dx/envs/dev/turing"
     schedule:
       interval: "weekly"
   - package-ecosystem: "pip"
-    directory: "/.environs/amber"
+    directory: "/.dx/envs/dev/church"
     schedule:
       interval: "weekly"
     ignore:

@@ -7,29 +7,29 @@ on:
       - main
     paths:  # waiting for https://github.com/actions/runner/issues/2324
       - .dx/**
-      - .environs/**
       - .github/**
       - tools/**
   workflow_dispatch:
 
 jobs:
   up-to-binaries:
-    name: Up to binaries in ${{ matrix.environ.name }} environ
+    name: Up to binaries in ${{ matrix.devenv.name }} devenv
     timeout-minutes: 5
     strategy:
       matrix:
-        environ:
-          - name: green
+        devenv:
+          - name: turing
             os: ubuntu-22.04
-          - name: amber
+          - name: church
             os: ubuntu-20.04
-    runs-on: ${{ matrix.environ.os }}
+    runs-on: ${{ matrix.devenv.os }}
     steps:
       - uses: actions/checkout@v4.1.0
       - uses: ./.github/actions/prepare
         with:
-          revision: ${{ matrix.environ.name }}
+          name: ${{ matrix.devenv.name }}
           tools: python java
+          token: ${{ secrets.GITHUB_TOKEN }}
       - run: ansible-playbook codebase.yml -e focus=pipeline
         working-directory: .dx
         env:
@@ -38,6 +38,7 @@ jobs:
       - run: >
           ansible-playbook binaries.yml
           -e binary_repo=maven.pkg.github.com
+          -e devenv=${{ matrix.devenv.name }}
           -e focus=pipeline
         working-directory: .dx
         env:

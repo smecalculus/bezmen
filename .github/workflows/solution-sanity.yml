@@ -25,6 +25,7 @@ jobs:
       - uses: ./.github/actions/prepare
         with:
           tools: python java
+          token: ${{ secrets.GITHUB_TOKEN }}
       - run: ansible-playbook codebase.yml -e focus=solution
         working-directory: .dx
         env:

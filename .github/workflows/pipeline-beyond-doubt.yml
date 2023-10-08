@@ -9,24 +9,24 @@ on:
 
 jobs:
   everything:
-    name: Everything in ${{ matrix.environ.name }} environ
+    name: Everything in ${{ matrix.devenv.name }} devenv
     timeout-minutes: 10
     strategy:
       fail-fast: false
       matrix:
-        environ:
-          - name: green
+        devenv:
+          - name: turing
             os: ubuntu-22.04
-          - name: amber
+          - name: church
             os: ubuntu-20.04
-    runs-on: ${{ matrix.environ.os }}
+    runs-on: ${{ matrix.devenv.os }}
     permissions:
       packages: write
     steps:
       - uses: actions/checkout@v4.1.0
       - uses: ./.github/actions/prepare
         with:
-          name: ${{ matrix.environ.name }}
+          name: ${{ matrix.devenv.name }}
           tools: python java docker
           token: ${{ secrets.GITHUB_TOKEN }}
       - run: ansible-playbook codebase.yml -e focus=pipeline
@@ -38,7 +38,7 @@ jobs:
           ansible-playbook stacks.yml
           -e binary_repo=maven.pkg.github.com
           -e image_repo=ghcr.io
-          -e environ=${{ matrix.environ.name }}
+          -e devenv=${{ matrix.devenv.name }}
           -e focus=pipeline
         working-directory: .dx
         env:

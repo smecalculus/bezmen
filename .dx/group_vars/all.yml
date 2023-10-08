@@ -2,8 +2,10 @@
 organization: smecalculus
 project: bezmen
 
+opsenv: lamport
+devenv: turing
+
 usage: toy
-prefs: turing
 
 lib_cid: "{{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=libs')[:7] }}"
 lib_cids:
@@ -20,16 +22,10 @@ schema_cids:
   postgres: "{{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=schemas/postgres')[:7] }}"
 solution_cid: "{{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=solutions')[:7] }}"
 
-lib_version: 0.1.0-{{ lib_cid }}
-app_version: 0.1.0-{{ app_cid }}
-
 test_cid: "{{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=tests')[:7] }}"
-
-environ: green
 
 dx_cid: "{{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=.dx')[:7] }}"
 tool_cid: "{{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=tools')[:7] }}"
-environ_cid: "{{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=.environs/' ~ environ)[:7] }}"
 pipeline_cid: "{{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=.github')[:7] }}"
 
 # solution - focus on solution changes
@@ -45,8 +41,8 @@ app_images:
 schema_images:
   postgres: "{{ image_repo }}/{{ organization }}/{{ project }}/schema/postgres"
 stack_images:
-  solution: "{{ image_repo }}/{{ organization }}/{{ project }}/stack/solution-{{ usage }}-{{ prefs }}"
-  pipeline: "{{ image_repo }}/{{ organization }}/{{ project }}/stack/pipeline-{{ environ }}"
+  solution: "{{ image_repo }}/{{ organization }}/{{ project }}/stack/solution-{{ usage }}-{{ opsenv }}"
+  pipeline: "{{ image_repo }}/{{ organization }}/{{ project }}/stack/pipeline-{{ devenv }}"
 
 docker_entity: "{{ 'image' if image_repo == 'local' else 'manifest' }}"
 

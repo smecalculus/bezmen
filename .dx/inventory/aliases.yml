@@ -17,5 +17,6 @@ stack:
   hosts:
     solution:
     pipeline:
+    toolchain:
   vars:
     ansible_connection: local

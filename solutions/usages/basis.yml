@@ -11,11 +11,8 @@ configs:
 
 services:
   db:
-    image: postgres:15.3-alpine
+    image: postgres:${POSTGRES_VERSION}-alpine
     container_name: env-db
-    profiles:
-      - turing
-      - church
     ports:
       - 5432:5432
     environment:
@@ -33,9 +30,6 @@ services:
   schema-dba:
     image: ${SCHEMA_IMAGE}:${SCHEMA_TAG}
     container_name: schema-dba
-    profiles:
-      - turing
-      - church
     depends_on:
       db:
         condition: service_healthy
@@ -59,9 +53,6 @@ services:
   schema-owner:
     image: ${SCHEMA_IMAGE}:${SCHEMA_TAG}
     container_name: schema-owner
-    profiles:
-      - turing
-      - church
     depends_on:
       schema-dba:
         condition: service_completed_successfully

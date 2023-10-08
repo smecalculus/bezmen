@@ -5,7 +5,6 @@
     stdin: |
       {{ dx_cid }}
       {{ tool_cid }}
-      {{ environ_cid }}
       {{ test_cid }}
   register: stack_cid
   changed_when: false

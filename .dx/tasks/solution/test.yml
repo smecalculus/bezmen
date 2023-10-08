@@ -1,5 +1,4 @@
 ---
-# todo: think about backward compatibility aspect
 - name: Remove stand (or part of it)
   ansible.builtin.command:
     cmd: docker rm -f env-db
@@ -11,7 +10,7 @@
     cmd: >
       docker compose
       --file compose.yml
-      --profile {{ prefs }}
+      --profile {{ opsenv }}
       up
       --remove-orphans
       --quiet-pull
@@ -27,13 +26,13 @@
       mvn
       --no-snapshot-updates
       --batch-mode
-      --threads 1C
+      --threads 2
       --projects tests/e2e
       --activate-profiles {{ usage }}
       --also-make
       clean
       test
-      --define prefs={{ prefs }}
+      --define props={{ opsenv }}
       {% if reminder is defined %}
       --define bezmen.sharding.reminder={{ reminder }}
       {% endif %}
