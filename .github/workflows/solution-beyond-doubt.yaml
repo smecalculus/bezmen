@@ -25,14 +25,14 @@ jobs:
         with:
           tools: python java docker
           token: ${{ secrets.GITHUB_TOKEN }}
-      - run: ansible-playbook codebase.yml -e focus=solution
+      - run: ansible-playbook codebase.yaml -e focus=solution
         working-directory: .dx
         env:
           GITHUB_ACTOR: ${{ github.actor }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - id: images
         run: >
-          ansible-playbook images.yml
+          ansible-playbook images.yaml
           -e binary_repo=${{ env.BINARY_REPO }}
           -e image_repo=${{ env.IMAGE_REPO }}
           -e focus=solution
@@ -74,7 +74,7 @@ jobs:
           tools: python docker
           token: ${{ secrets.GITHUB_TOKEN }}
       - run: >
-          ansible-playbook stacks.yml -t build
+          ansible-playbook stacks.yaml -t build
           -e image_repo=${{ env.IMAGE_REPO }}
           -e usage=${{ matrix.usage }}
           -e props=${{ matrix.opsenv }}
@@ -108,7 +108,7 @@ jobs:
           name: solution-${{ matrix.usage }}-${{ matrix.opsenv }}
           path: solutions/target/context
       - run: >
-          ansible-playbook stacks.yml -t test
+          ansible-playbook stacks.yaml -t test
           -e image_repo=${{ env.IMAGE_REPO }}
           -e usage=${{ matrix.usage }}
           -e props=${{ matrix.opsenv }}
@@ -149,7 +149,7 @@ jobs:
           name: solution-${{ matrix.usage }}-${{ matrix.opsenv }}
           path: solutions/target/context
       - run: >
-          ansible-playbook stacks.yml -t package
+          ansible-playbook stacks.yaml -t package
           -e image_repo=${{ env.IMAGE_REPO }}
           -e focus=solution
           -e usage=${{ matrix.usage }}

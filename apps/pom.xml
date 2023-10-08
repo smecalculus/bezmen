@@ -166,7 +166,7 @@
               <format>
                 <includes>
                   <include>*.xml</include>
-                  <include>*.yml</include>
+                  <include>*.yaml</include>
                   <include>Dockerfile</include>
                 </includes>
                 <trimTrailingWhitespace/>

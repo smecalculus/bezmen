@@ -69,7 +69,7 @@
 
 == Консольный интерфейс (CLI)
 
-    ansible-playbook <abstraction>.yml
+    ansible-playbook <abstraction>.yaml
 
 == Todo
 
