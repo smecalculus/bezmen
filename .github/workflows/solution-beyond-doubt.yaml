@@ -76,6 +76,7 @@ jobs:
       - run: >
           ansible-playbook stacks.yaml -t build
           -e image_repo=${{ env.IMAGE_REPO }}
+          -e opsenv=${{ matrix.opsenv }}
           -e usage=${{ matrix.usage }}
           -e props=${{ matrix.opsenv }}
         working-directory: .dx
@@ -110,6 +111,7 @@ jobs:
       - run: >
           ansible-playbook stacks.yaml -t test
           -e image_repo=${{ env.IMAGE_REPO }}
+          -e opsenv=${{ matrix.opsenv }}
           -e usage=${{ matrix.usage }}
           -e props=${{ matrix.opsenv }}
           -e reminder=${{ matrix.shard }}
@@ -151,9 +153,10 @@ jobs:
       - run: >
           ansible-playbook stacks.yaml -t package
           -e image_repo=${{ env.IMAGE_REPO }}
-          -e focus=solution
+          -e opsenv=${{ matrix.opsenv }}
           -e usage=${{ matrix.usage }}
           -e props=${{ matrix.opsenv }}
+          -e focus=solution
         working-directory: .dx
 
   stack-reporting:
