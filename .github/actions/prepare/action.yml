@@ -1,9 +1,9 @@
 ---
 name: Prepare tools
-description: Tools preparation action for specific environment
+description: Tools preparation for specific environment
 inputs:
   name:
-    description: Environment name
+    description: Env name
     required: true
     default: turing
   tools:
@@ -33,6 +33,9 @@ runs:
         distribution: 'temurin'
         java-version: ${{ steps.dotenv.outputs.java_version }}
         cache: 'maven'
+    - shell: bash
+      run: ansible-playbook toolchain.yml
+      working-directory: .dx
     - uses: docker/login-action@v2.2.0
       if: ${{ contains(inputs.tools, 'docker') }}
       with:

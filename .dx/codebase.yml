@@ -30,6 +30,7 @@
         # list all top level playbooks
         cmd: >
           ansible-lint
+          toolchain.yaml
           codebase.yml
           stacks.yml
         strip_empty_ends: false
