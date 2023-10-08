@@ -1,5 +1,5 @@
 ---
-name: Pipeline sanity
+name: Toolchain sanity
 
 on:
   pull_request:
@@ -13,7 +13,7 @@ on:
 
 jobs:
   up-to-binaries:
-    name: Up to binaries in ${{ matrix.devenv.name }} devenv
+    name: Up to binaries in ${{ matrix.devenv.name }} env
     timeout-minutes: 5
     strategy:
       matrix:

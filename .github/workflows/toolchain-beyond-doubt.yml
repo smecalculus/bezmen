@@ -1,5 +1,5 @@
 ---
-name: Pipeline beyond doubt
+name: Toolchain beyond doubt
 
 on:
   pull_request:
@@ -9,7 +9,7 @@ on:
 
 jobs:
   everything:
-    name: Everything in ${{ matrix.devenv.name }} devenv
+    name: Everything in ${{ matrix.devenv.name }} env
     timeout-minutes: 10
     strategy:
       fail-fast: false
