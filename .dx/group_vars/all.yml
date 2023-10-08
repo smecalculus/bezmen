@@ -29,7 +29,7 @@ tool_cid: "{{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=tools')[:7
 pipeline_cid: "{{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=.github')[:7] }}"
 
 # solution - focus on solution changes
-# pipeline - focus on pipeline changes
+# toolchain - focus on toolchain changes
 # null - without any particular focus
 focus: null
 
@@ -42,7 +42,7 @@ schema_images:
   postgres: "{{ image_repo }}/{{ organization }}/{{ project }}/schema/postgres"
 stack_images:
   solution: "{{ image_repo }}/{{ organization }}/{{ project }}/stack/solution-{{ usage }}-{{ opsenv }}"
-  pipeline: "{{ image_repo }}/{{ organization }}/{{ project }}/stack/pipeline-{{ devenv }}"
+  toolchain: "{{ image_repo }}/{{ organization }}/{{ project }}/stack/toolchain-{{ devenv }}"
 
 docker_entity: "{{ 'image' if image_repo == 'local' else 'manifest' }}"
 

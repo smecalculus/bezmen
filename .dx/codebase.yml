@@ -11,7 +11,7 @@
           --batch-mode
           {% if focus == 'solution' %}
           --projects apps/sepuling
-          {% elif focus == 'pipeline' %}
+          {% elif focus == 'toolchain' %}
           --projects tests/e2e
           {% endif %}
           --also-make

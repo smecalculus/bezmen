@@ -30,7 +30,7 @@ jobs:
           name: ${{ matrix.devenv.name }}
           tools: python java
           token: ${{ secrets.GITHUB_TOKEN }}
-      - run: ansible-playbook codebase.yml -e focus=pipeline
+      - run: ansible-playbook codebase.yml -e focus=toolchain
         working-directory: .dx
         env:
           GITHUB_ACTOR: ${{ github.actor }}
@@ -39,7 +39,7 @@ jobs:
           ansible-playbook binaries.yml
           -e binary_repo=maven.pkg.github.com
           -e devenv=${{ matrix.devenv.name }}
-          -e focus=pipeline
+          -e focus=toolchain
         working-directory: .dx
         env:
           GITHUB_ACTOR: ${{ github.actor }}
