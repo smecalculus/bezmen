@@ -36,7 +36,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - run: >
           ansible-playbook stacks.yml
-          -e binary_repo=maven.pkg.github.com
           -e image_repo=ghcr.io
           -e devenv=${{ matrix.devenv.name }}
           -e focus=toolchain
