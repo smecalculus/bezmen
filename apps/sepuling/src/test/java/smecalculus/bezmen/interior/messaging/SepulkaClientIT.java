@@ -34,13 +34,13 @@ abstract class SepulkaClientIT {
         // given
         UUID id = UUID.randomUUID();
         // and
-        SepulkaRegisterSlice command = sepulkaRegisterSlice();
+        SepulkaRegisterSlice request = sepulkaRegisterSlice();
         // and
         when(serviceMock.register(any(SepulkaRegisterSlice.class))).thenReturn(sepulka(id));
         // and
         SepulkaRegisteredSlice expectedResponse = sepulkaRegisteredSlice(id);
         // when
-        SepulkaRegisteredSlice actualResponse = externalClient.register(command);
+        SepulkaRegisteredSlice actualResponse = externalClient.register(request);
         // then
         assertThat(actualResponse)
                 .usingRecursiveComparison()

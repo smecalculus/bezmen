@@ -16,9 +16,9 @@ import org.springframework.transaction.PlatformTransactionManager;
 import smecalculus.bezmen.interior.configuration.StorageProps;
 import smecalculus.bezmen.interior.configuration.StorageProtocolProps;
 
-@Configuration(proxyBeanMethods = false)
 @ConditionalOnStateMappingMode(SPRING_DATA)
 @EnableJdbcRepositories("smecalculus.bezmen.interior.storage.springdata")
+@Configuration(proxyBeanMethods = false)
 public class MappingSpringDataBeans extends AbstractJdbcConfiguration {
 
     @Bean

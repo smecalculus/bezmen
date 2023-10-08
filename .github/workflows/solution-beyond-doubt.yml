@@ -65,7 +65,7 @@ jobs:
       fail-fast: false
       matrix:
         usage: [func]
-        prefs: [turing, church]
+        opsenv: [shannon, lamport]
     runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v4.1.0
@@ -77,11 +77,11 @@ jobs:
           ansible-playbook stacks.yml -t build
           -e image_repo=${{ env.IMAGE_REPO }}
           -e usage=${{ matrix.usage }}
-          -e prefs=${{ matrix.prefs }}
+          -e props=${{ matrix.opsenv }}
         working-directory: .dx
       - uses: actions/upload-artifact@v3.1.3
         with:
-          name: solution-${{ matrix.usage }}-${{ matrix.prefs }}
+          name: solution-${{ matrix.usage }}-${{ matrix.opsenv }}
           path: solutions/target/context
           if-no-files-found: ignore
 
@@ -93,7 +93,7 @@ jobs:
       fail-fast: false
       matrix:
         usage: [func]
-        prefs: [turing, church]
+        opsenv: [shannon, lamport]
         shard: [0, 1]
     runs-on: ubuntu-22.04
     steps:
@@ -105,13 +105,13 @@ jobs:
       - uses: actions/download-artifact@v3.0.2
         continue-on-error: true  # it's ok because stack building can be skipped
         with:
-          name: solution-${{ matrix.usage }}-${{ matrix.prefs }}
+          name: solution-${{ matrix.usage }}-${{ matrix.opsenv }}
           path: solutions/target/context
       - run: >
           ansible-playbook stacks.yml -t test
           -e image_repo=${{ env.IMAGE_REPO }}
           -e usage=${{ matrix.usage }}
-          -e prefs=${{ matrix.prefs }}
+          -e props=${{ matrix.opsenv }}
           -e reminder=${{ matrix.shard }}
           -e modulus=2
         working-directory: .dx
@@ -121,7 +121,7 @@ jobs:
       - uses: actions/upload-artifact@v3.1.3
         if: ${{ !cancelled() }}
         with:
-          name: e2e-test-report-${{ matrix.usage }}-${{ matrix.prefs }}-${{ matrix.shard }}
+          name: e2e-test-report-${{ matrix.usage }}-${{ matrix.opsenv }}-${{ matrix.shard }}
           path: tests/e2e/target/surefire-reports/*.xml
           if-no-files-found: ignore
 
@@ -133,7 +133,7 @@ jobs:
       fail-fast: false
       matrix:
         usage: [func]
-        prefs: [turing, church]
+        opsenv: [shannon, lamport]
     runs-on: ubuntu-22.04
     permissions:
       packages: write
@@ -146,14 +146,14 @@ jobs:
       - uses: actions/download-artifact@v3.0.2
         continue-on-error: true  # it's ok because stack building can be skipped
         with:
-          name: solution-${{ matrix.usage }}-${{ matrix.prefs }}
+          name: solution-${{ matrix.usage }}-${{ matrix.opsenv }}
           path: solutions/target/context
       - run: >
           ansible-playbook stacks.yml -t package
           -e image_repo=${{ env.IMAGE_REPO }}
           -e focus=solution
           -e usage=${{ matrix.usage }}
-          -e prefs=${{ matrix.prefs }}
+          -e props=${{ matrix.opsenv }}
         working-directory: .dx
 
   stack-reporting:

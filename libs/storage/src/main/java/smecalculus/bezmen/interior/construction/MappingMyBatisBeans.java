@@ -9,9 +9,9 @@ import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-@Configuration(proxyBeanMethods = false)
 @ConditionalOnStateMappingMode(MY_BATIS)
 @MapperScan(basePackages = "smecalculus.bezmen.interior.storage.mybatis")
+@Configuration(proxyBeanMethods = false)
 public class MappingMyBatisBeans {
 
     @Bean

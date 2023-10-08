@@ -11,7 +11,7 @@
           --batch-mode
           {% if focus == 'solution' %}
           --projects apps/sepuling
-          {% elif focus == 'pipeline' %}
+          {% elif focus == 'toolchain' %}
           --projects tests/e2e
           {% endif %}
           --also-make
@@ -30,6 +30,7 @@
         # list all top level playbooks
         cmd: >
           ansible-lint
+          toolchain.yaml
           codebase.yml
           stacks.yml
         strip_empty_ends: false
