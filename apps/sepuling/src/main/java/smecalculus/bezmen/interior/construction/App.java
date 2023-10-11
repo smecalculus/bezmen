@@ -38,9 +38,8 @@ public class App {
 
     @Bean
     @ConditionalOnMessageMappingModes(SPRING_MVC)
-    SepulkaController sepulkaControllerSpringMvc(
-            EdgeValidator validator, SepulkaClient client, SepulkaMsgMapper mapper) {
-        return new SepulkaController(validator, client, mapper);
+    SepulkaController sepulkaControllerSpringMvc(SepulkaClient client) {
+        return new SepulkaController(client);
     }
 
     @Bean
@@ -49,18 +48,23 @@ public class App {
     }
 
     @Bean
-    SepulkaClient sepulkaClient(SepulkaService service, SepulkaSliceMapper mapper) {
-        return new SepulkaClientImpl(service, mapper);
-    }
-
-    @Bean
-    SepulkaService sepulkaService(SepulkaDao sepulkaDao) {
-        return new SepulkaServiceImpl(sepulkaDao);
+    SepulkaClient sepulkaClient(EdgeValidator validator, SepulkaMsgMapper mapper, SepulkaService service) {
+        return new SepulkaClientImpl(validator, mapper, service);
     }
 
     @Bean
     SepulkaSliceMapper sepulkaSliceMapper() {
         return new SepulkaSliceMapperImpl();
+    }
+
+    @Bean
+    SepulkaService sepulkaService(SepulkaSliceMapper mapper, SepulkaDao dao) {
+        return new SepulkaServiceImpl(mapper, dao);
+    }
+
+    @Bean
+    SepulkaRecMapper sepulkaRecMapper() {
+        return new SepulkaRecMapperImpl();
     }
 
     @Bean
@@ -73,10 +77,5 @@ public class App {
     @ConditionalOnStateMappingMode(MY_BATIS)
     SepulkaDaoMyBatis sepulkaDaoMyBatis(SepulkaRecMapper recMapper, SepulkaSqlMapper sqlMapper) {
         return new SepulkaDaoMyBatis(recMapper, sqlMapper);
-    }
-
-    @Bean
-    SepulkaRecMapper sepulkaRecMapper() {
-        return new SepulkaRecMapperImpl();
     }
 }

@@ -2,18 +2,21 @@ package smecalculus.bezmen.interior.messaging;
 
 import lombok.NonNull;
 import smecalculus.bezmen.exterior.messaging.SepulkaClient;
-import smecalculus.bezmen.exterior.messaging.SepulkaRegisterSlice;
-import smecalculus.bezmen.exterior.messaging.SepulkaRegisteredSlice;
-import smecalculus.bezmen.interior.core.Sepulka;
+import smecalculus.bezmen.exterior.messaging.SepulkaMsgMapper;
+import smecalculus.bezmen.exterior.messaging.SepulkaRegisterSliceMsg;
+import smecalculus.bezmen.exterior.messaging.SepulkaRegisteredSliceMsg;
 import smecalculus.bezmen.interior.core.SepulkaService;
-import smecalculus.bezmen.interior.core.SepulkaSliceMapper;
+import smecalculus.bezmen.interior.validation.EdgeValidator;
 
-public record SepulkaClientImpl(@NonNull SepulkaService service, @NonNull SepulkaSliceMapper mapper)
+public record SepulkaClientImpl(
+        @NonNull EdgeValidator validator, @NonNull SepulkaMsgMapper mapper, @NonNull SepulkaService service)
         implements SepulkaClient {
 
     @Override
-    public SepulkaRegisteredSlice register(SepulkaRegisterSlice request) {
-        Sepulka sepulka = service.register(request);
-        return mapper.toSlice(sepulka);
+    public SepulkaRegisteredSliceMsg register(SepulkaRegisterSliceMsg sliceMsg) {
+        validator.validate(sliceMsg);
+        var registerSlice = mapper.toDomain(sliceMsg);
+        var registeredSlice = service.register(registerSlice);
+        return mapper.toMsg(registeredSlice);
     }
 }

@@ -1,0 +1,59 @@
+@startuml
+hide stereotype
+
+skinparam nodesep 50
+skinparam ranksep 50
+
+skinparam file {
+  BackgroundColor<<Nowhere>> Transparent
+  BorderColor<<Nowhere>> Transparent
+}
+
+show <<Interface>> stereotype
+show <<Impl>> stereotype
+
+file "request" as requestIn <<Nowhere>>
+interface Client as clientIn <<Interface>>
+component Client as adapterIn <<Impl>>
+component Mapper as mapperIn
+component Service as service
+component Mapper as mapper
+interface Client as clientOut <<Interface>>
+component Client as adapterOut <<Impl>>
+component Mapper as mapperOut
+file "request" as requestOut <<Nowhere>>
+
+requestIn - clientIn
+clientIn -> adapterIn
+adapterIn --> mapperIn: Serde\nModel
+adapterIn <-- mapperIn: Domain\nModel
+adapterIn -> service
+service --> mapper: Slice\nModel
+service <-- mapper: Entity\nModel
+service - clientOut
+clientOut -> adapterOut
+adapterOut --> mapperOut: Domain\nModel
+adapterOut <-- mapperOut: Serde\nModel
+adapterOut -> requestOut
+
+file "response" as responseIn <<Nowhere>>
+component Client as adapterOut2 <<Impl>>
+interface Client as clientOut2 <<Interface>>
+component Service as service2
+component Client as adapterIn2 <<Impl>>
+interface Client as clientIn2 <<Interface>>
+file "response" as responseOut <<Nowhere>>
+
+adapterOut2 <- responseIn
+mapperOut --> adapterOut2: Domain\nModel
+mapperOut <-- adapterOut2: Serde\nModel
+clientOut2 - adapterOut2
+service2 <- clientOut2
+mapper --> service2: Slice\nModel
+mapper <-- service2: Entity\nModel
+adapterIn2 <- service2
+mapperIn --> adapterIn2: Serde\nModel
+mapperIn <-- adapterIn2: Domain\nModel
+clientIn2 - adapterIn2
+responseOut <- clientIn2
+@enduml

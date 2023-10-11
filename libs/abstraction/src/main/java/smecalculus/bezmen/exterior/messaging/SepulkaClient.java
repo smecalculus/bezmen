@@ -1,5 +1,5 @@
 package smecalculus.bezmen.exterior.messaging;
 
 public interface SepulkaClient {
-    SepulkaRegisteredSlice register(SepulkaRegisterSlice request);
+    SepulkaRegisteredSliceMsg register(SepulkaRegisterSliceMsg request);
 }

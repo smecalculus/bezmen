@@ -7,29 +7,23 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpRequest.BodyPublishers;
-import java.net.http.HttpResponse;
 import java.net.http.HttpResponse.BodyHandlers;
 import lombok.NonNull;
 
-public record BezmenClientJavaHttp(
-        @NonNull SepulkaMsgMapper msgMapper, @NonNull ObjectMapper jsonMapper, @NonNull HttpClient client)
-        implements BezmenClient {
+public record BezmenClientJavaHttp(@NonNull ObjectMapper mapper, @NonNull HttpClient client) implements BezmenClient {
 
     @Override
-    public SepulkaRegisteredSlice register(SepulkaRegisterSlice request) {
+    public SepulkaRegisteredSliceMsg register(SepulkaRegisterSliceMsg request) {
         try {
-            SepulkaRegisterSliceMsg requestMsg = msgMapper.toMsg(request);
-            String requestJson = jsonMapper.writeValueAsString(requestMsg);
-            HttpRequest httpRequest = HttpRequest.newBuilder()
+            var requestJson = mapper.writeValueAsString(request);
+            var httpRequest = HttpRequest.newBuilder()
                     .uri(URI.create("http://localhost:8080/sepulkas"))
                     .POST(BodyPublishers.ofString(requestJson))
                     .header("Content-Type", "application/json")
                     .header("Accept", "application/json")
                     .build();
-            HttpResponse<String> responseHttp = client.send(httpRequest, BodyHandlers.ofString());
-            SepulkaRegisteredSliceMsg responseMsg =
-                    jsonMapper.readValue(responseHttp.body(), SepulkaRegisteredSliceMsg.class);
-            return msgMapper.toDomain(responseMsg);
+            var httpResponse = client.send(httpRequest, BodyHandlers.ofString());
+            return mapper.readValue(httpResponse.body(), SepulkaRegisteredSliceMsg.class);
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         } catch (IOException | InterruptedException e) {
@@ -40,11 +34,11 @@ public record BezmenClientJavaHttp(
     @Override
     public boolean isReady() {
         try {
-            HttpRequest httpRequest = HttpRequest.newBuilder()
+            var httpRequest = HttpRequest.newBuilder()
                     .uri(URI.create("http://localhost:8080/actuator/health"))
                     .GET()
                     .build();
-            HttpResponse<Void> httpResponse = client.send(httpRequest, BodyHandlers.discarding());
+            var httpResponse = client.send(httpRequest, BodyHandlers.discarding());
             return httpResponse.statusCode() == 200;
         } catch (IOException | InterruptedException e) {
             throw new RuntimeException(e);

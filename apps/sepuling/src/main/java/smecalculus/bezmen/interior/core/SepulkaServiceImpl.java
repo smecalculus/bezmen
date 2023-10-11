@@ -5,18 +5,21 @@ import static java.util.UUID.randomUUID;
 import java.util.List;
 import lombok.NonNull;
 import smecalculus.bezmen.exterior.messaging.SepulkaRegisterSlice;
+import smecalculus.bezmen.exterior.messaging.SepulkaRegisteredSlice;
 import smecalculus.bezmen.interior.storage.SepulkaDao;
 
-public record SepulkaServiceImpl(@NonNull SepulkaDao sepulkaDao) implements SepulkaService {
+public record SepulkaServiceImpl(@NonNull SepulkaSliceMapper mapper, @NonNull SepulkaDao dao)
+        implements SepulkaService {
 
     @Override
-    public Sepulka register(SepulkaRegisterSlice slice) {
-        Sepulka sepulka = Sepulka.builder().id(randomUUID()).name(slice.name()).build();
-        return sepulkaDao.save(sepulka);
+    public SepulkaRegisteredSlice register(SepulkaRegisterSlice request) {
+        var sepulkaCreated = mapper.toDomain(request).id(randomUUID()).build();
+        var sepulkaSaved = dao.save(sepulkaCreated);
+        return mapper.toSlice(sepulkaSaved);
     }
 
     @Override
     public List<Sepulka> getSepulkas() {
-        return sepulkaDao.getSepulkas();
+        return dao.getSepulkas();
     }
 }

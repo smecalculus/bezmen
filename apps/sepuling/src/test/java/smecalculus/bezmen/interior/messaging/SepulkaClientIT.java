@@ -3,9 +3,9 @@ package smecalculus.bezmen.interior.messaging;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
-import static smecalculus.bezmen.exterior.messaging.SepulkaRegisterSliceEg.Pojos.sepulkaRegisterSlice;
+import static smecalculus.bezmen.exterior.messaging.SepulkaRegisterSliceEg.Pojos.sepulkaRegisterSliceMsg;
 import static smecalculus.bezmen.exterior.messaging.SepulkaRegisteredSliceEg.Pojos.sepulkaRegisteredSlice;
-import static smecalculus.bezmen.interior.core.SepulkaEg.Pojos.sepulka;
+import static smecalculus.bezmen.exterior.messaging.SepulkaRegisteredSliceEg.Pojos.sepulkaRegisteredSliceMsg;
 
 import java.util.UUID;
 import org.junit.jupiter.api.Test;
@@ -15,7 +15,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import smecalculus.bezmen.exterior.messaging.SepulkaClient;
 import smecalculus.bezmen.exterior.messaging.SepulkaRegisterSlice;
-import smecalculus.bezmen.exterior.messaging.SepulkaRegisteredSlice;
 import smecalculus.bezmen.interior.construction.SepulkaClientBeans;
 import smecalculus.bezmen.interior.core.SepulkaService;
 
@@ -32,15 +31,15 @@ abstract class SepulkaClientIT {
     @Test
     void shouldRegisterSepulka() {
         // given
-        UUID id = UUID.randomUUID();
+        var id = UUID.randomUUID();
         // and
-        SepulkaRegisterSlice request = sepulkaRegisterSlice();
+        var request = sepulkaRegisterSliceMsg();
         // and
-        when(serviceMock.register(any(SepulkaRegisterSlice.class))).thenReturn(sepulka(id));
+        when(serviceMock.register(any(SepulkaRegisterSlice.class))).thenReturn(sepulkaRegisteredSlice(id));
         // and
-        SepulkaRegisteredSlice expectedResponse = sepulkaRegisteredSlice(id);
+        var expectedResponse = sepulkaRegisteredSliceMsg(id);
         // when
-        SepulkaRegisteredSlice actualResponse = externalClient.register(request);
+        var actualResponse = externalClient.register(request);
         // then
         assertThat(actualResponse)
                 .usingRecursiveComparison()

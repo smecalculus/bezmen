@@ -12,5 +12,11 @@ public class SepulkaRegisteredSliceEg {
         public static SepulkaRegisteredSlice sepulkaRegisteredSlice(UUID id) {
             return new SepulkaRegisteredSlice(id);
         }
+
+        public static SepulkaRegisteredSliceMsg sepulkaRegisteredSliceMsg(UUID id) {
+            var sliceMsg = new SepulkaRegisteredSliceMsg();
+            sliceMsg.setId(id.toString());
+            return sliceMsg;
+        }
     }
 }

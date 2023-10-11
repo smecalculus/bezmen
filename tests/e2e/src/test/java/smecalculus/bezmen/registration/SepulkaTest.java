@@ -3,7 +3,8 @@ package smecalculus.bezmen.registration;
 import static java.time.Duration.ofSeconds;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.awaitility.Awaitility.await;
-import static smecalculus.bezmen.exterior.messaging.SepulkaRegisterSliceEg.Pojos.sepulkaRegisterSlice;
+import static smecalculus.bezmen.exterior.messaging.SepulkaRegisterSliceEg.Pojos.sepulkaRegisterSliceMsg;
+import static smecalculus.bezmen.exterior.messaging.SepulkaRegisteredSliceEg.Pojos.sepulkaRegisteredSlice;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Tag;
@@ -15,9 +16,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import smecalculus.bezmen.StandBeans;
 import smecalculus.bezmen.exterior.messaging.BezmenClient;
-import smecalculus.bezmen.exterior.messaging.SepulkaRegisterSlice;
-import smecalculus.bezmen.exterior.messaging.SepulkaRegisteredSlice;
-import smecalculus.bezmen.exterior.messaging.SepulkaRegisteredSliceEg;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = StandBeans.class)
@@ -35,11 +33,11 @@ public class SepulkaTest {
     @Tag("smoke")
     void shouldRegisterSepulka() {
         // given
-        SepulkaRegisterSlice request = sepulkaRegisterSlice();
+        var request = sepulkaRegisterSliceMsg();
         // and
-        SepulkaRegisteredSlice expectedResponse = SepulkaRegisteredSliceEg.Pojos.sepulkaRegisteredSlice();
+        var expectedResponse = sepulkaRegisteredSlice();
         // when
-        SepulkaRegisteredSlice actualResponse = bezmenClient.register(request);
+        var actualResponse = bezmenClient.register(request);
         // then
         assertThat(actualResponse)
                 .usingRecursiveComparison()

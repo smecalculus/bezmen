@@ -7,5 +7,11 @@ public class SepulkaRegisterSliceEg {
         public static SepulkaRegisterSlice sepulkaRegisterSlice() {
             return new SepulkaRegisterSlice(NAME);
         }
+
+        public static SepulkaRegisterSliceMsg sepulkaRegisterSliceMsg() {
+            var msg = new SepulkaRegisterSliceMsg();
+            msg.setName(NAME);
+            return msg;
+        }
     }
 }
