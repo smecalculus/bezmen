@@ -5,11 +5,18 @@ import static java.util.stream.Collectors.toList;
 import java.util.List;
 import java.util.UUID;
 import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import smecalculus.bezmen.interior.core.Sepulka;
 import smecalculus.bezmen.interior.storage.mybatis.SepulkaSqlMapper;
 
-public record SepulkaDaoMyBatis(@NonNull SepulkaRecMapper recMapper, @NonNull SepulkaSqlMapper sqlMapper)
-        implements SepulkaDao {
+@RequiredArgsConstructor
+public class SepulkaDaoMyBatis implements SepulkaDao {
+
+    @NonNull
+    private SepulkaRecMapper recMapper;
+
+    @NonNull
+    private SepulkaSqlMapper sqlMapper;
 
     @Override
     public Sepulka getById(@NonNull UUID id) {

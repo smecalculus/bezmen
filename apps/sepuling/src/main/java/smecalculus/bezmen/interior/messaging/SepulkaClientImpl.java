@@ -1,6 +1,7 @@
 package smecalculus.bezmen.interior.messaging;
 
 import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import smecalculus.bezmen.exterior.messaging.SepulkaClient;
 import smecalculus.bezmen.exterior.messaging.SepulkaMsgMapper;
 import smecalculus.bezmen.exterior.messaging.SepulkaRegisterSliceMsg;
@@ -8,9 +9,17 @@ import smecalculus.bezmen.exterior.messaging.SepulkaRegisteredSliceMsg;
 import smecalculus.bezmen.interior.core.SepulkaService;
 import smecalculus.bezmen.interior.validation.EdgeValidator;
 
-public record SepulkaClientImpl(
-        @NonNull EdgeValidator validator, @NonNull SepulkaMsgMapper mapper, @NonNull SepulkaService service)
-        implements SepulkaClient {
+@RequiredArgsConstructor
+public class SepulkaClientImpl implements SepulkaClient {
+
+    @NonNull
+    private EdgeValidator validator;
+
+    @NonNull
+    private SepulkaMsgMapper mapper;
+
+    @NonNull
+    private SepulkaService service;
 
     @Override
     public SepulkaRegisteredSliceMsg register(SepulkaRegisterSliceMsg sliceMsg) {

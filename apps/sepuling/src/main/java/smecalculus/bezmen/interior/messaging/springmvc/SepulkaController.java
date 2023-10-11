@@ -1,6 +1,7 @@
 package smecalculus.bezmen.interior.messaging.springmvc;
 
 import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,7 +14,11 @@ import smecalculus.bezmen.exterior.messaging.SepulkaRegisteredSliceMsg;
 
 @RestController
 @RequestMapping("sepulkas")
-public record SepulkaController(@NonNull SepulkaClient client) {
+@RequiredArgsConstructor
+public class SepulkaController {
+
+    @NonNull
+    private SepulkaClient client;
 
     @PostMapping
     ResponseEntity<SepulkaRegisteredSliceMsg> register(@RequestBody SepulkaRegisterSliceMsg registerSliceMsg) {

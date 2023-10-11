@@ -1,9 +1,15 @@
 package smecalculus.bezmen.interior.configuration;
 
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import org.springframework.boot.context.properties.bind.Binder;
 import org.springframework.core.env.Environment;
 
-public record ConfigKeeperSpringConfig(Environment environment) implements ConfigKeeper {
+@RequiredArgsConstructor
+public class ConfigKeeperSpringConfig implements ConfigKeeper {
+
+    @NonNull
+    private Environment environment;
 
     @Override
     public <T> T read(String key, Class<T> type) {

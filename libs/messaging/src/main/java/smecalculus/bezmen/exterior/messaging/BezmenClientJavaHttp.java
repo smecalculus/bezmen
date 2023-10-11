@@ -9,8 +9,16 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpRequest.BodyPublishers;
 import java.net.http.HttpResponse.BodyHandlers;
 import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 
-public record BezmenClientJavaHttp(@NonNull ObjectMapper mapper, @NonNull HttpClient client) implements BezmenClient {
+@RequiredArgsConstructor
+public class BezmenClientJavaHttp implements BezmenClient {
+
+    @NonNull
+    private ObjectMapper mapper;
+
+    @NonNull
+    private HttpClient client;
 
     @Override
     public SepulkaRegisteredSliceMsg register(SepulkaRegisterSliceMsg request) {

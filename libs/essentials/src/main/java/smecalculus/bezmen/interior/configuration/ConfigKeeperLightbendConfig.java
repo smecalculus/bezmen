@@ -2,8 +2,14 @@ package smecalculus.bezmen.interior.configuration;
 
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigBeanFactory;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 
-public record ConfigKeeperLightbendConfig(Config config) implements ConfigKeeper {
+@RequiredArgsConstructor
+public class ConfigKeeperLightbendConfig implements ConfigKeeper {
+
+    @NonNull
+    private Config config;
 
     @Override
     public <T> T read(String key, Class<T> type) {

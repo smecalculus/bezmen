@@ -6,11 +6,18 @@ import static java.util.stream.StreamSupport.stream;
 import java.util.List;
 import java.util.UUID;
 import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import smecalculus.bezmen.interior.core.Sepulka;
 import smecalculus.bezmen.interior.storage.springdata.SepulkaRepository;
 
-public record SepulkaDaoSpringData(@NonNull SepulkaRecMapper mapper, @NonNull SepulkaRepository repository)
-        implements SepulkaDao {
+@RequiredArgsConstructor
+public class SepulkaDaoSpringData implements SepulkaDao {
+
+    @NonNull
+    private SepulkaRecMapper mapper;
+
+    @NonNull
+    private SepulkaRepository repository;
 
     @Override
     public Sepulka getById(@NonNull UUID id) {
