@@ -97,27 +97,26 @@ image::solution/core.png[]
 
 === Клиенты и серверы (clients & servers)
 
-[%noheader]
 [%autowidth]
 |===
-2.+| ^s|Hexagonal ^s| Onion ^s| Clean
+2.+| ^|Hexagonal & Onion ^| Clean
 
 .2+s|Client
 s|Interface
-2.+|Port
+|Port
 |Use case input port
 
 s|Impl
-2.+|Adapter
+|Adapter
 |Use case interactor
 
 .2+s|Server
 s|Interface
-2.+|Port
+|Port
 |Use case output port
 
 s|Impl
-2.+|Adapter
+|Adapter
 |Use case interactor
 |===
 
