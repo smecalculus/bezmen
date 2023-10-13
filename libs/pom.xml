@@ -26,7 +26,7 @@
     <spring-boot.version>3.1.4</spring-boot.version>
     <spring-data.version>3.1.4</spring-data.version>
     <jetty.version>11.0.17</jetty.version>
-    <jackson.version>2.15.2</jackson.version>
+    <jackson.version>2.15.3</jackson.version>
     <mockito.version>5.6.0</mockito.version>
     <skipTests>false</skipTests>
     <skipUnits>${skipTests}</skipUnits>
