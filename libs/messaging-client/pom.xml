@@ -17,11 +17,13 @@
     <dependency>
       <groupId>${project.groupId}</groupId>
       <artifactId>abstraction-client</artifactId>
+      <scope>compile</scope>
     </dependency>
     <!--SERDE-->
     <dependency>
       <groupId>com.fasterxml.jackson.core</groupId>
       <artifactId>jackson-databind</artifactId>
+      <scope>compile</scope>
     </dependency>
     <!--TESTING-->
     <dependency>
