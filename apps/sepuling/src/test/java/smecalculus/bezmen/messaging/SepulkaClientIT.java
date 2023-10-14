@@ -4,8 +4,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static smecalculus.bezmen.core.SepulkaNewResponseEg.Pojos.sepulkaNewResponse;
-import static smecalculus.bezmen.messaging.SepulkaNewRequestEg.Pojos.sepulkaNewRequestMsg;
-import static smecalculus.bezmen.messaging.SepulkaNewResponseEg.Pojos.sepulkaNewResponseMsg;
+import static smecalculus.bezmen.messaging.SepulkaNewRequestEg.Pojos.sepulkaNewRequestEdge;
+import static smecalculus.bezmen.messaging.SepulkaNewResponseEg.Pojos.sepulkaNewResponseEdge;
 
 import java.util.UUID;
 import org.junit.jupiter.api.Test;
@@ -32,11 +32,11 @@ abstract class SepulkaClientIT {
         // given
         var id = UUID.randomUUID();
         // and
-        var request = sepulkaNewRequestMsg();
+        var request = sepulkaNewRequestEdge();
         // and
         when(serviceMock.register(any(SepulkaNewRequest.class))).thenReturn(sepulkaNewResponse(id));
         // and
-        var expectedResponse = sepulkaNewResponseMsg(id);
+        var expectedResponse = sepulkaNewResponseEdge(id);
         // when
         var actualResponse = externalClient.register(request);
         // then

@@ -2,9 +2,8 @@ package smecalculus.bezmen.construction;
 
 import static org.springframework.context.annotation.ConfigurationCondition.ConfigurationPhase.REGISTER_BEAN;
 
-import java.util.Map;
-import java.util.Set;
 import java.util.stream.Stream;
+import lombok.NonNull;
 import org.springframework.context.annotation.ConditionContext;
 import org.springframework.context.annotation.ConfigurationCondition;
 import org.springframework.core.type.AnnotatedTypeMetadata;
@@ -15,16 +14,15 @@ class MessagingProtocolModeCondition implements ConfigurationCondition {
 
     @Override
     public boolean matches(ConditionContext context, AnnotatedTypeMetadata metadata) {
-        Map<String, Object> attributes =
-                metadata.getAnnotationAttributes(ConditionalOnMessagingProtocolModes.class.getName());
-        MessagingProtocolMode[] expectedModes = (MessagingProtocolMode[]) attributes.get("value");
-        MessagingProps messagingProps = context.getBeanFactory().getBean(MessagingProps.class);
-        Set<MessagingProtocolMode> actualModes = messagingProps.protocolProps().protocolModes();
+        var attributes = metadata.getAnnotationAttributes(ConditionalOnMessagingProtocolModes.class.getName());
+        var expectedModes = (MessagingProtocolMode[]) attributes.get("value");
+        var props = context.getBeanFactory().getBean(MessagingProps.class);
+        var actualModes = props.protocolProps().protocolModes();
         return Stream.of(expectedModes).anyMatch(actualModes::contains);
     }
 
     @Override
-    public ConfigurationPhase getConfigurationPhase() {
+    public @NonNull ConfigurationPhase getConfigurationPhase() {
         return REGISTER_BEAN;
     }
 }

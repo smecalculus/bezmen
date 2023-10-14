@@ -7,7 +7,7 @@ import lombok.Data;
  * Model: edge slice
  */
 @Data
-public class SepulkaNewRequestMsg {
+public class SepulkaNewResponseEdge {
     @NotNull
-    private String name;
+    private String id;
 }

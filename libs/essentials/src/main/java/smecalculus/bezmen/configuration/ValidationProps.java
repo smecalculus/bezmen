@@ -4,4 +4,4 @@ import lombok.Builder;
 import lombok.NonNull;
 
 @Builder
-public record StateMappingProps(@NonNull StateMappingMode mappingMode) {}
+public record ValidationProps(@NonNull ValidationMode validationMode) {}

@@ -4,19 +4,19 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
 @Mapper
-public interface StorageCfgMapper {
+public interface StoragePropsMapper {
 
     @Mapping(source = "protocol", target = "protocolProps")
     @Mapping(source = "mapping", target = "mappingProps")
-    StorageProps toDomain(StoragePropsCfg propsCfg);
+    StorageProps toDomain(StoragePropsEdge propsEdge);
 
     @Mapping(source = "mode", target = "protocolMode")
     @Mapping(source = "h2", target = "h2Props")
     @Mapping(source = "postgres", target = "postgresProps")
-    StorageProtocolProps toDomain(StorageProtocolPropsCfg propsCfg);
+    StorageProtocolProps toDomain(StorageProtocolPropsEdge propsEdge);
 
     @Mapping(source = "mode", target = "mappingMode")
-    StateMappingProps toDomain(StateMappingPropsCfg propsCfg);
+    StateMappingProps toDomain(StateMappingPropsEdge propsEdge);
 
     default StorageProtocolMode toProtocolMode(String mode) {
         return StorageProtocolMode.valueOf(mode.toUpperCase());

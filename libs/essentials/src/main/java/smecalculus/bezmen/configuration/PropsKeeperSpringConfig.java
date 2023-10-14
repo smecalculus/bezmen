@@ -6,7 +6,7 @@ import org.springframework.boot.context.properties.bind.Binder;
 import org.springframework.core.env.Environment;
 
 @RequiredArgsConstructor
-public class ConfigKeeperSpringConfig implements ConfigKeeper {
+public class PropsKeeperSpringConfig implements PropsKeeper {
 
     @NonNull
     private Environment environment;

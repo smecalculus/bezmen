@@ -4,11 +4,11 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 @Data
-public class StoragePropsCfg {
+public class StoragePropsEdge {
 
     @NotNull
-    StorageProtocolPropsCfg protocol;
+    StorageProtocolPropsEdge protocol;
 
     @NotNull
-    StateMappingPropsCfg mapping;
+    StateMappingPropsEdge mapping;
 }

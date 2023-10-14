@@ -6,16 +6,16 @@ public class SepulkaNewResponseEg {
 
     public static class Pojos {
 
-        public static SepulkaNewResponseMsg sepulkaNewResponseMsg() {
-            var responseMsg = new SepulkaNewResponseMsg();
-            responseMsg.setId(UUID.randomUUID().toString());
-            return responseMsg;
+        public static SepulkaNewResponseEdge sepulkaNewResponseEdge() {
+            var responseEdge = new SepulkaNewResponseEdge();
+            responseEdge.setId(UUID.randomUUID().toString());
+            return responseEdge;
         }
 
-        public static SepulkaNewResponseMsg sepulkaNewResponseMsg(UUID id) {
-            var responseMsg = sepulkaNewResponseMsg();
-            responseMsg.setId(id.toString());
-            return responseMsg;
+        public static SepulkaNewResponseEdge sepulkaNewResponseEdge(UUID id) {
+            var responseEdge = sepulkaNewResponseEdge();
+            responseEdge.setId(id.toString());
+            return responseEdge;
         }
     }
 }

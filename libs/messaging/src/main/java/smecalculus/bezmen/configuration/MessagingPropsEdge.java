@@ -4,11 +4,11 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 @Data
-public class MessagingPropsCfg {
+public class MessagingPropsEdge {
 
     @NotNull
-    MessagingProtocolPropsCfg protocol;
+    MessagingProtocolPropsEdge protocol;
 
     @NotNull
-    MessageMappingPropsCfg mapping;
+    MessageMappingPropsEdge mapping;
 }

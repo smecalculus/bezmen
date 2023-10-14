@@ -14,7 +14,7 @@ import smecalculus.bezmen.storage.springdata.SepulkaRepository;
 public class SepulkaDaoSpringData implements SepulkaDao {
 
     @NonNull
-    private SepulkaRecMapper mapper;
+    private SepulkaStateMapper mapper;
 
     @NonNull
     private SepulkaRepository repository;
@@ -26,9 +26,9 @@ public class SepulkaDaoSpringData implements SepulkaDao {
 
     @Override
     public Sepulka save(@NonNull Sepulka sepulka) {
-        SepulkaRec newSepulkaRec = mapper.toRec(sepulka);
-        SepulkaRec savedSepulkaRec = repository.save(newSepulkaRec);
-        return mapper.toDomain(savedSepulkaRec);
+        var newSepulkaEdge = mapper.toEdge(sepulka);
+        var savedSepulkaEdge = repository.save(newSepulkaEdge);
+        return mapper.toDomain(savedSepulkaEdge);
     }
 
     @Override

@@ -4,17 +4,17 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
 @Mapper
-public interface MessagingCfgMapper {
+public interface MessagingPropsMapper {
 
     @Mapping(source = "protocol", target = "protocolProps")
     @Mapping(source = "mapping", target = "mappingProps")
-    MessagingProps toDomain(MessagingPropsCfg propsCfg);
+    MessagingProps toDomain(MessagingPropsEdge propsEdge);
 
     @Mapping(source = "modes", target = "protocolModes")
-    MessagingProtocolProps toDomain(MessagingProtocolPropsCfg propsCfg);
+    MessagingProtocolProps toDomain(MessagingProtocolPropsEdge propsEdge);
 
     @Mapping(source = "modes", target = "mappingModes")
-    MessageMappingProps toDomain(MessageMappingPropsCfg propsCfg);
+    MessageMappingProps toDomain(MessageMappingPropsEdge propsEdge);
 
     default MessagingProtocolMode toProtocolMode(String value) {
         return MessagingProtocolMode.valueOf(value.toUpperCase());

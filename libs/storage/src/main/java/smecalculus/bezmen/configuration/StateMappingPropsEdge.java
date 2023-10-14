@@ -4,7 +4,7 @@ import lombok.Data;
 import smecalculus.bezmen.validation.ValueOfEnum;
 
 @Data
-public class StateMappingPropsCfg {
+public class StateMappingPropsEdge {
 
     @ValueOfEnum(StateMappingMode.class)
     private String mode;

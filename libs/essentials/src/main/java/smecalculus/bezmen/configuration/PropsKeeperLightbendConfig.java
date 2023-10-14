@@ -6,7 +6,7 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-public class ConfigKeeperLightbendConfig implements ConfigKeeper {
+public class PropsKeeperLightbendConfig implements PropsKeeper {
 
     @NonNull
     private Config config;

@@ -5,14 +5,14 @@ import lombok.Data;
 import smecalculus.bezmen.validation.ValueOfEnum;
 
 @Data
-public class StorageProtocolPropsCfg {
+public class StorageProtocolPropsEdge {
 
     @ValueOfEnum(StorageProtocolMode.class)
     String mode;
 
     @Optional
-    H2PropsCfg h2;
+    H2PropsEdge h2;
 
     @Optional
-    PostgresPropsCfg postgres;
+    PostgresPropsEdge postgres;
 }

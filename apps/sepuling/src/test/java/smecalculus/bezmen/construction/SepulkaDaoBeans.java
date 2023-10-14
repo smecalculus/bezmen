@@ -19,8 +19,8 @@ import smecalculus.bezmen.configuration.StorageProtocolProps;
 import smecalculus.bezmen.storage.SepulkaDao;
 import smecalculus.bezmen.storage.SepulkaDaoMyBatis;
 import smecalculus.bezmen.storage.SepulkaDaoSpringData;
-import smecalculus.bezmen.storage.SepulkaRecMapper;
-import smecalculus.bezmen.storage.SepulkaRecMapperImpl;
+import smecalculus.bezmen.storage.SepulkaStateMapper;
+import smecalculus.bezmen.storage.SepulkaStateMapperImpl;
 import smecalculus.bezmen.storage.mybatis.SepulkaSqlMapper;
 import smecalculus.bezmen.storage.springdata.SepulkaRepository;
 
@@ -31,13 +31,13 @@ public class SepulkaDaoBeans {
 
     @Bean
     public DataSource dataSource(StorageProps storageProps) {
-        List<String> common = List.of("DB_CLOSE_DELAY=-1");
-        List<String> specific =
+        var common = List.of("DB_CLOSE_DELAY=-1");
+        var specific =
                 switch (storageProps.protocolProps().protocolMode()) {
                     case H2 -> List.of("MODE=STRICT");
                     case POSTGRES -> List.of("MODE=PostgreSQL", "DATABASE_TO_LOWER=TRUE", "DEFAULT_NULL_ORDERING=HIGH");
                 };
-        String nameWithSettings = Stream.of(List.of(DB), common, specific)
+        var nameWithSettings = Stream.of(List.of(DB), common, specific)
                 .flatMap(Collection::stream)
                 .collect(joining(";"));
         return new EmbeddedDatabaseBuilder()
@@ -49,16 +49,16 @@ public class SepulkaDaoBeans {
     }
 
     @Bean
-    public SepulkaRecMapper sepulkaRecMapper() {
-        return new SepulkaRecMapperImpl();
+    public SepulkaStateMapper sepulkaStateMapper() {
+        return new SepulkaStateMapperImpl();
     }
 
     @Configuration(proxyBeanMethods = false)
     public static class SpringDataPostgres {
 
         @Bean
-        public SepulkaDao underTest(SepulkaRecMapper recMapper, SepulkaRepository repository) {
-            return new SepulkaDaoSpringData(recMapper, repository);
+        public SepulkaDao underTest(SepulkaStateMapper mapper, SepulkaRepository repository) {
+            return new SepulkaDaoSpringData(mapper, repository);
         }
 
         @Bean
@@ -77,8 +77,8 @@ public class SepulkaDaoBeans {
     public static class MyBatisPostgres {
 
         @Bean
-        public SepulkaDao underTest(SepulkaRecMapper recMapper, SepulkaSqlMapper sqlMapper) {
-            return new SepulkaDaoMyBatis(recMapper, sqlMapper);
+        public SepulkaDao underTest(SepulkaStateMapper stateMapper, SepulkaSqlMapper sqlMapper) {
+            return new SepulkaDaoMyBatis(stateMapper, sqlMapper);
         }
 
         @Bean

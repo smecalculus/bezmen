@@ -3,8 +3,8 @@ package smecalculus.bezmen.registration;
 import static java.time.Duration.ofSeconds;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.awaitility.Awaitility.await;
-import static smecalculus.bezmen.messaging.SepulkaNewRequestEg.Pojos.sepulkaNewRequestMsg;
-import static smecalculus.bezmen.messaging.SepulkaNewResponseEg.Pojos.sepulkaNewResponseMsg;
+import static smecalculus.bezmen.messaging.SepulkaNewRequestEg.Pojos.sepulkaNewRequestEdge;
+import static smecalculus.bezmen.messaging.SepulkaNewResponseEg.Pojos.sepulkaNewResponseEdge;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Tag;
@@ -33,9 +33,9 @@ public class SepulkaTest {
     @Tag("smoke")
     void shouldRegisterSepulka() {
         // given
-        var request = sepulkaNewRequestMsg();
+        var request = sepulkaNewRequestEdge();
         // and
-        var expectedResponse = sepulkaNewResponseMsg();
+        var expectedResponse = sepulkaNewResponseEdge();
         // when
         var actualResponse = bezmenClient.register(request);
         // then
