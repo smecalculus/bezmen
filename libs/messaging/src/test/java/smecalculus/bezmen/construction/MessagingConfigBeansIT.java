@@ -17,7 +17,7 @@ abstract class MessagingConfigBeansIT {
     @Test
     void defaultConfigShouldBeBackwardCompatible(@Autowired MessagingProps actualProps) {
         // given
-        MessagingProps expectedProps = messagingProps().build();
+        var expectedProps = messagingProps().build();
         // when
         // default construction
         // then

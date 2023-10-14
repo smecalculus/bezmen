@@ -25,7 +25,7 @@ public class StorageConfigBeans {
 
     @Bean
     StorageProps storageProps(PropsKeeper keeper, EdgeValidator validator, StoragePropsMapper mapper) {
-        StoragePropsEdge propsEdge = keeper.read("bezmen.storage", StoragePropsEdge.class);
+        var propsEdge = keeper.read("bezmen.storage", StoragePropsEdge.class);
         validator.validate(propsEdge);
         LOG.info("Read {}", propsEdge);
         return mapper.toDomain(propsEdge);

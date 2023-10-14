@@ -8,7 +8,7 @@ import static smecalculus.bezmen.configuration.StorageProtocolPropsEg.Pojos.stor
 public class StoragePropsEg {
     public static class Pojos {
         public static StoragePropsEdge storagePropsEdge() {
-            StoragePropsEdge propsEdge = new StoragePropsEdge();
+            var propsEdge = new StoragePropsEdge();
             propsEdge.setProtocol(storageProtocolPropsEdge());
             propsEdge.setMapping(stateMappingPropsEdge());
             return propsEdge;

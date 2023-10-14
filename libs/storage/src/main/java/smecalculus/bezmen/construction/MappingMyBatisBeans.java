@@ -16,7 +16,7 @@ public class MappingMyBatisBeans {
 
     @Bean
     public SqlSessionFactory sqlSessionFactory(DataSource dataSource) throws Exception {
-        SqlSessionFactoryBean factoryBean = new SqlSessionFactoryBean();
+        var factoryBean = new SqlSessionFactoryBean();
         factoryBean.setDataSource(dataSource);
         return factoryBean.getObject();
     }

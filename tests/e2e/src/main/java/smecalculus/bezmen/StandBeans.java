@@ -12,8 +12,8 @@ public class StandBeans {
 
     @Bean
     BezmenClient bezmenClient() {
-        ObjectMapper jsonMapper = new ObjectMapper();
-        HttpClient client = HttpClient.newHttpClient();
+        var jsonMapper = new ObjectMapper();
+        var client = HttpClient.newHttpClient();
         return new BezmenClientJavaHttp(jsonMapper, client);
     }
 }

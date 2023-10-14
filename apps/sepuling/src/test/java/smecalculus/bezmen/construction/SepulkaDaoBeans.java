@@ -31,13 +31,13 @@ public class SepulkaDaoBeans {
 
     @Bean
     public DataSource dataSource(StorageProps storageProps) {
-        List<String> common = List.of("DB_CLOSE_DELAY=-1");
-        List<String> specific =
+        var common = List.of("DB_CLOSE_DELAY=-1");
+        var specific =
                 switch (storageProps.protocolProps().protocolMode()) {
                     case H2 -> List.of("MODE=STRICT");
                     case POSTGRES -> List.of("MODE=PostgreSQL", "DATABASE_TO_LOWER=TRUE", "DEFAULT_NULL_ORDERING=HIGH");
                 };
-        String nameWithSettings = Stream.of(List.of(DB), common, specific)
+        var nameWithSettings = Stream.of(List.of(DB), common, specific)
                 .flatMap(Collection::stream)
                 .collect(joining(";"));
         return new EmbeddedDatabaseBuilder()

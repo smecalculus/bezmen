@@ -10,7 +10,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import smecalculus.bezmen.construction.SepulkaDaoBeans;
-import smecalculus.bezmen.core.Sepulka;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = SepulkaDaoBeans.class)
@@ -23,11 +22,11 @@ abstract class SepulkaDaoIT {
     @Test
     void shouldSaveOneSepulka() {
         // given
-        Sepulka expectedSepulka = sepulka();
+        var expectedSepulka = sepulka();
         // when
-        Sepulka actualSepulka1 = sepulkaDao.save(expectedSepulka);
+        var actualSepulka1 = sepulkaDao.save(expectedSepulka);
         // and
-        Sepulka actualSepulka2 = sepulkaDao.getById(expectedSepulka.id());
+        var actualSepulka2 = sepulkaDao.getById(expectedSepulka.id());
         // then
         assertThat(actualSepulka1).isEqualTo(expectedSepulka);
         // and

@@ -14,7 +14,6 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.transaction.PlatformTransactionManager;
 import smecalculus.bezmen.configuration.StorageProps;
-import smecalculus.bezmen.configuration.StorageProtocolProps;
 
 @ConditionalOnStateMappingMode(SPRING_DATA)
 @EnableJdbcRepositories("smecalculus.bezmen.storage.springdata")
@@ -33,7 +32,7 @@ public class MappingSpringDataBeans extends AbstractJdbcConfiguration {
 
     @Bean
     public Dialect dialect(StorageProps storageProps) {
-        StorageProtocolProps storageProtocolProps = storageProps.protocolProps();
+        var storageProtocolProps = storageProps.protocolProps();
         return switch (storageProtocolProps.protocolMode()) {
             case H2 -> H2Dialect.INSTANCE;
             case POSTGRES -> PostgresDialect.INSTANCE;

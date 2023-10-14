@@ -25,7 +25,7 @@ public class SepulkaDaoMyBatis implements SepulkaDao {
 
     @Override
     public Sepulka save(@NonNull Sepulka sepulka) {
-        SepulkaEdge sepulkaEdge = stateMapper.toEdge(sepulka);
+        var sepulkaEdge = stateMapper.toEdge(sepulka);
         sqlMapper.insert(sepulkaEdge);
         return sepulka;
     }

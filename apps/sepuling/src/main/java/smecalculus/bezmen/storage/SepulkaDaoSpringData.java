@@ -26,8 +26,8 @@ public class SepulkaDaoSpringData implements SepulkaDao {
 
     @Override
     public Sepulka save(@NonNull Sepulka sepulka) {
-        SepulkaEdge newSepulkaEdge = mapper.toEdge(sepulka);
-        SepulkaEdge savedSepulkaEdge = repository.save(newSepulkaEdge);
+        var newSepulkaEdge = mapper.toEdge(sepulka);
+        var savedSepulkaEdge = repository.save(newSepulkaEdge);
         return mapper.toDomain(savedSepulkaEdge);
     }
 
