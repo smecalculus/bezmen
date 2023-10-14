@@ -26,7 +26,7 @@ file "request" as requestOut <<Nowhere>>
 
 requestIn - portIn1
 portIn1 -> adapterIn1
-adapterIn1 --> mapperIn: Serde\nModel
+adapterIn1 --> mapperIn: Edge\nModel
 adapterIn1 <-- mapperIn: Domain\nModel
 adapterIn1 -> service1
 service1 --> mapper: Slice\nModel
@@ -34,7 +34,7 @@ service1 <-- mapper: Entity\nModel
 service1 - portOut1
 portOut1 -> adapterOut1
 adapterOut1 --> mapperOut: Domain\nModel
-adapterOut1 <-- mapperOut: Serde\nModel
+adapterOut1 <-- mapperOut: Edge\nModel
 adapterOut1 -> requestOut
 
 file "response" as responseIn <<Nowhere>>
@@ -47,13 +47,13 @@ file "response" as responseOut <<Nowhere>>
 
 adapterOut2 <- responseIn
 mapperOut --> adapterOut2: Domain\nModel
-mapperOut <-- adapterOut2: Serde\nModel
+mapperOut <-- adapterOut2: Edge\nModel
 portOut2 - adapterOut2
 service2 <- portOut2
 mapper --> service2: Slice\nModel
 mapper <-- service2: Entity\nModel
 adapterIn2 <- service2
-mapperIn --> adapterIn2: Serde\nModel
+mapperIn --> adapterIn2: Edge\nModel
 mapperIn <-- adapterIn2: Domain\nModel
 portIn2 - adapterIn2
 responseOut <- portIn2

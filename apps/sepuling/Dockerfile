@@ -7,5 +7,5 @@ COPY sepuling*.jar app.jar
 ENTRYPOINT [ \
     "java", "-cp", "app.jar:libs/*", \
     "-Dconfig.file=application.conf", \
-    "smecalculus.bezmen.interior.construction.App" \
+    "smecalculus.bezmen.construction.App" \
 ]

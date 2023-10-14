@@ -21,8 +21,7 @@
   <dependencies>
     <dependency>
       <groupId>${project.groupId}</groupId>
-      <artifactId>messaging</artifactId>
-      <classifier>client</classifier>
+      <artifactId>messaging-client</artifactId>
     </dependency>
     <dependency>
       <groupId>${project.groupId}</groupId>
