@@ -9,5 +9,5 @@ import lombok.Data;
 @Data
 public class SepulkaNewResponseEdge {
     @NotNull
-    private String id;
+    private String externalId;
 }

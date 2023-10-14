@@ -11,11 +11,11 @@
   <version>${revision}</version>
 
   <modules>
-    <module>abstraction-client</module>
     <module>abstraction</module>
+    <module>abstraction-client</module>
     <module>essentials</module>
-    <module>messaging-client</module>
     <module>messaging</module>
+    <module>messaging-client</module>
     <module>storage</module>
     <module>testing</module>
   </modules>
@@ -47,11 +47,13 @@
     <dependency>
       <groupId>org.projectlombok</groupId>
       <artifactId>lombok</artifactId>
+      <version>${lombok.version}</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.mapstruct</groupId>
       <artifactId>mapstruct</artifactId>
+      <version>${mapstruct.version}</version>
       <scope>provided</scope>
     </dependency>
   </dependencies>
@@ -92,17 +94,6 @@
         <groupId>${project.groupId}</groupId>
         <artifactId>testing</artifactId>
         <version>${project.version}</version>
-      </dependency>
-
-      <dependency>
-        <groupId>org.projectlombok</groupId>
-        <artifactId>lombok</artifactId>
-        <version>${lombok.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.mapstruct</groupId>
-        <artifactId>mapstruct</artifactId>
-        <version>${mapstruct.version}</version>
       </dependency>
 
       <dependency>
@@ -175,16 +166,6 @@
         <version>${spring.version}</version>
       </dependency>
       <dependency>
-        <groupId>org.reactivestreams</groupId>
-        <artifactId>reactive-streams</artifactId>
-        <version>1.0.4</version>
-      </dependency>
-      <dependency>
-        <groupId>io.projectreactor</groupId>
-        <artifactId>reactor-core</artifactId>
-        <version>3.5.11</version>
-      </dependency>
-      <dependency>
         <groupId>jakarta.servlet</groupId>
         <artifactId>jakarta.servlet-api</artifactId>
         <version>6.0.0</version>
@@ -217,11 +198,6 @@
         <version>2.2</version>
       </dependency>
 
-      <dependency>
-        <groupId>org.springframework</groupId>
-        <artifactId>spring-beans</artifactId>
-        <version>${spring.version}</version>
-      </dependency>
       <dependency>
         <groupId>org.springframework</groupId>
         <artifactId>spring-context</artifactId>

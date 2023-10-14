@@ -1,9 +1,10 @@
 package smecalculus.bezmen.core;
 
-import java.util.UUID;
+import lombok.Builder;
 import lombok.NonNull;
 
 /**
  * Model: domain slice
  */
-public record SepulkaNewResponse(@NonNull UUID id) {}
+@Builder
+public record SepulkaNewResponse(@NonNull String externalId) {}

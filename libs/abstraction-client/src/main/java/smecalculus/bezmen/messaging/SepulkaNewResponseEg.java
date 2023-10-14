@@ -3,18 +3,16 @@ package smecalculus.bezmen.messaging;
 import java.util.UUID;
 
 public class SepulkaNewResponseEg {
-
     public static class Pojos {
-
         public static SepulkaNewResponseEdge sepulkaNewResponseEdge() {
             var responseEdge = new SepulkaNewResponseEdge();
-            responseEdge.setId(UUID.randomUUID().toString());
+            responseEdge.setExternalId(UUID.randomUUID().toString());
             return responseEdge;
         }
 
-        public static SepulkaNewResponseEdge sepulkaNewResponseEdge(UUID id) {
+        public static SepulkaNewResponseEdge sepulkaNewResponseEdge(String externalId) {
             var responseEdge = sepulkaNewResponseEdge();
-            responseEdge.setId(id.toString());
+            responseEdge.setExternalId(externalId);
             return responseEdge;
         }
     }

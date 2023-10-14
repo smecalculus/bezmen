@@ -12,10 +12,10 @@ import org.springframework.data.relational.core.mapping.Table;
 @Table("sepulkas")
 public class SepulkaEdge {
     @Id
-    String id;
+    String internalId;
+
+    String externalId;
 
     @Version
     Integer version;
-
-    String name;
 }

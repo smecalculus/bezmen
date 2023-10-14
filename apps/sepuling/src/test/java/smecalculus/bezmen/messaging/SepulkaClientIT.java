@@ -30,13 +30,13 @@ abstract class SepulkaClientIT {
     @Test
     void shouldRegisterSepulka() {
         // given
-        var id = UUID.randomUUID();
+        var externalId = UUID.randomUUID().toString();
         // and
-        var request = sepulkaNewRequestEdge();
+        var request = sepulkaNewRequestEdge(externalId);
         // and
-        when(serviceMock.register(any(SepulkaNewRequest.class))).thenReturn(sepulkaNewResponse(id));
+        when(serviceMock.register(any(SepulkaNewRequest.class))).thenReturn(sepulkaNewResponse(externalId));
         // and
-        var expectedResponse = sepulkaNewResponseEdge(id);
+        var expectedResponse = sepulkaNewResponseEdge(externalId);
         // when
         var actualResponse = externalClient.register(request);
         // then

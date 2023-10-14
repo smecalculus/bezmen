@@ -1,11 +1,17 @@
 package smecalculus.bezmen.core;
 
-public class SepulkaNewRequestEg {
-    public static final String NAME = "foo";
+import java.util.UUID;
 
+public class SepulkaNewRequestEg {
     public static class Pojos {
         public static SepulkaNewRequest sepulkaNewRequest() {
-            return new SepulkaNewRequest(NAME);
+            return Builders.sepulkaNewRequest().build();
+        }
+    }
+
+    public static class Builders {
+        public static SepulkaNewRequest.Builder sepulkaNewRequest() {
+            return SepulkaNewRequest.builder().externalId(UUID.randomUUID().toString());
         }
     }
 }

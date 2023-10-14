@@ -18,7 +18,7 @@ public class SepulkaServiceImpl implements SepulkaService {
 
     @Override
     public SepulkaNewResponse register(SepulkaNewRequest request) {
-        var sepulkaCreated = mapper.toEntity(request).id(randomUUID()).build();
+        var sepulkaCreated = mapper.toEntity(request).internalId(randomUUID()).build();
         var sepulkaSaved = dao.save(sepulkaCreated);
         return mapper.toSlice(sepulkaSaved);
     }

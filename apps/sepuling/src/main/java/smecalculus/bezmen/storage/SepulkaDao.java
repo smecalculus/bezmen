@@ -1,6 +1,7 @@
 package smecalculus.bezmen.storage;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import smecalculus.bezmen.core.Sepulka;
 
@@ -9,7 +10,7 @@ import smecalculus.bezmen.core.Sepulka;
  */
 public interface SepulkaDao {
 
-    Sepulka getById(UUID id);
+    Optional<Sepulka> getById(UUID id);
 
     Sepulka save(Sepulka sepulka);
 

@@ -27,7 +27,7 @@ import smecalculus.bezmen.storage.mybatis.SepulkaSqlMapper;
 import smecalculus.bezmen.storage.springdata.SepulkaRepository;
 import smecalculus.bezmen.validation.EdgeValidator;
 
-@Import({ValidationBeans.class, ConfigBeans.class, MessagingBeans.class, StorageBeans.class})
+@Import({ConfigBeans.class, ValidationBeans.class, MessagingBeans.class, StorageBeans.class})
 @PropertySource("classpath:application.properties")
 @Configuration(proxyBeanMethods = false)
 public class App {

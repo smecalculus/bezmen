@@ -26,10 +26,10 @@ abstract class SepulkaDaoIT {
         // when
         var actualSepulka1 = sepulkaDao.save(expectedSepulka);
         // and
-        var actualSepulka2 = sepulkaDao.getById(expectedSepulka.id());
+        var actualSepulka2 = sepulkaDao.getById(expectedSepulka.internalId());
         // then
         assertThat(actualSepulka1).isEqualTo(expectedSepulka);
         // and
-        assertThat(actualSepulka2).isEqualTo(expectedSepulka);
+        assertThat(actualSepulka2).contains(expectedSepulka);
     }
 }

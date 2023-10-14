@@ -1,5 +1,5 @@
 CREATE TABLE sepulkas (
-	id text,
-	version integer,
-	name text
+	internal_id text,
+	external_id text,
+	version integer
 );
