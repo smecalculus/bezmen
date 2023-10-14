@@ -21,7 +21,7 @@ public class BezmenClientJavaHttp implements BezmenClient {
     private HttpClient client;
 
     @Override
-    public SepulkaNewResponseMsg register(SepulkaNewRequestMsg request) {
+    public SepulkaNewResponseEdge register(SepulkaNewRequestEdge request) {
         try {
             var requestJson = mapper.writeValueAsString(request);
             var httpRequest = HttpRequest.newBuilder()
@@ -31,7 +31,7 @@ public class BezmenClientJavaHttp implements BezmenClient {
                     .header("Accept", "application/json")
                     .build();
             var httpResponse = client.send(httpRequest, BodyHandlers.ofString());
-            return mapper.readValue(httpResponse.body(), SepulkaNewResponseMsg.class);
+            return mapper.readValue(httpResponse.body(), SepulkaNewResponseEdge.class);
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         } catch (IOException | InterruptedException e) {

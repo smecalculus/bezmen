@@ -7,7 +7,7 @@ import lombok.Data;
 import smecalculus.bezmen.validation.ValueOfEnum;
 
 @Data
-public class MessageMappingPropsCfg {
+public class MessageMappingPropsEdge {
 
     @NotNull
     @Size(min = 1)

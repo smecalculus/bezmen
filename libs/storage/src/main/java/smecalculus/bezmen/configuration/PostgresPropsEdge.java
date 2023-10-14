@@ -2,9 +2,10 @@ package smecalculus.bezmen.configuration;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
+import lombok.ToString;
 
 @Data
-public class H2PropsCfg {
+public class PostgresPropsEdge {
 
     @NotBlank
     String url;
@@ -13,5 +14,6 @@ public class H2PropsCfg {
     String username;
 
     @NotBlank
+    @ToString.Exclude
     String password;
 }

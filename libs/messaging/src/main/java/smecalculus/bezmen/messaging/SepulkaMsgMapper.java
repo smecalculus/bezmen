@@ -6,9 +6,9 @@ import smecalculus.bezmen.core.SepulkaNewResponse;
 
 @Mapper
 public interface SepulkaMsgMapper {
-    SepulkaNewRequest toDomain(SepulkaNewRequestMsg requestMsg);
+    SepulkaNewRequest toDomain(SepulkaNewRequestEdge requestEdge);
 
-    SepulkaNewResponseMsg toMsg(SepulkaNewResponse response);
+    SepulkaNewResponseEdge toEdge(SepulkaNewResponse response);
 
-    SepulkaNewResponse toDomain(SepulkaNewResponseMsg responseMsg);
+    SepulkaNewResponse toDomain(SepulkaNewResponseEdge responseEdge);
 }

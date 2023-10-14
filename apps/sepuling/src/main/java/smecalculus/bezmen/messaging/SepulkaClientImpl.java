@@ -18,10 +18,10 @@ public class SepulkaClientImpl implements SepulkaClient {
     private SepulkaService service;
 
     @Override
-    public SepulkaNewResponseMsg register(SepulkaNewRequestMsg requestMsg) {
-        validator.validate(requestMsg);
-        var request = mapper.toDomain(requestMsg);
+    public SepulkaNewResponseEdge register(SepulkaNewRequestEdge requestEdge) {
+        validator.validate(requestEdge);
+        var request = mapper.toDomain(requestEdge);
         var response = service.register(request);
-        return mapper.toMsg(response);
+        return mapper.toEdge(response);
     }
 }

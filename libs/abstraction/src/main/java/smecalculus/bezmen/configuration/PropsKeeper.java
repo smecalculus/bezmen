@@ -1,5 +1,5 @@
 package smecalculus.bezmen.configuration;
 
-public interface ConfigKeeper {
+public interface PropsKeeper {
     <T> T read(String key, Class<T> type);
 }

@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import smecalculus.bezmen.messaging.SepulkaClient;
-import smecalculus.bezmen.messaging.SepulkaNewRequestMsg;
-import smecalculus.bezmen.messaging.SepulkaNewResponseMsg;
+import smecalculus.bezmen.messaging.SepulkaNewRequestEdge;
+import smecalculus.bezmen.messaging.SepulkaNewResponseEdge;
 
 @RestController
 @RequestMapping("sepulkas")
@@ -21,8 +21,8 @@ public class SepulkaController {
     private SepulkaClient client;
 
     @PostMapping
-    ResponseEntity<SepulkaNewResponseMsg> register(@RequestBody SepulkaNewRequestMsg requestMsg) {
-        var responseMsg = client.register(requestMsg);
-        return ResponseEntity.status(HttpStatus.CREATED).body(responseMsg);
+    ResponseEntity<SepulkaNewResponseEdge> register(@RequestBody SepulkaNewRequestEdge requestEdge) {
+        var responseEdge = client.register(requestEdge);
+        return ResponseEntity.status(HttpStatus.CREATED).body(responseEdge);
     }
 }

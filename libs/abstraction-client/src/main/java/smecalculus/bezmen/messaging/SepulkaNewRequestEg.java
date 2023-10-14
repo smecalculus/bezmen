@@ -5,10 +5,10 @@ public class SepulkaNewRequestEg {
 
     public static class Pojos {
 
-        public static SepulkaNewRequestMsg sepulkaNewRequestMsg() {
-            var requestMsg = new SepulkaNewRequestMsg();
-            requestMsg.setName(NAME);
-            return requestMsg;
+        public static SepulkaNewRequestEdge sepulkaNewRequestEdge() {
+            var requestEdge = new SepulkaNewRequestEdge();
+            requestEdge.setName(NAME);
+            return requestEdge;
         }
     }
 }
