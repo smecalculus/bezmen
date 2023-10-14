@@ -6,7 +6,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.reactive.server.WebTestClient;
 
 @RequiredArgsConstructor
-public class SepulkaClientSpringWeb implements SepulkaClient {
+public class SepulkaClientSpringWebTest implements SepulkaClient {
 
     @NonNull
     private WebTestClient client;

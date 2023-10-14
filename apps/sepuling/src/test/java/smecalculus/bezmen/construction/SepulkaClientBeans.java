@@ -9,7 +9,7 @@ import org.springframework.test.web.servlet.client.MockMvcWebTestClient;
 import smecalculus.bezmen.core.SepulkaService;
 import smecalculus.bezmen.messaging.SepulkaClient;
 import smecalculus.bezmen.messaging.SepulkaClientImpl;
-import smecalculus.bezmen.messaging.SepulkaClientSpringWeb;
+import smecalculus.bezmen.messaging.SepulkaClientSpringWebTest;
 import smecalculus.bezmen.messaging.SepulkaMessageMapperImpl;
 import smecalculus.bezmen.messaging.springmvc.SepulkaController;
 import smecalculus.bezmen.validation.EdgeValidator;
@@ -33,6 +33,6 @@ public class SepulkaClientBeans {
     SepulkaClient externalClient(SepulkaClient internalClient) {
         var client = MockMvcWebTestClient.bindToController(new SepulkaController(internalClient))
                 .build();
-        return new SepulkaClientSpringWeb(client);
+        return new SepulkaClientSpringWebTest(client);
     }
 }
