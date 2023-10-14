@@ -14,7 +14,7 @@ import smecalculus.bezmen.messaging.SepulkaMessageMapperImpl;
 import smecalculus.bezmen.messaging.springmvc.SepulkaController;
 import smecalculus.bezmen.validation.EdgeValidator;
 
-@Import(ValidationBeans.class)
+@Import({ConfigBeans.class, ValidationBeans.class})
 @Configuration(proxyBeanMethods = false)
 public class SepulkaClientBeans {
 
