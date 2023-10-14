@@ -21,9 +21,7 @@ public class SepulkaDaoMyBatis implements SepulkaDao {
 
     @Override
     public Optional<Sepulka> getById(@NonNull UUID internalId) {
-        return sqlMapper
-                .findById(internalId.toString())
-                .map(stateMapper::toDomain);
+        return sqlMapper.findById(internalId.toString()).map(stateMapper::toDomain);
     }
 
     @Override

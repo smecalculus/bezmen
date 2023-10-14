@@ -39,9 +39,7 @@ public class SepulkaTest {
         // when
         var actualResponse = bezmenClient.register(request);
         // then
-        assertThat(actualResponse)
-                .usingRecursiveComparison()
-                .isEqualTo(expectedResponse);
+        assertThat(actualResponse).usingRecursiveComparison().isEqualTo(expectedResponse);
     }
 
     @Test
