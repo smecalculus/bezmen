@@ -14,11 +14,17 @@ import smecalculus.bezmen.configuration.ValidationPropsEdge;
 import smecalculus.bezmen.validation.EdgeValidator;
 import smecalculus.bezmen.validation.EdgeValidatorHibernateValidator;
 import smecalculus.bezmen.validation.ValidationPropsMapper;
+import smecalculus.bezmen.validation.ValidationPropsMapperImpl;
 
 @Configuration(proxyBeanMethods = false)
 public class ValidationBeans {
 
     private static final Logger LOG = LoggerFactory.getLogger(ValidationBeans.class);
+
+    @Bean
+    ValidationPropsMapper validationPropsMapper() {
+        return new ValidationPropsMapperImpl();
+    }
 
     @Bean
     ValidationProps validationProps(PropsKeeper keeper, ValidationPropsMapper mapper) {
