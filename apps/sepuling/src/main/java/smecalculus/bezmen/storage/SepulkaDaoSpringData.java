@@ -4,6 +4,7 @@ import static java.util.stream.Collectors.toList;
 import static java.util.stream.StreamSupport.stream;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -20,8 +21,8 @@ public class SepulkaDaoSpringData implements SepulkaDao {
     private SepulkaRepository repository;
 
     @Override
-    public Sepulka getById(@NonNull UUID id) {
-        return repository.findById(id.toString()).map(mapper::toDomain).orElse(null);
+    public Optional<Sepulka> getById(@NonNull UUID id) {
+        return repository.findById(id.toString()).map(mapper::toDomain);
     }
 
     @Override

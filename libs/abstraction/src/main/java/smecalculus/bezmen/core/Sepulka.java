@@ -8,4 +8,4 @@ import lombok.NonNull;
  * Model: domain entity
  */
 @Builder
-public record Sepulka(@NonNull UUID id, @NonNull String name) {}
+public record Sepulka(@NonNull UUID internalId, @NonNull String externalId) {}

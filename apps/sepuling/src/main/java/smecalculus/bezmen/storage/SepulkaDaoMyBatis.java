@@ -3,6 +3,7 @@ package smecalculus.bezmen.storage;
 import static java.util.stream.Collectors.toList;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -19,8 +20,8 @@ public class SepulkaDaoMyBatis implements SepulkaDao {
     private SepulkaSqlMapper sqlMapper;
 
     @Override
-    public Sepulka getById(@NonNull UUID id) {
-        return sqlMapper.findById(id.toString()).map(stateMapper::toDomain).orElse(null);
+    public Optional<Sepulka> getById(@NonNull UUID internalId) {
+        return sqlMapper.findById(internalId.toString()).map(stateMapper::toDomain);
     }
 
     @Override

@@ -1,13 +1,18 @@
 package smecalculus.bezmen.messaging;
 
+import java.util.UUID;
+
 public class SepulkaNewRequestEg {
-    public static final String NAME = "foo";
-
     public static class Pojos {
-
         public static SepulkaNewRequestEdge sepulkaNewRequestEdge() {
             var requestEdge = new SepulkaNewRequestEdge();
-            requestEdge.setName(NAME);
+            requestEdge.setExternalId(UUID.randomUUID().toString());
+            return requestEdge;
+        }
+
+        public static SepulkaNewRequestEdge sepulkaNewRequestEdge(String id) {
+            var requestEdge = sepulkaNewRequestEdge();
+            requestEdge.setExternalId(id);
             return requestEdge;
         }
     }

@@ -35,14 +35,11 @@ public class SepulkaTest {
         // given
         var request = sepulkaNewRequestEdge();
         // and
-        var expectedResponse = sepulkaNewResponseEdge();
+        var expectedResponse = sepulkaNewResponseEdge(request.getExternalId());
         // when
         var actualResponse = bezmenClient.register(request);
         // then
-        assertThat(actualResponse)
-                .usingRecursiveComparison()
-                .ignoringFields("id")
-                .isEqualTo(expectedResponse);
+        assertThat(actualResponse).usingRecursiveComparison().isEqualTo(expectedResponse);
     }
 
     @Test

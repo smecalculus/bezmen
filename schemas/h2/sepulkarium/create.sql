@@ -1,5 +1,5 @@
 CREATE TABLE sepulkas (
-	id CHARACTER VARYING,
-	version INTEGER,
-	name CHARACTER VARYING
+	internal_id CHARACTER VARYING,
+	external_id CHARACTER VARYING,
+	version INTEGER
 );
