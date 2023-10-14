@@ -4,8 +4,11 @@ public class SepulkaNewRequestEg {
     public static final String NAME = "foo";
 
     public static class Pojos {
+
         public static SepulkaNewRequestMsg sepulkaNewRequestMsg() {
-            return new SepulkaNewRequestMsg().setName(NAME);
+            var requestMsg = new SepulkaNewRequestMsg();
+            requestMsg.setName(NAME);
+            return requestMsg;
         }
     }
 }

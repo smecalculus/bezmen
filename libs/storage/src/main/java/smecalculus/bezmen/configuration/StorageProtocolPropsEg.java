@@ -3,7 +3,9 @@ package smecalculus.bezmen.configuration;
 public class StorageProtocolPropsEg {
     public static class Pojos {
         public static StorageProtocolPropsCfg storageProtocolPropsCfg() {
-            return new StorageProtocolPropsCfg().setMode(StorageProtocolMode.H2.name());
+            StorageProtocolPropsCfg propsCfg = new StorageProtocolPropsCfg();
+            propsCfg.setMode(StorageProtocolMode.H2.name());
+            return propsCfg;
         }
     }
 

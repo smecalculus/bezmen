@@ -5,7 +5,9 @@ import static smecalculus.bezmen.configuration.StateMappingMode.SPRING_DATA;
 public class StateMappingPropsEg {
     public static class Pojos {
         public static StateMappingPropsCfg stateMappingPropsCfg() {
-            return new StateMappingPropsCfg().setMode(SPRING_DATA.name());
+            StateMappingPropsCfg propsCfg = new StateMappingPropsCfg();
+            propsCfg.setMode(SPRING_DATA.name());
+            return propsCfg;
         }
     }
 
