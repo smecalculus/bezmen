@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 import smecalculus.bezmen.configuration.PropsKeeper;
 import smecalculus.bezmen.configuration.ValidationProps;
 import smecalculus.bezmen.configuration.ValidationPropsEdge;
@@ -16,6 +17,7 @@ import smecalculus.bezmen.validation.EdgeValidatorHibernateValidator;
 import smecalculus.bezmen.validation.ValidationPropsMapper;
 import smecalculus.bezmen.validation.ValidationPropsMapperImpl;
 
+@PropertySource("classpath:validation.properties")
 @Configuration(proxyBeanMethods = false)
 public class ValidationBeans {
 
