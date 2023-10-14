@@ -11,8 +11,10 @@
   <version>${revision}</version>
 
   <modules>
+    <module>abstraction-client</module>
     <module>abstraction</module>
     <module>essentials</module>
+    <module>messaging-client</module>
     <module>messaging</module>
     <module>storage</module>
     <module>testing</module>
@@ -57,14 +59,13 @@
     <dependencies>
       <dependency>
         <groupId>${project.groupId}</groupId>
-        <artifactId>abstraction</artifactId>
+        <artifactId>abstraction-client</artifactId>
         <version>${project.version}</version>
       </dependency>
       <dependency>
         <groupId>${project.groupId}</groupId>
         <artifactId>abstraction</artifactId>
         <version>${project.version}</version>
-        <classifier>client</classifier>
       </dependency>
       <dependency>
         <groupId>${project.groupId}</groupId>
@@ -73,14 +74,13 @@
       </dependency>
       <dependency>
         <groupId>${project.groupId}</groupId>
-        <artifactId>messaging</artifactId>
+        <artifactId>messaging-client</artifactId>
         <version>${project.version}</version>
       </dependency>
       <dependency>
         <groupId>${project.groupId}</groupId>
         <artifactId>messaging</artifactId>
         <version>${project.version}</version>
-        <classifier>client</classifier>
       </dependency>
       <dependency>
         <groupId>${project.groupId}</groupId>
