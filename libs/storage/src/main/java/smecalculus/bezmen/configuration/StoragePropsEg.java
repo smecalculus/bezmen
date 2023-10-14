@@ -8,10 +8,7 @@ import static smecalculus.bezmen.configuration.StorageProtocolPropsEg.Pojos.stor
 public class StoragePropsEg {
     public static class Pojos {
         public static StoragePropsCfg storagePropsCfg() {
-            StoragePropsCfg storagePropsCfg = new StoragePropsCfg();
-            storagePropsCfg.setProtocol(storageProtocolPropsCfg());
-            storagePropsCfg.setMapping(stateMappingPropsCfg());
-            return storagePropsCfg;
+            return new StoragePropsCfg().setProtocol(storageProtocolPropsCfg()).setMapping(stateMappingPropsCfg());
         }
     }
 

@@ -5,6 +5,9 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.Version;
 import org.springframework.data.relational.core.mapping.Table;
 
+/**
+ * Model: edge entity
+ */
 @Data
 @Table("sepulkas")
 public class SepulkaRec {
