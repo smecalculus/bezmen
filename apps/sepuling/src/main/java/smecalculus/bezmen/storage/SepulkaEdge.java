@@ -10,7 +10,7 @@ import org.springframework.data.relational.core.mapping.Table;
  */
 @Data
 @Table("sepulkas")
-public class SepulkaRec {
+public class SepulkaEdge {
     @Id
     String id;
 

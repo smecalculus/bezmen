@@ -12,7 +12,7 @@ public class SepulkaClientImpl implements SepulkaClient {
     private EdgeValidator validator;
 
     @NonNull
-    private SepulkaMsgMapper mapper;
+    private SepulkaMessageMapper mapper;
 
     @NonNull
     private SepulkaService service;

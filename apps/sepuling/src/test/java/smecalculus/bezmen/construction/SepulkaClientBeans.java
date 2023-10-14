@@ -10,7 +10,7 @@ import smecalculus.bezmen.core.SepulkaService;
 import smecalculus.bezmen.messaging.SepulkaClient;
 import smecalculus.bezmen.messaging.SepulkaClientImpl;
 import smecalculus.bezmen.messaging.SepulkaClientSpringWeb;
-import smecalculus.bezmen.messaging.SepulkaMsgMapperImpl;
+import smecalculus.bezmen.messaging.SepulkaMessageMapperImpl;
 import smecalculus.bezmen.messaging.springmvc.SepulkaController;
 import smecalculus.bezmen.validation.EdgeValidator;
 
@@ -25,7 +25,7 @@ public class SepulkaClientBeans {
 
     @Bean
     SepulkaClient internalClient(EdgeValidator validator, SepulkaService service) {
-        var mapper = new SepulkaMsgMapperImpl();
+        var mapper = new SepulkaMessageMapperImpl();
         return new SepulkaClientImpl(validator, mapper, service);
     }
 

@@ -15,14 +15,14 @@ import smecalculus.bezmen.core.SepulkaSliceMapper;
 import smecalculus.bezmen.core.SepulkaSliceMapperImpl;
 import smecalculus.bezmen.messaging.SepulkaClient;
 import smecalculus.bezmen.messaging.SepulkaClientImpl;
-import smecalculus.bezmen.messaging.SepulkaMsgMapper;
-import smecalculus.bezmen.messaging.SepulkaMsgMapperImpl;
+import smecalculus.bezmen.messaging.SepulkaMessageMapper;
+import smecalculus.bezmen.messaging.SepulkaMessageMapperImpl;
 import smecalculus.bezmen.messaging.springmvc.SepulkaController;
 import smecalculus.bezmen.storage.SepulkaDao;
 import smecalculus.bezmen.storage.SepulkaDaoMyBatis;
 import smecalculus.bezmen.storage.SepulkaDaoSpringData;
-import smecalculus.bezmen.storage.SepulkaRecMapper;
-import smecalculus.bezmen.storage.SepulkaRecMapperImpl;
+import smecalculus.bezmen.storage.SepulkaStateMapper;
+import smecalculus.bezmen.storage.SepulkaStateMapperImpl;
 import smecalculus.bezmen.storage.mybatis.SepulkaSqlMapper;
 import smecalculus.bezmen.storage.springdata.SepulkaRepository;
 import smecalculus.bezmen.validation.EdgeValidator;
@@ -43,12 +43,12 @@ public class App {
     }
 
     @Bean
-    SepulkaMsgMapper sepulkaMsgMapper() {
-        return new SepulkaMsgMapperImpl();
+    SepulkaMessageMapper sepulkaMessageMapper() {
+        return new SepulkaMessageMapperImpl();
     }
 
     @Bean
-    SepulkaClient sepulkaClient(EdgeValidator validator, SepulkaMsgMapper mapper, SepulkaService service) {
+    SepulkaClient sepulkaClient(EdgeValidator validator, SepulkaMessageMapper mapper, SepulkaService service) {
         return new SepulkaClientImpl(validator, mapper, service);
     }
 
@@ -63,19 +63,19 @@ public class App {
     }
 
     @Bean
-    SepulkaRecMapper sepulkaRecMapper() {
-        return new SepulkaRecMapperImpl();
+    SepulkaStateMapper sepulkaStateMapper() {
+        return new SepulkaStateMapperImpl();
     }
 
     @Bean
     @ConditionalOnStateMappingMode(SPRING_DATA)
-    SepulkaDaoSpringData sepulkaDaoSpringData(SepulkaRecMapper mapper, SepulkaRepository repository) {
+    SepulkaDaoSpringData sepulkaDaoSpringData(SepulkaStateMapper mapper, SepulkaRepository repository) {
         return new SepulkaDaoSpringData(mapper, repository);
     }
 
     @Bean
     @ConditionalOnStateMappingMode(MY_BATIS)
-    SepulkaDaoMyBatis sepulkaDaoMyBatis(SepulkaRecMapper recMapper, SepulkaSqlMapper sqlMapper) {
+    SepulkaDaoMyBatis sepulkaDaoMyBatis(SepulkaStateMapper recMapper, SepulkaSqlMapper sqlMapper) {
         return new SepulkaDaoMyBatis(recMapper, sqlMapper);
     }
 }
