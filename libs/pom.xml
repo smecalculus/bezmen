@@ -29,6 +29,7 @@
     <spring-data.version>3.1.4</spring-data.version>
     <jetty.version>11.0.17</jetty.version>
     <jackson.version>2.15.3</jackson.version>
+    <junit.version>5.10.0</junit.version>
     <mockito.version>5.6.0</mockito.version>
     <skipTests>false</skipTests>
     <skipUnits>${skipTests}</skipUnits>
@@ -121,11 +122,6 @@
         <version>1.4.11</version>
       </dependency>
 
-      <dependency>
-        <groupId>com.fasterxml.jackson.core</groupId>
-        <artifactId>jackson-core</artifactId>
-        <version>${jackson.version}</version>
-      </dependency>
       <dependency>
         <groupId>com.fasterxml.jackson.core</groupId>
         <artifactId>jackson-databind</artifactId>
@@ -265,8 +261,13 @@
 
       <dependency>
         <groupId>org.junit.jupiter</groupId>
+        <artifactId>junit-jupiter-api</artifactId>
+        <version>${junit.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.junit.jupiter</groupId>
         <artifactId>junit-jupiter-engine</artifactId>
-        <version>5.10.0</version>
+        <version>${junit.version}</version>
       </dependency>
       <dependency>
         <groupId>org.junit.platform</groupId>
@@ -370,17 +371,6 @@
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-jar-plugin</artifactId>
           <version>3.3.0</version>
-          <executions>
-            <execution>
-              <id>exterior-jar</id>
-              <configuration>
-                <classifier>client</classifier>
-                <includes>
-                  <include>**/exterior/**</include>
-                </includes>
-              </configuration>
-            </execution>
-          </executions>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
@@ -475,6 +465,7 @@
           <configuration>
             <rules>
               <banDuplicatePomDependencyVersions/>
+              <requireExplicitDependencyScope/>
               <requireProfileIdsExist/>
               <dependencyConvergence/>
               <requireUpperBoundDeps/>

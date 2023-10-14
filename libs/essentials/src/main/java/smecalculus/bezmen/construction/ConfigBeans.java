@@ -16,14 +16,14 @@ public class ConfigBeans {
     @Bean
     @ConditionalOnConfigProtocolMode(ConfigProtocolMode.FILE_SYSTEM)
     @ConditionalOnConfigMappingMode(ConfigMappingMode.LIGHTBEND_CONFIG)
-    PropsKeeper configKeeperLightbendConfig() {
+    PropsKeeper propsKeeperLightbendConfig() {
         return new PropsKeeperLightbendConfig(ConfigFactory.load());
     }
 
     @Bean
     @ConditionalOnConfigProtocolMode(ConfigProtocolMode.FILE_SYSTEM)
     @ConditionalOnConfigMappingMode(ConfigMappingMode.SPRING_CONFIG)
-    PropsKeeper configKeeperSpringConfig(Environment environment) {
+    PropsKeeper propsKeeperSpringConfig(Environment environment) {
         return new PropsKeeperSpringConfig(environment);
     }
 }
