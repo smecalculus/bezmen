@@ -9,17 +9,17 @@ import smecalculus.bezmen.configuration.H2Props;
 import smecalculus.bezmen.configuration.PostgresProps;
 import smecalculus.bezmen.configuration.StorageProps;
 
-@Configuration(proxyBeanMethods = false)
 @Import({StorageConfigBeans.class, MappingMyBatisBeans.class, MappingSpringDataBeans.class})
+@Configuration(proxyBeanMethods = false)
 public class StorageBeans {
 
     @Bean
     public DataSource dataSource(StorageProps storageProps) {
         var dataSource = new DriverManagerDataSource();
-        var storageProtocolProps = storageProps.protocolProps();
-        switch (storageProtocolProps.protocolMode()) {
-            case H2 -> configure(dataSource, storageProtocolProps.h2Props());
-            case POSTGRES -> configure(dataSource, storageProtocolProps.postgresProps());
+        var protocolProps = storageProps.protocolProps();
+        switch (protocolProps.protocolMode()) {
+            case H2 -> configure(dataSource, protocolProps.h2Props());
+            case POSTGRES -> configure(dataSource, protocolProps.postgresProps());
         }
         return dataSource;
     }

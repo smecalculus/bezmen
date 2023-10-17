@@ -73,7 +73,7 @@
                   <html destdir="${project.build.directory}/coverage"/>
                   <check>
                     <rule element="CLASS">
-                      <limit counter="METHOD" value="MISSEDCOUNT" maximum="3"/>
+                      <limit counter="METHOD" value="MISSEDCOUNT" maximum="2"/>
                     </rule>
                   </check>
                   <executiondata>

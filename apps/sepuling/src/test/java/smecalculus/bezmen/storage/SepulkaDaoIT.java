@@ -1,7 +1,6 @@
 package smecalculus.bezmen.storage;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static smecalculus.bezmen.core.SepulkaEg.Pojos.sepulka;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -10,6 +9,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import smecalculus.bezmen.construction.SepulkaDaoBeans;
+import smecalculus.bezmen.core.ServerSideEg;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = SepulkaDaoBeans.class)
@@ -20,16 +20,28 @@ abstract class SepulkaDaoIT {
     private SepulkaDao sepulkaDao;
 
     @Test
-    void shouldSaveOneSepulka() {
+    void shouldAddOneSepulka() {
         // given
-        var expectedSepulka = sepulka();
+        var expected1 = ServerSideEg.storageState().build();
+        // and
+        var expected2 =
+                ServerSideEg.creationState().internalId(expected1.internalId()).build();
         // when
-        var actualSepulka1 = sepulkaDao.save(expectedSepulka);
+        var actual1 = sepulkaDao.add(expected1);
         // and
-        var actualSepulka2 = sepulkaDao.getById(expectedSepulka.internalId());
+        var actual2 = sepulkaDao.getBy(expected1.externalId());
         // then
-        assertThat(actualSepulka1).isEqualTo(expectedSepulka);
+        assertThat(actual1).isEqualTo(expected1);
         // and
-        assertThat(actualSepulka2).contains(expectedSepulka);
+        assertThat(actual2).contains(expected2);
+    }
+
+    @Test
+    void shouldUpdateOneSepulka() {
+        // given
+
+        // when
+
+        // then
     }
 }

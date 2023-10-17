@@ -1,11 +1,17 @@
 package smecalculus.bezmen.storage;
 
 import org.mapstruct.Mapper;
-import smecalculus.bezmen.core.Sepulka;
+import smecalculus.bezmen.core.ServerSide;
 
 @Mapper
 public interface SepulkaStateMapper {
-    SepulkaEdge toEdge(Sepulka sepulka);
+    EdgeSide.AggregateState toEdge(ServerSide.StorageState state);
 
-    Sepulka toDomain(SepulkaEdge sepulkaEdge);
+    ServerSide.StorageState toDomain(EdgeSide.AggregateState state);
+
+    EdgeSide.TouchState toEdge(ServerSide.TouchState state);
+
+    ServerSide.CreationState toDomain(EdgeSide.CreationState state);
+
+    ServerSide.PreviewState toDomain(EdgeSide.PreviewState state);
 }

@@ -3,6 +3,8 @@ package smecalculus.bezmen.messaging;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import smecalculus.bezmen.core.SepulkaService;
+import smecalculus.bezmen.messaging.EdgeSide.RegistrationRequest;
+import smecalculus.bezmen.messaging.EdgeSide.RegistrationResponse;
 import smecalculus.bezmen.validation.EdgeValidator;
 
 @RequiredArgsConstructor
@@ -18,7 +20,7 @@ public class SepulkaClientImpl implements SepulkaClient {
     private SepulkaService service;
 
     @Override
-    public SepulkaNewResponseEdge register(SepulkaNewRequestEdge requestEdge) {
+    public RegistrationResponse register(RegistrationRequest requestEdge) {
         validator.validate(requestEdge);
         var request = mapper.toDomain(requestEdge);
         var response = service.register(request);

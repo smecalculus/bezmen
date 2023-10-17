@@ -1,12 +1,11 @@
 package smecalculus.bezmen.messaging;
 
 import org.mapstruct.Mapper;
-import smecalculus.bezmen.core.SepulkaNewRequest;
-import smecalculus.bezmen.core.SepulkaNewResponse;
+import smecalculus.bezmen.core.ClientSide;
 
 @Mapper
 public interface SepulkaMessageMapper {
-    SepulkaNewRequest toDomain(SepulkaNewRequestEdge requestEdge);
+    ClientSide.RegistrationRequest toDomain(EdgeSide.RegistrationRequest request);
 
-    SepulkaNewResponseEdge toEdge(SepulkaNewResponse response);
+    EdgeSide.RegistrationResponse toEdge(ClientSide.RegistrationResponse response);
 }

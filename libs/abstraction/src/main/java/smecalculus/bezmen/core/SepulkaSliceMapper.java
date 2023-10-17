@@ -1,10 +1,13 @@
 package smecalculus.bezmen.core;
 
 import org.mapstruct.Mapper;
+import smecalculus.bezmen.core.ClientSide.RegistrationRequest;
+import smecalculus.bezmen.core.ClientSide.RegistrationResponse;
+import smecalculus.bezmen.core.ServerSide.StorageState;
 
 @Mapper
 public interface SepulkaSliceMapper {
-    Sepulka.Builder toEntity(SepulkaNewRequest request);
+    StorageState.Builder toServer(RegistrationRequest request);
 
-    SepulkaNewResponse toSlice(Sepulka sepulka);
+    RegistrationResponse.Builder toClient(StorageState state);
 }
