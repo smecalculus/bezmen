@@ -2,7 +2,6 @@ package smecalculus.bezmen.storage;
 
 import java.time.LocalDateTime;
 import lombok.Data;
-import org.springframework.data.annotation.Id;
 import org.springframework.data.domain.Persistable;
 import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
@@ -29,7 +28,7 @@ public abstract class EdgeSide {
     @Data
     @Table("sepulkas")
     public static class AggregateState implements Persistable<String> {
-        @Id
+        @Column
         String internalId;
 
         @Column

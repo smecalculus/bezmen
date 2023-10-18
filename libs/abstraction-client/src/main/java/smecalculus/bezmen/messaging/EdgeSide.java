@@ -1,6 +1,7 @@
 package smecalculus.bezmen.messaging;
 
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.Data;
 
 public class EdgeSide {
@@ -8,12 +9,14 @@ public class EdgeSide {
     @Data
     public static class RegistrationRequest {
         @NotNull
-        private String externalId;
+        @Size(min = 1, max = 64)
+        String externalId;
     }
 
     @Data
     public static class RegistrationResponse {
         @NotNull
-        private String externalId;
+        @Size(min = 1, max = 64)
+        String externalId;
     }
 }
