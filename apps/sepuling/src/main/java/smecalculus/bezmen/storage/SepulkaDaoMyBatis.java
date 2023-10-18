@@ -4,9 +4,9 @@ import java.util.Optional;
 import java.util.UUID;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import smecalculus.bezmen.core.ServerSide.AggregateState;
 import smecalculus.bezmen.core.ServerSide.CreationState;
 import smecalculus.bezmen.core.ServerSide.PreviewState;
-import smecalculus.bezmen.core.ServerSide.StorageState;
 import smecalculus.bezmen.core.ServerSide.TouchState;
 import smecalculus.bezmen.storage.mybatis.SepulkaSqlMapper;
 
@@ -20,7 +20,7 @@ public class SepulkaDaoMyBatis implements SepulkaDao {
     private SepulkaSqlMapper sqlMapper;
 
     @Override
-    public StorageState add(@NonNull StorageState state) {
+    public AggregateState add(@NonNull AggregateState state) {
         var stateEdge = stateMapper.toEdge(state);
         sqlMapper.insert(stateEdge);
         return state;
@@ -37,7 +37,7 @@ public class SepulkaDaoMyBatis implements SepulkaDao {
     }
 
     @Override
-    public void updateBy(TouchState state, UUID internalId) {
-        sqlMapper.updateBy(stateMapper.toEdge(state), internalId.toString());
+    public int updateBy(TouchState state, UUID internalId) {
+        return sqlMapper.updateBy(stateMapper.toEdge(state), internalId.toString());
     }
 }

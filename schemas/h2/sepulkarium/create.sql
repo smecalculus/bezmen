@@ -1,7 +1,7 @@
 CREATE TABLE sepulkas (
-	internal_id CHARACTER VARYING,
+	internal_id UUID,
 	external_id CHARACTER VARYING,
-	version INTEGER,
-	created_at TIMESTAMP,
-	updated_at TIMESTAMP
+	revision INTEGER,
+	created_at TIMESTAMP(6),
+	updated_at TIMESTAMP(6)
 );

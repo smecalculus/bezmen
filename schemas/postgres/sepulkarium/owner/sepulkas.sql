@@ -1,7 +1,7 @@
 CREATE TABLE sepulkas (
 	internal_id text,
 	external_id text,
-	version integer,
-	created_at TIMESTAMP,
-	updated_at TIMESTAMP
+	revision integer,
+	created_at TIMESTAMP(6),
+	updated_at TIMESTAMP(6)
 );

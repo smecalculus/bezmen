@@ -17,7 +17,7 @@ public class SepulkaDaoSpringData implements SepulkaDao {
     private SepulkaRepository repository;
 
     @Override
-    public ServerSide.StorageState add(@NonNull ServerSide.StorageState state) {
+    public ServerSide.AggregateState add(@NonNull ServerSide.AggregateState state) {
         var stateEdge = repository.save(mapper.toEdge(state));
         return mapper.toDomain(stateEdge);
     }
@@ -37,7 +37,7 @@ public class SepulkaDaoSpringData implements SepulkaDao {
     }
 
     @Override
-    public void updateBy(ServerSide.TouchState state, UUID internalId) {
-        repository.updateBy(mapper.toEdge(state), internalId.toString());
+    public int updateBy(ServerSide.TouchState state, UUID internalId) {
+        return repository.updateBy(mapper.toEdge(state), internalId.toString());
     }
 }

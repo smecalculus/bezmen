@@ -1,9 +1,9 @@
 package smecalculus.bezmen.storage;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.annotation.Version;
+import org.springframework.data.domain.Persistable;
 import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
 
@@ -17,31 +17,41 @@ public abstract class EdgeSide {
     @Data
     public static class PreviewState {
         String externalId;
-        Date createdAt;
+        LocalDateTime createdAt;
     }
 
     @Data
     public static class TouchState {
-        Integer version;
-        Date updatedAt;
+        Integer revision;
+        LocalDateTime updatedAt;
     }
 
     @Data
     @Table("sepulkas")
-    public static class AggregateState {
+    public static class AggregateState implements Persistable<String> {
         @Id
         String internalId;
 
         @Column
         String externalId;
 
-        @Version
-        Integer version;
+        @Column
+        Integer revision;
 
         @Column
-        Date createdAt;
+        LocalDateTime createdAt;
 
         @Column
-        Date updatedAt;
+        LocalDateTime updatedAt;
+
+        @Override
+        public String getId() {
+            return internalId;
+        }
+
+        @Override
+        public boolean isNew() {
+            return true;
+        }
     }
 }

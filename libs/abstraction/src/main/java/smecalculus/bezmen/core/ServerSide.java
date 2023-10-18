@@ -1,20 +1,25 @@
 package smecalculus.bezmen.core;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 import lombok.Builder;
 import lombok.NonNull;
 
 public class ServerSide {
-
-    @Builder
-    public record StorageState(@NonNull UUID internalId, @NonNull String externalId) {}
-
     @Builder
     public record CreationState(@NonNull UUID internalId) {}
 
     @Builder
-    public record PreviewState(@NonNull String externalId) {}
+    public record PreviewState(@NonNull String externalId, @NonNull LocalDateTime createdAt) {}
 
     @Builder
-    public record TouchState(int version) {}
+    public record TouchState(@NonNull Integer revision, @NonNull LocalDateTime updatedAt) {}
+
+    @Builder
+    public record AggregateState(
+            @NonNull UUID internalId,
+            @NonNull String externalId,
+            @NonNull Integer revision,
+            @NonNull LocalDateTime createdAt,
+            @NonNull LocalDateTime updatedAt) {}
 }

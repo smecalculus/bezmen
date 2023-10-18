@@ -17,14 +17,14 @@ public interface SepulkaSqlMapper {
             INSERT INTO sepulkas (
                 internal_id,
                 external_id,
-                version,
+                revision,
                 created_at,
                 updated_at
             )
             VALUES (
                 #{internalId},
                 #{externalId},
-                #{version},
+                #{revision},
                 #{createdAt},
                 #{updatedAt}
             )
@@ -43,7 +43,8 @@ public interface SepulkaSqlMapper {
     @Select(
             """
             SELECT
-                external_id as externalId
+                external_id as externalId,
+                created_at as createdAt
             FROM sepulkas
             WHERE internal_id = #{internalId}
             """)
@@ -52,10 +53,10 @@ public interface SepulkaSqlMapper {
     @Update(
             """
            UPDATE sepulkas
-           SET version = #{state.version} + 1,
+           SET revision = revision + 1,
             updated_at = #{state.updatedAt}
            WHERE internal_id = #{id}
-           AND version = #{state.version}
+           AND revision = #{state.revision}
            """)
-    void updateBy(@Param("state") TouchState state, @Param("id") String internalId);
+    int updateBy(@Param("state") TouchState state, @Param("id") String internalId);
 }

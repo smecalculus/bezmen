@@ -18,11 +18,11 @@ public interface SepulkaRepository extends CrudRepository<AggregateState, String
     @Modifying
     @Query(
             """
-           UPDATE #{#entityName}
-           SET version = :#{#state.version} + 1,
-            updated_at = :#{#state.updatedAt}
-           WHERE internal_id = :id
-           AND version = :#{#state.version}
-           """)
-    void updateBy(@Param("state") TouchState state, @Param("id") String internalId);
+            UPDATE sepulkas
+            SET revision = revision + 1,
+             updated_at = :#{#state.updatedAt}
+            WHERE internal_id = :id
+            AND revision = :#{#state.revision}
+            """)
+    int updateBy(@Param("state") TouchState state, @Param("id") String internalId);
 }

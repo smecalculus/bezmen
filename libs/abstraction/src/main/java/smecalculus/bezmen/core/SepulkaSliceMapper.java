@@ -3,11 +3,11 @@ package smecalculus.bezmen.core;
 import org.mapstruct.Mapper;
 import smecalculus.bezmen.core.ClientSide.RegistrationRequest;
 import smecalculus.bezmen.core.ClientSide.RegistrationResponse;
-import smecalculus.bezmen.core.ServerSide.StorageState;
+import smecalculus.bezmen.core.ServerSide.AggregateState;
 
 @Mapper
 public interface SepulkaSliceMapper {
-    StorageState.Builder toServer(RegistrationRequest request);
+    AggregateState.Builder toServer(RegistrationRequest request);
 
-    RegistrationResponse.Builder toClient(StorageState state);
+    RegistrationResponse.Builder toClient(AggregateState state);
 }
