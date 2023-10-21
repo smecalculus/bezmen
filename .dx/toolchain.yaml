@@ -6,7 +6,6 @@
       ansible.builtin.include_vars:
         file: envs/dev/{{ devenv }}/vars.yaml
         name: dev
-
     - name: Capture maven version
       ansible.builtin.command:
         cmd: mvn --version --quiet
@@ -19,7 +18,6 @@
           - maven_version.stdout is version(dev.maven_version.min, '>=', version_type='semver')
           - maven_version.stdout is version(dev.maven_version.max, '<', version_type='semver')
         msg: "{{ dev.maven_version.min }} <= maven < {{ dev.maven_version.max }}"
-
     - name: Capture docker version
       ansible.builtin.command:
         cmd: docker version --format {{'{{.Server.Version}}'}}
