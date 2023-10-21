@@ -1,6 +1,6 @@
 package smecalculus.bezmen.construction;
 
-import static smecalculus.bezmen.configuration.StateMappingMode.MY_BATIS;
+import static smecalculus.bezmen.configuration.StorageMappingMode.MY_BATIS;
 
 import javax.sql.DataSource;
 import org.apache.ibatis.session.SqlSessionFactory;

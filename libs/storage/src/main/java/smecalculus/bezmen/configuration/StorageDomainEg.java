@@ -1,37 +1,37 @@
 package smecalculus.bezmen.configuration;
 
-import static smecalculus.bezmen.configuration.StateMappingMode.SPRING_DATA;
+import static smecalculus.bezmen.configuration.StorageMappingMode.SPRING_DATA;
 import static smecalculus.bezmen.configuration.StorageProtocolMode.H2;
 
-import smecalculus.bezmen.configuration.ServerSide.H2Props;
-import smecalculus.bezmen.configuration.ServerSide.PostgresProps;
-import smecalculus.bezmen.configuration.ServerSide.StateMappingProps;
-import smecalculus.bezmen.configuration.ServerSide.StorageProps;
-import smecalculus.bezmen.configuration.ServerSide.StorageProtocolProps;
+import smecalculus.bezmen.configuration.StorageDomain.H2Props;
+import smecalculus.bezmen.configuration.StorageDomain.MappingProps;
+import smecalculus.bezmen.configuration.StorageDomain.PostgresProps;
+import smecalculus.bezmen.configuration.StorageDomain.ProtocolProps;
+import smecalculus.bezmen.configuration.StorageDomain.StorageProps;
 
-public abstract class ServerSideEg {
+public abstract class StorageDomainEg {
     public static StorageProps.Builder storageProps() {
         return StorageProps.builder()
                 .protocolProps(storageProtocolProps().build())
                 .mappingProps(stateMappingProps().build());
     }
 
-    public static StorageProps.Builder storageProps(StateMappingMode mappingMode, StorageProtocolMode protocolMode) {
+    public static StorageProps.Builder storageProps(StorageMappingMode mappingMode, StorageProtocolMode protocolMode) {
         return storageProps()
                 .protocolProps(storageProtocolProps(protocolMode).build())
                 .mappingProps(stateMappingProps(mappingMode).build());
     }
 
-    public static StateMappingProps.Builder stateMappingProps() {
-        return StateMappingProps.builder().mappingMode(SPRING_DATA);
+    public static MappingProps.Builder stateMappingProps() {
+        return MappingProps.builder().mappingMode(SPRING_DATA);
     }
 
-    public static StateMappingProps.Builder stateMappingProps(StateMappingMode mode) {
+    public static MappingProps.Builder stateMappingProps(StorageMappingMode mode) {
         return stateMappingProps().mappingMode(mode);
     }
 
-    public static StorageProtocolProps.Builder storageProtocolProps() {
-        return StorageProtocolProps.builder()
+    public static ProtocolProps.Builder storageProtocolProps() {
+        return ProtocolProps.builder()
                 .protocolMode(H2)
                 .h2Props(H2Props.builder()
                         .url("jdbc:h2:mem:bezmen;DB_CLOSE_DELAY=-1")
@@ -45,7 +45,7 @@ public abstract class ServerSideEg {
                         .build());
     }
 
-    public static StorageProtocolProps.Builder storageProtocolProps(StorageProtocolMode mode) {
+    public static StorageDomain.ProtocolProps.Builder storageProtocolProps(StorageProtocolMode mode) {
         return storageProtocolProps().protocolMode(mode);
     }
 }

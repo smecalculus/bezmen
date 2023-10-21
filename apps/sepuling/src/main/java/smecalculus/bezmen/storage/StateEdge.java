@@ -8,8 +8,7 @@ import org.springframework.data.domain.Persistable;
 import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
 
-public abstract class EdgeSide {
-
+public abstract class StateEdge {
     @Data
     public static class ExistenceState {
         UUID internalId;

@@ -4,17 +4,16 @@ import lombok.Builder;
 import lombok.NonNull;
 import lombok.ToString;
 
-public abstract class ServerSide {
+public abstract class StorageDomain {
+    @Builder
+    public record StorageProps(@NonNull StorageDomain.ProtocolProps protocolProps, @NonNull StorageDomain.MappingProps mappingProps) {}
 
     @Builder
-    public record StorageProps(@NonNull StorageProtocolProps protocolProps, @NonNull StateMappingProps mappingProps) {}
-
-    @Builder
-    public record StorageProtocolProps(
+    public record ProtocolProps(
             @NonNull StorageProtocolMode protocolMode, H2Props h2Props, PostgresProps postgresProps) {}
 
     @Builder
-    public record StateMappingProps(@NonNull StateMappingMode mappingMode) {}
+    public record MappingProps(@NonNull StorageMappingMode mappingMode) {}
 
     @Builder
     public record H2Props(@NonNull String url, @NonNull String username, @NonNull String password) {}

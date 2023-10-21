@@ -3,12 +3,12 @@ package smecalculus.bezmen.construction;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static smecalculus.bezmen.configuration.EdgeSideEg.storageProps;
+import static smecalculus.bezmen.configuration.StorageEdgeEg.storageProps;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import smecalculus.bezmen.configuration.EdgeSide.StorageProps;
 import smecalculus.bezmen.configuration.PropsKeeper;
+import smecalculus.bezmen.configuration.StorageEdge.StorageProps;
 import smecalculus.bezmen.configuration.StoragePropsMapper;
 import smecalculus.bezmen.configuration.StoragePropsMapperImpl;
 import smecalculus.bezmen.validation.EdgeValidator;

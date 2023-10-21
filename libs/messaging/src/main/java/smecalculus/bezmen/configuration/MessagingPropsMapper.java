@@ -6,22 +6,21 @@ import smecalculus.bezmen.mapping.EdgeMapper;
 
 @Mapper
 public interface MessagingPropsMapper extends EdgeMapper {
-
     @Mapping(source = "protocol", target = "protocolProps")
     @Mapping(source = "mapping", target = "mappingProps")
-    MessagingProps toDomain(MessagingPropsEdge propsEdge);
+    MessagingDomain.MessagingProps toDomain(MessagingEdge.MessagingProps propsEdge);
 
     @Mapping(source = "modes", target = "protocolModes")
-    MessagingProtocolProps toDomain(MessagingProtocolPropsEdge propsEdge);
+    MessagingDomain.ProtocolProps toDomain(MessagingEdge.ProtocolProps propsEdge);
 
     @Mapping(source = "modes", target = "mappingModes")
-    MessageMappingProps toDomain(MessageMappingPropsEdge propsEdge);
+    MessagingDomain.MappingProps toDomain(MessagingEdge.MappingProps propsEdge);
 
     default MessagingProtocolMode toProtocolMode(String value) {
         return MessagingProtocolMode.valueOf(value.toUpperCase());
     }
 
-    default MessageMappingMode toMappingMode(String value) {
-        return MessageMappingMode.valueOf(value.toUpperCase());
+    default MessagingMappingMode toMappingMode(String value) {
+        return MessagingMappingMode.valueOf(value.toUpperCase());
     }
 }

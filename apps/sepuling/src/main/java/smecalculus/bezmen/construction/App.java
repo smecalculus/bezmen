@@ -1,8 +1,8 @@
 package smecalculus.bezmen.construction;
 
-import static smecalculus.bezmen.configuration.MessageMappingMode.SPRING_MVC;
-import static smecalculus.bezmen.configuration.StateMappingMode.MY_BATIS;
-import static smecalculus.bezmen.configuration.StateMappingMode.SPRING_DATA;
+import static smecalculus.bezmen.configuration.MessagingMappingMode.SPRING_MVC;
+import static smecalculus.bezmen.configuration.StorageMappingMode.MY_BATIS;
+import static smecalculus.bezmen.configuration.StorageMappingMode.SPRING_DATA;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.context.annotation.Bean;

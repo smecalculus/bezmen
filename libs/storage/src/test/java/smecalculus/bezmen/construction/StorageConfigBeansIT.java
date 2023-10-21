@@ -1,14 +1,14 @@
 package smecalculus.bezmen.construction;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static smecalculus.bezmen.configuration.ServerSideEg.storageProps;
+import static smecalculus.bezmen.configuration.StorageDomainEg.storageProps;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import smecalculus.bezmen.configuration.ServerSide.StorageProps;
+import smecalculus.bezmen.configuration.StorageDomain.StorageProps;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = {StorageConfigBeans.class, ConfigBeans.class, ValidationBeans.class})

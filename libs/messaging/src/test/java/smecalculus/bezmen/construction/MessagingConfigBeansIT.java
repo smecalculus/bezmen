@@ -1,14 +1,14 @@
 package smecalculus.bezmen.construction;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static smecalculus.bezmen.configuration.MessagingPropsEg.Builders.messagingProps;
+import static smecalculus.bezmen.configuration.MessagingDomainEg.messagingProps;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import smecalculus.bezmen.configuration.MessagingProps;
+import smecalculus.bezmen.configuration.MessagingDomain.MessagingProps;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = {MessagingConfigBeans.class, ConfigBeans.class, ValidationBeans.class})

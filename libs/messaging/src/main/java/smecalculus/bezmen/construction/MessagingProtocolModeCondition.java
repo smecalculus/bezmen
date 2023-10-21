@@ -7,7 +7,7 @@ import lombok.NonNull;
 import org.springframework.context.annotation.ConditionContext;
 import org.springframework.context.annotation.ConfigurationCondition;
 import org.springframework.core.type.AnnotatedTypeMetadata;
-import smecalculus.bezmen.configuration.MessagingProps;
+import smecalculus.bezmen.configuration.MessagingDomain.MessagingProps;
 import smecalculus.bezmen.configuration.MessagingProtocolMode;
 
 class MessagingProtocolModeCondition implements ConfigurationCondition {

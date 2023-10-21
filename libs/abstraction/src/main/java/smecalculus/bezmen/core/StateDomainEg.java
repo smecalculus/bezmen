@@ -4,12 +4,12 @@ import static java.time.temporal.ChronoUnit.MICROS;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
-import smecalculus.bezmen.core.ServerSide.AggregateState;
-import smecalculus.bezmen.core.ServerSide.ExistenceState;
-import smecalculus.bezmen.core.ServerSide.PreviewState;
-import smecalculus.bezmen.core.ServerSide.TouchState;
+import smecalculus.bezmen.core.StateDomain.AggregateState;
+import smecalculus.bezmen.core.StateDomain.ExistenceState;
+import smecalculus.bezmen.core.StateDomain.PreviewState;
+import smecalculus.bezmen.core.StateDomain.TouchState;
 
-public class ServerSideEg {
+public class StateDomainEg {
     public static AggregateState.Builder aggregateState() {
         return AggregateState.builder()
                 .internalId(UUID.randomUUID())

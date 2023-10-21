@@ -10,7 +10,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import smecalculus.bezmen.construction.SepulkaDaoBeans;
-import smecalculus.bezmen.core.ServerSideEg;
+import smecalculus.bezmen.core.StateDomainEg;
 
 @DirtiesContext
 @ExtendWith(SpringExtension.class)
@@ -24,10 +24,10 @@ abstract class SepulkaDaoIT {
     @Test
     void shouldAddOneSepulka() {
         // given
-        var expected1 = ServerSideEg.aggregateState().build();
+        var expected1 = StateDomainEg.aggregateState().build();
         // and
         var expected2 =
-                ServerSideEg.creationState().internalId(expected1.internalId()).build();
+                StateDomainEg.creationState().internalId(expected1.internalId()).build();
         // when
         var actualSaved = sepulkaDao.add(expected1);
         // and
@@ -41,11 +41,11 @@ abstract class SepulkaDaoIT {
     @Test
     void shouldViewOneSepulka() {
         // given
-        var aggregate = ServerSideEg.aggregateState().build();
+        var aggregate = StateDomainEg.aggregateState().build();
         // and
         sepulkaDao.add(aggregate);
         // and
-        var expected = ServerSideEg.previewState(aggregate).build();
+        var expected = StateDomainEg.previewState(aggregate).build();
         // when
         var actual = sepulkaDao.getBy(aggregate.internalId());
         // then
@@ -55,13 +55,13 @@ abstract class SepulkaDaoIT {
     @Test
     void shouldUpdateOneSepulka() {
         // given
-        var aggregate = ServerSideEg.aggregateState().build();
+        var aggregate = StateDomainEg.aggregateState().build();
         // and
         sepulkaDao.add(aggregate);
         // and
         var updatedAt = aggregate.updatedAt().plusSeconds(1);
         // and
-        var touch = ServerSideEg.touchState(aggregate).updatedAt(updatedAt).build();
+        var touch = StateDomainEg.touchState(aggregate).updatedAt(updatedAt).build();
         // when
         sepulkaDao.updateBy(touch, aggregate.internalId());
         // then

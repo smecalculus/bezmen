@@ -7,21 +7,18 @@ import lombok.Data;
 import lombok.ToString;
 import smecalculus.bezmen.validation.ValueOfEnum;
 
-public abstract class EdgeSide {
-
+public abstract class StorageEdge {
     @Data
     public static class StorageProps {
+        @NotNull
+        ProtocolProps protocol;
 
         @NotNull
-        StorageProtocolProps protocol;
-
-        @NotNull
-        StateMappingProps mapping;
+        MappingProps mapping;
     }
 
     @Data
-    public static class StorageProtocolProps {
-
+    public static class ProtocolProps {
         @ValueOfEnum(StorageProtocolMode.class)
         String mode;
 
@@ -33,15 +30,13 @@ public abstract class EdgeSide {
     }
 
     @Data
-    public static class StateMappingProps {
-
-        @ValueOfEnum(StateMappingMode.class)
+    public static class MappingProps {
+        @ValueOfEnum(StorageMappingMode.class)
         private String mode;
     }
 
     @Data
     public static class PostgresProps {
-
         @NotBlank
         String url;
 
@@ -55,7 +50,6 @@ public abstract class EdgeSide {
 
     @Data
     public static class H2Props {
-
         @NotBlank
         String url;
 

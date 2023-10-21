@@ -5,11 +5,11 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 import org.springframework.context.annotation.Conditional;
-import smecalculus.bezmen.configuration.MessageMappingMode;
+import smecalculus.bezmen.configuration.MessagingMappingMode;
 
 @Target({ElementType.TYPE, ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
 @Conditional(MessageMappingModeCondition.class)
 public @interface ConditionalOnMessageMappingModes {
-    MessageMappingMode[] value();
+    MessagingMappingMode[] value();
 }

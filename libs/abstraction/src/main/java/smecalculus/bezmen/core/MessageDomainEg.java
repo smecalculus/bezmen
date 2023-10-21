@@ -1,9 +1,9 @@
 package smecalculus.bezmen.core;
 
 import java.util.UUID;
-import smecalculus.bezmen.core.ClientSide.RegistrationResponse;
+import smecalculus.bezmen.core.MessageDomain.RegistrationResponse;
 
-public class ClientSideEg {
+public class MessageDomainEg {
     public static RegistrationResponse.Builder registrationResponse() {
         return RegistrationResponse.builder().externalId(UUID.randomUUID().toString());
     }

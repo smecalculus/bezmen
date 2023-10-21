@@ -1,6 +1,6 @@
 package smecalculus.bezmen.configuration;
 
-public enum MessageMappingMode {
+public enum MessagingMappingMode {
     SPRING_MVC,
     SPRING_MANAGEMENT
 }
