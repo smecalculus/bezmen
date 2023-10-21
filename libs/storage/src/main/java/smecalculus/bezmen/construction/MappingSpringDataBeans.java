@@ -52,7 +52,10 @@ public class MappingSpringDataBeans extends AbstractJdbcConfiguration {
 
     @Bean
     @Override
-    public @NonNull JdbcMappingContext jdbcMappingContext(@NonNull Optional<NamingStrategy> namingStrategy, @NonNull JdbcCustomConversions customConversions, @NonNull RelationalManagedTypes jdbcManagedTypes) {
+    public @NonNull JdbcMappingContext jdbcMappingContext(
+            @NonNull Optional<NamingStrategy> namingStrategy,
+            @NonNull JdbcCustomConversions customConversions,
+            @NonNull RelationalManagedTypes jdbcManagedTypes) {
         var mappingContext = super.jdbcMappingContext(namingStrategy, customConversions, jdbcManagedTypes);
         mappingContext.setForceQuote(false);
         return mappingContext;

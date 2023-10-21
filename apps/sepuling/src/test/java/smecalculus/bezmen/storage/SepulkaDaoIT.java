@@ -14,7 +14,7 @@ import smecalculus.bezmen.core.ServerSideEg;
 
 @DirtiesContext
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = SepulkaDaoBeans.Everyone.class)
+@ContextConfiguration(classes = SepulkaDaoBeans.Anyone.class)
 @Sql("/schemas/sepulkarium/truncate.sql")
 abstract class SepulkaDaoIT {
 

@@ -39,7 +39,7 @@ public class SepulkaDaoBeans {
         }
     }
 
-    public static class Everyone {
+    public static class Anyone {
         @Bean
         public SepulkaStateMapper sepulkaStateMapper() {
             return new SepulkaStateMapperImpl();
@@ -51,8 +51,8 @@ public class SepulkaDaoBeans {
             var specific =
                     switch (storageProps.protocolProps().protocolMode()) {
                         case H2 -> List.of("MODE=STRICT");
-                        case POSTGRES ->
-                                List.of("MODE=PostgreSQL", "DATABASE_TO_LOWER=TRUE", "DEFAULT_NULL_ORDERING=HIGH");
+                        case POSTGRES -> List.of(
+                                "MODE=PostgreSQL", "DATABASE_TO_LOWER=TRUE", "DEFAULT_NULL_ORDERING=HIGH");
                     };
             var nameWithSettings = Stream.of(List.of(DB), common, specific)
                     .flatMap(Collection::stream)
