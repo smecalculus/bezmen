@@ -1,3 +1,3 @@
 package smecalculus.bezmen.configuration;
 
-public abstract class MessagingEdgeEg {}
+public abstract class MessagingEmEg {}

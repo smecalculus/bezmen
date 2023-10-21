@@ -1,13 +1,13 @@
 package smecalculus.bezmen.configuration;
 
-import static smecalculus.bezmen.configuration.StorageMappingMode.SPRING_DATA;
-import static smecalculus.bezmen.configuration.StorageProtocolMode.H2;
+import static smecalculus.bezmen.configuration.StorageDm.MappingMode.SPRING_DATA;
+import static smecalculus.bezmen.configuration.StorageDm.ProtocolMode.H2;
 
-import smecalculus.bezmen.configuration.StorageEdge.MappingProps;
-import smecalculus.bezmen.configuration.StorageEdge.ProtocolProps;
-import smecalculus.bezmen.configuration.StorageEdge.StorageProps;
+import smecalculus.bezmen.configuration.StorageEm.MappingProps;
+import smecalculus.bezmen.configuration.StorageEm.ProtocolProps;
+import smecalculus.bezmen.configuration.StorageEm.StorageProps;
 
-public abstract class StorageEdgeEg {
+public abstract class StorageEmEg {
     public static StorageProps storageProps() {
         var propsEdge = new StorageProps();
         propsEdge.setMapping(mappingProps());

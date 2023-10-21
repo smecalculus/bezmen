@@ -1,10 +1,11 @@
 package smecalculus.bezmen.construction;
 
-import org.springframework.context.annotation.Configuration;
-import smecalculus.bezmen.configuration.MessagingMappingMode;
-import smecalculus.bezmen.configuration.MessagingProtocolMode;
+import static smecalculus.bezmen.configuration.MessagingDm.MappingMode.SPRING_MANAGEMENT;
+import static smecalculus.bezmen.configuration.MessagingDm.ProtocolMode.JMX;
 
-@ConditionalOnMessagingProtocolModes(MessagingProtocolMode.JMX)
-@ConditionalOnMessageMappingModes(MessagingMappingMode.SPRING_MANAGEMENT)
+import org.springframework.context.annotation.Configuration;
+
+@ConditionalOnMessagingProtocolModes(JMX)
+@ConditionalOnMessagingMappingModes(SPRING_MANAGEMENT)
 @Configuration(proxyBeanMethods = false)
 public class MappingSpringJmxManagementBeans {}

@@ -3,7 +3,7 @@ package smecalculus.bezmen.core;
 import lombok.Builder;
 import lombok.NonNull;
 
-public class MessageDomain {
+public class MessageDm {
     @Builder
     public record RegistrationRequest(@NonNull String externalId) {}
 

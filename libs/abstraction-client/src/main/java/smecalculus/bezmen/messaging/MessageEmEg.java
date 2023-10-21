@@ -1,10 +1,10 @@
 package smecalculus.bezmen.messaging;
 
 import java.util.UUID;
-import smecalculus.bezmen.messaging.MessageEdge.RegistrationRequest;
-import smecalculus.bezmen.messaging.MessageEdge.RegistrationResponse;
+import smecalculus.bezmen.messaging.MessageEm.RegistrationRequest;
+import smecalculus.bezmen.messaging.MessageEm.RegistrationResponse;
 
-public abstract class MessageEdgeEg {
+public abstract class MessageEmEg {
     public static RegistrationRequest registrationRequest() {
         var requestEdge = new RegistrationRequest();
         requestEdge.setExternalId(UUID.randomUUID().toString());

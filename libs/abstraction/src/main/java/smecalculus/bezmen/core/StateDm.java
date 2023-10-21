@@ -5,7 +5,7 @@ import java.util.UUID;
 import lombok.Builder;
 import lombok.NonNull;
 
-public class StateDomain {
+public class StateDm {
     @Builder
     public record ExistenceState(@NonNull UUID internalId) {}
 

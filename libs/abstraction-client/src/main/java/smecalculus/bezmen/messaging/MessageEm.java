@@ -4,7 +4,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 
-public abstract class MessageEdge {
+public abstract class MessageEm {
     @Data
     public static class RegistrationRequest {
         @NotNull

@@ -6,8 +6,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import smecalculus.bezmen.configuration.PropsKeeper;
-import smecalculus.bezmen.configuration.StorageDomain.StorageProps;
-import smecalculus.bezmen.configuration.StorageEdge;
+import smecalculus.bezmen.configuration.StorageDm.StorageProps;
+import smecalculus.bezmen.configuration.StorageEm;
 import smecalculus.bezmen.configuration.StoragePropsMapper;
 import smecalculus.bezmen.configuration.StoragePropsMapperImpl;
 import smecalculus.bezmen.validation.EdgeValidator;
@@ -25,7 +25,7 @@ public class StorageConfigBeans {
 
     @Bean
     StorageProps storageProps(PropsKeeper keeper, EdgeValidator validator, StoragePropsMapper mapper) {
-        var propsEdge = keeper.read("bezmen.storage", StorageEdge.StorageProps.class);
+        var propsEdge = keeper.read("bezmen.storage", StorageEm.StorageProps.class);
         validator.validate(propsEdge);
         LOG.info("Read {}", propsEdge);
         return mapper.toDomain(propsEdge);

@@ -4,10 +4,10 @@ import java.util.Optional;
 import java.util.UUID;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import smecalculus.bezmen.core.StateDomain.AggregateState;
-import smecalculus.bezmen.core.StateDomain.ExistenceState;
-import smecalculus.bezmen.core.StateDomain.PreviewState;
-import smecalculus.bezmen.core.StateDomain.TouchState;
+import smecalculus.bezmen.core.StateDm.AggregateState;
+import smecalculus.bezmen.core.StateDm.ExistenceState;
+import smecalculus.bezmen.core.StateDm.PreviewState;
+import smecalculus.bezmen.core.StateDm.TouchState;
 import smecalculus.bezmen.storage.mybatis.SepulkaSqlMapper;
 
 @RequiredArgsConstructor

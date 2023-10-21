@@ -11,8 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import smecalculus.bezmen.construction.SepulkaClientBeans;
-import smecalculus.bezmen.core.MessageDomain.RegistrationRequest;
-import smecalculus.bezmen.core.MessageDomainEg;
+import smecalculus.bezmen.core.MessageDm.RegistrationRequest;
+import smecalculus.bezmen.core.MessageDmEg;
 import smecalculus.bezmen.core.SepulkaService;
 
 @ExtendWith(SpringExtension.class)
@@ -30,12 +30,12 @@ abstract class SepulkaClientIT {
         // given
         var externalId = UUID.randomUUID().toString();
         // and
-        var request = MessageEdgeEg.registrationRequest(externalId);
+        var request = MessageEmEg.registrationRequest(externalId);
         // and
         when(serviceMock.register(any(RegistrationRequest.class)))
-                .thenReturn(MessageDomainEg.registrationResponse(externalId).build());
+                .thenReturn(MessageDmEg.registrationResponse(externalId).build());
         // and
-        var expectedResponse = MessageEdgeEg.registrationResponse(externalId);
+        var expectedResponse = MessageEmEg.registrationResponse(externalId);
         // when
         var actualResponse = externalClient.register(request);
         // then

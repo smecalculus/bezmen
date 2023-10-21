@@ -5,8 +5,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
-import smecalculus.bezmen.configuration.MessagingDomain;
-import smecalculus.bezmen.configuration.MessagingEdge;
+import smecalculus.bezmen.configuration.MessagingDm;
+import smecalculus.bezmen.configuration.MessagingEm;
 import smecalculus.bezmen.configuration.MessagingPropsMapper;
 import smecalculus.bezmen.configuration.MessagingPropsMapperImpl;
 import smecalculus.bezmen.configuration.PropsKeeper;
@@ -24,9 +24,9 @@ public class MessagingConfigBeans {
     }
 
     @Bean
-    MessagingDomain.MessagingProps messagingProps(
+    MessagingDm.MessagingProps messagingProps(
             PropsKeeper keeper, EdgeValidator validator, MessagingPropsMapper mapper) {
-        var propsEdge = keeper.read("bezmen.messaging", MessagingEdge.MessagingProps.class);
+        var propsEdge = keeper.read("bezmen.messaging", MessagingEm.MessagingProps.class);
         validator.validate(propsEdge);
         LOG.info("Read {}", propsEdge);
         return mapper.toDomain(propsEdge);

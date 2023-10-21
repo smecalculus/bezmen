@@ -1,22 +1,24 @@
 package smecalculus.bezmen.configuration;
 
-import static smecalculus.bezmen.configuration.StorageMappingMode.SPRING_DATA;
-import static smecalculus.bezmen.configuration.StorageProtocolMode.H2;
+import static smecalculus.bezmen.configuration.StorageDm.MappingMode.SPRING_DATA;
+import static smecalculus.bezmen.configuration.StorageDm.ProtocolMode.H2;
 
-import smecalculus.bezmen.configuration.StorageDomain.H2Props;
-import smecalculus.bezmen.configuration.StorageDomain.MappingProps;
-import smecalculus.bezmen.configuration.StorageDomain.PostgresProps;
-import smecalculus.bezmen.configuration.StorageDomain.ProtocolProps;
-import smecalculus.bezmen.configuration.StorageDomain.StorageProps;
+import smecalculus.bezmen.configuration.StorageDm.H2Props;
+import smecalculus.bezmen.configuration.StorageDm.MappingMode;
+import smecalculus.bezmen.configuration.StorageDm.MappingProps;
+import smecalculus.bezmen.configuration.StorageDm.PostgresProps;
+import smecalculus.bezmen.configuration.StorageDm.ProtocolMode;
+import smecalculus.bezmen.configuration.StorageDm.ProtocolProps;
+import smecalculus.bezmen.configuration.StorageDm.StorageProps;
 
-public abstract class StorageDomainEg {
+public abstract class StorageDmEg {
     public static StorageProps.Builder storageProps() {
         return StorageProps.builder()
                 .protocolProps(protocolProps().build())
                 .mappingProps(mappingProps().build());
     }
 
-    public static StorageProps.Builder storageProps(StorageMappingMode mappingMode, StorageProtocolMode protocolMode) {
+    public static StorageProps.Builder storageProps(MappingMode mappingMode, ProtocolMode protocolMode) {
         return storageProps()
                 .protocolProps(protocolProps(protocolMode).build())
                 .mappingProps(mappingProps(mappingMode).build());
@@ -26,7 +28,7 @@ public abstract class StorageDomainEg {
         return MappingProps.builder().mappingMode(SPRING_DATA);
     }
 
-    public static MappingProps.Builder mappingProps(StorageMappingMode mode) {
+    public static MappingProps.Builder mappingProps(MappingMode mode) {
         return mappingProps().mappingMode(mode);
     }
 
@@ -45,7 +47,7 @@ public abstract class StorageDomainEg {
                         .build());
     }
 
-    public static ProtocolProps.Builder protocolProps(StorageProtocolMode mode) {
+    public static ProtocolProps.Builder protocolProps(ProtocolMode mode) {
         return protocolProps().protocolMode(mode);
     }
 }

@@ -5,9 +5,11 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.ToString;
+import smecalculus.bezmen.configuration.StorageDm.MappingMode;
+import smecalculus.bezmen.configuration.StorageDm.ProtocolMode;
 import smecalculus.bezmen.validation.ValueOfEnum;
 
-public abstract class StorageEdge {
+public abstract class StorageEm {
     @Data
     public static class StorageProps {
         @NotNull
@@ -19,7 +21,7 @@ public abstract class StorageEdge {
 
     @Data
     public static class ProtocolProps {
-        @ValueOfEnum(StorageProtocolMode.class)
+        @ValueOfEnum(ProtocolMode.class)
         String mode;
 
         @Optional
@@ -31,7 +33,7 @@ public abstract class StorageEdge {
 
     @Data
     public static class MappingProps {
-        @ValueOfEnum(StorageMappingMode.class)
+        @ValueOfEnum(MappingMode.class)
         private String mode;
     }
 

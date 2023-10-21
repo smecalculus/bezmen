@@ -1,9 +1,9 @@
 package smecalculus.bezmen.core;
 
 import org.mapstruct.Mapper;
-import smecalculus.bezmen.core.MessageDomain.RegistrationRequest;
-import smecalculus.bezmen.core.MessageDomain.RegistrationResponse;
-import smecalculus.bezmen.core.StateDomain.AggregateState;
+import smecalculus.bezmen.core.MessageDm.RegistrationRequest;
+import smecalculus.bezmen.core.MessageDm.RegistrationResponse;
+import smecalculus.bezmen.core.StateDm.AggregateState;
 
 @Mapper
 public interface SepulkaMapper {
