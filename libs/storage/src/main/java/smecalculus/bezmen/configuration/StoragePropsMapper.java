@@ -9,15 +9,15 @@ public interface StoragePropsMapper extends EdgeMapper {
 
     @Mapping(source = "protocol", target = "protocolProps")
     @Mapping(source = "mapping", target = "mappingProps")
-    StorageProps toDomain(StoragePropsEdge propsEdge);
+    ServerSide.StorageProps toServer(EdgeSide.StorageProps propsEdge);
 
     @Mapping(source = "mode", target = "protocolMode")
     @Mapping(source = "h2", target = "h2Props")
     @Mapping(source = "postgres", target = "postgresProps")
-    StorageProtocolProps toDomain(StorageProtocolPropsEdge propsEdge);
+    ServerSide.StorageProtocolProps toServer(EdgeSide.StorageProtocolProps propsEdge);
 
     @Mapping(source = "mode", target = "mappingMode")
-    StateMappingProps toDomain(StateMappingPropsEdge propsEdge);
+    ServerSide.StateMappingProps toServer(EdgeSide.StateMappingProps propsEdge);
 
     default StorageProtocolMode toProtocolMode(String mode) {
         return StorageProtocolMode.valueOf(mode.toUpperCase());

@@ -21,7 +21,7 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.transaction.PlatformTransactionManager;
-import smecalculus.bezmen.configuration.StorageProps;
+import smecalculus.bezmen.configuration.ServerSide.StorageProps;
 
 @ConditionalOnStateMappingMode(SPRING_DATA)
 @EnableJdbcRepositories("smecalculus.bezmen.storage.springdata")

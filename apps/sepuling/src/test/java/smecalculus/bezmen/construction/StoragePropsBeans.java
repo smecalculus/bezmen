@@ -6,36 +6,36 @@ import static smecalculus.bezmen.configuration.StorageProtocolMode.H2;
 import static smecalculus.bezmen.configuration.StorageProtocolMode.POSTGRES;
 
 import org.springframework.context.annotation.Bean;
-import smecalculus.bezmen.configuration.StorageProps;
-import smecalculus.bezmen.configuration.StoragePropsEg;
+import smecalculus.bezmen.configuration.ServerSide.StorageProps;
+import smecalculus.bezmen.configuration.ServerSideEg;
 
 public class StoragePropsBeans {
 
     public static class SpringDataPostgres {
         @Bean
         public StorageProps storageProps() {
-            return StoragePropsEg.storageProps(SPRING_DATA, POSTGRES).build();
+            return ServerSideEg.storageProps(SPRING_DATA, POSTGRES).build();
         }
     }
 
     public static class SpringDataH2 {
         @Bean
         public StorageProps storageProps() {
-            return StoragePropsEg.storageProps(SPRING_DATA, H2).build();
+            return ServerSideEg.storageProps(SPRING_DATA, H2).build();
         }
     }
 
     public static class MyBatisPostgres {
         @Bean
         public StorageProps storageProps() {
-            return StoragePropsEg.storageProps(MY_BATIS, POSTGRES).build();
+            return ServerSideEg.storageProps(MY_BATIS, POSTGRES).build();
         }
     }
 
     public static class MyBatisH2 {
         @Bean
         public StorageProps storageProps() {
-            return StoragePropsEg.storageProps(MY_BATIS, H2).build();
+            return ServerSideEg.storageProps(MY_BATIS, H2).build();
         }
     }
 }

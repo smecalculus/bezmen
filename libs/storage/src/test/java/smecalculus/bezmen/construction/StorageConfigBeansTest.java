@@ -3,12 +3,12 @@ package smecalculus.bezmen.construction;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static smecalculus.bezmen.configuration.StoragePropsEg.Pojos.storagePropsEdge;
+import static smecalculus.bezmen.configuration.EdgeSideEg.storageProps;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import smecalculus.bezmen.configuration.EdgeSide.StorageProps;
 import smecalculus.bezmen.configuration.PropsKeeper;
-import smecalculus.bezmen.configuration.StoragePropsEdge;
 import smecalculus.bezmen.configuration.StoragePropsMapper;
 import smecalculus.bezmen.configuration.StoragePropsMapperImpl;
 import smecalculus.bezmen.validation.EdgeValidator;
@@ -29,9 +29,9 @@ class StorageConfigBeansTest {
     @Test
     void shouldValidateConf() {
         // given
-        StoragePropsEdge expectedProps = storagePropsEdge();
+        StorageProps expectedProps = storageProps();
         // and
-        when(keeperMock.read("bezmen.storage", StoragePropsEdge.class)).thenReturn(expectedProps);
+        when(keeperMock.read("bezmen.storage", StorageProps.class)).thenReturn(expectedProps);
         // when
         config.storageProps(keeperMock, validatorMock, mapper);
         // then

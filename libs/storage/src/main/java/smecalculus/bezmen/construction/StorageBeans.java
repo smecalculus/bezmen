@@ -5,9 +5,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
-import smecalculus.bezmen.configuration.H2Props;
-import smecalculus.bezmen.configuration.PostgresProps;
-import smecalculus.bezmen.configuration.StorageProps;
+import smecalculus.bezmen.configuration.ServerSide.H2Props;
+import smecalculus.bezmen.configuration.ServerSide.PostgresProps;
+import smecalculus.bezmen.configuration.ServerSide.StorageProps;
 
 @Import({StorageConfigBeans.class, MappingMyBatisBeans.class, MappingSpringDataBeans.class})
 @Configuration(proxyBeanMethods = false)

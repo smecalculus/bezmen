@@ -5,9 +5,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
+import smecalculus.bezmen.configuration.EdgeSide;
 import smecalculus.bezmen.configuration.PropsKeeper;
-import smecalculus.bezmen.configuration.StorageProps;
-import smecalculus.bezmen.configuration.StoragePropsEdge;
+import smecalculus.bezmen.configuration.ServerSide.StorageProps;
 import smecalculus.bezmen.configuration.StoragePropsMapper;
 import smecalculus.bezmen.configuration.StoragePropsMapperImpl;
 import smecalculus.bezmen.validation.EdgeValidator;
@@ -25,9 +25,9 @@ public class StorageConfigBeans {
 
     @Bean
     StorageProps storageProps(PropsKeeper keeper, EdgeValidator validator, StoragePropsMapper mapper) {
-        var propsEdge = keeper.read("bezmen.storage", StoragePropsEdge.class);
+        var propsEdge = keeper.read("bezmen.storage", EdgeSide.StorageProps.class);
         validator.validate(propsEdge);
         LOG.info("Read {}", propsEdge);
-        return mapper.toDomain(propsEdge);
+        return mapper.toServer(propsEdge);
     }
 }

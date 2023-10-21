@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
-import smecalculus.bezmen.configuration.StorageProps;
+import smecalculus.bezmen.configuration.ServerSide.StorageProps;
 import smecalculus.bezmen.storage.SepulkaDao;
 import smecalculus.bezmen.storage.SepulkaDaoMyBatis;
 import smecalculus.bezmen.storage.SepulkaDaoSpringData;

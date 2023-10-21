@@ -6,8 +6,8 @@ import lombok.NonNull;
 import org.springframework.context.annotation.ConditionContext;
 import org.springframework.context.annotation.ConfigurationCondition;
 import org.springframework.core.type.AnnotatedTypeMetadata;
+import smecalculus.bezmen.configuration.ServerSide.StorageProps;
 import smecalculus.bezmen.configuration.StateMappingMode;
-import smecalculus.bezmen.configuration.StorageProps;
 
 class StateMappingModeCondition implements ConfigurationCondition {
 

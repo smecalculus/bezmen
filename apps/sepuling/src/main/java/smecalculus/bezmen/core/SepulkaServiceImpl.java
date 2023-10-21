@@ -17,7 +17,7 @@ import smecalculus.bezmen.storage.SepulkaDao;
 public class SepulkaServiceImpl implements SepulkaService {
 
     @NonNull
-    private SepulkaSliceMapper mapper;
+    private SepulkaMapper mapper;
 
     @NonNull
     private SepulkaDao dao;

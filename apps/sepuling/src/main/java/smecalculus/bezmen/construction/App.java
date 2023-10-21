@@ -9,10 +9,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.PropertySource;
+import smecalculus.bezmen.core.SepulkaMapper;
+import smecalculus.bezmen.core.SepulkaMapperImpl;
 import smecalculus.bezmen.core.SepulkaService;
 import smecalculus.bezmen.core.SepulkaServiceImpl;
-import smecalculus.bezmen.core.SepulkaSliceMapper;
-import smecalculus.bezmen.core.SepulkaSliceMapperImpl;
 import smecalculus.bezmen.messaging.SepulkaClient;
 import smecalculus.bezmen.messaging.SepulkaClientImpl;
 import smecalculus.bezmen.messaging.SepulkaMessageMapper;
@@ -53,12 +53,12 @@ public class App {
     }
 
     @Bean
-    SepulkaSliceMapper sepulkaSliceMapper() {
-        return new SepulkaSliceMapperImpl();
+    SepulkaMapper sepulkaMapper() {
+        return new SepulkaMapperImpl();
     }
 
     @Bean
-    SepulkaService sepulkaService(SepulkaSliceMapper mapper, SepulkaDao dao) {
+    SepulkaService sepulkaService(SepulkaMapper mapper, SepulkaDao dao) {
         return new SepulkaServiceImpl(mapper, dao);
     }
 

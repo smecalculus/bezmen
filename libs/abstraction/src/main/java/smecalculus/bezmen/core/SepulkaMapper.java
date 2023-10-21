@@ -6,7 +6,7 @@ import smecalculus.bezmen.core.ClientSide.RegistrationResponse;
 import smecalculus.bezmen.core.ServerSide.AggregateState;
 
 @Mapper
-public interface SepulkaSliceMapper {
+public interface SepulkaMapper {
     AggregateState.Builder toServer(RegistrationRequest request);
 
     RegistrationResponse.Builder toClient(AggregateState state);
