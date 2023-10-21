@@ -98,10 +98,10 @@ image::solution/core.png[]
 === Модели и мапперы (models & mappers)
 
 [discrete]
-====== Модели делим по двум основаниям
+====== Модели делим по нескольким основаниям
 
-. Предметные (domain) против пограничных (edge)
-. Сущности (entities) против срезов (slices)
+. Предметные (domain side) и пограничные (edge side)
+. Клиентские (client side) и серверные (server side)
 
 === Клиенты и серверы (clients & servers)
 

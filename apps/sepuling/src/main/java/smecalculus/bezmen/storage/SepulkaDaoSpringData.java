@@ -1,14 +1,10 @@
 package smecalculus.bezmen.storage;
 
-import static java.util.stream.Collectors.toList;
-import static java.util.stream.StreamSupport.stream;
-
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import smecalculus.bezmen.core.Sepulka;
+import smecalculus.bezmen.core.ServerSide;
 import smecalculus.bezmen.storage.springdata.SepulkaRepository;
 
 @RequiredArgsConstructor
@@ -21,21 +17,31 @@ public class SepulkaDaoSpringData implements SepulkaDao {
     private SepulkaRepository repository;
 
     @Override
-    public Optional<Sepulka> getById(@NonNull UUID id) {
-        return repository.findById(id.toString()).map(mapper::toDomain);
+    public ServerSide.AggregateState add(@NonNull ServerSide.AggregateState state) {
+        var stateEdge = repository.save(mapper.toEdge(state));
+        return mapper.toDomain(stateEdge);
     }
 
     @Override
-    public Sepulka save(@NonNull Sepulka sepulka) {
-        var newSepulkaEdge = mapper.toEdge(sepulka);
-        var savedSepulkaEdge = repository.save(newSepulkaEdge);
-        return mapper.toDomain(savedSepulkaEdge);
+    public Optional<ServerSide.ExistenceState> getBy(@NonNull String externalId) {
+        return repository
+                .findByExternalId(externalId, EdgeSide.ExistenceState.class)
+                .map(mapper::toDomain);
     }
 
     @Override
-    public List<Sepulka> getSepulkas() {
-        return stream(repository.findAll().spliterator(), false)
-                .map(mapper::toDomain)
-                .collect(toList());
+    public Optional<ServerSide.PreviewState> getBy(@NonNull UUID internalId) {
+        return repository
+                .findByInternalId(internalId.toString(), EdgeSide.PreviewState.class)
+                .map(mapper::toDomain);
+    }
+
+    @Override
+    public void updateBy(ServerSide.TouchState state, UUID internalId) {
+        var stateEdge = mapper.toEdge(state);
+        var matchedCount = repository.updateBy(stateEdge, internalId.toString());
+        if (matchedCount == 0) {
+            throw new ContentionException();
+        }
     }
 }

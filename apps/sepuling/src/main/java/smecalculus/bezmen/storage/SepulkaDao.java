@@ -1,18 +1,22 @@
 package smecalculus.bezmen.storage;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import smecalculus.bezmen.core.Sepulka;
+import smecalculus.bezmen.core.ServerSide.AggregateState;
+import smecalculus.bezmen.core.ServerSide.ExistenceState;
+import smecalculus.bezmen.core.ServerSide.PreviewState;
+import smecalculus.bezmen.core.ServerSide.TouchState;
 
 /**
- * Server side interface
+ * Port: server side
  */
 public interface SepulkaDao {
 
-    Optional<Sepulka> getById(UUID id);
+    AggregateState add(AggregateState state);
 
-    Sepulka save(Sepulka sepulka);
+    Optional<ExistenceState> getBy(String externalId);
 
-    List<Sepulka> getSepulkas();
+    Optional<PreviewState> getBy(UUID internalId);
+
+    void updateBy(TouchState state, UUID internalId);
 }

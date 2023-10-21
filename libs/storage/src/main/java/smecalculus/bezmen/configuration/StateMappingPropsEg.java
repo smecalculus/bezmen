@@ -15,5 +15,9 @@ public class StateMappingPropsEg {
         public static StateMappingProps.Builder stateMappingProps() {
             return StateMappingProps.builder().mappingMode(SPRING_DATA);
         }
+
+        public static StateMappingProps.Builder stateMappingProps(StateMappingMode mode) {
+            return stateMappingProps().mappingMode(mode);
+        }
     }
 }

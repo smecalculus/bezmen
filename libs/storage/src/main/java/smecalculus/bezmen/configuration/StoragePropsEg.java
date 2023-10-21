@@ -22,4 +22,10 @@ public class StoragePropsEg {
                     .mappingProps(stateMappingProps().build());
         }
     }
+
+    public static StorageProps.Builder storageProps(StateMappingMode mappingMode, StorageProtocolMode protocolMode) {
+        return Builders.storageProps()
+                .protocolProps(storageProtocolProps(protocolMode).build())
+                .mappingProps(stateMappingProps(mappingMode).build());
+    }
 }

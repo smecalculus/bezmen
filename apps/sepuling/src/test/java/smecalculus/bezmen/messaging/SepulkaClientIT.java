@@ -3,9 +3,6 @@ package smecalculus.bezmen.messaging;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
-import static smecalculus.bezmen.core.SepulkaNewResponseEg.Pojos.sepulkaNewResponse;
-import static smecalculus.bezmen.messaging.SepulkaNewRequestEg.Pojos.sepulkaNewRequestEdge;
-import static smecalculus.bezmen.messaging.SepulkaNewResponseEg.Pojos.sepulkaNewResponseEdge;
 
 import java.util.UUID;
 import org.junit.jupiter.api.Test;
@@ -14,7 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import smecalculus.bezmen.construction.SepulkaClientBeans;
-import smecalculus.bezmen.core.SepulkaNewRequest;
+import smecalculus.bezmen.core.ClientSide.RegistrationRequest;
+import smecalculus.bezmen.core.ClientSideEg;
 import smecalculus.bezmen.core.SepulkaService;
 
 @ExtendWith(SpringExtension.class)
@@ -32,11 +30,12 @@ abstract class SepulkaClientIT {
         // given
         var externalId = UUID.randomUUID().toString();
         // and
-        var request = sepulkaNewRequestEdge(externalId);
+        var request = EdgeSideEg.registrationRequest(externalId);
         // and
-        when(serviceMock.register(any(SepulkaNewRequest.class))).thenReturn(sepulkaNewResponse(externalId));
+        when(serviceMock.register(any(RegistrationRequest.class)))
+                .thenReturn(ClientSideEg.registrationResponse(externalId).build());
         // and
-        var expectedResponse = sepulkaNewResponseEdge(externalId);
+        var expectedResponse = EdgeSideEg.registrationResponse(externalId);
         // when
         var actualResponse = externalClient.register(request);
         // then

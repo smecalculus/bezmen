@@ -3,8 +3,6 @@ package smecalculus.bezmen.registration;
 import static java.time.Duration.ofSeconds;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.awaitility.Awaitility.await;
-import static smecalculus.bezmen.messaging.SepulkaNewRequestEg.Pojos.sepulkaNewRequestEdge;
-import static smecalculus.bezmen.messaging.SepulkaNewResponseEg.Pojos.sepulkaNewResponseEdge;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Tag;
@@ -16,6 +14,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import smecalculus.bezmen.StandBeans;
 import smecalculus.bezmen.messaging.BezmenClient;
+import smecalculus.bezmen.messaging.EdgeSideEg;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = StandBeans.class)
@@ -33,9 +32,9 @@ public class SepulkaTest {
     @Tag("smoke")
     void shouldRegisterSepulka() {
         // given
-        var request = sepulkaNewRequestEdge();
+        var request = EdgeSideEg.registrationRequest();
         // and
-        var expectedResponse = sepulkaNewResponseEdge(request.getExternalId());
+        var expectedResponse = EdgeSideEg.registrationResponse(request.getExternalId());
         // when
         var actualResponse = bezmenClient.register(request);
         // then

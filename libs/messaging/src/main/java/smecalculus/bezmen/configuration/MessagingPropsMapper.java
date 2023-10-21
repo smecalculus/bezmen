@@ -2,9 +2,10 @@ package smecalculus.bezmen.configuration;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import smecalculus.bezmen.mapping.EdgeMapper;
 
 @Mapper
-public interface MessagingPropsMapper {
+public interface MessagingPropsMapper extends EdgeMapper {
 
     @Mapping(source = "protocol", target = "protocolProps")
     @Mapping(source = "mapping", target = "mappingProps")

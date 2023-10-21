@@ -8,6 +8,7 @@ import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import smecalculus.bezmen.storage.mybatis.UuidTypeHandler;
 
 @ConditionalOnStateMappingMode(MY_BATIS)
 @MapperScan(basePackages = "smecalculus.bezmen.storage.mybatis")
@@ -18,6 +19,7 @@ public class MappingMyBatisBeans {
     public SqlSessionFactory sqlSessionFactory(DataSource dataSource) throws Exception {
         var factoryBean = new SqlSessionFactoryBean();
         factoryBean.setDataSource(dataSource);
+        factoryBean.addTypeHandlers(new UuidTypeHandler());
         return factoryBean.getObject();
     }
 }

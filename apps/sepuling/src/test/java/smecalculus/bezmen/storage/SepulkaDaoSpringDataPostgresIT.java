@@ -1,8 +1,8 @@
 package smecalculus.bezmen.storage;
 
 import org.springframework.test.context.ContextConfiguration;
-import smecalculus.bezmen.construction.MappingSpringDataBeans;
 import smecalculus.bezmen.construction.SepulkaDaoBeans;
+import smecalculus.bezmen.construction.StoragePropsBeans;
 
-@ContextConfiguration(classes = {SepulkaDaoBeans.SpringDataPostgres.class, MappingSpringDataBeans.class})
+@ContextConfiguration(classes = {StoragePropsBeans.SpringDataPostgres.class, SepulkaDaoBeans.SpringData.class})
 public class SepulkaDaoSpringDataPostgresIT extends SepulkaDaoIT {}
