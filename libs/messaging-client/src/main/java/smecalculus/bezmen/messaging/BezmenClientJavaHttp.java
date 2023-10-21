@@ -10,8 +10,8 @@ import java.net.http.HttpRequest.BodyPublishers;
 import java.net.http.HttpResponse.BodyHandlers;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import smecalculus.bezmen.messaging.EdgeSide.RegistrationRequest;
-import smecalculus.bezmen.messaging.EdgeSide.RegistrationResponse;
+import smecalculus.bezmen.messaging.MessageEm.RegistrationRequest;
+import smecalculus.bezmen.messaging.MessageEm.RegistrationResponse;
 
 @RequiredArgsConstructor
 public class BezmenClientJavaHttp implements BezmenClient {
@@ -33,7 +33,7 @@ public class BezmenClientJavaHttp implements BezmenClient {
                     .header("Accept", "application/json")
                     .build();
             var httpResponse = client.send(httpRequest, BodyHandlers.ofString());
-            return mapper.readValue(httpResponse.body(), EdgeSide.RegistrationResponse.class);
+            return mapper.readValue(httpResponse.body(), MessageEm.RegistrationResponse.class);
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         } catch (IOException | InterruptedException e) {

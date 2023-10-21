@@ -3,8 +3,8 @@ package smecalculus.bezmen.messaging;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import smecalculus.bezmen.core.SepulkaService;
-import smecalculus.bezmen.messaging.EdgeSide.RegistrationRequest;
-import smecalculus.bezmen.messaging.EdgeSide.RegistrationResponse;
+import smecalculus.bezmen.messaging.MessageEm.RegistrationRequest;
+import smecalculus.bezmen.messaging.MessageEm.RegistrationResponse;
 import smecalculus.bezmen.validation.EdgeValidator;
 
 @RequiredArgsConstructor

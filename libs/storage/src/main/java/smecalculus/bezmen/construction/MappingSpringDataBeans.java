@@ -1,6 +1,6 @@
 package smecalculus.bezmen.construction;
 
-import static smecalculus.bezmen.configuration.StateMappingMode.SPRING_DATA;
+import static smecalculus.bezmen.configuration.StorageDm.MappingMode.SPRING_DATA;
 
 import java.util.Optional;
 import javax.sql.DataSource;
@@ -21,9 +21,9 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.transaction.PlatformTransactionManager;
-import smecalculus.bezmen.configuration.StorageProps;
+import smecalculus.bezmen.configuration.StorageDm.StorageProps;
 
-@ConditionalOnStateMappingMode(SPRING_DATA)
+@ConditionalOnStorageMappingMode(SPRING_DATA)
 @EnableJdbcRepositories("smecalculus.bezmen.storage.springdata")
 @Configuration(proxyBeanMethods = false)
 public class MappingSpringDataBeans extends AbstractJdbcConfiguration {

@@ -1,7 +1,7 @@
 package smecalculus.bezmen.messaging;
 
-import smecalculus.bezmen.messaging.EdgeSide.RegistrationRequest;
-import smecalculus.bezmen.messaging.EdgeSide.RegistrationResponse;
+import smecalculus.bezmen.messaging.MessageEm.RegistrationRequest;
+import smecalculus.bezmen.messaging.MessageEm.RegistrationResponse;
 
 /**
  * Port: client side

@@ -4,8 +4,8 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.reactive.server.WebTestClient;
-import smecalculus.bezmen.messaging.EdgeSide.RegistrationRequest;
-import smecalculus.bezmen.messaging.EdgeSide.RegistrationResponse;
+import smecalculus.bezmen.messaging.MessageEm.RegistrationRequest;
+import smecalculus.bezmen.messaging.MessageEm.RegistrationResponse;
 
 @RequiredArgsConstructor
 public class SepulkaClientSpringWebTest implements SepulkaClient {

@@ -1,12 +1,12 @@
 package smecalculus.bezmen.messaging;
 
 import org.mapstruct.Mapper;
-import smecalculus.bezmen.core.ClientSide;
+import smecalculus.bezmen.core.MessageDm;
 import smecalculus.bezmen.mapping.EdgeMapper;
 
 @Mapper
 public interface SepulkaMessageMapper extends EdgeMapper {
-    ClientSide.RegistrationRequest toDomain(EdgeSide.RegistrationRequest request);
+    MessageDm.RegistrationRequest toDomain(MessageEm.RegistrationRequest request);
 
-    EdgeSide.RegistrationResponse toEdge(ClientSide.RegistrationResponse response);
+    MessageEm.RegistrationResponse toEdge(MessageDm.RegistrationResponse response);
 }

@@ -7,15 +7,15 @@ import lombok.NonNull;
 import org.springframework.context.annotation.ConditionContext;
 import org.springframework.context.annotation.ConfigurationCondition;
 import org.springframework.core.type.AnnotatedTypeMetadata;
-import smecalculus.bezmen.configuration.MessageMappingMode;
-import smecalculus.bezmen.configuration.MessagingProps;
+import smecalculus.bezmen.configuration.MessagingDm.MappingMode;
+import smecalculus.bezmen.configuration.MessagingDm.MessagingProps;
 
-class MessageMappingModeCondition implements ConfigurationCondition {
+class MessagingMappingModeCondition implements ConfigurationCondition {
 
     @Override
     public boolean matches(ConditionContext context, AnnotatedTypeMetadata metadata) {
-        var attributes = metadata.getAnnotationAttributes(ConditionalOnMessageMappingModes.class.getName());
-        var expectedModes = (MessageMappingMode[]) attributes.get("value");
+        var attributes = metadata.getAnnotationAttributes(ConditionalOnMessagingMappingModes.class.getName());
+        var expectedModes = (MappingMode[]) attributes.get("value");
         var props = context.getBeanFactory().getBean(MessagingProps.class);
         var actualModes = props.mappingProps().mappingModes();
         return Stream.of(expectedModes).anyMatch(actualModes::contains);

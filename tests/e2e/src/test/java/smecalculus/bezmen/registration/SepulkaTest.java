@@ -14,7 +14,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import smecalculus.bezmen.StandBeans;
 import smecalculus.bezmen.messaging.BezmenClient;
-import smecalculus.bezmen.messaging.EdgeSideEg;
+import smecalculus.bezmen.messaging.MessageEmEg;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = StandBeans.class)
@@ -32,9 +32,9 @@ public class SepulkaTest {
     @Tag("smoke")
     void shouldRegisterSepulka() {
         // given
-        var request = EdgeSideEg.registrationRequest();
+        var request = MessageEmEg.registrationRequest();
         // and
-        var expectedResponse = EdgeSideEg.registrationResponse(request.getExternalId());
+        var expectedResponse = MessageEmEg.registrationResponse(request.getExternalId());
         // when
         var actualResponse = bezmenClient.register(request);
         // then

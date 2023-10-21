@@ -1,11 +1,10 @@
 package smecalculus.bezmen.messaging;
 
 import java.util.UUID;
-import smecalculus.bezmen.messaging.EdgeSide.RegistrationRequest;
-import smecalculus.bezmen.messaging.EdgeSide.RegistrationResponse;
+import smecalculus.bezmen.messaging.MessageEm.RegistrationRequest;
+import smecalculus.bezmen.messaging.MessageEm.RegistrationResponse;
 
-public class EdgeSideEg {
-
+public abstract class MessageEmEg {
     public static RegistrationRequest registrationRequest() {
         var requestEdge = new RegistrationRequest();
         requestEdge.setExternalId(UUID.randomUUID().toString());
@@ -19,12 +18,12 @@ public class EdgeSideEg {
     }
 
     public static RegistrationResponse registrationResponse() {
-        var responseEdge = new EdgeSide.RegistrationResponse();
+        var responseEdge = new RegistrationResponse();
         responseEdge.setExternalId(UUID.randomUUID().toString());
         return responseEdge;
     }
 
-    public static EdgeSide.RegistrationResponse registrationResponse(String externalId) {
+    public static RegistrationResponse registrationResponse(String externalId) {
         var responseEdge = registrationResponse();
         responseEdge.setExternalId(externalId);
         return responseEdge;

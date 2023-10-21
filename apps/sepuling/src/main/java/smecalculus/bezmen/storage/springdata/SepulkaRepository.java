@@ -6,8 +6,8 @@ import org.springframework.data.jdbc.repository.query.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.lang.Nullable;
-import smecalculus.bezmen.storage.EdgeSide.AggregateState;
-import smecalculus.bezmen.storage.EdgeSide.TouchState;
+import smecalculus.bezmen.storage.StateEm.AggregateState;
+import smecalculus.bezmen.storage.StateEm.TouchState;
 
 public interface SepulkaRepository extends CrudRepository<AggregateState, String> {
 

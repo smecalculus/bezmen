@@ -1,10 +1,10 @@
 package smecalculus.bezmen.core;
 
 import java.util.List;
-import smecalculus.bezmen.core.ClientSide.PreviewRequest;
-import smecalculus.bezmen.core.ClientSide.PreviewResponse;
-import smecalculus.bezmen.core.ClientSide.RegistrationRequest;
-import smecalculus.bezmen.core.ClientSide.RegistrationResponse;
+import smecalculus.bezmen.core.MessageDm.PreviewRequest;
+import smecalculus.bezmen.core.MessageDm.PreviewResponse;
+import smecalculus.bezmen.core.MessageDm.RegistrationRequest;
+import smecalculus.bezmen.core.MessageDm.RegistrationResponse;
 
 public interface SepulkaService {
     RegistrationResponse register(RegistrationRequest request);

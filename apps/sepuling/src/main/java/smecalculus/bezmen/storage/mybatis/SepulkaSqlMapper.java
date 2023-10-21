@@ -5,10 +5,10 @@ import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
-import smecalculus.bezmen.storage.EdgeSide.AggregateState;
-import smecalculus.bezmen.storage.EdgeSide.ExistenceState;
-import smecalculus.bezmen.storage.EdgeSide.PreviewState;
-import smecalculus.bezmen.storage.EdgeSide.TouchState;
+import smecalculus.bezmen.storage.StateEm.AggregateState;
+import smecalculus.bezmen.storage.StateEm.ExistenceState;
+import smecalculus.bezmen.storage.StateEm.PreviewState;
+import smecalculus.bezmen.storage.StateEm.TouchState;
 
 public interface SepulkaSqlMapper {
 
