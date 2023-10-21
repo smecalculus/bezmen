@@ -24,5 +24,9 @@ public class StorageProtocolPropsEg {
                             .password("bezmen")
                             .build());
         }
+
+        public static StorageProtocolProps.Builder storageProtocolProps(StorageProtocolMode mode) {
+            return storageProtocolProps().protocolMode(mode);
+        }
     }
 }

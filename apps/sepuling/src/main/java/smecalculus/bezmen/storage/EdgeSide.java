@@ -1,7 +1,9 @@
 package smecalculus.bezmen.storage;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 import lombok.Data;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.domain.Persistable;
 import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
@@ -9,8 +11,8 @@ import org.springframework.data.relational.core.mapping.Table;
 public abstract class EdgeSide {
 
     @Data
-    public static class CreationState {
-        String internalId;
+    public static class ExistenceState {
+        UUID internalId;
     }
 
     @Data
@@ -27,9 +29,9 @@ public abstract class EdgeSide {
 
     @Data
     @Table("sepulkas")
-    public static class AggregateState implements Persistable<String> {
-        @Column
-        String internalId;
+    public static class AggregateState implements Persistable<UUID> {
+        @Id
+        UUID internalId;
 
         @Column
         String externalId;
@@ -44,7 +46,7 @@ public abstract class EdgeSide {
         LocalDateTime updatedAt;
 
         @Override
-        public String getId() {
+        public UUID getId() {
             return internalId;
         }
 

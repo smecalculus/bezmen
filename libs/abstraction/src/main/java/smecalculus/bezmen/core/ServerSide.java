@@ -7,7 +7,7 @@ import lombok.NonNull;
 
 public class ServerSide {
     @Builder
-    public record CreationState(@NonNull UUID internalId) {}
+    public record ExistenceState(@NonNull UUID internalId) {}
 
     @Builder
     public record PreviewState(@NonNull String externalId, @NonNull LocalDateTime createdAt) {}

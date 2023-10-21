@@ -6,7 +6,7 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 import smecalculus.bezmen.storage.EdgeSide.AggregateState;
-import smecalculus.bezmen.storage.EdgeSide.CreationState;
+import smecalculus.bezmen.storage.EdgeSide.ExistenceState;
 import smecalculus.bezmen.storage.EdgeSide.PreviewState;
 import smecalculus.bezmen.storage.EdgeSide.TouchState;
 
@@ -38,7 +38,7 @@ public interface SepulkaSqlMapper {
             FROM sepulkas
             WHERE external_id = #{externalId}
             """)
-    Optional<CreationState> findByExternalId(String externalId);
+    Optional<ExistenceState> findByExternalId(String externalId);
 
     @Select(
             """
@@ -52,11 +52,11 @@ public interface SepulkaSqlMapper {
 
     @Update(
             """
-           UPDATE sepulkas
-           SET revision = revision + 1,
-            updated_at = #{state.updatedAt}
-           WHERE internal_id = #{id}
-           AND revision = #{state.revision}
+            UPDATE sepulkas
+            SET revision = revision + 1,
+                updated_at = #{state.updatedAt}
+            WHERE internal_id = #{id}
+            AND revision = #{state.revision}
            """)
     int updateBy(@Param("state") TouchState state, @Param("id") String internalId);
 }

@@ -23,9 +23,9 @@ public class SepulkaDaoSpringData implements SepulkaDao {
     }
 
     @Override
-    public Optional<ServerSide.CreationState> getBy(@NonNull String externalId) {
+    public Optional<ServerSide.ExistenceState> getBy(@NonNull String externalId) {
         return repository
-                .findByExternalId(externalId, EdgeSide.CreationState.class)
+                .findByExternalId(externalId, EdgeSide.ExistenceState.class)
                 .map(mapper::toDomain);
     }
 
@@ -37,7 +37,11 @@ public class SepulkaDaoSpringData implements SepulkaDao {
     }
 
     @Override
-    public int updateBy(ServerSide.TouchState state, UUID internalId) {
-        return repository.updateBy(mapper.toEdge(state), internalId.toString());
+    public void updateBy(ServerSide.TouchState state, UUID internalId) {
+        var stateEdge = mapper.toEdge(state);
+        var matchedCount = repository.updateBy(stateEdge, internalId.toString());
+        if (matchedCount == 0) {
+            throw new ContentionException();
+        }
     }
 }

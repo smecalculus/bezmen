@@ -5,7 +5,7 @@ import java.util.UUID;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import smecalculus.bezmen.core.ServerSide.AggregateState;
-import smecalculus.bezmen.core.ServerSide.CreationState;
+import smecalculus.bezmen.core.ServerSide.ExistenceState;
 import smecalculus.bezmen.core.ServerSide.PreviewState;
 import smecalculus.bezmen.core.ServerSide.TouchState;
 import smecalculus.bezmen.storage.mybatis.SepulkaSqlMapper;
@@ -27,7 +27,7 @@ public class SepulkaDaoMyBatis implements SepulkaDao {
     }
 
     @Override
-    public Optional<CreationState> getBy(@NonNull String externalId) {
+    public Optional<ExistenceState> getBy(@NonNull String externalId) {
         return sqlMapper.findByExternalId(externalId).map(stateMapper::toDomain);
     }
 
@@ -37,7 +37,11 @@ public class SepulkaDaoMyBatis implements SepulkaDao {
     }
 
     @Override
-    public int updateBy(TouchState state, UUID internalId) {
-        return sqlMapper.updateBy(stateMapper.toEdge(state), internalId.toString());
+    public void updateBy(TouchState state, UUID internalId) {
+        var stateEdge = stateMapper.toEdge(state);
+        var matchedCount = sqlMapper.updateBy(stateEdge, internalId.toString());
+        if (matchedCount == 0) {
+            throw new ContentionException();
+        }
     }
 }

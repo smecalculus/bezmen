@@ -5,14 +5,16 @@ import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import smecalculus.bezmen.construction.SepulkaDaoBeans;
 import smecalculus.bezmen.core.ServerSideEg;
 
+@DirtiesContext
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = SepulkaDaoBeans.class)
+@ContextConfiguration(classes = SepulkaDaoBeans.Everyone.class)
 @Sql("/schemas/sepulkarium/truncate.sql")
 abstract class SepulkaDaoIT {
 
@@ -31,12 +33,9 @@ abstract class SepulkaDaoIT {
         // and
         var actualSelected = sepulkaDao.getBy(expected1.externalId());
         // then
-        assertThat(actualSaved)
-                .usingRecursiveComparison()
-                .isEqualTo(expected1);
+        assertThat(actualSaved).usingRecursiveComparison().isEqualTo(expected1);
         // and
-        assertThat(actualSelected).contains(expected2)
-                .usingRecursiveComparison();
+        assertThat(actualSelected).contains(expected2);
     }
 
     @Test
@@ -62,12 +61,10 @@ abstract class SepulkaDaoIT {
         // and
         var updatedAt = aggregate.updatedAt().plusSeconds(1);
         // and
-        var touch = ServerSideEg.touchState(aggregate)
-                .updatedAt(updatedAt)
-                .build();
+        var touch = ServerSideEg.touchState(aggregate).updatedAt(updatedAt).build();
         // when
-        var updatedCount = sepulkaDao.updateBy(touch, aggregate.internalId());
+        sepulkaDao.updateBy(touch, aggregate.internalId());
         // then
-        assertThat(updatedCount).isEqualTo(1);
+        // no exception
     }
 }

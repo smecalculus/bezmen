@@ -2,6 +2,7 @@ package smecalculus.bezmen.core;
 
 import static java.util.UUID.randomUUID;
 
+import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 import lombok.NonNull;
@@ -23,7 +24,13 @@ public class SepulkaServiceImpl implements SepulkaService {
 
     @Override
     public RegistrationResponse register(RegistrationRequest request) {
-        var sepulkaCreated = mapper.toServer(request).internalId(randomUUID()).build();
+        var now = LocalDateTime.now();
+        var sepulkaCreated = mapper.toServer(request)
+                .internalId(randomUUID())
+                .revision(0)
+                .createdAt(now)
+                .updatedAt(now)
+                .build();
         var sepulkaSaved = dao.add(sepulkaCreated);
         return mapper.toClient(sepulkaSaved).build();
     }

@@ -12,7 +12,7 @@ public interface SepulkaStateMapper extends EdgeMapper {
 
     EdgeSide.TouchState toEdge(ServerSide.TouchState state);
 
-    ServerSide.CreationState toDomain(EdgeSide.CreationState state);
+    ServerSide.ExistenceState toDomain(EdgeSide.ExistenceState state);
 
     EdgeSide.PreviewState toEdge(ServerSide.PreviewState state);
 

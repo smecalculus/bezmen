@@ -20,7 +20,7 @@ public interface SepulkaRepository extends CrudRepository<AggregateState, String
             """
             UPDATE sepulkas
             SET revision = revision + 1,
-             updated_at = :#{#state.updatedAt}
+                updated_at = :#{#state.updatedAt}
             WHERE internal_id = :id
             AND revision = :#{#state.revision}
             """)

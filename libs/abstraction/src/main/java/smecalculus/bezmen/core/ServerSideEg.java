@@ -5,7 +5,7 @@ import static java.time.temporal.ChronoUnit.MICROS;
 import java.time.LocalDateTime;
 import java.util.UUID;
 import smecalculus.bezmen.core.ServerSide.AggregateState;
-import smecalculus.bezmen.core.ServerSide.CreationState;
+import smecalculus.bezmen.core.ServerSide.ExistenceState;
 import smecalculus.bezmen.core.ServerSide.PreviewState;
 import smecalculus.bezmen.core.ServerSide.TouchState;
 
@@ -19,8 +19,8 @@ public class ServerSideEg {
                 .updatedAt(LocalDateTime.now().truncatedTo(MICROS));
     }
 
-    public static CreationState.Builder creationState() {
-        return CreationState.builder().internalId(UUID.randomUUID());
+    public static ExistenceState.Builder creationState() {
+        return ExistenceState.builder().internalId(UUID.randomUUID());
     }
 
     public static PreviewState.Builder previewState(AggregateState state) {
