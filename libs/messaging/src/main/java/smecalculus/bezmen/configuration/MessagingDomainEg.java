@@ -11,15 +11,15 @@ import smecalculus.bezmen.configuration.MessagingDomain.ProtocolProps;
 public abstract class MessagingDomainEg {
     public static MessagingProps.Builder messagingProps() {
         return MessagingProps.builder()
-                .protocolProps(messagingProtocolProps().build())
-                .mappingProps(messageMappingProps().build());
+                .protocolProps(protocolProps().build())
+                .mappingProps(mappingProps().build());
     }
 
-    public static ProtocolProps.Builder messagingProtocolProps() {
+    public static ProtocolProps.Builder protocolProps() {
         return MessagingDomain.ProtocolProps.builder().protocolModes(Set.of(HTTP));
     }
 
-    public static MappingProps.Builder messageMappingProps() {
+    public static MappingProps.Builder mappingProps() {
         return MappingProps.builder().mappingModes(Set.of(SPRING_MVC));
     }
 }

@@ -12,25 +12,25 @@ import smecalculus.bezmen.configuration.StorageDomain.StorageProps;
 public abstract class StorageDomainEg {
     public static StorageProps.Builder storageProps() {
         return StorageProps.builder()
-                .protocolProps(storageProtocolProps().build())
-                .mappingProps(stateMappingProps().build());
+                .protocolProps(protocolProps().build())
+                .mappingProps(mappingProps().build());
     }
 
     public static StorageProps.Builder storageProps(StorageMappingMode mappingMode, StorageProtocolMode protocolMode) {
         return storageProps()
-                .protocolProps(storageProtocolProps(protocolMode).build())
-                .mappingProps(stateMappingProps(mappingMode).build());
+                .protocolProps(protocolProps(protocolMode).build())
+                .mappingProps(mappingProps(mappingMode).build());
     }
 
-    public static MappingProps.Builder stateMappingProps() {
+    public static MappingProps.Builder mappingProps() {
         return MappingProps.builder().mappingMode(SPRING_DATA);
     }
 
-    public static MappingProps.Builder stateMappingProps(StorageMappingMode mode) {
-        return stateMappingProps().mappingMode(mode);
+    public static MappingProps.Builder mappingProps(StorageMappingMode mode) {
+        return mappingProps().mappingMode(mode);
     }
 
-    public static ProtocolProps.Builder storageProtocolProps() {
+    public static ProtocolProps.Builder protocolProps() {
         return ProtocolProps.builder()
                 .protocolMode(H2)
                 .h2Props(H2Props.builder()
@@ -45,7 +45,7 @@ public abstract class StorageDomainEg {
                         .build());
     }
 
-    public static StorageDomain.ProtocolProps.Builder storageProtocolProps(StorageProtocolMode mode) {
-        return storageProtocolProps().protocolMode(mode);
+    public static ProtocolProps.Builder protocolProps(StorageProtocolMode mode) {
+        return protocolProps().protocolMode(mode);
     }
 }

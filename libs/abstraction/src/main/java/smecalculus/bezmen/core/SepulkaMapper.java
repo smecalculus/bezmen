@@ -7,7 +7,7 @@ import smecalculus.bezmen.core.StateDomain.AggregateState;
 
 @Mapper
 public interface SepulkaMapper {
-    AggregateState.Builder toServer(RegistrationRequest request);
+    AggregateState.Builder toState(RegistrationRequest request);
 
-    RegistrationResponse.Builder toClient(AggregateState state);
+    RegistrationResponse.Builder toMessage(AggregateState state);
 }

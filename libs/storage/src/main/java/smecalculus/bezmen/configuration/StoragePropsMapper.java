@@ -8,15 +8,15 @@ import smecalculus.bezmen.mapping.EdgeMapper;
 public interface StoragePropsMapper extends EdgeMapper {
     @Mapping(source = "protocol", target = "protocolProps")
     @Mapping(source = "mapping", target = "mappingProps")
-    StorageDomain.StorageProps toServer(StorageEdge.StorageProps propsEdge);
+    StorageDomain.StorageProps toDomain(StorageEdge.StorageProps propsEdge);
 
     @Mapping(source = "mode", target = "protocolMode")
     @Mapping(source = "h2", target = "h2Props")
     @Mapping(source = "postgres", target = "postgresProps")
-    StorageDomain.ProtocolProps toServer(StorageEdge.ProtocolProps propsEdge);
+    StorageDomain.ProtocolProps toDomain(StorageEdge.ProtocolProps propsEdge);
 
     @Mapping(source = "mode", target = "mappingMode")
-    StorageDomain.MappingProps toServer(StorageEdge.MappingProps propsEdge);
+    StorageDomain.MappingProps toDomain(StorageEdge.MappingProps propsEdge);
 
     default StorageProtocolMode toProtocolMode(String mode) {
         return StorageProtocolMode.valueOf(mode.toUpperCase());

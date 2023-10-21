@@ -28,6 +28,6 @@ public class StorageConfigBeans {
         var propsEdge = keeper.read("bezmen.storage", StorageEdge.StorageProps.class);
         validator.validate(propsEdge);
         LOG.info("Read {}", propsEdge);
-        return mapper.toServer(propsEdge);
+        return mapper.toDomain(propsEdge);
     }
 }

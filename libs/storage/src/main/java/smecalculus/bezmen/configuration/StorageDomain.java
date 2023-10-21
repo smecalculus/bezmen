@@ -6,7 +6,7 @@ import lombok.ToString;
 
 public abstract class StorageDomain {
     @Builder
-    public record StorageProps(@NonNull StorageDomain.ProtocolProps protocolProps, @NonNull StorageDomain.MappingProps mappingProps) {}
+    public record StorageProps(@NonNull ProtocolProps protocolProps, @NonNull MappingProps mappingProps) {}
 
     @Builder
     public record ProtocolProps(

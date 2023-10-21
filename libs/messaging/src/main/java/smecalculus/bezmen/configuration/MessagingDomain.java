@@ -6,8 +6,7 @@ import lombok.NonNull;
 
 public abstract class MessagingDomain {
     @Builder
-    public record MessagingProps(
-            @NonNull MessagingDomain.ProtocolProps protocolProps, @NonNull MessagingDomain.MappingProps mappingProps) {}
+    public record MessagingProps(@NonNull ProtocolProps protocolProps, @NonNull MappingProps mappingProps) {}
 
     @Builder
     public record ProtocolProps(@NonNull Set<MessagingProtocolMode> protocolModes) {}

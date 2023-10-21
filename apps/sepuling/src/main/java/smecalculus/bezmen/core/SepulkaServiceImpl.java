@@ -25,14 +25,14 @@ public class SepulkaServiceImpl implements SepulkaService {
     @Override
     public RegistrationResponse register(RegistrationRequest request) {
         var now = LocalDateTime.now();
-        var sepulkaCreated = mapper.toServer(request)
+        var sepulkaCreated = mapper.toState(request)
                 .internalId(randomUUID())
                 .revision(0)
                 .createdAt(now)
                 .updatedAt(now)
                 .build();
         var sepulkaSaved = dao.add(sepulkaCreated);
-        return mapper.toClient(sepulkaSaved).build();
+        return mapper.toMessage(sepulkaSaved).build();
     }
 
     @Override
