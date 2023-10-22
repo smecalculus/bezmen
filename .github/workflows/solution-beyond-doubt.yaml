@@ -30,7 +30,7 @@ jobs:
           - ops: milner
             dev: church
     steps:
-      - uses: actions/checkout@v4.1.0
+      - uses: actions/checkout@v4.1.1
       - uses: ./.github/actions/prepare
         with:
           name: ${{ matrix.env.dev }}
@@ -80,7 +80,7 @@ jobs:
         usecase: [func]
     runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@v4.1.0
+      - uses: actions/checkout@v4.1.1
       - uses: ./.github/actions/prepare
         with:
           tools: python docker
@@ -109,7 +109,7 @@ jobs:
         shard: [0, 1]
     runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@v4.1.0
+      - uses: actions/checkout@v4.1.1
       - uses: ./.github/actions/prepare
         with:
           tools: python java docker
@@ -150,7 +150,7 @@ jobs:
     permissions:
       packages: write
     steps:
-      - uses: actions/checkout@v4.1.0
+      - uses: actions/checkout@v4.1.1
       - uses: ./.github/actions/prepare
         with:
           tools: python docker
