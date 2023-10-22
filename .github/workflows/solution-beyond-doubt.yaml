@@ -13,7 +13,7 @@ env:
 
 jobs:
   up-to-images:
-    name: Up to images
+    name: Up to images in ${{ matrix.env.ops }} env
     timeout-minutes: 10
     runs-on: ubuntu-22.04
     permissions:
@@ -23,12 +23,12 @@ jobs:
       fail-fast: false
       matrix:
         env:
-          - dev: godel
-            ops: shannon
-          - dev: turing
-            ops: lamport
-          - dev: church
-            ops: milner
+          - ops: shannon
+            dev: godel
+          - ops: lamport
+            dev: turing
+          - ops: milner
+            dev: church
     steps:
       - uses: actions/checkout@v4.1.0
       - uses: ./.github/actions/prepare
@@ -90,7 +90,6 @@ jobs:
           -e image_repo=${{ env.IMAGE_REPO }}
           -e opsenv=${{ matrix.opsenv }}
           -e usage=${{ matrix.usage }}
-          -e props=${{ matrix.opsenv }}
         working-directory: .dx
       - uses: actions/upload-artifact@v3.1.3
         with:
@@ -125,7 +124,6 @@ jobs:
           -e image_repo=${{ env.IMAGE_REPO }}
           -e opsenv=${{ matrix.opsenv }}
           -e usage=${{ matrix.usage }}
-          -e props=${{ matrix.opsenv }}
           -e reminder=${{ matrix.shard }}
           -e modulus=2
         working-directory: .dx
@@ -167,7 +165,6 @@ jobs:
           -e image_repo=${{ env.IMAGE_REPO }}
           -e opsenv=${{ matrix.opsenv }}
           -e usage=${{ matrix.usage }}
-          -e props=${{ matrix.opsenv }}
           -e focus=solution
         working-directory: .dx
 

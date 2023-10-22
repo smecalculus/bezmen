@@ -9,26 +9,26 @@ on:
 
 jobs:
   everything:
-    name: Everything in ${{ matrix.devenv.name }} devenv
+    name: Up to stacks in ${{ matrix.env.dev }} env
     timeout-minutes: 10
-    runs-on: ${{ matrix.devenv.os }}
+    runs-on: ${{ matrix.env.os }}
     permissions:
       packages: write
     strategy:
       fail-fast: false
       matrix:
-        devenv:
-          - name: godel
+        env:
+          - dev: godel
             os: ubuntu-20.04
-          - name: turing
+          - dev: turing
             os: ubuntu-22.04
-          - name: church
+          - dev: church
             os: ubuntu-22.04
     steps:
       - uses: actions/checkout@v4.1.0
       - uses: ./.github/actions/prepare
         with:
-          name: ${{ matrix.devenv.name }}
+          name: ${{ matrix.env.dev }}
           tools: python java docker
           token: ${{ secrets.GITHUB_TOKEN }}
       - run: ansible-playbook codebase.yaml -e focus=toolchain
@@ -40,6 +40,7 @@ jobs:
           ansible-playbook stacks.yaml
           -e image_repo=ghcr.io
           -e focus=toolchain
+          -e opsenv=shannon
         working-directory: .dx
         env:
           GITHUB_ACTOR: ${{ github.actor }}

@@ -41,8 +41,8 @@ app_images:
 schema_images:
   postgres: "{{ image_repo }}/{{ organization }}/{{ project }}/schema/postgres"
 stack_images:
-  solution: "{{ image_repo }}/{{ organization }}/{{ project }}/stack/solution-{{ usage }}-{{ opsenv }}"
-  toolchain: "{{ image_repo }}/{{ organization }}/{{ project }}/stack/toolchain-{{ devenv }}"
+  solution: "{{ image_repo }}/{{ organization }}/{{ project }}/stack/solution-{{ usage }}"
+  toolchain: "{{ image_repo }}/{{ organization }}/{{ project }}/stack/toolchain"
 
 docker_entity: "{{ 'image' if image_repo == 'local' else 'manifest' }}"
 
