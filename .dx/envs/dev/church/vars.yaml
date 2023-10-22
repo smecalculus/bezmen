@@ -1,5 +1,5 @@
 ---
-java_release: 17
+java_release: 21
 
 maven_version:
   min: 3.8.0
