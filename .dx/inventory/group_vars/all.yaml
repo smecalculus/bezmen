@@ -24,6 +24,7 @@ solution_cid: "{{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=soluti
 test_cid: "{{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=tests')[:7] }}"
 
 dx_cid: "{{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=.dx')[:7] }}"
+env_cid: "{{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=envs')[:7] }}"
 tool_cid: "{{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=tools')[:7] }}"
 pipeline_cid: "{{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=.github')[:7] }}"
 

@@ -4,6 +4,7 @@
     cmd: git hash-object --stdin
     stdin: |
       {{ dx_cid }}
+      {{ env_cid }}
       {{ tool_cid }}
       {{ test_cid }}
   register: stack_cid

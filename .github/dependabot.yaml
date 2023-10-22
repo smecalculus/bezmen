@@ -23,11 +23,7 @@ updates:
     schedule:
       interval: "weekly"
   - package-ecosystem: "pip"
-    directory: "/.dx/envs/dev/turing"
-    schedule:
-      interval: "weekly"
-  - package-ecosystem: "pip"
-    directory: "/.dx/envs/dev/church"
+    directory: "/envs/dev/godel"
     schedule:
       interval: "weekly"
     ignore:
@@ -35,3 +31,11 @@ updates:
         update-types:
           - version-update:semver-major
           - version-update:semver-minor
+  - package-ecosystem: "pip"
+    directory: "/envs/dev/turing"
+    schedule:
+      interval: "weekly"
+  - package-ecosystem: "pip"
+    directory: "/envs/dev/church"
+    schedule:
+      interval: "weekly"
