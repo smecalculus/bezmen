@@ -1,4 +1,5 @@
-FROM eclipse-temurin:17-jdk-alpine
+ARG JAVA_RELEASE
+FROM eclipse-temurin:${JAVA_RELEASE}-jre-alpine
 RUN addgroup -S bezmen && adduser -S bezmen -G bezmen
 USER bezmen:bezmen
 WORKDIR /home/bezmen

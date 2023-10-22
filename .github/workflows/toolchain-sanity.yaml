@@ -20,10 +20,8 @@ jobs:
         devenv:
           - name: turing
             os: ubuntu-22.04
-            java: 19
           - name: church
             os: ubuntu-20.04
-            java: 17
     runs-on: ${{ matrix.devenv.os }}
     steps:
       - uses: actions/checkout@v4.1.0
@@ -32,15 +30,18 @@ jobs:
           name: ${{ matrix.devenv.name }}
           tools: python java
           token: ${{ secrets.GITHUB_TOKEN }}
-      - run: ansible-playbook codebase.yaml -e focus=toolchain
+      - run: >
+          ansible-playbook codebase.yaml
+          -e focus=toolchain
         working-directory: .dx
         env:
           GITHUB_ACTOR: ${{ github.actor }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          JAVA_HOME: ${{ env[format('JAVA_HOME_{0}_X64', matrix.devenv.java)] }}
-      - run: ansible-playbook binaries.yaml -e focus=toolchain
+      - run: >
+          ansible-playbook binaries.yaml
+          -e devenv=${{ matrix.devenv.name }}
+          -e focus=toolchain
         working-directory: .dx
         env:
           GITHUB_ACTOR: ${{ github.actor }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          JAVA_HOME: ${{ env[format('JAVA_HOME_{0}_X64', matrix.devenv.java)] }}
