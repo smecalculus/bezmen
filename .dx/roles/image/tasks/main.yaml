@@ -28,6 +28,9 @@
       docker build {{ image_context }}
       -f Dockerfile
       -t {{ image_name }}:{{ image_tag }}
+      {% for key, value in image_args.items() %}
+      --build-arg {{ key }}={{ value }}
+      {% endfor %}
     chdir: "{{ image_home }}"
     strip_empty_ends: false
   changed_when: true

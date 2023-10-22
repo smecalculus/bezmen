@@ -37,6 +37,10 @@
         msg: "{{ image_status.results|map(attribute='cmd')|map('join', ' ') }}"
       when: image_status is changed
       tags: [always]
+    - name: Capture env
+      ansible.builtin.include_vars:
+        file: envs/dev/{{ devenv }}/vars.yaml
+        name: dev
     - name: Create binaries
       ansible.builtin.command:
         cmd: >
@@ -59,6 +63,7 @@
           {% else %}
           package
           {% endif %}
+          --define maven.compiler.release={{ dev.java_release }}
         chdir: "{{ playbook_dir }}/.."
         strip_empty_ends: false
       changed_when: true

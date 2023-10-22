@@ -20,6 +20,7 @@
     <mapstruct.version>1.5.5.Final</mapstruct.version>
     <skipTests>false</skipTests>
     <skipUnits>${skipTests}</skipUnits>
+    <maven.compiler.release>17</maven.compiler.release>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
 
@@ -85,7 +86,6 @@
           <artifactId>maven-compiler-plugin</artifactId>
           <version>3.11.0</version>
           <configuration>
-            <release>17</release>
             <annotationProcessorPaths>
               <path>
                 <groupId>org.projectlombok</groupId>
