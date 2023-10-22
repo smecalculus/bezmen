@@ -65,7 +65,7 @@ jobs:
       fail-fast: false
       matrix:
         usage: [func]
-        opsenv: [shannon, lamport]
+        opsenv: [shannon, lamport, milner]
     runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v4.1.0
@@ -94,7 +94,7 @@ jobs:
       fail-fast: false
       matrix:
         usage: [func]
-        opsenv: [shannon, lamport]
+        opsenv: [shannon, lamport, milner]
         shard: [0, 1]
     runs-on: ubuntu-22.04
     steps:
@@ -135,7 +135,7 @@ jobs:
       fail-fast: false
       matrix:
         usage: [func]
-        opsenv: [shannon, lamport]
+        opsenv: [shannon, lamport, milner]
     runs-on: ubuntu-22.04
     permissions:
       packages: write

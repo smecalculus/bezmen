@@ -18,10 +18,12 @@ jobs:
     strategy:
       matrix:
         devenv:
+          - name: godel
+            os: ubuntu-20.04
           - name: turing
             os: ubuntu-22.04
           - name: church
-            os: ubuntu-20.04
+            os: ubuntu-22.04
     runs-on: ${{ matrix.devenv.os }}
     steps:
       - uses: actions/checkout@v4.1.0
