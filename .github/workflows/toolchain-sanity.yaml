@@ -39,8 +39,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - run: >
           ansible-playbook binaries.yaml
-          -e focus=toolchain
           -e opsenv=shannon
+          -e focus=toolchain
         working-directory: .dx
         env:
           GITHUB_ACTOR: ${{ github.actor }}

@@ -39,8 +39,9 @@ jobs:
       - run: >
           ansible-playbook stacks.yaml
           -e image_repo=ghcr.io
-          -e focus=toolchain
+          -e devenv=${{ matrix.env.dev }}
           -e opsenv=shannon
+          -e focus=toolchain
         working-directory: .dx
         env:
           GITHUB_ACTOR: ${{ github.actor }}
