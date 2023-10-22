@@ -27,8 +27,8 @@
   ansible.builtin.command:
     cmd: >
       docker compose
-      --file usages/basis.yaml
-      --file usages/{{ usage }}.yaml
+      --file usecases/basis.yaml
+      --file usecases/{{ usecase }}.yaml
       --profile {{ opsenv }}
       config
       --output target/context/compose.yaml

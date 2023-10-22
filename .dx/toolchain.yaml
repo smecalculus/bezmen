@@ -2,7 +2,7 @@
 - name: Toolchain
   hosts: toolchain
   tasks:
-    - name: Capture dev env
+    - name: Capture env
       ansible.builtin.include_vars:
         file: envs/dev/{{ devenv }}/vars.yaml
         name: dev

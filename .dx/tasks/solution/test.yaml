@@ -28,7 +28,7 @@
       --batch-mode
       --threads 2
       --projects tests/e2e
-      --activate-profiles {{ usage }}
+      --activate-profiles {{ usecase }}
       --also-make
       clean
       test
