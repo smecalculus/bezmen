@@ -9,8 +9,11 @@ on:
 
 jobs:
   everything:
-    name: Everything in ${{ matrix.devenv.name }} env
+    name: Everything in ${{ matrix.devenv.name }} devenv
     timeout-minutes: 10
+    runs-on: ${{ matrix.devenv.os }}
+    permissions:
+      packages: write
     strategy:
       fail-fast: false
       matrix:
@@ -21,9 +24,6 @@ jobs:
             os: ubuntu-22.04
           - name: church
             os: ubuntu-22.04
-    runs-on: ${{ matrix.devenv.os }}
-    permissions:
-      packages: write
     steps:
       - uses: actions/checkout@v4.1.0
       - uses: ./.github/actions/prepare
@@ -39,7 +39,6 @@ jobs:
       - run: >
           ansible-playbook stacks.yaml
           -e image_repo=ghcr.io
-          -e devenv=${{ matrix.devenv.name }}
           -e focus=toolchain
         working-directory: .dx
         env:

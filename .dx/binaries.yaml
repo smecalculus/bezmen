@@ -24,7 +24,7 @@
       tags: [always]
     - name: Capture statuses
       ansible.builtin.command:
-        cmd: docker {{ docker_entity }} inspect {{ app_images[app] }}:{{ image_cids[app][:7] }}
+        cmd: docker {{ docker_entity }} inspect {{ app_images[app] }}:{{ image_cids[app][:7] }}-{{ opsenv }}
       register: image_status
       changed_when: image_status.rc != 0
       failed_when: false
@@ -39,8 +39,8 @@
       tags: [always]
     - name: Capture env
       ansible.builtin.include_vars:
-        file: envs/dev/{{ devenv }}/vars.yaml
-        name: dev
+        file: envs/ops/{{ opsenv }}.yaml
+        name: ops
     - name: Create binaries
       ansible.builtin.command:
         cmd: >
@@ -63,7 +63,7 @@
           {% else %}
           package
           {% endif %}
-          --define maven.compiler.release={{ dev.java_release }}
+          --define maven.compiler.release={{ ops.java_release }}
         chdir: "{{ playbook_dir }}/.."
         strip_empty_ends: false
       changed_when: true

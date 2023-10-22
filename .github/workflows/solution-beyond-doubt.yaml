@@ -19,10 +19,21 @@ jobs:
     permissions:
       checks: write
       packages: write
+    strategy:
+      fail-fast: false
+      matrix:
+        env:
+          - dev: godel
+            ops: shannon
+          - dev: turing
+            ops: lamport
+          - dev: church
+            ops: milner
     steps:
       - uses: actions/checkout@v4.1.0
       - uses: ./.github/actions/prepare
         with:
+          name: ${{ matrix.env.dev }}
           tools: python java docker
           token: ${{ secrets.GITHUB_TOKEN }}
       - run: ansible-playbook codebase.yaml -e focus=solution
@@ -35,6 +46,7 @@ jobs:
           ansible-playbook images.yaml
           -e binary_repo=${{ env.BINARY_REPO }}
           -e image_repo=${{ env.IMAGE_REPO }}
+          -e opsenv=${{ matrix.env.ops }}
           -e focus=solution
         working-directory: .dx
         env:

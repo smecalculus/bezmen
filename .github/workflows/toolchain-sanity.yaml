@@ -32,17 +32,12 @@ jobs:
           name: ${{ matrix.devenv.name }}
           tools: python java
           token: ${{ secrets.GITHUB_TOKEN }}
-      - run: >
-          ansible-playbook codebase.yaml
-          -e focus=toolchain
+      - run: ansible-playbook codebase.yaml -e focus=toolchain
         working-directory: .dx
         env:
           GITHUB_ACTOR: ${{ github.actor }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - run: >
-          ansible-playbook binaries.yaml
-          -e devenv=${{ matrix.devenv.name }}
-          -e focus=toolchain
+      - run: ansible-playbook binaries.yaml -e focus=toolchain
         working-directory: .dx
         env:
           GITHUB_ACTOR: ${{ github.actor }}
