@@ -57,7 +57,7 @@
       ansible.builtin.include_role:
         name: image
       vars:
-        image_tag: "{{ image_cids[app][:7] }}"
+        image_tag: "{{ image_cids[app][:7] }}-{{ opsenv }}"
         image_name: "{{ app_images[app] }}"
         image_home: "{{ playbook_dir }}/../apps/{{ app }}"
         image_context: target/docker-context

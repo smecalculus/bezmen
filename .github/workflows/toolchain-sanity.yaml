@@ -13,34 +13,34 @@ on:
 
 jobs:
   up-to-binaries:
-    name: Up to binaries in ${{ matrix.devenv.name }} env
+    name: Up to binaries in ${{ matrix.env.dev }} env
     timeout-minutes: 5
     strategy:
       matrix:
-        devenv:
-          - name: turing
-            os: ubuntu-22.04
-          - name: church
+        env:
+          - dev: godel
             os: ubuntu-20.04
-    runs-on: ${{ matrix.devenv.os }}
+          - dev: turing
+            os: ubuntu-22.04
+          - dev: church
+            os: ubuntu-22.04
+    runs-on: ${{ matrix.env.os }}
     steps:
       - uses: actions/checkout@v4.1.0
       - uses: ./.github/actions/prepare
         with:
-          name: ${{ matrix.devenv.name }}
+          name: ${{ matrix.env.dev }}
           tools: python java
           token: ${{ secrets.GITHUB_TOKEN }}
-      - run: >
-          ansible-playbook codebase.yaml
-          -e focus=toolchain
+      - run: ansible-playbook codebase.yaml -e focus=toolchain
         working-directory: .dx
         env:
           GITHUB_ACTOR: ${{ github.actor }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - run: >
           ansible-playbook binaries.yaml
-          -e devenv=${{ matrix.devenv.name }}
           -e focus=toolchain
+          -e opsenv=shannon
         working-directory: .dx
         env:
           GITHUB_ACTOR: ${{ github.actor }}
