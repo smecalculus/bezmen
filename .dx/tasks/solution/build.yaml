@@ -12,7 +12,7 @@
 
 - name: Capture env
   ansible.builtin.include_vars:
-    file: envs/ops/{{ opsenv }}.yaml
+    file: ../envs/ops/{{ opsenv }}.yaml
     name: ops
 
 - name: Build conf

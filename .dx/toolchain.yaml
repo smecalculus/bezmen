@@ -4,7 +4,7 @@
   tasks:
     - name: Capture env
       ansible.builtin.include_vars:
-        file: envs/dev/{{ devenv }}/vars.yaml
+        file: ../envs/dev/{{ devenv }}/vars.yaml
         name: dev
     - name: Capture maven version
       ansible.builtin.command:
