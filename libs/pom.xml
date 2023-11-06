@@ -29,7 +29,7 @@
     <spring-data.version>3.1.5</spring-data.version>
     <jetty.version>11.0.18</jetty.version>
     <jackson.version>2.15.3</jackson.version>
-    <junit.version>5.10.0</junit.version>
+    <junit.version>5.10.1</junit.version>
     <mockito.version>5.7.0</mockito.version>
     <skipTests>false</skipTests>
     <skipUnits>${skipTests}</skipUnits>
