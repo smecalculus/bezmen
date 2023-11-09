@@ -14,12 +14,19 @@ updates:
       spring-framework:
         patterns:
           - "org.springframework*"
+      junit-platform:
+        patterns:
+          - "org.junit*"
   - package-ecosystem: "docker"
     directory: "/schemas/postgres"
     schedule:
       interval: "weekly"
   - package-ecosystem: "docker"
-    directory: "/apps/sepuling"
+    directory: "/apps/sepuling-java"
+    schedule:
+      interval: "weekly"
+  - package-ecosystem: "docker"
+    directory: "/apps/sepuling-kotlin"
     schedule:
       interval: "weekly"
   - package-ecosystem: "pip"

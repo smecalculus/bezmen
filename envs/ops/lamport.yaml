@@ -5,3 +5,5 @@ config_mapping_mode: spring_config
 config_file_name:
   source: lamport.yaml
   target: application.yaml
+app_langs:
+  sepuling: java
