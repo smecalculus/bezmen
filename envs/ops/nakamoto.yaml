@@ -1,0 +1,9 @@
+---
+java_release: 19
+postgres_version: 15.4
+config_mapping_mode: lightbend_config
+config_file_name:
+  source: nakamoto.conf
+  target: application.conf
+app_langs:
+  sepuling: kotlin
