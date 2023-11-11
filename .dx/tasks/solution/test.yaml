@@ -20,6 +20,11 @@
     strip_empty_ends: false
   changed_when: true
 
+- name: Capture env
+  ansible.builtin.include_vars:
+    file: ../envs/dev/{{ devenv }}/vars.yaml
+    name: dev
+
 - name: Test stand
   ansible.builtin.command:
     cmd: >
@@ -39,6 +44,7 @@
       {% if modulus is defined %}
       --define bezmen.sharding.modulus={{ modulus }}
       {% endif %}
+      --define maven.compiler.release={{ dev.java_release }}
       --define skipUnits=true
     chdir: "{{ playbook_dir }}/.."
     strip_empty_ends: false

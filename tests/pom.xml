@@ -17,6 +17,7 @@
   <properties>
     <props>shannon</props>
     <lombok.version>1.18.30</lombok.version>
+    <maven.compiler.release>19</maven.compiler.release>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
 
