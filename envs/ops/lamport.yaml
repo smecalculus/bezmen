@@ -1,9 +1,9 @@
 ---
 java_release: 19
 postgres_version: 15.4
-config_mapping_mode: spring_config
+config_mapping_mode: lightbend_config
 config_file_name:
   source: lamport.yaml
   target: application.yaml
-app_langs:
-  sepuling: java
+sepuling:
+  lang_mode: kotlin

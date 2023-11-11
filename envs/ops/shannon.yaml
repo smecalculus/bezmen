@@ -5,5 +5,5 @@ config_mapping_mode: lightbend_config
 config_file_name:
   source: shannon.conf
   target: application.conf
-app_langs:
-  sepuling: java
+sepuling:
+  lang_mode: java

@@ -39,7 +39,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - run: >
           ansible-playbook binaries.yaml
-          -e opsenv=shannon
+          -e opsenv=lamport
           -e focus=toolchain
         working-directory: .dx
         env:

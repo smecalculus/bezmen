@@ -40,7 +40,7 @@ jobs:
           ansible-playbook stacks.yaml
           -e image_repo=ghcr.io
           -e devenv=${{ matrix.env.dev }}
-          -e opsenv=shannon
+          -e opsenv=lamport
           -e focus=toolchain
         working-directory: .dx
         env:

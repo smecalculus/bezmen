@@ -40,8 +40,8 @@ binary_repo: local
 image_repo: local
 
 app_images:
-  sepuling-java: "{{ image_repo }}/{{ organization }}/{{ project }}/app/sepuling"
-  sepuling-kotlin: "{{ image_repo }}/{{ organization }}/{{ project }}/app/sepuling"
+  sepuling-java: "{{ image_repo }}/{{ organization }}/{{ project }}/app/sepuling-java"
+  sepuling-kotlin: "{{ image_repo }}/{{ organization }}/{{ project }}/app/sepuling-kotlin"
 schema_images:
   postgres: "{{ image_repo }}/{{ organization }}/{{ project }}/schema/postgres"
 stack_images:
@@ -50,6 +50,8 @@ stack_images:
 
 docker_entity: "{{ 'image' if image_repo == 'local' else 'manifest' }}"
 
+sepuling_deps: [abstraction, abstraction-client, essentials, messaging, messaging-client, storage]
+
 app_deps:
-  sepuling-java: [abstraction, abstraction-client, essentials, messaging, messaging-client, storage]
-  sepuling-kotlin: [abstraction, abstraction-client, essentials, messaging, messaging-client, storage]
+  sepuling-java: "{{ sepuling_deps }}"
+  sepuling-kotlin: "{{ sepuling_deps }}"
