@@ -3,6 +3,10 @@
   hosts: app
   run_once: true
   tasks:
+    - name: Capture env
+      ansible.builtin.include_vars:
+        file: ../envs/dev/{{ devenv }}/vars.yaml
+        name: dev
     - name: Capture cid's
       ansible.builtin.command:
         cmd: git hash-object --stdin
@@ -14,7 +18,7 @@
       # TODO: try to choose better name
       register: image_cid
       changed_when: false
-      loop: "{{ app_cids.keys() }}"
+      loop: "{{ app_cids.keys() if dev.java_release < 21 else app_cids.keys()| difference('sepuling-kotlin') }}"
       loop_control:
         loop_var: app
       tags: [always]
@@ -37,10 +41,6 @@
         msg: "{{ image_status.results|map(attribute='cmd')|map('join', ' ') }}"
       when: image_status is changed
       tags: [always]
-    - name: Capture env
-      ansible.builtin.include_vars:
-        file: ../envs/dev/{{ devenv }}/vars.yaml
-        name: dev
     - name: Create binaries
       ansible.builtin.command:
         cmd: >
