@@ -13,7 +13,7 @@ env:
 
 jobs:
   up-to-images:
-    name: Up to images in ${{ matrix.env.ops }} env
+    name: Up to images in ${{ matrix.devenv }} env
     timeout-minutes: 10
     runs-on: ubuntu-22.04
     permissions:
