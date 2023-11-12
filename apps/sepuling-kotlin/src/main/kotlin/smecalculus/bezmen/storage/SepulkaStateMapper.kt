@@ -6,10 +6,15 @@ import smecalculus.bezmen.mapping.EdgeMapper
 
 @Mapper
 interface SepulkaStateMapper : EdgeMapper {
-    fun toEdge(state: StateDm.AggregateState): StateEm.AggregateState
-    fun toDomain(state: StateEm.AggregateState): StateDm.AggregateState
-    fun toEdge(state: StateDm.TouchState): StateEm.TouchState
-    fun toDomain(state: StateEm.ExistenceState): StateDm.ExistenceState
-    fun toEdge(state: StateDm.PreviewState): StateEm.PreviewState
-    fun toDomain(state: StateEm.PreviewState): StateDm.PreviewState
+    fun toEdge(state: StateDm.AggregateRoot): StateEm.AggregateRoot
+
+    fun toDomain(state: StateEm.AggregateRoot): StateDm.AggregateRoot
+
+    fun toEdge(state: StateDm.Touch): StateEm.Touch
+
+    fun toDomain(state: StateEm.Existence): StateDm.Existence
+
+    fun toEdge(state: StateDm.Preview): StateEm.Preview
+
+    fun toDomain(state: StateEm.Preview): StateDm.Preview
 }

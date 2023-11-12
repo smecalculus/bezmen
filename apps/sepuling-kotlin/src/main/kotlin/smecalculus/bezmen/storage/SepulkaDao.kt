@@ -7,8 +7,14 @@ import java.util.UUID
  * Port: server side
  */
 interface SepulkaDao {
-    fun add(state: StateDm.AggregateState): StateDm.AggregateState
-    fun getBy(externalId: String): StateDm.ExistenceState?
-    fun getBy(internalId: UUID): StateDm.PreviewState?
-    fun updateBy(state: StateDm.TouchState, internalId: UUID)
+    fun add(state: StateDm.AggregateRoot): StateDm.AggregateRoot
+
+    fun getBy(externalId: String): StateDm.Existence?
+
+    fun getBy(internalId: UUID): StateDm.Preview?
+
+    fun updateBy(
+        state: StateDm.Touch,
+        internalId: UUID,
+    )
 }

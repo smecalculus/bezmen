@@ -8,17 +8,17 @@ import java.util.UUID
 
 class SepulkaServiceImpl(
     private val mapper: SepulkaMapper,
-    private val dao: SepulkaDao
+    private val dao: SepulkaDao,
 ) : SepulkaService {
-
     override fun register(request: MessageDm.RegistrationRequest): MessageDm.RegistrationResponse {
         val now = LocalDateTime.now()
-        val sepulkaCreated = mapper.toState(request)
-            .internalId(UUID.randomUUID())
-            .revision(0)
-            .createdAt(now)
-            .updatedAt(now)
-            .build()
+        val sepulkaCreated =
+            mapper.toState(request)
+                .internalId(UUID.randomUUID())
+                .revision(0)
+                .createdAt(now)
+                .updatedAt(now)
+                .build()
         val sepulkaSaved = dao.add(sepulkaCreated)
         return mapper.toMessage(sepulkaSaved).build()
     }

@@ -4,14 +4,13 @@ import static java.time.temporal.ChronoUnit.MICROS;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
-import smecalculus.bezmen.core.StateDm.AggregateState;
-import smecalculus.bezmen.core.StateDm.ExistenceState;
-import smecalculus.bezmen.core.StateDm.PreviewState;
-import smecalculus.bezmen.core.StateDm.TouchState;
+import smecalculus.bezmen.core.StateDm.AggregateRoot;
+import smecalculus.bezmen.core.StateDm.Preview;
+import smecalculus.bezmen.core.StateDm.Touch;
 
 public class StateDmEg {
-    public static AggregateState.Builder aggregateState() {
-        return AggregateState.builder()
+    public static StateDm.AggregateRoot.Builder aggregateRoot() {
+        return AggregateRoot.builder()
                 .internalId(UUID.randomUUID())
                 .externalId(UUID.randomUUID().toString())
                 .revision(0)
@@ -19,15 +18,15 @@ public class StateDmEg {
                 .updatedAt(LocalDateTime.now().truncatedTo(MICROS));
     }
 
-    public static ExistenceState.Builder creationState() {
-        return ExistenceState.builder().internalId(UUID.randomUUID());
+    public static StateDm.Existence.Builder existence() {
+        return StateDm.Existence.builder().internalId(UUID.randomUUID());
     }
 
-    public static PreviewState.Builder previewState(AggregateState state) {
-        return PreviewState.builder().externalId(state.externalId()).createdAt(state.createdAt());
+    public static StateDm.Preview.Builder preview(StateDm.AggregateRoot state) {
+        return Preview.builder().externalId(state.externalId()).createdAt(state.createdAt());
     }
 
-    public static TouchState.Builder touchState(AggregateState state) {
-        return TouchState.builder().revision(state.revision()).updatedAt(state.updatedAt());
+    public static StateDm.Touch.Builder touch(AggregateRoot state) {
+        return Touch.builder().revision(state.revision()).updatedAt(state.updatedAt());
     }
 }

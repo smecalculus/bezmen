@@ -10,25 +10,25 @@ import org.springframework.data.relational.core.mapping.Table;
 
 public abstract class StateEm {
     @Data
-    public static class ExistenceState {
+    public static class Existence {
         UUID internalId;
     }
 
     @Data
-    public static class PreviewState {
+    public static class Preview {
         String externalId;
         LocalDateTime createdAt;
     }
 
     @Data
-    public static class TouchState {
+    public static class Touch {
         Integer revision;
         LocalDateTime updatedAt;
     }
 
     @Data
     @Table("sepulkas")
-    public static class AggregateState implements Persistable<UUID> {
+    public static class AggregateRoot implements Persistable<UUID> {
         @Id
         UUID internalId;
 

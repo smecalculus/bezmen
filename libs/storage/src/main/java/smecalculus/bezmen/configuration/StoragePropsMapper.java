@@ -4,10 +4,9 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import smecalculus.bezmen.configuration.StorageDm.MappingMode;
 import smecalculus.bezmen.configuration.StorageDm.ProtocolMode;
-import smecalculus.bezmen.mapping.EdgeMapper;
 
 @Mapper
-public interface StoragePropsMapper extends EdgeMapper {
+public interface StoragePropsMapper {
     @Mapping(source = "protocol", target = "protocolProps")
     @Mapping(source = "mapping", target = "mappingProps")
     StorageDm.StorageProps toDomain(StorageEm.StorageProps propsEdge);

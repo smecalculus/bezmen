@@ -274,6 +274,11 @@
         <version>${mockito.version}</version>
       </dependency>
       <dependency>
+        <groupId>org.mockito.kotlin</groupId>
+        <artifactId>mockito-kotlin</artifactId>
+        <version>5.1.0</version>
+      </dependency>
+      <dependency>
         <groupId>org.assertj</groupId>
         <artifactId>assertj-core</artifactId>
         <version>3.24.2</version>
@@ -483,6 +488,11 @@
                 <version>2.38.0</version>
               </palantirJavaFormat>
             </java>
+            <kotlin>
+              <ktlint>
+                <version>1.0.1</version>
+              </ktlint>
+            </kotlin>
           </configuration>
         </plugin>
         <plugin>

@@ -12,10 +12,12 @@ import smecalculus.bezmen.messaging.SepulkaClient
 @RestController
 @RequestMapping("sepulkas")
 class SepulkaController(
-    private val client: SepulkaClient
+    private val client: SepulkaClient,
 ) {
     @PostMapping
-    fun register(@RequestBody requestEdge: MessageEm.RegistrationRequest): ResponseEntity<MessageEm.RegistrationResponse> {
+    fun register(
+        @RequestBody requestEdge: MessageEm.RegistrationRequest,
+    ): ResponseEntity<MessageEm.RegistrationResponse> {
         val responseEdge = client.register(requestEdge)
         return ResponseEntity.status(HttpStatus.CREATED).body(responseEdge)
     }

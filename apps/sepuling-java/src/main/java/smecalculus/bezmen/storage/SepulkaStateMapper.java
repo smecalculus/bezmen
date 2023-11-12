@@ -6,15 +6,15 @@ import smecalculus.bezmen.mapping.EdgeMapper;
 
 @Mapper
 public interface SepulkaStateMapper extends EdgeMapper {
-    StateEm.AggregateState toEdge(StateDm.AggregateState state);
+    StateEm.AggregateRoot toEdge(StateDm.AggregateRoot state);
 
-    StateDm.AggregateState toDomain(StateEm.AggregateState state);
+    StateDm.AggregateRoot toDomain(StateEm.AggregateRoot state);
 
-    StateEm.TouchState toEdge(StateDm.TouchState state);
+    StateEm.Touch toEdge(StateDm.Touch state);
 
-    StateDm.ExistenceState toDomain(StateEm.ExistenceState state);
+    StateDm.Existence toDomain(StateEm.Existence state);
 
-    StateEm.PreviewState toEdge(StateDm.PreviewState state);
+    StateEm.Preview toEdge(StateDm.Preview state);
 
-    StateDm.PreviewState toDomain(StateEm.PreviewState state);
+    StateDm.Preview toDomain(StateEm.Preview state);
 }

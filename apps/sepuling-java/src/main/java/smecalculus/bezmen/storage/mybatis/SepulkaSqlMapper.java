@@ -5,10 +5,10 @@ import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
-import smecalculus.bezmen.storage.StateEm.AggregateState;
-import smecalculus.bezmen.storage.StateEm.ExistenceState;
-import smecalculus.bezmen.storage.StateEm.PreviewState;
-import smecalculus.bezmen.storage.StateEm.TouchState;
+import smecalculus.bezmen.storage.StateEm.AggregateRoot;
+import smecalculus.bezmen.storage.StateEm.Existence;
+import smecalculus.bezmen.storage.StateEm.Preview;
+import smecalculus.bezmen.storage.StateEm.Touch;
 
 public interface SepulkaSqlMapper {
 
@@ -29,7 +29,7 @@ public interface SepulkaSqlMapper {
                 #{updatedAt}
             )
             """)
-    void insert(AggregateState state);
+    void insert(AggregateRoot state);
 
     @Select(
             """
@@ -38,7 +38,7 @@ public interface SepulkaSqlMapper {
             FROM sepulkas
             WHERE external_id = #{externalId}
             """)
-    Optional<ExistenceState> findByExternalId(String externalId);
+    Optional<Existence> findByExternalId(String externalId);
 
     @Select(
             """
@@ -48,7 +48,7 @@ public interface SepulkaSqlMapper {
             FROM sepulkas
             WHERE internal_id = #{internalId}
             """)
-    Optional<PreviewState> findByInternalId(String internalId);
+    Optional<Preview> findByInternalId(String internalId);
 
     @Update(
             """
@@ -57,6 +57,6 @@ public interface SepulkaSqlMapper {
                 updated_at = #{state.updatedAt}
             WHERE internal_id = #{id}
             AND revision = #{state.revision}
-           """)
-    int updateBy(@Param("state") TouchState state, @Param("id") String internalId);
+            """)
+    int updateBy(@Param("state") Touch state, @Param("id") String internalId);
 }
