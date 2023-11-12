@@ -7,10 +7,10 @@ import java.util.Collections;
 import java.util.List;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import smecalculus.bezmen.core.MessageDm.PreviewRequest;
-import smecalculus.bezmen.core.MessageDm.PreviewResponse;
-import smecalculus.bezmen.core.MessageDm.RegistrationRequest;
-import smecalculus.bezmen.core.MessageDm.RegistrationResponse;
+import smecalculus.bezmen.core.SepulkaMessageDm.PreviewRequest;
+import smecalculus.bezmen.core.SepulkaMessageDm.PreviewResponse;
+import smecalculus.bezmen.core.SepulkaMessageDm.RegistrationRequest;
+import smecalculus.bezmen.core.SepulkaMessageDm.RegistrationResponse;
 import smecalculus.bezmen.storage.SepulkaDao;
 
 @RequiredArgsConstructor

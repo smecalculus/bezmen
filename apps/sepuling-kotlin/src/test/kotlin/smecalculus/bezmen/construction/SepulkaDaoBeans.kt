@@ -16,8 +16,6 @@ import smecalculus.bezmen.storage.mybatis.SepulkaSqlMapper
 import smecalculus.bezmen.storage.springdata.SepulkaRepository
 import javax.sql.DataSource
 
-const val DB = "testdb"
-
 class SepulkaDaoBeans {
     @Import(MappingSpringDataBeans::class)
     class SpringData {
@@ -63,7 +61,7 @@ class SepulkaDaoBeans {
                     else -> throw IllegalStateException("Unrepresentable state")
                 }
 
-            val nameWithSettings = listOf(DB) + common + specific
+            val nameWithSettings = listOf("testdb") + common + specific
             return EmbeddedDatabaseBuilder()
                 .setType(EmbeddedDatabaseType.H2)
                 .setName(nameWithSettings.joinToString(";"))

@@ -8,14 +8,16 @@ import org.springframework.data.domain.Persistable;
 import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
 
-public abstract class StateEm {
+public abstract class SepulkaStateEm {
     @Data
     public static class Existence {
         UUID internalId;
+        String externalId;
     }
 
     @Data
     public static class Preview {
+        UUID internalId;
         String externalId;
         LocalDateTime createdAt;
     }

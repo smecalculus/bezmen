@@ -7,7 +7,7 @@ import org.springframework.data.relational.core.mapping.Table
 import java.time.LocalDateTime
 import java.util.UUID
 
-abstract class StateEm {
+abstract class SepulkaStateEm {
     data class Existence(
         var internalId: UUID,
         var externalId: String,

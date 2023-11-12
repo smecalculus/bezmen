@@ -7,13 +7,13 @@ import org.springframework.data.jdbc.repository.query.Modifying;
 import org.springframework.data.jdbc.repository.query.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
-import smecalculus.bezmen.storage.StateEm;
+import smecalculus.bezmen.storage.SepulkaStateEm;
 
-public interface SepulkaRepository extends CrudRepository<StateEm.AggregateRoot, String> {
+public interface SepulkaRepository extends CrudRepository<SepulkaStateEm.AggregateRoot, String> {
 
-    Optional<StateEm.Existence> findByExternalId(@NonNull String externalId);
+    Optional<SepulkaStateEm.Existence> findByExternalId(@NonNull String externalId);
 
-    Optional<StateEm.Preview> findByInternalId(@NonNull UUID internalId);
+    Optional<SepulkaStateEm.Preview> findByInternalId(@NonNull UUID internalId);
 
     @Modifying
     @Query(
@@ -24,5 +24,5 @@ public interface SepulkaRepository extends CrudRepository<StateEm.AggregateRoot,
             WHERE internal_id = :id
             AND revision = :#{#state.revision}
             """)
-    int updateBy(@Param("state") StateEm.Touch state, @Param("id") UUID internalId);
+    int updateBy(@Param("state") SepulkaStateEm.Touch state, @Param("id") UUID internalId);
 }

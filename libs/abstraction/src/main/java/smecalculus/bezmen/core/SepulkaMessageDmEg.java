@@ -1,9 +1,9 @@
 package smecalculus.bezmen.core;
 
 import java.util.UUID;
-import smecalculus.bezmen.core.MessageDm.RegistrationResponse;
+import smecalculus.bezmen.core.SepulkaMessageDm.RegistrationResponse;
 
-public class MessageDmEg {
+public class SepulkaMessageDmEg {
     public static RegistrationResponse.Builder registrationResponse() {
         return RegistrationResponse.builder().externalId(UUID.randomUUID().toString());
     }

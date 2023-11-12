@@ -4,7 +4,7 @@ import org.apache.ibatis.annotations.Insert
 import org.apache.ibatis.annotations.Param
 import org.apache.ibatis.annotations.Select
 import org.apache.ibatis.annotations.Update
-import smecalculus.bezmen.storage.StateEm
+import smecalculus.bezmen.storage.SepulkaStateEm
 
 interface SepulkaSqlMapper {
     @Insert(
@@ -25,7 +25,7 @@ interface SepulkaSqlMapper {
         )
         """,
     )
-    fun insert(state: StateEm.AggregateRoot)
+    fun insert(state: SepulkaStateEm.AggregateRoot)
 
     @Select(
         """
@@ -36,7 +36,7 @@ interface SepulkaSqlMapper {
         WHERE external_id = #{externalId}
         """,
     )
-    fun findByExternalId(externalId: String): StateEm.Existence?
+    fun findByExternalId(externalId: String): SepulkaStateEm.Existence?
 
     @Select(
         """
@@ -48,7 +48,7 @@ interface SepulkaSqlMapper {
         WHERE internal_id = #{internalId}
         """,
     )
-    fun findByInternalId(internalId: String): StateEm.Preview?
+    fun findByInternalId(internalId: String): SepulkaStateEm.Preview?
 
     @Update(
         """
@@ -60,7 +60,7 @@ interface SepulkaSqlMapper {
         """,
     )
     fun updateBy(
-        @Param("state") state: StateEm.Touch,
+        @Param("state") state: SepulkaStateEm.Touch,
         @Param("id") internalId: String,
     ): Int
 }

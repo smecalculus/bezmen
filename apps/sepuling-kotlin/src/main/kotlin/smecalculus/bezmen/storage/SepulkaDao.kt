@@ -1,20 +1,20 @@
 package smecalculus.bezmen.storage
 
-import smecalculus.bezmen.core.StateDm
+import smecalculus.bezmen.core.SepulkaStateDm
 import java.util.UUID
 
 /**
  * Port: server side
  */
 interface SepulkaDao {
-    fun add(state: StateDm.AggregateRoot): StateDm.AggregateRoot
+    fun add(state: SepulkaStateDm.AggregateRoot): SepulkaStateDm.AggregateRoot
 
-    fun getBy(externalId: String): StateDm.Existence?
+    fun getBy(externalId: String): SepulkaStateDm.Existence?
 
-    fun getBy(internalId: UUID): StateDm.Preview?
+    fun getBy(internalId: UUID): SepulkaStateDm.Preview?
 
     fun updateBy(
-        state: StateDm.Touch,
+        state: SepulkaStateDm.Touch,
         internalId: UUID,
     )
 }

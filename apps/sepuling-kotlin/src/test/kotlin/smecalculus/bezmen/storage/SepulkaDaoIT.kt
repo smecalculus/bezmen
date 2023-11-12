@@ -9,7 +9,7 @@ import org.springframework.test.context.ContextConfiguration
 import org.springframework.test.context.jdbc.Sql
 import org.springframework.test.context.junit.jupiter.SpringExtension
 import smecalculus.bezmen.construction.SepulkaDaoBeans
-import smecalculus.bezmen.core.StateDmEg
+import smecalculus.bezmen.core.SepulkaStateDmEg
 
 @DirtiesContext
 @ExtendWith(SpringExtension::class)
@@ -22,9 +22,9 @@ abstract class SepulkaDaoIT {
     @Test
     fun shouldAddOneSepulka() {
         // given
-        val expected1 = StateDmEg.aggregateRoot().build()
+        val expected1 = SepulkaStateDmEg.aggregateRoot().build()
         // and
-        val expected2 = StateDmEg.existence().internalId(expected1.internalId).build()
+        val expected2 = SepulkaStateDmEg.existence().internalId(expected1.internalId).build()
         // when
         val actualSaved = sepulkaDao.add(expected1)
         // and
@@ -38,11 +38,11 @@ abstract class SepulkaDaoIT {
     @Test
     fun shouldViewOneSepulka() {
         // given
-        val aggregate = StateDmEg.aggregateRoot().build()
+        val aggregate = SepulkaStateDmEg.aggregateRoot().build()
         // and
         sepulkaDao.add(aggregate)
         // and
-        val expected = StateDmEg.preview(aggregate).build()
+        val expected = SepulkaStateDmEg.preview(aggregate).build()
         // when
         val actual = sepulkaDao.getBy(aggregate.internalId)
         // then
@@ -52,13 +52,13 @@ abstract class SepulkaDaoIT {
     @Test
     fun shouldUpdateOneSepulka() {
         // given
-        val aggregate = StateDmEg.aggregateRoot().build()
+        val aggregate = SepulkaStateDmEg.aggregateRoot().build()
         // and
         sepulkaDao.add(aggregate)
         // and
         val updatedAt = aggregate.updatedAt.plusSeconds(1)
         // and
-        val touch = StateDmEg.touch(aggregate).updatedAt(updatedAt).build()
+        val touch = SepulkaStateDmEg.touch(aggregate).updatedAt(updatedAt).build()
         // when
         sepulkaDao.updateBy(touch, aggregate.internalId)
         // then
