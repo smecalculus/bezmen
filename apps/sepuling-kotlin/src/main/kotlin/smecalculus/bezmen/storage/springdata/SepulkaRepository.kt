@@ -7,7 +7,7 @@ import org.springframework.data.repository.query.Param
 import smecalculus.bezmen.storage.SepulkaStateEm
 import java.util.UUID
 
-interface SepulkaRepository : CrudRepository<SepulkaStateEm.AggregateRoot, String> {
+interface SepulkaRepository : CrudRepository<SepulkaStateEm.AggregateRoot, UUID> {
     fun findByExternalId(externalId: String): SepulkaStateEm.Existence?
 
     fun findByInternalId(internalId: UUID): SepulkaStateEm.Preview?
@@ -23,7 +23,7 @@ interface SepulkaRepository : CrudRepository<SepulkaStateEm.AggregateRoot, Strin
         """,
     )
     fun updateBy(
-        @Param("state") state: SepulkaStateEm.Touch,
         @Param("id") internalId: UUID,
+        @Param("state") state: SepulkaStateEm.Touch,
     ): Int
 }

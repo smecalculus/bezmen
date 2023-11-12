@@ -14,7 +14,7 @@ interface SepulkaDao {
     fun getBy(internalId: UUID): SepulkaStateDm.Preview?
 
     fun updateBy(
-        state: SepulkaStateDm.Touch,
         internalId: UUID,
+        state: SepulkaStateDm.Touch,
     )
 }

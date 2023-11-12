@@ -9,7 +9,7 @@ on:
 
 jobs:
   everything:
-    name: Up to stacks in ${{ matrix.env.dev }} env
+    name: Up to stack in ${{ matrix.env.dev }} env
     timeout-minutes: 10
     runs-on: ${{ matrix.env.os }}
     permissions:

@@ -9,7 +9,7 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 import smecalculus.bezmen.storage.SepulkaStateEm;
 
-public interface SepulkaRepository extends CrudRepository<SepulkaStateEm.AggregateRoot, String> {
+public interface SepulkaRepository extends CrudRepository<SepulkaStateEm.AggregateRoot, UUID> {
 
     Optional<SepulkaStateEm.Existence> findByExternalId(@NonNull String externalId);
 
@@ -24,5 +24,5 @@ public interface SepulkaRepository extends CrudRepository<SepulkaStateEm.Aggrega
             WHERE internal_id = :id
             AND revision = :#{#state.revision}
             """)
-    int updateBy(@Param("state") SepulkaStateEm.Touch state, @Param("id") UUID internalId);
+    int updateBy(@Param("id") UUID internalId, @Param("state") SepulkaStateEm.Touch state);
 }
