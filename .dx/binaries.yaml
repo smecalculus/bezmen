@@ -19,7 +19,7 @@
       # TODO: try to choose better name
       register: image_cid
       changed_when: false
-      loop: "{{ app_cids.keys() if dev.java_release < 21 else app_cids.keys()| difference('sepuling-kotlin') }}"
+      loop: "{{ app_cids.keys() if dev.java_release < 21 else app_cids.keys()|difference(['sepuling-kotlin']) }}"
       loop_control:
         loop_var: app
       tags: [always]
