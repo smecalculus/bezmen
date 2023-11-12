@@ -75,7 +75,7 @@ public class App {
 
     @Bean
     @ConditionalOnStorageMappingMode(MY_BATIS)
-    SepulkaDaoMyBatis sepulkaDaoMyBatis(SepulkaStateMapper recMapper, SepulkaSqlMapper sqlMapper) {
-        return new SepulkaDaoMyBatis(recMapper, sqlMapper);
+    SepulkaDaoMyBatis sepulkaDaoMyBatis(SepulkaStateMapper stateMapper, SepulkaSqlMapper sqlMapper) {
+        return new SepulkaDaoMyBatis(stateMapper, sqlMapper);
     }
 }

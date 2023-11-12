@@ -49,7 +49,7 @@ class App {
     fun sepulkaClient(
         validator: EdgeValidator,
         mapper: SepulkaMessageMapper,
-        service: SepulkaService
+        service: SepulkaService,
     ): SepulkaClient {
         return SepulkaClientImpl(validator, mapper, service)
     }
@@ -60,7 +60,10 @@ class App {
     }
 
     @Bean
-    fun sepulkaService(mapper: SepulkaMapper, dao: SepulkaDao): SepulkaService {
+    fun sepulkaService(
+        mapper: SepulkaMapper,
+        dao: SepulkaDao,
+    ): SepulkaService {
         return SepulkaServiceImpl(mapper, dao)
     }
 
@@ -71,13 +74,19 @@ class App {
 
     @Bean
     @ConditionalOnStorageMappingMode(SPRING_DATA)
-    fun sepulkaDaoSpringData(mapper: SepulkaStateMapper, repository: SepulkaRepository): SepulkaDaoSpringData {
+    fun sepulkaDaoSpringData(
+        mapper: SepulkaStateMapper,
+        repository: SepulkaRepository,
+    ): SepulkaDaoSpringData {
         return SepulkaDaoSpringData(mapper, repository)
     }
 
     @Bean
     @ConditionalOnStorageMappingMode(MY_BATIS)
-    fun sepulkaDaoMyBatis(recMapper: SepulkaStateMapper, sqlMapper: SepulkaSqlMapper): SepulkaDaoMyBatis {
-        return SepulkaDaoMyBatis(recMapper, sqlMapper)
+    fun sepulkaDaoMyBatis(
+        stateMapper: SepulkaStateMapper,
+        sqlMapper: SepulkaSqlMapper,
+    ): SepulkaDaoMyBatis {
+        return SepulkaDaoMyBatis(stateMapper, sqlMapper)
     }
 }

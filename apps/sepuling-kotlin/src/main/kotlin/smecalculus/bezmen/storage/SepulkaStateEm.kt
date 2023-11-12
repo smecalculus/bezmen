@@ -7,42 +7,37 @@ import org.springframework.data.relational.core.mapping.Table
 import java.time.LocalDateTime
 import java.util.UUID
 
-abstract class StateEm {
-
-    data class ExistenceState(
-        var internalId: UUID
-    )
-
-    data class PreviewState(
+abstract class SepulkaStateEm {
+    data class Existence(
+        var internalId: UUID,
         var externalId: String,
-        var createdAt: LocalDateTime
     )
 
-    data class TouchState(
+    data class Preview(
+        var internalId: UUID,
+        var externalId: String,
+        var createdAt: LocalDateTime,
+    )
+
+    data class Touch(
         var revision: Int,
-        var updatedAt: LocalDateTime
+        var updatedAt: LocalDateTime,
     )
 
     @Table("sepulkas")
-    data class AggregateState(
+    data class AggregateRoot(
         @Id
-        var internalId: UUID,
-
+        var internalId: UUID?,
         @Column
-        var externalId: String,
-
+        var externalId: String?,
         @Column
-        var revision: Int,
-
+        var revision: Int?,
         @Column
-        var createdAt: LocalDateTime,
-
+        var createdAt: LocalDateTime?,
         @Column
-        var updatedAt: LocalDateTime
-
+        var updatedAt: LocalDateTime?,
     ) : Persistable<UUID> {
-
-        override fun getId(): UUID {
+        override fun getId(): UUID? {
             return internalId
         }
 

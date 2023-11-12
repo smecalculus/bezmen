@@ -5,18 +5,18 @@ import java.util.UUID;
 import lombok.Builder;
 import lombok.NonNull;
 
-public class StateDm {
+public class SepulkaStateDm {
     @Builder
-    public record ExistenceState(@NonNull UUID internalId) {}
+    public record Existence(@NonNull UUID internalId) {}
 
     @Builder
-    public record PreviewState(@NonNull String externalId, @NonNull LocalDateTime createdAt) {}
+    public record Preview(@NonNull String externalId, @NonNull LocalDateTime createdAt) {}
 
     @Builder
-    public record TouchState(@NonNull Integer revision, @NonNull LocalDateTime updatedAt) {}
+    public record Touch(@NonNull Integer revision, @NonNull LocalDateTime updatedAt) {}
 
     @Builder
-    public record AggregateState(
+    public record AggregateRoot(
             @NonNull UUID internalId,
             @NonNull String externalId,
             @NonNull Integer revision,

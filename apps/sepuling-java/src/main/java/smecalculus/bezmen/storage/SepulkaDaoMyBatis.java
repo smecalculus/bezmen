@@ -4,10 +4,7 @@ import java.util.Optional;
 import java.util.UUID;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import smecalculus.bezmen.core.StateDm.AggregateState;
-import smecalculus.bezmen.core.StateDm.ExistenceState;
-import smecalculus.bezmen.core.StateDm.PreviewState;
-import smecalculus.bezmen.core.StateDm.TouchState;
+import smecalculus.bezmen.core.SepulkaStateDm;
 import smecalculus.bezmen.storage.mybatis.SepulkaSqlMapper;
 
 @RequiredArgsConstructor
@@ -20,24 +17,24 @@ public class SepulkaDaoMyBatis implements SepulkaDao {
     private SepulkaSqlMapper sqlMapper;
 
     @Override
-    public AggregateState add(@NonNull AggregateState state) {
+    public SepulkaStateDm.AggregateRoot add(@NonNull SepulkaStateDm.AggregateRoot state) {
         var stateEdge = stateMapper.toEdge(state);
         sqlMapper.insert(stateEdge);
         return state;
     }
 
     @Override
-    public Optional<ExistenceState> getBy(@NonNull String externalId) {
+    public Optional<SepulkaStateDm.Existence> getBy(@NonNull String externalId) {
         return sqlMapper.findByExternalId(externalId).map(stateMapper::toDomain);
     }
 
     @Override
-    public Optional<PreviewState> getBy(@NonNull UUID internalId) {
+    public Optional<SepulkaStateDm.Preview> getBy(@NonNull UUID internalId) {
         return sqlMapper.findByInternalId(internalId.toString()).map(stateMapper::toDomain);
     }
 
     @Override
-    public void updateBy(TouchState state, UUID internalId) {
+    public void updateBy(SepulkaStateDm.Touch state, UUID internalId) {
         var stateEdge = stateMapper.toEdge(state);
         var matchedCount = sqlMapper.updateBy(stateEdge, internalId.toString());
         if (matchedCount == 0) {

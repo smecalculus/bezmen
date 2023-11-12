@@ -1,19 +1,19 @@
 package smecalculus.bezmen.storage.springdata;
 
 import java.util.Optional;
+import java.util.UUID;
+import lombok.NonNull;
 import org.springframework.data.jdbc.repository.query.Modifying;
 import org.springframework.data.jdbc.repository.query.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
-import org.springframework.lang.Nullable;
-import smecalculus.bezmen.storage.StateEm.AggregateState;
-import smecalculus.bezmen.storage.StateEm.TouchState;
+import smecalculus.bezmen.storage.SepulkaStateEm;
 
-public interface SepulkaRepository extends CrudRepository<AggregateState, String> {
+public interface SepulkaRepository extends CrudRepository<SepulkaStateEm.AggregateRoot, String> {
 
-    <T> Optional<T> findByExternalId(@Nullable String externalId, Class<T> type);
+    Optional<SepulkaStateEm.Existence> findByExternalId(@NonNull String externalId);
 
-    <T> Optional<T> findByInternalId(@Nullable String internalId, Class<T> type);
+    Optional<SepulkaStateEm.Preview> findByInternalId(@NonNull UUID internalId);
 
     @Modifying
     @Query(
@@ -24,5 +24,5 @@ public interface SepulkaRepository extends CrudRepository<AggregateState, String
             WHERE internal_id = :id
             AND revision = :#{#state.revision}
             """)
-    int updateBy(@Param("state") TouchState state, @Param("id") String internalId);
+    int updateBy(@Param("state") SepulkaStateEm.Touch state, @Param("id") UUID internalId);
 }

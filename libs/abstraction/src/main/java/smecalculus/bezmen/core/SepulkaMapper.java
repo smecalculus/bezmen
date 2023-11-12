@@ -1,13 +1,13 @@
 package smecalculus.bezmen.core;
 
 import org.mapstruct.Mapper;
-import smecalculus.bezmen.core.MessageDm.RegistrationRequest;
-import smecalculus.bezmen.core.MessageDm.RegistrationResponse;
-import smecalculus.bezmen.core.StateDm.AggregateState;
+import smecalculus.bezmen.core.SepulkaMessageDm.RegistrationRequest;
+import smecalculus.bezmen.core.SepulkaMessageDm.RegistrationResponse;
+import smecalculus.bezmen.core.SepulkaStateDm.AggregateRoot;
 
 @Mapper
 public interface SepulkaMapper {
-    AggregateState.Builder toState(RegistrationRequest request);
+    AggregateRoot.Builder toState(RegistrationRequest request);
 
-    RegistrationResponse.Builder toMessage(AggregateState state);
+    RegistrationResponse.Builder toMessage(AggregateRoot state);
 }

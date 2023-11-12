@@ -1,15 +1,16 @@
 package smecalculus.bezmen.messaging
 
 import smecalculus.bezmen.core.SepulkaService
+import smecalculus.bezmen.messaging.SepulkaMessageEm.RegistrationRequest
+import smecalculus.bezmen.messaging.SepulkaMessageEm.RegistrationResponse
 import smecalculus.bezmen.validation.EdgeValidator
 
 class SepulkaClientImpl(
     private val validator: EdgeValidator,
     private val mapper: SepulkaMessageMapper,
-    private val service: SepulkaService
+    private val service: SepulkaService,
 ) : SepulkaClient {
-
-    override fun register(requestEdge: MessageEm.RegistrationRequest): MessageEm.RegistrationResponse {
+    override fun register(requestEdge: RegistrationRequest): RegistrationResponse {
         validator.validate(requestEdge)
         val request = mapper.toDomain(requestEdge)
         val response = service.register(request)

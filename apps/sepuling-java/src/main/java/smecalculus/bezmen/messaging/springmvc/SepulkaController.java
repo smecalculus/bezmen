@@ -8,9 +8,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import smecalculus.bezmen.messaging.MessageEm.RegistrationRequest;
-import smecalculus.bezmen.messaging.MessageEm.RegistrationResponse;
 import smecalculus.bezmen.messaging.SepulkaClient;
+import smecalculus.bezmen.messaging.SepulkaMessageEm.RegistrationRequest;
+import smecalculus.bezmen.messaging.SepulkaMessageEm.RegistrationResponse;
 
 @RestController
 @RequestMapping("sepulkas")

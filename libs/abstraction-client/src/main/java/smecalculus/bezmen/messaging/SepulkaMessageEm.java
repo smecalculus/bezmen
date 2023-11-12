@@ -4,7 +4,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 
-public abstract class MessageEm {
+public abstract class SepulkaMessageEm {
     @Data
     public static class RegistrationRequest {
         @NotNull
