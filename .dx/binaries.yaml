@@ -19,6 +19,7 @@
       # TODO: try to choose better name
       register: image_cid
       changed_when: false
+      # TODO: simplify after fix of https://youtrack.jetbrains.com/issue/KT-60507
       loop: "{{ app_cids.keys() if dev.java_release < 21 else app_cids.keys()|difference(['sepuling-kotlin']) }}"
       loop_control:
         loop_var: app
