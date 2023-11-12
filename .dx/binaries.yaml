@@ -7,6 +7,7 @@
       ansible.builtin.include_vars:
         file: ../envs/dev/{{ devenv }}/vars.yaml
         name: dev
+      tags: [always]
     - name: Capture cid's
       ansible.builtin.command:
         cmd: git hash-object --stdin
