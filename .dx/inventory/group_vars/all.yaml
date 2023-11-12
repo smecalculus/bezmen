@@ -9,13 +9,16 @@ usecase: toy
 lib_cid: "{{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=libs')[:7] }}"
 lib_cids:
   abstraction: "{{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=libs/abstraction')[:7] }}"
+  abstraction-client: "{{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=libs/abstraction-client')[:7] }}"
   essentials: "{{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=libs/essentials')[:7] }}"
   messaging: "{{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=libs/messaging')[:7] }}"
+  messaging-client: "{{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=libs/messaging-client')[:7] }}"
   storage: "{{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=libs/storage')[:7] }}"
   testing: "{{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=libs/testing')[:7] }}"
 app_cid: "{{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=apps')[:7] }}"
 app_cids:
-  sepuling: "{{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=apps/sepuling')[:7] }}"
+  sepuling-java: "{{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=apps/sepuling-java')[:7] }}"
+  sepuling-kotlin: "{{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=apps/sepuling-kotlin')[:7] }}"
 schema_cid: "{{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=schemas')[:7] }}"
 schema_cids:
   postgres: "{{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=schemas/postgres')[:7] }}"
@@ -37,7 +40,8 @@ binary_repo: local
 image_repo: local
 
 app_images:
-  sepuling: "{{ image_repo }}/{{ organization }}/{{ project }}/app/sepuling"
+  sepuling-java: "{{ image_repo }}/{{ organization }}/{{ project }}/app/sepuling-java"
+  sepuling-kotlin: "{{ image_repo }}/{{ organization }}/{{ project }}/app/sepuling-kotlin"
 schema_images:
   postgres: "{{ image_repo }}/{{ organization }}/{{ project }}/schema/postgres"
 stack_images:
@@ -46,5 +50,8 @@ stack_images:
 
 docker_entity: "{{ 'image' if image_repo == 'local' else 'manifest' }}"
 
+sepuling_deps: [abstraction, abstraction-client, essentials, messaging, messaging-client, storage]
+
 app_deps:
-  sepuling: [abstraction, essentials, messaging, storage]
+  sepuling-java: "{{ sepuling_deps }}"
+  sepuling-kotlin: "{{ sepuling_deps }}"

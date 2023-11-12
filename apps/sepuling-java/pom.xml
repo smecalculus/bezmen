@@ -10,7 +10,7 @@
     <version>${revision}</version>
   </parent>
 
-  <artifactId>sepuling</artifactId>
+  <artifactId>sepuling-java</artifactId>
 
   <dependencies>
     <dependency>

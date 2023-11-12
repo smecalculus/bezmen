@@ -51,19 +51,19 @@
       when: image_status is changed
     - name: Capture env
       ansible.builtin.include_vars:
-        file: ../envs/ops/{{ opsenv }}.yaml
-        name: ops
+        file: ../envs/dev/{{ devenv }}/vars.yaml
+        name: dev
     - name: Create images
       ansible.builtin.include_role:
         name: image
       vars:
-        image_tag: "{{ image_cids[app][:7] }}-{{ opsenv }}"
+        image_tag: "{{ image_cids[app][:7] }}-{{ devenv }}"
         image_name: "{{ app_images[app] }}"
         image_home: "{{ playbook_dir }}/../apps/{{ app }}"
         image_context: target/docker-context
         image_push: "{{ focus == 'solution' }}"
         image_args:
-          JAVA_RELEASE: "{{ ops.java_release }}"
+          JAVA_RELEASE: "{{ dev.java_release }}"
       loop: "{{ image_status.results|select('changed')|map(attribute='app') }}"
       loop_control:
         loop_var: app

@@ -10,7 +10,11 @@
           --no-snapshot-updates
           --batch-mode
           {% if focus == 'solution' %}
-          --projects apps/sepuling
+          --projects {{
+            app_cids.keys()
+            | map('regex_replace', '^', 'apps/')
+            | join(',')
+          }}
           {% elif focus == 'toolchain' %}
           --projects tests/e2e
           {% endif %}

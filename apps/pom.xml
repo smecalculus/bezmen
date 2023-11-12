@@ -11,16 +11,18 @@
   <version>${revision}</version>
 
   <modules>
-    <module>sepuling</module>
+    <module>sepuling-java</module>
+    <module>sepuling-kotlin</module>
   </modules>
 
   <properties>
     <revision>0.1.0-SNAPSHOT</revision>
     <lombok.version>1.18.30</lombok.version>
     <mapstruct.version>1.5.5.Final</mapstruct.version>
+    <kotlin.version>1.9.20</kotlin.version>
     <skipTests>false</skipTests>
     <skipUnits>${skipTests}</skipUnits>
-    <maven.compiler.release>17</maven.compiler.release>
+    <maven.compiler.release>19</maven.compiler.release>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
 
@@ -82,6 +84,37 @@
           </configuration>
         </plugin>
         <plugin>
+          <groupId>org.jetbrains.kotlin</groupId>
+          <artifactId>kotlin-maven-plugin</artifactId>
+          <version>${kotlin.version}</version>
+          <configuration>
+            <jvmTarget>${maven.compiler.release}</jvmTarget>
+          </configuration>
+          <executions>
+            <execution>
+              <id>kapt</id>
+              <goals>
+                <goal>kapt</goal>
+              </goals>
+              <configuration>
+                <annotationProcessorPaths>
+                  <annotationProcessorPath>
+                    <groupId>org.mapstruct</groupId>
+                    <artifactId>mapstruct-processor</artifactId>
+                    <version>${mapstruct.version}</version>
+                  </annotationProcessorPath>
+                </annotationProcessorPaths>
+              </configuration>
+            </execution>
+            <execution>
+              <id>compile</id>
+              <goals>
+                <goal>compile</goal>
+              </goals>
+            </execution>
+          </executions>
+        </plugin>
+        <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-compiler-plugin</artifactId>
           <version>3.11.0</version>
@@ -99,6 +132,30 @@
               </path>
             </annotationProcessorPaths>
           </configuration>
+          <executions>
+            <execution>
+              <id>default-compile</id>
+              <phase>none</phase>
+            </execution>
+            <execution>
+              <id>default-testCompile</id>
+              <phase>none</phase>
+            </execution>
+            <execution>
+              <id>java-compile</id>
+              <phase>compile</phase>
+              <goals>
+                <goal>compile</goal>
+              </goals>
+            </execution>
+            <execution>
+              <id>java-testCompile</id>
+              <phase>test-compile</phase>
+              <goals>
+                <goal>testCompile</goal>
+              </goals>
+            </execution>
+          </executions>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>

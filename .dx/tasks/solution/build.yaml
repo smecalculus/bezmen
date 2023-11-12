@@ -39,8 +39,8 @@
     POSTGRES_VERSION: "{{ ops.postgres_version }}"
     SCHEMA_TAG: "{{ schema_cids.postgres }}"
     SCHEMA_IMAGE: "{{ schema_images.postgres }}"
-    SEPULING_TAG: "{{ hostvars.app.image_cids.sepuling[:7] }}-{{ opsenv }}"
-    SEPULING_IMAGE: "{{ app_images.sepuling }}"
+    SEPULING_TAG: "{{ hostvars.app.image_cids['sepuling-' ~ ops.sepuling.lang_mode][:7] }}-{{ devenv }}"
+    SEPULING_IMAGE: "{{ app_images['sepuling-' ~ ops.sepuling.lang_mode] }}"
     CONFIG_FILE_NAME: "{{ ops.config_file_name.target }}"
     CONFIG_MAPPING_MODE: "{{ ops.config_mapping_mode }}"
   changed_when: true
