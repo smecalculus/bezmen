@@ -60,7 +60,7 @@ abstract class SepulkaDaoIT {
         // and
         val touch = SepulkaStateDmEg.touch(aggregate).updatedAt(updatedAt).build()
         // when
-        sepulkaDao.updateBy(touch, aggregate.internalId)
+        sepulkaDao.updateBy(aggregate.internalId, touch)
         // then
         // no exception
     }

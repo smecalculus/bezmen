@@ -34,7 +34,7 @@ public class SepulkaDaoMyBatis implements SepulkaDao {
     }
 
     @Override
-    public void updateBy(SepulkaStateDm.Touch state, UUID internalId) {
+    public void updateBy(UUID internalId, SepulkaStateDm.Touch state) {
         var stateEdge = stateMapper.toEdge(state);
         var matchedCount = sqlMapper.updateBy(stateEdge, internalId.toString());
         if (matchedCount == 0) {

@@ -33,9 +33,9 @@ public class SepulkaDaoSpringData implements SepulkaDao {
     }
 
     @Override
-    public void updateBy(SepulkaStateDm.Touch state, UUID internalId) {
+    public void updateBy(UUID internalId, SepulkaStateDm.Touch state) {
         var stateEdge = mapper.toEdge(state);
-        var matchedCount = repository.updateBy(stateEdge, internalId);
+        var matchedCount = repository.updateBy(internalId, stateEdge);
         if (matchedCount == 0) {
             throw new ContentionException();
         }

@@ -23,8 +23,8 @@ class SepulkaDaoMyBatis(
     }
 
     override fun updateBy(
-        state: SepulkaStateDm.Touch,
         internalId: UUID,
+        state: SepulkaStateDm.Touch,
     ) {
         val stateEdge = stateMapper.toEdge(state)
         val matchedCount = sqlMapper.updateBy(stateEdge, internalId.toString())

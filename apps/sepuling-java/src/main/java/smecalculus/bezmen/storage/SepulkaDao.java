@@ -14,5 +14,5 @@ public interface SepulkaDao {
 
     Optional<SepulkaStateDm.Preview> getBy(UUID internalId);
 
-    void updateBy(SepulkaStateDm.Touch state, UUID internalId);
+    void updateBy(UUID internalId, SepulkaStateDm.Touch state);
 }

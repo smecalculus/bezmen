@@ -22,11 +22,11 @@ class SepulkaDaoSpringData(
     }
 
     override fun updateBy(
-        state: SepulkaStateDm.Touch,
         internalId: UUID,
+        state: SepulkaStateDm.Touch,
     ) {
         val stateEdge = mapper.toEdge(state)
-        val matchedCount = repository.updateBy(stateEdge, internalId)
+        val matchedCount = repository.updateBy(internalId, stateEdge)
         if (matchedCount == 0) {
             throw ContentionException()
         }
