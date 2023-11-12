@@ -26,7 +26,8 @@ abstract class SepulkaDaoIT {
         // given
         var expected1 = SepulkaStateDmEg.aggregateRoot().build();
         // and
-        var expected2 = SepulkaStateDmEg.existence().internalId(expected1.internalId()).build();
+        var expected2 =
+                SepulkaStateDmEg.existence().internalId(expected1.internalId()).build();
         // when
         var actualSaved = sepulkaDao.add(expected1);
         // and
