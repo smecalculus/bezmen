@@ -25,9 +25,9 @@
     <lombok.version>1.18.30</lombok.version>
     <mapstruct.version>1.5.5.Final</mapstruct.version>
     <kotlin.version>1.9.20</kotlin.version>
-    <spring.version>6.0.13</spring.version>
+    <spring.version>6.1.0</spring.version>
     <spring-boot.version>3.1.5</spring-boot.version>
-    <spring-data.version>3.1.5</spring-data.version>
+    <spring-data.version>3.2.0</spring-data.version>
     <jetty.version>11.0.18</jetty.version>
     <jackson.version>2.16.0</jackson.version>
     <junit.version>5.10.1</junit.version>
