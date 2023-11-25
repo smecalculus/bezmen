@@ -1,15 +1,10 @@
 ---
-name: Solution sanity
+name: Sanity
 
 on:
   pull_request:
     branches-ignore:
       - main
-    paths:  # waiting for https://github.com/actions/runner/issues/2324
-      - libs/**
-      - apps/**
-      - schemas/**
-      - solutions/**
   workflow_dispatch:
 
 jobs:

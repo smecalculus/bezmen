@@ -1,5 +1,5 @@
 ---
-name: Solution beyond doubt
+name: Beyond doubt
 
 on:
   merge_group:
@@ -13,21 +13,27 @@ env:
 
 jobs:
   up-to-images:
-    name: Up to images in ${{ matrix.devenv }} env
+    name: Up to images in ${{ matrix.env.dev }} env
     timeout-minutes: 10
-    runs-on: ubuntu-22.04
     permissions:
       checks: write
       packages: write
     strategy:
       fail-fast: false
       matrix:
-        devenv: [godel, turing, church]
+        env:
+          - dev: godel
+            os: ubuntu-20.04
+          - dev: turing
+            os: ubuntu-22.04
+          - dev: church
+            os: ubuntu-22.04
+    runs-on: ${{ matrix.env.os }}
     steps:
       - uses: actions/checkout@v4.1.1
       - uses: ./.github/actions/prepare
         with:
-          name: ${{ matrix.devenv }}
+          name: ${{ matrix.env.dev }}
           tools: python java docker
           token: ${{ secrets.GITHUB_TOKEN }}
       - run: ansible-playbook codebase.yaml -e focus=solution
@@ -40,7 +46,7 @@ jobs:
           ansible-playbook images.yaml
           -e binary_repo=${{ env.BINARY_REPO }}
           -e image_repo=${{ env.IMAGE_REPO }}
-          -e devenv=${{ matrix.devenv }}
+          -e devenv=${{ matrix.env.dev }}
           -e focus=solution
         working-directory: .dx
         env:
@@ -73,14 +79,18 @@ jobs:
         env:
           - ops: shannon
             dev: godel
+            os: ubuntu-20.04
           - ops: lamport
             dev: turing
+            os: ubuntu-22.04
           - ops: milner
             dev: turing
+            os: ubuntu-22.04
           - ops: nakamoto
             dev: church
+            os: ubuntu-22.04
         usecase: [func]
-    runs-on: ubuntu-22.04
+    runs-on: ${{ matrix.env.os }}
     steps:
       - uses: actions/checkout@v4.1.1
       - uses: ./.github/actions/prepare
@@ -91,8 +101,8 @@ jobs:
       - run: >
           ansible-playbook stack.yaml -t build
           -e image_repo=${{ env.IMAGE_REPO }}
-          -e opsenv=${{ matrix.env.ops }}
           -e devenv=${{ matrix.env.dev }}
+          -e opsenv=${{ matrix.env.ops }}
           -e usecase=${{ matrix.usecase }}
         working-directory: .dx
       - uses: actions/upload-artifact@v3.1.3

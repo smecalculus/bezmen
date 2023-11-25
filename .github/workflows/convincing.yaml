@@ -1,5 +1,5 @@
 ---
-name: Solution convincing
+name: Convincing
 
 on:
   merge_group:

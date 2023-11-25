@@ -1,7 +1,7 @@
 ---
 - import_playbook: binaries.yaml   # noqa: name[play]
   vars:
-    up_to_images: true
+    maven_phase: "{{ 'install' if binary_repo == 'local' else 'deploy' }}"
   tags: [binaries, deps]
 
 - name: Images
