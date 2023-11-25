@@ -21,13 +21,13 @@ jobs:
         with:
           tools: python java
           token: ${{ secrets.GITHUB_TOKEN }}
-      - run: ansible-playbook codebase.yaml -e focus=solution
+      - run: ansible-playbook codebase.yaml
         working-directory: .dx
         env:
           GITHUB_ACTOR: ${{ github.actor }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - id: binaries
-        run: ansible-playbook binaries.yaml -e focus=solution
+        run: ansible-playbook binaries.yaml
         working-directory: .dx
         env:
           GITHUB_ACTOR: ${{ github.actor }}

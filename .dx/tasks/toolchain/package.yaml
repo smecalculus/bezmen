@@ -6,4 +6,4 @@
     image_name: "{{ stack_images.toolchain }}"
     image_home: "{{ playbook_dir }}/../.github"
     image_context: .
-    image_push: "{{ focus == 'toolchain' }}"
+    image_push: "{{ image_repo != 'local' }}"

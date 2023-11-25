@@ -36,7 +36,7 @@ jobs:
           name: ${{ matrix.env.dev }}
           tools: python java docker
           token: ${{ secrets.GITHUB_TOKEN }}
-      - run: ansible-playbook codebase.yaml -e focus=solution
+      - run: ansible-playbook codebase.yaml
         working-directory: .dx
         env:
           GITHUB_ACTOR: ${{ github.actor }}
@@ -47,7 +47,6 @@ jobs:
           -e binary_repo=${{ env.BINARY_REPO }}
           -e image_repo=${{ env.IMAGE_REPO }}
           -e devenv=${{ matrix.env.dev }}
-          -e focus=solution
         working-directory: .dx
         env:
           GITHUB_ACTOR: ${{ github.actor }}
@@ -179,7 +178,6 @@ jobs:
           -e image_repo=${{ env.IMAGE_REPO }}
           -e opsenv=${{ matrix.opsenv }}
           -e usecase=${{ matrix.usecase }}
-          -e focus=solution
         working-directory: .dx
 
   stack-reporting:

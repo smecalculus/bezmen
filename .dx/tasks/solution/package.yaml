@@ -6,4 +6,4 @@
     image_name: "{{ stack_images.solution }}"
     image_home: "{{ playbook_dir }}/../solutions"
     image_context: target/context
-    image_push: "{{ focus == 'solution' }}"
+    image_push: "{{ image_repo != 'local' }}"

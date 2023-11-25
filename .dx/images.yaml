@@ -28,7 +28,7 @@
         image_tag: "{{ schema_cids[schema] }}"
         image_name: "{{ schema_images[schema] }}"
         image_home: "{{ playbook_dir }}/../schemas/{{ schema }}"
-        image_push: "{{ focus == 'solution' }}"
+        image_push: "{{ image_repo != 'local' }}"
       loop: "{{ image_status.results|select('changed')|map(attribute='schema') }}"
       loop_control:
         loop_var: schema
@@ -61,7 +61,7 @@
         image_name: "{{ app_images[app] }}"
         image_home: "{{ playbook_dir }}/../apps/{{ app }}"
         image_context: target/docker-context
-        image_push: "{{ focus == 'solution' }}"
+        image_push: "{{ image_repo != 'local' }}"
         image_args:
           JAVA_RELEASE: "{{ dev.java_release }}"
       loop: "{{ image_status.results|select('changed')|map(attribute='app') }}"

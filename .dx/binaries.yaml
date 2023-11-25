@@ -84,4 +84,3 @@
         chdir: "{{ playbook_dir }}/.."
         strip_empty_ends: false
       changed_when: true
-      when: focus != 'solution'
