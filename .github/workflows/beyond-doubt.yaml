@@ -98,7 +98,7 @@ jobs:
           tools: python docker
           token: ${{ secrets.GITHUB_TOKEN }}
       - run: >
-          ansible-playbook stack.yaml -t build
+          ansible-playbook stacks.yaml -t build
           -e image_repo=${{ env.IMAGE_REPO }}
           -e usecase=${{ matrix.usecase }}
           -e devenv=${{ matrix.env.dev }}
@@ -146,7 +146,7 @@ jobs:
           name: solution-${{ matrix.usecase }}-${{ matrix.env.ops }}
           path: solutions/target/context
       - run: >
-          ansible-playbook stack.yaml -t test
+          ansible-playbook stacks.yaml -t test
           -e image_repo=${{ env.IMAGE_REPO }}
           -e opsenv=${{ matrix.env.ops }}
           -e usecase=${{ matrix.usecase }}
@@ -200,7 +200,7 @@ jobs:
           name: solution-${{ matrix.usecase }}-${{ matrix.env.ops }}
           path: solutions/target/context
       - run: >
-          ansible-playbook stack.yaml -t package
+          ansible-playbook stacks.yaml -t package
           -e image_repo=${{ env.IMAGE_REPO }}
           -e usecase=${{ matrix.usecase }}
           -e opsenv=${{ matrix.env.ops }}
