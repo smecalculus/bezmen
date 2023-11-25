@@ -2,7 +2,7 @@
 name: Prepare tools
 description: Tools preparation for specific environment
 inputs:
-  name:
+  devenv:
     description: Env name
     required: true
     default: turing
@@ -18,7 +18,7 @@ runs:
     - id: dotenv
       uses: falti/dotenv-action@v1.0.4
       with:
-        path: envs/dev/${{ inputs.name }}/.env
+        path: envs/dev/${{ inputs.devenv }}/.env
     - uses: actions/setup-python@v4.7.0
       if: ${{ contains(inputs.tools, 'python') }}
       with:
@@ -26,7 +26,7 @@ runs:
         cache: 'pip'
     - shell: bash
       if: ${{ contains(inputs.tools, 'python') }}
-      run: pip install -r envs/dev/${{ inputs.name }}/requirements.txt
+      run: pip install -r envs/dev/${{ inputs.devenv }}/requirements.txt
     - uses: actions/setup-java@v3.12.0
       if: ${{ contains(inputs.tools, 'java') }}
       with:
