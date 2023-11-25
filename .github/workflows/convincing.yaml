@@ -1,5 +1,5 @@
 ---
-name: Solution convincing
+name: Convincing
 
 on:
   merge_group:
@@ -26,7 +26,7 @@ jobs:
         with:
           tools: python java docker
           token: ${{ secrets.GITHUB_TOKEN }}
-      - run: ansible-playbook codebase.yaml -e focus=solution
+      - run: ansible-playbook codebase.yaml
         working-directory: .dx
         env:
           GITHUB_ACTOR: ${{ github.actor }}
@@ -36,7 +36,6 @@ jobs:
           ansible-playbook images.yaml
           -e binary_repo=maven.pkg.github.com
           -e image_repo=ghcr.io
-          -e focus=solution
         working-directory: .dx
         env:
           GITHUB_ACTOR: ${{ github.actor }}

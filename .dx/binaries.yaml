@@ -60,11 +60,7 @@
           }}
           --also-make
           clean
-          {% if focus == 'solution' and up_to_images|default(false) %}
-          deploy
-          {% else %}
-          package
-          {% endif %}
+          {{ maven_phase | default('package') }}
           --define maven.compiler.release={{ dev.java_release }}
         chdir: "{{ playbook_dir }}/.."
         strip_empty_ends: false
@@ -88,4 +84,3 @@
         chdir: "{{ playbook_dir }}/.."
         strip_empty_ends: false
       changed_when: true
-      when: focus != 'solution'

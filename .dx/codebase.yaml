@@ -9,16 +9,6 @@
           mvn
           --no-snapshot-updates
           --batch-mode
-          {% if focus == 'solution' %}
-          --projects {{
-            app_cids.keys()
-            | map('regex_replace', '^', 'apps/')
-            | join(',')
-          }}
-          {% elif focus == 'toolchain' %}
-          --projects tests/e2e
-          {% endif %}
-          --also-make
           enforcer:enforce
           spotless:check
         chdir: "{{ playbook_dir }}/.."
@@ -39,7 +29,6 @@
           stack.yaml
         strip_empty_ends: false
       changed_when: false
-      when: focus != 'solution'
 
 - name: Codebase
   hosts: github
@@ -50,4 +39,3 @@
         cmd: yamllint ../.github
         strip_empty_ends: false
       changed_when: false
-      when: focus != 'solution'
