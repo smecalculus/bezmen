@@ -54,7 +54,7 @@ jobs:
       - uses: mikepenz/action-junit-report@v4
         if: ${{ !cancelled() && (steps.images.outcome == 'success' || steps.images.outcome == 'failure') }}
         with:
-          check_name: Unit Test Report
+          check_name: Unit test report
           report_paths: "**/target/surefire-reports/TEST-*.xml"
           require_tests: "${{ steps.images.outcome == 'failure' }}"
           fail_on_failure: false
@@ -62,7 +62,7 @@ jobs:
       - uses: mikepenz/action-junit-report@v4
         if: ${{ !cancelled() && (steps.images.outcome == 'success' || steps.images.outcome == 'failure') }}
         with:
-          check_name: Integration Test Report
+          check_name: Integration test report
           report_paths: "**/target/failsafe-reports/TEST-*.xml"
           require_tests: "${{ steps.images.outcome == 'failure' }}"
           fail_on_failure: false
@@ -221,7 +221,7 @@ jobs:
       - run: ls -R
       - uses: mikepenz/action-junit-report@v4
         with:
-          check_name: E2E Test Report
+          check_name: E2E test report
           report_paths: "artifacts/e2e-test-report-*/**/TEST-*.xml"
           require_tests: "${{ needs.stack-testing.result == 'failure' }}"
           fail_on_failure: false
