@@ -39,10 +39,10 @@
       test
       --define props={{ opsenv }}
       {% if reminder is defined %}
-      --define bezmen.sharding.reminder={{ reminder }}
+      --define testing.sharding.reminder={{ reminder }}
       {% endif %}
       {% if modulus is defined %}
-      --define bezmen.sharding.modulus={{ modulus }}
+      --define testing.sharding.modulus={{ modulus }}
       {% endif %}
       --define maven.compiler.release={{ dev.java_release }}
       --define skipUnits=true

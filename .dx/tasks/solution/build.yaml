@@ -27,6 +27,7 @@
   ansible.builtin.command:
     cmd: >
       docker compose
+      --project-name {{ project }}
       --file usecases/basis.yaml
       --file usecases/{{ usecase }}.yaml
       --profile {{ opsenv }}
@@ -36,11 +37,15 @@
     strip_empty_ends: false
     chdir: "{{ playbook_dir }}/../solutions"
   environment:
+    DATABASE_NAME: "{{ project }}"
+    SCHEMA_NAME: "{{ project }}"
+    OWNER_NAME: "{{ project }}"
+    OWNER_PASSWORD: "{{ project }}"
     POSTGRES_VERSION: "{{ ops.postgres_version }}"
     SCHEMA_TAG: "{{ schema_cids.postgres }}"
     SCHEMA_IMAGE: "{{ schema_images.postgres }}"
-    SEPULING_TAG: "{{ hostvars.app.image_cids['sepuling-' ~ ops.sepuling.lang_mode][:7] }}-{{ devenv }}"
-    SEPULING_IMAGE: "{{ app_images['sepuling-' ~ ops.sepuling.lang_mode] }}"
+    APP_TAG: "{{ hostvars.app.image_cids['sepuling-' ~ ops.sepuling.lang_mode][:7] }}-{{ devenv }}"
+    APP_IMAGE: "{{ app_images['sepuling-' ~ ops.sepuling.lang_mode] }}"
     CONFIG_FILE_NAME: "{{ ops.config_file_name.target }}"
     CONFIG_MAPPING_MODE: "{{ ops.config_mapping_mode }}"
   changed_when: true

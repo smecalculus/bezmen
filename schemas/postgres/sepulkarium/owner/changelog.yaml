@@ -2,7 +2,7 @@ databaseChangeLog:
   - logical-file-path: owner/changelog.yaml
   - property:
       name: author
-      value: bezmen
+      value: owner
   - changeSet:
       id: sepulkas
       author: ${author}

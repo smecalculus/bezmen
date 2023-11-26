@@ -1,1 +1,1 @@
-CREATE USER ${bezmen.owner} PASSWORD '${bezmen.password}';
+CREATE USER ${owner.name} PASSWORD '${owner.password}';

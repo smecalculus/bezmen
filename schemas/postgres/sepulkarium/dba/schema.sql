@@ -1,1 +1,1 @@
-CREATE SCHEMA ${bezmen.schema} AUTHORIZATION ${bezmen.owner};
+CREATE SCHEMA ${schema.name} AUTHORIZATION ${owner.name};

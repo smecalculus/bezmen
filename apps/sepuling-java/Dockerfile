@@ -1,12 +1,12 @@
 ARG JAVA_RELEASE
 FROM eclipse-temurin:${JAVA_RELEASE}-jre-alpine
-RUN addgroup -S bezmen && adduser -S bezmen -G bezmen
-USER bezmen:bezmen
-WORKDIR /home/bezmen
+RUN addgroup -S app && adduser -S app -G app
+USER app:app
+WORKDIR /home/app
 COPY libs libs
-COPY sepuling*.jar app.jar
+COPY sepuling*.jar sepuling.jar
 ENTRYPOINT [ \
-    "java", "-cp", "app.jar:libs/*", \
+    "java", "-cp", "sepuling.jar:libs/*", \
     "-Dconfig.file=application.conf", \
     "smecalculus.bezmen.construction.App" \
 ]

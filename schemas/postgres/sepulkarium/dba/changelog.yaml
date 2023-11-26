@@ -2,9 +2,9 @@ databaseChangeLog:
   - logical-file-path: dba/changelog.yaml
   - property:
       name: author
-      value: bezmen
+      value: dba
   - changeSet:
-      id: database-${bezmen.database}
+      id: database-${database.name}
       author: ${author}
       runAlways: true
       validCheckSum: ANY
@@ -14,14 +14,14 @@ databaseChangeLog:
         - onFail: CONTINUE
         - sqlCheck:
             expectedResult: 0
-            sql: SELECT count(*) FROM pg_database WHERE datname = '${bezmen.database}'
+            sql: SELECT count(*) FROM pg_database WHERE datname = '${database.name}'
       changes:
         - sqlFile:
             path: database.sql
             relativeToChangeLogFile: true
             splitStatements: true
   - changeSet:
-      id: user-${bezmen.owner}
+      id: user-${owner.name}
       author: ${author}
       runAlways: true
       runInTransaction: true
@@ -31,14 +31,14 @@ databaseChangeLog:
         - onFail: CONTINUE
         - sqlCheck:
             expectedResult: 0
-            sql: SELECT count(*) FROM pg_roles WHERE rolname = '${bezmen.owner}'
+            sql: SELECT count(*) FROM pg_roles WHERE rolname = '${owner.name}'
       changes:
         - sqlFile:
             path: user.sql
             relativeToChangeLogFile: true
             splitStatements: false
   - changeSet:
-      id: schema-${bezmen.schema}
+      id: schema-${schema.name}
       author: ${author}
       runAlways: true
       runInTransaction: true
@@ -48,7 +48,7 @@ databaseChangeLog:
         - onFail: CONTINUE
         - sqlCheck:
             expectedResult: 0
-            sql: SELECT count(*) FROM pg_namespace WHERE nspname = '${bezmen.schema}'
+            sql: SELECT count(*) FROM pg_namespace WHERE nspname = '${schema.name}'
       changes:
         - sqlFile:
             path: schema.sql

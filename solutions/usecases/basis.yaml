@@ -1,22 +1,17 @@
-name: bezmen
-
 networks:
-  bezmen:
-    name: bezmen
+  stack_network:
 
 configs:
-  bezmen:
-    name: bezmen
+  stack_config:
     file: ./${CONFIG_FILE_NAME}
 
 services:
   db:
     image: postgres:${POSTGRES_VERSION}-alpine
-    container_name: env-db
     ports:
       - 5432:5432
     environment:
-      POSTGRES_DB: bezmen
+      POSTGRES_DB: ${DATABASE_NAME}
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: password
     healthcheck:
@@ -25,11 +20,10 @@ services:
       timeout: 5s
       retries: 5
     networks:
-      bezmen: null
+      - stack_network
 
   schema-dba:
     image: ${SCHEMA_IMAGE}:${SCHEMA_TAG}
-    container_name: schema-dba
     depends_on:
       db:
         condition: service_healthy
@@ -38,21 +32,20 @@ services:
     command: >
       --show-banner=false
       --changelog-file=sepulkarium/dba/changelog.yaml
-      --url=jdbc:postgresql://db:5432/bezmen?currentSchema=public
+      --url=jdbc:postgresql://db:5432/${DATABASE_NAME}?currentSchema=public
       --liquibase-schema-name=public
       --username=postgres
       --password=password
       --labels=user,schema
       update
-      -Dbezmen.schema=bezmen
-      -Dbezmen.owner=bezmen
-      -Dbezmen.password=bezmen
+      -Downer.name=${OWNER_NAME}
+      -Downer.password=${OWNER_PASSWORD}
+      -Dschema.name=${SCHEMA_NAME}
     networks:
-      bezmen: null
+      - stack_network
 
   schema-owner:
     image: ${SCHEMA_IMAGE}:${SCHEMA_TAG}
-    container_name: schema-owner
     depends_on:
       schema-dba:
         condition: service_completed_successfully
@@ -61,22 +54,21 @@ services:
     command: >
       --show-banner=false
       --changelog-file=sepulkarium/owner/changelog.yaml
-      --url=jdbc:postgresql://db:5432/bezmen?currentSchema=bezmen
-      --liquibase-schema-name=bezmen
-      --username=bezmen
-      --password=bezmen
+      --url=jdbc:postgresql://db:5432/${DATABASE_NAME}?currentSchema=${SCHEMA_NAME}
+      --liquibase-schema-name=${SCHEMA_NAME}
+      --username=${OWNER_NAME}
+      --password=${OWNER_PASSWORD}
       update
     networks:
-      bezmen: null
+      - stack_network
 
   sepuling:
-    image: ${SEPULING_IMAGE}:${SEPULING_TAG}
-    container_name: sepuling
+    image: ${APP_IMAGE}:${APP_TAG}
     ports:
       - 8080:8080
     configs:
-      - source: bezmen
-        target: /home/bezmen/${CONFIG_FILE_NAME}
+      - source: stack_config
+        target: /home/app/${CONFIG_FILE_NAME}
     command: >
       --bezmen.config.mapping.mode=${CONFIG_MAPPING_MODE}
       --spring.config.location=optional:file:application.yaml
@@ -84,6 +76,6 @@ services:
       schema-owner:
         condition: service_completed_successfully
     labels:
-      image.name: ${SEPULING_IMAGE}
+      image.name: ${APP_IMAGE}
     networks:
-      bezmen: null
+      - stack_network

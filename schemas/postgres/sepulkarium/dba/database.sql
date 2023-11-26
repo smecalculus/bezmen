@@ -1,1 +1,1 @@
-CREATE DATABASE ${bezmen.database};
+CREATE DATABASE ${database.name};
