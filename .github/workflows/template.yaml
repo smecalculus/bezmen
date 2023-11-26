@@ -18,9 +18,10 @@ jobs:
         with:
           token: ${{ steps.orgbot.outputs.token }}
           persist-credentials: false
-      - uses: AndreasAugustin/actions-template-sync@v1.1.3
+      - uses: AndreasAugustin/actions-template-sync@v1.1.8
         with:
-          upstream_branch: main
-          source_repo_path: smecalculus/bezmen
-          github_token: ${{ steps.orgbot.outputs.token }}
           pr_title: Syncing with template
+          source_repo_path: smecalculus/bezmen
+          upstream_branch: main
+          github_token: ${{ steps.orgbot.outputs.token }}
+          git_remote_pull_params: --allow-unrelated-histories --strategy=recursive -X ours

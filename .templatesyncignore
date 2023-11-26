@@ -1,6 +1,7 @@
-.github/workflows/template.yaml
 .github/dependabot.yaml
 schemas/**
-**/*.adoc
 **/*.java
 **/*.kt
+LICENSE
+**/*.adoc
+*.adoc
