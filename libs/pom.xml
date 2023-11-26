@@ -304,16 +304,16 @@
   <build>
     <plugins>
       <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>flatten-maven-plugin</artifactId>
-      </plugin>
-      <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-enforcer-plugin</artifactId>
       </plugin>
       <plugin>
         <groupId>com.diffplug.spotless</groupId>
         <artifactId>spotless-maven-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>flatten-maven-plugin</artifactId>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -343,6 +343,68 @@
 
     <pluginManagement>
       <plugins>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-enforcer-plugin</artifactId>
+          <version>3.4.1</version>
+          <configuration>
+            <rules>
+              <banDuplicatePomDependencyVersions/>
+              <requireExplicitDependencyScope/>
+              <requireProfileIdsExist/>
+              <dependencyConvergence/>
+              <requireUpperBoundDeps/>
+              <requireReleaseDeps>
+                <excludes>
+                  <exclude>smecalculus.bezmen</exclude>
+                </excludes>
+              </requireReleaseDeps>
+              <banDynamicVersions>
+                <ignores>
+                  <ignore>smecalculus.bezmen</ignore>
+                </ignores>
+              </banDynamicVersions>
+            </rules>
+          </configuration>
+        </plugin>
+        <plugin>
+          <groupId>com.diffplug.spotless</groupId>
+          <artifactId>spotless-maven-plugin</artifactId>
+          <version>2.40.0</version>
+          <executions>
+            <execution>
+              <phase>validate</phase>
+            </execution>
+          </executions>
+          <configuration>
+            <formats>
+              <format>
+                <includes>
+                  <include>*.xml</include>
+                  <include>*.yaml</include>
+                  <include>*.properties</include>
+                  <include>Dockerfile</include>
+                </includes>
+                <trimTrailingWhitespace/>
+                <endWithNewline/>
+                <indent>
+                  <spaces>true</spaces>
+                  <spacesPerTab>2</spacesPerTab>
+                </indent>
+              </format>
+            </formats>
+            <java>
+              <palantirJavaFormat>
+                <version>2.38.0</version>
+              </palantirJavaFormat>
+            </java>
+            <kotlin>
+              <ktlint>
+                <version>1.0.1</version>
+              </ktlint>
+            </kotlin>
+          </configuration>
+        </plugin>
         <plugin>
           <groupId>org.jetbrains.kotlin</groupId>
           <artifactId>kotlin-maven-plugin</artifactId>
@@ -400,6 +462,33 @@
           </configuration>
         </plugin>
         <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>flatten-maven-plugin</artifactId>
+          <version>1.5.0</version>
+          <configuration>
+            <updatePomFile>true</updatePomFile>
+            <flattenMode>resolveCiFriendliesOnly</flattenMode>
+            <outputDirectory>${project.build.directory}</outputDirectory>
+            <flattenedPomFilename>pom-resolved-${revision}.xml</flattenedPomFilename>
+          </configuration>
+          <executions>
+            <execution>
+              <id>flatten</id>
+              <phase>process-resources</phase>
+              <goals>
+                <goal>flatten</goal>
+              </goals>
+            </execution>
+            <execution>
+              <id>flatten.clean</id>
+              <phase>clean</phase>
+              <goals>
+                <goal>clean</goal>
+              </goals>
+            </execution>
+          </executions>
+        </plugin>
+        <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-resources-plugin</artifactId>
           <version>3.3.1</version>
@@ -429,95 +518,6 @@
               </goals>
             </execution>
           </executions>
-        </plugin>
-        <plugin>
-          <groupId>org.codehaus.mojo</groupId>
-          <artifactId>flatten-maven-plugin</artifactId>
-          <version>1.5.0</version>
-          <configuration>
-            <updatePomFile>true</updatePomFile>
-            <flattenMode>resolveCiFriendliesOnly</flattenMode>
-            <outputDirectory>${project.build.directory}</outputDirectory>
-            <flattenedPomFilename>pom-resolved-${revision}.xml</flattenedPomFilename>
-          </configuration>
-          <executions>
-            <execution>
-              <id>flatten</id>
-              <phase>process-resources</phase>
-              <goals>
-                <goal>flatten</goal>
-              </goals>
-            </execution>
-            <execution>
-              <id>flatten.clean</id>
-              <phase>clean</phase>
-              <goals>
-                <goal>clean</goal>
-              </goals>
-            </execution>
-          </executions>
-        </plugin>
-        <plugin>
-          <groupId>com.diffplug.spotless</groupId>
-          <artifactId>spotless-maven-plugin</artifactId>
-          <version>2.40.0</version>
-          <executions>
-            <execution>
-              <phase>validate</phase>
-            </execution>
-          </executions>
-          <configuration>
-            <formats>
-              <format>
-                <includes>
-                  <include>*.xml</include>
-                  <include>*.yaml</include>
-                  <include>*.properties</include>
-                  <include>Dockerfile</include>
-                </includes>
-                <trimTrailingWhitespace/>
-                <endWithNewline/>
-                <indent>
-                  <spaces>true</spaces>
-                  <spacesPerTab>2</spacesPerTab>
-                </indent>
-              </format>
-            </formats>
-            <java>
-              <palantirJavaFormat>
-                <version>2.38.0</version>
-              </palantirJavaFormat>
-            </java>
-            <kotlin>
-              <ktlint>
-                <version>1.0.1</version>
-              </ktlint>
-            </kotlin>
-          </configuration>
-        </plugin>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-enforcer-plugin</artifactId>
-          <version>3.4.1</version>
-          <configuration>
-            <rules>
-              <banDuplicatePomDependencyVersions/>
-              <requireExplicitDependencyScope/>
-              <requireProfileIdsExist/>
-              <dependencyConvergence/>
-              <requireUpperBoundDeps/>
-              <requireReleaseDeps>
-                <excludes>
-                  <exclude>smecalculus.bezmen</exclude>
-                </excludes>
-              </requireReleaseDeps>
-              <banDynamicVersions>
-                <ignores>
-                  <ignore>smecalculus.bezmen</ignore>
-                </ignores>
-              </banDynamicVersions>
-            </rules>
-          </configuration>
         </plugin>
         <plugin>
           <groupId>org.jacoco</groupId>

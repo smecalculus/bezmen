@@ -1,7 +1,7 @@
-.github/dependabot.yaml
-schemas/**
-**/*.java
-**/*.kt
-LICENSE
-**/*.adoc
+**/bezmen/
+**/sepuling*/
+**/sepulkarium/
+
 *.adoc
+LICENSE
+.github/dependabot.yaml

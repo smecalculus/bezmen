@@ -7,7 +7,7 @@ on:
 jobs:
   syncing:
     name: Syncing
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     steps:
       - id: orgbot
         uses: actions/create-github-app-token@v1.6.0
