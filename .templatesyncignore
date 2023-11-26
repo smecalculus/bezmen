@@ -1,7 +1,7 @@
-**/bezmen/
-**/sepuling*/
-**/sepulkarium/
-
+*/bezmen/*
+*/sepuling*/*
+*/sepulkarium/*
 *.adoc
 LICENSE
 .github/dependabot.yaml
+.github/workflows/template.yaml
