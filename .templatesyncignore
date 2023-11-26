@@ -1,3 +1,6 @@
-.github/workflows/project-template.yaml
+.github/workflows/template.yaml
 .github/dependabot.yaml
+schemas/**
 **/*.adoc
+**/*.java
+**/*.kt
