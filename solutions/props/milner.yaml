@@ -1,5 +1,5 @@
 ---
-bezmen:
+solution:
   messaging:
     mapping:
       modes: [spring_mvc, spring_management]

@@ -1,7 +1,7 @@
 package smecalculus.bezmen.construction;
 
 import static java.util.Objects.requireNonNull;
-import static smecalculus.bezmen.configuration.ValidationMode.HIBERNATE_VALIDATOR;
+import static smecalculus.bezmen.configuration.ValidationDm.ValidationMode.HIBERNATE_VALIDATOR;
 
 import jakarta.validation.Validation;
 import org.slf4j.Logger;
@@ -10,8 +10,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import smecalculus.bezmen.configuration.PropsKeeper;
-import smecalculus.bezmen.configuration.ValidationProps;
-import smecalculus.bezmen.configuration.ValidationPropsEdge;
+import smecalculus.bezmen.configuration.ValidationDm;
+import smecalculus.bezmen.configuration.ValidationEm;
 import smecalculus.bezmen.validation.EdgeValidator;
 import smecalculus.bezmen.validation.EdgeValidatorHibernateValidator;
 import smecalculus.bezmen.validation.ValidationPropsMapper;
@@ -29,11 +29,11 @@ public class ValidationBeans {
     }
 
     @Bean
-    ValidationProps validationProps(PropsKeeper keeper, ValidationPropsMapper mapper) {
-        var propsEdge = keeper.read("bezmen.validation", ValidationPropsEdge.class);
-        requireNonNull(propsEdge.getMode(), "validation mode must not be null");
-        LOG.info("Read {}", propsEdge);
-        return mapper.toDomain(propsEdge);
+    ValidationDm.ValidationProps validationProps(PropsKeeper keeper, ValidationPropsMapper mapper) {
+        var validationProps = keeper.read("solution.validation", ValidationEm.ValidationProps.class);
+        requireNonNull(validationProps.getMode(), "validation mode must not be null");
+        LOG.info("Read {}", validationProps);
+        return mapper.toDomain(validationProps);
     }
 
     @Bean

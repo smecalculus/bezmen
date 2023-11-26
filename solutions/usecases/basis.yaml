@@ -70,7 +70,7 @@ services:
       - source: stack_config
         target: /home/app/${CONFIG_FILE_NAME}
     command: >
-      --bezmen.config.mapping.mode=${CONFIG_MAPPING_MODE}
+      --solution.config.mapping.mode=${CONFIG_MAPPING_MODE}
       --spring.config.location=optional:file:application.yaml
     depends_on:
       schema-owner:
