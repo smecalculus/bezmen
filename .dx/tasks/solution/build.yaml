@@ -40,7 +40,7 @@
     chdir: "{{ solutions_dir }}"
   environment:
     DATABASE_NAME: "{{ project }}"
-    SCHEMA_NAME: "{{ project }}"
+    SCHEMA_NAME: "sepulkarium"
     OWNER_NAME: "{{ project }}"
     OWNER_PASSWORD: "{{ project }}"
     POSTGRES_VERSION: "{{ ops.postgres_version }}"

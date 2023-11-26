@@ -31,7 +31,7 @@ services:
       image.name: ${SCHEMA_IMAGE}
     command: >
       --show-banner=false
-      --changelog-file=sepulkarium/dba/changelog.yaml
+      --changelog-file=${SCHEMA_NAME}/dba/changelog.yaml
       --url=jdbc:postgresql://db:5432/${DATABASE_NAME}?currentSchema=public
       --liquibase-schema-name=public
       --username=postgres
@@ -53,7 +53,7 @@ services:
       image.name: ${SCHEMA_IMAGE}
     command: >
       --show-banner=false
-      --changelog-file=sepulkarium/owner/changelog.yaml
+      --changelog-file=${SCHEMA_NAME}/owner/changelog.yaml
       --url=jdbc:postgresql://db:5432/${DATABASE_NAME}?currentSchema=${SCHEMA_NAME}
       --liquibase-schema-name=${SCHEMA_NAME}
       --username=${OWNER_NAME}
