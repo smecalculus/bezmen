@@ -7,6 +7,8 @@ bezmen:
     protocol:
       mode: postgres
       postgres:
-        url: jdbc:postgresql://db:5432/bezmen
+        url: "jdbc:postgresql://db:5432/{{ database_name }}"
+        username: "{{ owner_name }}"
+        password: "{{ owner_password }}"
     mapping:
       mode: spring_data

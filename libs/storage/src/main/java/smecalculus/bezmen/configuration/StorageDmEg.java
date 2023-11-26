@@ -36,14 +36,14 @@ public abstract class StorageDmEg {
         return ProtocolProps.builder()
                 .protocolMode(H2)
                 .h2Props(H2Props.builder()
-                        .url("jdbc:h2:mem:bezmen;DB_CLOSE_DELAY=-1")
-                        .username("sa")
-                        .password("sa")
+                        .url("jdbc:h2:mem:toy;DB_CLOSE_DELAY=-1")
+                        .username("toy")
+                        .password("toy")
                         .build())
                 .postgresProps(PostgresProps.builder()
-                        .url("jdbc:postgresql://localhost:5432/bezmen")
-                        .username("bezmen")
-                        .password("bezmen")
+                        .url("jdbc:postgresql://localhost:5432/toy")
+                        .username("toy")
+                        .password("toy")
                         .build());
     }
 
