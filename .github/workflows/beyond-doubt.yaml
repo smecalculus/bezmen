@@ -148,10 +148,11 @@ jobs:
       - run: >
           ansible-playbook stacks.yaml -t test
           -e image_repo=${{ env.IMAGE_REPO }}
-          -e opsenv=${{ matrix.env.ops }}
           -e usecase=${{ matrix.usecase }}
           -e reminder=${{ matrix.shard }}
           -e modulus=2
+          -e devenv=${{ matrix.env.dev }}
+          -e opsenv=${{ matrix.env.ops }}
         working-directory: .dx
         env:
           GITHUB_ACTOR: ${{ github.actor }}
