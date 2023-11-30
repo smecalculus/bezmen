@@ -13,9 +13,7 @@
         cmd: git hash-object --stdin
         stdin: |
           {{ app_cids[app] }}
-          {% for lib in app_deps[app] %}
-          {{ lib_cids[lib] }}
-          {% endfor %}
+          {{ lib_cid }}
       # TODO: try to choose better name
       register: image_cid
       changed_when: false

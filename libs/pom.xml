@@ -17,7 +17,6 @@
     <module>messaging</module>
     <module>messaging-client</module>
     <module>storage</module>
-    <module>testing</module>
   </modules>
 
   <properties>
@@ -92,10 +91,11 @@
         <artifactId>storage</artifactId>
         <version>${project.version}</version>
       </dependency>
+
       <dependency>
         <groupId>${project.groupId}</groupId>
         <artifactId>testing</artifactId>
-        <version>${project.version}</version>
+        <version>latest</version>
       </dependency>
 
       <dependency>

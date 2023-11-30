@@ -3,5 +3,6 @@
 */sepulkarium/*
 *.adoc
 LICENSE
+pom.xml
 .github/dependabot.yaml
 .github/workflows/template.yaml

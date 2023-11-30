@@ -47,8 +47,15 @@
         <groupId>${project.groupId}</groupId>
         <artifactId>libs</artifactId>
         <version>0.1.0-SNAPSHOT</version>
-        <type>pom</type>
         <scope>import</scope>
+        <type>pom</type>
+      </dependency>
+      <dependency>
+        <groupId>${project.groupId}</groupId>
+        <artifactId>tools</artifactId>
+        <version>latest</version>
+        <scope>import</scope>
+        <type>pom</type>
       </dependency>
     </dependencies>
   </dependencyManagement>
