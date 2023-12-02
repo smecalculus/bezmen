@@ -73,6 +73,53 @@
             <skipTests>${skipUnits}</skipTests>
           </configuration>
         </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-dependency-plugin</artifactId>
+          <executions>
+            <execution>
+              <id>dep-copy</id>
+              <phase>package</phase>
+              <goals>
+                <goal>copy-dependencies</goal>
+              </goals>
+              <configuration>
+                <includeScope>runtime</includeScope>
+                <excludeGroupIds>${project.groupId}</excludeGroupIds>
+                <outputDirectory>${project.build.directory}/docker-context/lib</outputDirectory>
+              </configuration>
+            </execution>
+            <execution>
+              <id>lib-copy</id>
+              <phase>package</phase>
+              <goals>
+                <goal>copy-dependencies</goal>
+              </goals>
+              <configuration>
+                <includeScope>runtime</includeScope>
+                <includeGroupIds>${project.groupId}</includeGroupIds>
+                <outputDirectory>${project.build.directory}/docker-context/bin</outputDirectory>
+              </configuration>
+            </execution>
+            <execution>
+              <id>app-copy</id>
+              <phase>package</phase>
+              <goals>
+                <goal>copy</goal>
+              </goals>
+              <configuration>
+                <artifactItems>
+                  <artifactItem>
+                    <groupId>${project.groupId}</groupId>
+                    <artifactId>${project.artifactId}</artifactId>
+                    <version>${project.version}</version>
+                    <outputDirectory>${project.build.directory}/docker-context/bin</outputDirectory>
+                  </artifactItem>
+                </artifactItems>
+              </configuration>
+            </execution>
+          </executions>
+        </plugin>
       </plugins>
     </pluginManagement>
   </build>

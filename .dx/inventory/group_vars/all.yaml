@@ -1,6 +1,6 @@
 ---
-organization: smecalculus
-project: bezmen
+project_name: bezmen
+project_org: smecalculus
 
 devenv: turing
 opsenv: lamport
@@ -27,13 +27,13 @@ binary_repo: local
 image_repo: local
 
 app_images:
-  sepuling-java: "{{ image_repo }}/{{ organization }}/{{ project }}/app/sepuling-java"
-  sepuling-kotlin: "{{ image_repo }}/{{ organization }}/{{ project }}/app/sepuling-kotlin"
+  sepuling-java: "{{ image_repo }}/{{ project_org }}/{{ project_name }}/app/sepuling-java"
+  sepuling-kotlin: "{{ image_repo }}/{{ project_org }}/{{ project_name }}/app/sepuling-kotlin"
 schema_images:
-  postgres: "{{ image_repo }}/{{ organization }}/{{ project }}/schema/postgres"
+  postgres: "{{ image_repo }}/{{ project_org }}/{{ project_name }}/schema/postgres"
 stack_images:
-  solution: "{{ image_repo }}/{{ organization }}/{{ project }}/stack/solution-{{ usecase }}"
-  toolchain: "{{ image_repo }}/{{ organization }}/{{ project }}/stack/toolchain"
+  solution: "{{ image_repo }}/{{ project_org }}/{{ project_name }}/stack/solution-{{ usecase }}"
+  toolchain: "{{ image_repo }}/{{ project_org }}/{{ project_name }}/stack/toolchain"
 
 docker_entity: "{{ 'image' if image_repo == 'local' else 'manifest' }}"
 

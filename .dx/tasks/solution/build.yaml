@@ -21,15 +21,15 @@
     dest: "{{ solutions_dir }}/target/context/{{ ops.config_file_name.target }}"
     mode: "644"
   vars:
-    database_name: "{{ project }}"
-    owner_name: "{{ project }}"
-    owner_password: "{{ project }}"
+    database_name: "{{ project_name }}"
+    owner_name: "{{ project_name }}"
+    owner_password: "{{ project_name }}"
 
 - name: Build spec
   ansible.builtin.command:
     cmd: >
       docker compose
-      --project-name {{ project }}
+      --project-name {{ project_name }}
       --file usecases/basis.yaml
       --file usecases/{{ usecase }}.yaml
       --profile {{ opsenv }}
@@ -39,10 +39,10 @@
     strip_empty_ends: false
     chdir: "{{ solutions_dir }}"
   environment:
-    DATABASE_NAME: "{{ project }}"
+    DATABASE_NAME: "{{ project_name }}"
     SCHEMA_NAME: "sepulkarium"
-    OWNER_NAME: "{{ project }}"
-    OWNER_PASSWORD: "{{ project }}"
+    OWNER_NAME: "{{ project_name }}"
+    OWNER_PASSWORD: "{{ project_name }}"
     POSTGRES_VERSION: "{{ ops.postgres_version }}"
     SCHEMA_TAG: "{{ schema_cids.postgres }}"
     SCHEMA_IMAGE: "{{ schema_images.postgres }}"
