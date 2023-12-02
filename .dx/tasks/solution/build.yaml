@@ -12,13 +12,13 @@
 
 - name: Capture env
   ansible.builtin.include_vars:
-    file: ../envs/ops/{{ opsenv }}.yaml
+    file: ../envs/ops/{{ opsenv }}/vars.yaml
     name: ops
 
 - name: Build conf
   ansible.builtin.template:
-    src: "{{ solutions_dir }}/props/{{ ops.config_file_name.source }}"
-    dest: "{{ solutions_dir }}/target/context/{{ ops.config_file_name.target }}"
+    src: "../envs/ops/{{ opsenv }}/template.{{ config_exts[ops.config_mapping_mode] }}"
+    dest: "{{ solutions_dir }}/target/context/application.{{ config_exts[ops.config_mapping_mode] }}"
     mode: "644"
   vars:
     database_name: "{{ project_name }}"
@@ -46,8 +46,8 @@
     POSTGRES_VERSION: "{{ ops.postgres_version }}"
     SCHEMA_TAG: "{{ schema_cids.postgres }}"
     SCHEMA_IMAGE: "{{ schema_images.postgres }}"
-    APP_TAG: "{{ hostvars.app.image_cids['sepuling-' ~ ops.sepuling.lang_mode][:7] }}-{{ devenv }}"
-    APP_IMAGE: "{{ app_images['sepuling-' ~ ops.sepuling.lang_mode] }}"
-    CONFIG_FILE_NAME: "{{ ops.config_file_name.target }}"
+    APP_TAG: "{{ hostvars.app.image_cids['sepuling-' ~ ops.lang_mode][:7] }}-{{ devenv }}"
+    APP_IMAGE: "{{ app_images['sepuling-' ~ ops.lang_mode] }}"
+    CONFIG_FILE_NAME: "application.{{ config_exts[ops.config_mapping_mode] }}"
     CONFIG_MAPPING_MODE: "{{ ops.config_mapping_mode }}"
   changed_when: true

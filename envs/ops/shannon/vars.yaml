@@ -1,0 +1,5 @@
+---
+postgres_version: 14.9
+java_release: 17
+lang_mode: java
+config_mapping_mode: lightbend_config

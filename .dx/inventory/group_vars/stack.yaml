@@ -1,0 +1,4 @@
+---
+config_exts:
+  lightbend_config: conf
+  spring_config: yaml

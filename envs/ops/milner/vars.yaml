@@ -1,0 +1,5 @@
+---
+postgres_version: 15.4
+java_release: 19
+lang_mode: kotlin
+config_mapping_mode: spring_config
