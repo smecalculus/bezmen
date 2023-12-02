@@ -22,10 +22,12 @@
     <dependency>
       <groupId>${project.groupId}</groupId>
       <artifactId>messaging-client</artifactId>
+      <scope>compile</scope>
     </dependency>
     <dependency>
       <groupId>${project.groupId}</groupId>
       <artifactId>testing</artifactId>
+      <scope>compile</scope>
     </dependency>
   </dependencies>
 

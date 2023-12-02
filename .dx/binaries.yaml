@@ -48,7 +48,7 @@
           --no-snapshot-updates
           --fail-fast
           --batch-mode
-          --threads 1C
+          --threads 2
           --projects {{
             image_status.results
             | select('changed')
