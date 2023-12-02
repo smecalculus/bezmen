@@ -43,9 +43,10 @@
           mvn
           --no-snapshot-updates
           --batch-mode
+          --projects tools
           clean
           antrun:run@coverage
-        chdir: "{{ playbook_dir }}/../tools"
+        chdir: "{{ playbook_dir }}/.."
         strip_empty_ends: false
       changed_when: true
       when: image_status is changed
