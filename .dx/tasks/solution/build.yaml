@@ -15,6 +15,9 @@
     src: "{{ stack_dir }}/{{ solution.config.mapping_mode }}.j2"
     dest: "{{ stack_dir }}/target/context/application.{{ config_exts[solution.config.mapping_mode] }}"
     mode: "644"
+  vars:
+    # TODO: multiple schemas in config
+    schema: "{{ solution.schemas.values()|first }}"
 
 - name: Build spec
   ansible.builtin.template:

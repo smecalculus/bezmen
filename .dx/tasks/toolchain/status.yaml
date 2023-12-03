@@ -12,7 +12,7 @@
 
 - name: Capture status
   ansible.builtin.command:
-    cmd: docker {{ docker_entity }} inspect {{ stack_images.toolchain }}:{{ stack_cid.stdout[:7] }}-{{ devenv }}
+    cmd: docker {{ docker_entity }} inspect {{ toolchain.image.name }}:{{ stack_cid.stdout[:7] }}-{{ devenv }}
   register: stack_status
   changed_when:
     - stack_status.rc != 0

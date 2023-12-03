@@ -6,13 +6,13 @@
       {{ lib_cid }}
       {{ app_cid }}
       {{ schema_cid }}
-      {{ stack_cids.solution }}
+      {{ solution.cid }}
   register: stack_cid
   changed_when: false
 
 - name: Capture status
   ansible.builtin.command:
-    cmd: docker {{ docker_entity }} inspect {{ stack_images.solution }}:{{ stack_cid.stdout[:7] }}-{{ opsenv }}
+    cmd: docker {{ docker_entity }} inspect {{ solution.image.name }}:{{ stack_cid.stdout[:7] }}-{{ opsenv }}
   register: stack_status
   changed_when:
     - stack_status.rc != 0

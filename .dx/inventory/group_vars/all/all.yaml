@@ -2,38 +2,19 @@
 project_name: bezmen
 project_org: smecalculus
 
-devenv: turing
-opsenv: lamport
 usecase: toy
 
 lib_cid: "{{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=libs')[:7] }}"
 app_cid: "{{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=apps')[:7] }}"
-app_cids:
-  sepuling-java: "{{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=apps/sepuling-java')[:7] }}"
-  sepuling-kotlin: "{{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=apps/sepuling-kotlin')[:7] }}"
 schema_cid: "{{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=schemas')[:7] }}"
-schema_cids:
-  postgres: "{{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=schemas/postgres')[:7] }}"
-
-test_cid: "{{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=tests')[:7] }}"
 
 dx_cid: "{{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=.dx')[:7] }}"
 env_cid: "{{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=envs')[:7] }}"
 tool_cid: "{{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=tools')[:7] }}"
+test_cid: "{{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=tests')[:7] }}"
 
-stack_cids:
-  solution: "{{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=stacks/solution')[:7] }}"
+binary_storage: local
+image_storage: local
+image_repo: "{{ image_storage }}/{{ project_org }}/{{ project_name }}"
 
-binary_repo: local
-image_repo: local
-
-app_images:
-  sepuling-java: "{{ image_repo }}/{{ project_org }}/{{ project_name }}/app/sepuling-java"
-  sepuling-kotlin: "{{ image_repo }}/{{ project_org }}/{{ project_name }}/app/sepuling-kotlin"
-schema_images:
-  postgres: "{{ image_repo }}/{{ project_org }}/{{ project_name }}/schema/postgres"
-stack_images:
-  solution: "{{ image_repo }}/{{ project_org }}/{{ project_name }}/stack/solution-{{ usecase }}"
-  toolchain: "{{ image_repo }}/{{ project_org }}/{{ project_name }}/stack/toolchain"
-
-docker_entity: "{{ 'image' if image_repo == 'local' else 'manifest' }}"
+docker_entity: "{{ 'image' if image_storage == 'local' else 'manifest' }}"

@@ -8,8 +8,8 @@ on:
   workflow_dispatch:
 
 env:
-  BINARY_REPO: maven.pkg.github.com
-  IMAGE_REPO: ghcr.io
+  BINARY_STORAGE: maven.pkg.github.com
+  IMAGE_STORAGE: ghcr.io
 
 jobs:
   up-to-images:
@@ -44,8 +44,8 @@ jobs:
       - id: images
         run: >
           ansible-playbook images.yaml
-          -e binary_repo=${{ env.BINARY_REPO }}
-          -e image_repo=${{ env.IMAGE_REPO }}
+          -e binary_storage=${{ env.BINARY_STORAGE }}
+          -e image_storage=${{ env.IMAGE_STORAGE }}
           -e devenv=${{ matrix.env.dev }}
         working-directory: .dx
         env:
@@ -99,7 +99,7 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
       - run: >
           ansible-playbook stacks.yaml -t build
-          -e image_repo=${{ env.IMAGE_REPO }}
+          -e image_storage=${{ env.IMAGE_STORAGE }}
           -e usecase=${{ matrix.usecase }}
           -e devenv=${{ matrix.env.dev }}
           -e opsenv=${{ matrix.env.ops }}
@@ -147,7 +147,7 @@ jobs:
           path: stacks/solution/target/context
       - run: >
           ansible-playbook stacks.yaml -t test
-          -e image_repo=${{ env.IMAGE_REPO }}
+          -e image_storage=${{ env.IMAGE_STORAGE }}
           -e usecase=${{ matrix.usecase }}
           -e reminder=${{ matrix.shard }}
           -e modulus=2
@@ -202,7 +202,7 @@ jobs:
           path: stacks/solution/target/context
       - run: >
           ansible-playbook stacks.yaml -t package
-          -e image_repo=${{ env.IMAGE_REPO }}
+          -e image_storage=${{ env.IMAGE_STORAGE }}
           -e usecase=${{ matrix.usecase }}
           -e opsenv=${{ matrix.env.ops }}
         working-directory: .dx

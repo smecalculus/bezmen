@@ -25,8 +25,8 @@ services:
     networks:
       - stack_network
 
-{% for schema in solution.schemas %}
-  {{ schema.name }}-dba:
+{% for schema_key, schema in solution.schemas.items() %}
+  {{ schema_key }}-dba:
     image: {{ schema.image.name }}:{{ schema.image.tag }}
     depends_on:
       {{ solution.storage.vendor }}:
@@ -35,7 +35,7 @@ services:
       image.name: {{ schema.image.name }}
     command: >
       --show-banner=false
-      --changelog-file={{ schema.name }}/dba/changelog.yaml
+      --changelog-file={{ schema_key }}/dba/changelog.yaml
       --url=jdbc:postgresql://{{ solution.storage.vendor }}:5432/{{ solution.database.name }}
       --liquibase-schema-name=public
       --default-schema-name=public
@@ -43,25 +43,25 @@ services:
       --password=password
       --labels=schema,user
       update
-      -Dschema.name={{ schema.name }}
+      -Dschema.name={{ schema_key }}
       -Downer.name={{ schema.owner.name }}
       -Downer.password={{ schema.owner.password }}
     networks:
       - stack_network
 
-  {{ schema.name }}-owner:
+  {{ schema_key }}-owner:
     image: {{ schema.image.name }}:{{ schema.image.tag }}
     depends_on:
-      {{ schema.name }}-dba:
+      {{ schema_key }}-dba:
         condition: service_completed_successfully
     labels:
       image.name: {{ schema.image.name }}
     command: >
       --show-banner=false
-      --changelog-file={{ schema.name }}/owner/changelog.yaml
+      --changelog-file={{ schema_key }}/owner/changelog.yaml
       --url=jdbc:postgresql://{{ solution.storage.vendor }}:5432/{{ solution.database.name }}
-      --liquibase-schema-name={{ schema.name }}
-      --default-schema-name={{ schema.name }}
+      --liquibase-schema-name={{ schema_key }}
+      --default-schema-name={{ schema_key }}
       --username={{ schema.owner.name }}
       --password={{ schema.owner.password }}
       update
@@ -69,9 +69,9 @@ services:
       - stack_network
 {% endfor %}
 
-{% for app in solution.apps %}
-  {{ app.name }}:
-    image: {{ app.image.name }}:{{ app.image.tag }}
+{% for app_key, app in solution.apps.items() %}
+  {{ app_key }}:
+    image: {{ app.image.name }}:{{ hostvars.app.image_cids[app_key][:7] }}-{{ devenv }}
     ports:
       - 8080:8080
     configs:
@@ -81,8 +81,8 @@ services:
       --solution.config.mapping.mode={{ solution.config.mapping_mode }}
       --spring.config.location=optional:file:application.yaml
     depends_on:
-    {% for schema in solution.schemas %}
-      {{ schema.name }}-owner:
+    {% for schema_key in solution.schemas.keys() %}
+      {{ schema_key }}-owner:
         condition: service_completed_successfully
     {% endfor %}
     labels:

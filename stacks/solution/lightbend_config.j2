@@ -9,9 +9,9 @@ solution {
       mode = {{ solution.storage.vendor }}
       postgres {
         url = "jdbc:postgresql://{{ solution.storage.vendor }}:5432/{{ solution.database.name }}"
-        schema = "{{ solution.schemas[0].name }}"
-        username = "{{ solution.schemas[0].owner.name }}"
-        password = "{{ solution.schemas[0].owner.password }}"
+        schema = "{{ schema.name }}"
+        username = "{{ schema.owner.name }}"
+        password = "{{ schema.owner.password }}"
       }
     }
     mapping {

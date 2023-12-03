@@ -7,13 +7,12 @@
       ansible.builtin.command:
         cmd: git hash-object --stdin
         stdin: |
-          {{ app_cids[app] }}
           {{ lib_cid }}
+          {{ solution.apps[app].cid }}
       # TODO: try to choose better name
       register: image_cid
       changed_when: false
-      # TODO: simplify after fix of https://youtrack.jetbrains.com/issue/KT-60507
-      loop: "{{ app_cids.keys() if dev[devenv].jdk.release < 21 else app_cids.keys()|difference(['sepuling-kotlin']) }}"
+      loop: "{{ solution.apps.keys() }}"
       loop_control:
         loop_var: app
       tags: [always]
@@ -23,13 +22,14 @@
       tags: [always]
     - name: Capture statuses
       ansible.builtin.command:
-        cmd: docker {{ docker_entity }} inspect {{ app_images[app] }}:{{ image_cids[app][:7] }}-{{ devenv }}
+        cmd: docker {{ docker_entity }} inspect {{ app.image.name }}:{{ image_cids[app.name][:7] }}-{{ devenv }}
       register: image_status
       changed_when: image_status.rc != 0
       failed_when: false
-      loop: "{{ image_cids.keys() }}"
+      loop: "{{ solution.apps.values() }}"
       loop_control:
         loop_var: app
+        label: "{{ app.binary.name }}"
       tags: [always]
     - name: Status commands
       ansible.builtin.debug:
@@ -47,7 +47,7 @@
           --projects {{
             image_status.results
             | select('changed')
-            | map(attribute='app')
+            | map(attribute='app.binary.name')
             | map('regex_replace', '^', 'apps/')
             | join(',')
           }}

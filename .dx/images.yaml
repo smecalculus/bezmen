@@ -1,7 +1,7 @@
 ---
 - import_playbook: binaries.yaml   # noqa: name[play]
   vars:
-    maven_phase: "{{ 'install' if binary_repo == 'local' else 'deploy' }}"
+    maven_phase: "{{ 'install' if binary_storage == 'local' else 'deploy' }}"
   tags: [binaries, deps]
 
 - name: Images
@@ -10,13 +10,14 @@
   tasks:
     - name: Capture statuses
       ansible.builtin.command:
-        cmd: docker {{ docker_entity }} inspect {{ schema_images[schema] }}:{{ schema_cids[schema] }}
+        cmd: docker {{ docker_entity }} inspect {{ schema.image.name }}:{{ schema.image.tag }}
       register: image_status
       changed_when: image_status.rc != 0
       failed_when: false
-      loop: "{{ schema_images.keys() }}"
+      loop: "{{ solution.schemas.values() }}"
       loop_control:
         loop_var: schema
+        label: "{{ schema.name }}"
     - name: Status commands
       ansible.builtin.debug:
         msg: "{{ image_status.results|map(attribute='cmd')|map('join', ' ') }}"
@@ -25,13 +26,14 @@
       ansible.builtin.include_role:
         name: image
       vars:
-        image_tag: "{{ schema_cids[schema] }}"
-        image_name: "{{ schema_images[schema] }}"
-        image_home: "{{ playbook_dir }}/../schemas/{{ schema }}"
-        image_push: "{{ image_repo != 'local' }}"
+        image_tag: "{{ schema.image.tag }}"
+        image_name: "{{ schema.image.name }}"
+        image_home: "{{ playbook_dir }}/../schemas/{{ solution.storage.vendor }}"
+        image_push: "{{ image_storage != 'local' }}"
       loop: "{{ image_status.results|select('changed')|map(attribute='schema') }}"
       loop_control:
         loop_var: schema
+        label: "{{ schema.name }}"
 
 - name: Images
   hosts: app
@@ -54,14 +56,15 @@
       ansible.builtin.include_role:
         name: image
       vars:
-        image_tag: "{{ image_cids[app][:7] }}-{{ devenv }}"
-        image_name: "{{ app_images[app] }}"
-        image_home: "{{ playbook_dir }}/../apps/{{ app }}"
+        image_tag: "{{ image_cids[app.name][:7] }}-{{ devenv }}"
+        image_name: "{{ app.image.name }}"
+        image_home: "{{ playbook_dir }}/../apps/{{ app.binary.name }}"
         image_context: target/docker-context
-        image_push: "{{ image_repo != 'local' }}"
+        image_push: "{{ image_storage != 'local' }}"
         image_args:
           JAVA_RELEASE: "{{ dev[devenv].jdk.release }}"
       loop: "{{ image_status.results|select('changed')|map(attribute='app') }}"
       loop_control:
         loop_var: app
+        label: "{{ app.binary.name }}"
       when: image_status is changed
