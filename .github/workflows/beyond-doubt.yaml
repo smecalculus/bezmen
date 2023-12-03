@@ -107,7 +107,7 @@ jobs:
       - uses: actions/upload-artifact@v3.1.3
         with:
           name: solution-${{ matrix.usecase }}-${{ matrix.env.ops }}
-          path: solutions/target/context
+          path: stacks/solution/target/context
           if-no-files-found: ignore
 
   stack-testing:
@@ -144,7 +144,7 @@ jobs:
         continue-on-error: true  # it's ok because stack building can be skipped
         with:
           name: solution-${{ matrix.usecase }}-${{ matrix.env.ops }}
-          path: solutions/target/context
+          path: stacks/solution/target/context
       - run: >
           ansible-playbook stacks.yaml -t test
           -e image_repo=${{ env.IMAGE_REPO }}
@@ -199,7 +199,7 @@ jobs:
         continue-on-error: true  # it's ok because stack building can be skipped
         with:
           name: solution-${{ matrix.usecase }}-${{ matrix.env.ops }}
-          path: solutions/target/context
+          path: stacks/solution/target/context
       - run: >
           ansible-playbook stacks.yaml -t package
           -e image_repo=${{ env.IMAGE_REPO }}
