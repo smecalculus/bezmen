@@ -6,7 +6,7 @@
       {{ lib_cid }}
       {{ app_cid }}
       {{ schema_cid }}
-      {{ solution_cid }}
+      {{ stack_cids.solution }}
   register: stack_cid
   changed_when: false
 

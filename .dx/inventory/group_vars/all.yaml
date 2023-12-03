@@ -14,14 +14,15 @@ app_cids:
 schema_cid: "{{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=schemas')[:7] }}"
 schema_cids:
   postgres: "{{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=schemas/postgres')[:7] }}"
-solution_cid: "{{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=solutions')[:7] }}"
 
 test_cid: "{{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=tests')[:7] }}"
 
 dx_cid: "{{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=.dx')[:7] }}"
 env_cid: "{{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=envs')[:7] }}"
 tool_cid: "{{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=tools')[:7] }}"
-pipeline_cid: "{{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=.github')[:7] }}"
+
+stack_cids:
+  solution: "{{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=stacks/solution')[:7] }}"
 
 binary_repo: local
 image_repo: local

@@ -1,5 +1,10 @@
 ---
-postgres_version: 16.0
-java_release: 21
-lang_mode: java
-config_mapping_mode: spring_config
+storage:
+  name: postgres
+  version: 16.0
+runtime:
+  release: 21
+  lang: java
+application:
+  config:
+    mapping_mode: spring_config

@@ -21,8 +21,9 @@
 - name: Testing
   hosts: stack
   run_once: true
+  vars_files:
+    - "{{ playbook_dir }}/../envs/ops/{{ opsenv }}/vars.yaml"
   vars:
-    solutions_dir: "{{ playbook_dir }}/../solutions"
     stack_dir: "{{ playbook_dir }}/../stacks/solution"
   tasks:
     - ansible.builtin.import_tasks:  # noqa: name[missing]

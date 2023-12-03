@@ -1,5 +1,10 @@
 ---
-postgres_version: 15.4
-java_release: 19
-lang_mode: kotlin
-config_mapping_mode: spring_config
+storage:
+  name: postgres
+  version: 15.4
+runtime:
+  release: 19
+  lang: kotlin
+application:
+  config:
+    mapping_mode: spring_config
