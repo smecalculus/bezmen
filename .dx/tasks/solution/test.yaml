@@ -16,7 +16,7 @@
       --quiet-pull
       --no-deps
       --detach
-    chdir: "{{ solutions_dir }}/target/context"
+    chdir: "{{ stack_dir }}/target/context"
     strip_empty_ends: false
   changed_when: true
 

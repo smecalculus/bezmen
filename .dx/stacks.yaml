@@ -23,6 +23,7 @@
   run_once: true
   vars:
     solutions_dir: "{{ playbook_dir }}/../solutions"
+    stack_dir: "{{ playbook_dir }}/../stacks/solution"
   tasks:
     - ansible.builtin.import_tasks:  # noqa: name[missing]
         file: tasks/solution/build.yaml

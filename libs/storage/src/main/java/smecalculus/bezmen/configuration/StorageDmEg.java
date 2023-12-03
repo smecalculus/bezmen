@@ -42,6 +42,7 @@ public abstract class StorageDmEg {
                         .build())
                 .postgresProps(PostgresProps.builder()
                         .url("jdbc:postgresql://localhost:5432/toy")
+                        .schema("toy")
                         .username("toy")
                         .password("toy")
                         .build());
