@@ -29,6 +29,8 @@ public abstract class StorageDm {
 
     @Builder
     public record PostgresProps(
-            @NonNull String url, @NonNull String schema, @NonNull String username,
+            @NonNull String url,
+            @NonNull String schema,
+            @NonNull String username,
             @NonNull @ToString.Exclude String password) {}
 }

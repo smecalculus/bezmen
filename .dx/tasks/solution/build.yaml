@@ -29,7 +29,7 @@
 
 - name: Build spec
   ansible.builtin.template:
-    src: "{{ stack_dir }}/stack.j2"
+    src: "{{ stack_dir }}/compose.j2"
     dest: "{{ stack_dir }}/target/context/compose.yaml"
     mode: "644"
   vars:
