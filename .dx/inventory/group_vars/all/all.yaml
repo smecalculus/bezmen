@@ -37,9 +37,3 @@ stack_images:
   toolchain: "{{ image_repo }}/{{ project_org }}/{{ project_name }}/stack/toolchain"
 
 docker_entity: "{{ 'image' if image_repo == 'local' else 'manifest' }}"
-
-sepuling_deps: [abstraction, abstraction-client, essentials, messaging, messaging-client, storage]
-
-app_deps:
-  sepuling-java: "{{ sepuling_deps }}"
-  sepuling-kotlin: "{{ sepuling_deps }}"

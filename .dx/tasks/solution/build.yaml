@@ -12,39 +12,12 @@
 
 - name: Build conf
   ansible.builtin.template:
-    src: "../envs/ops/{{ opsenv }}/config.j2"
-    dest: "{{ stack_dir }}/target/context/application.{{ config_exts[application.config.mapping_mode] }}"
+    src: "{{ stack_dir }}/{{ solution.config.mapping_mode }}.j2"
+    dest: "{{ stack_dir }}/target/context/application.{{ config_exts[solution.config.mapping_mode] }}"
     mode: "644"
-  vars:
-    storage_name: postgres
-    database_name: "{{ project_name }}"
-    schema_name: sepulkarium
-    owner_name: "{{ project_name }}"
-    owner_password: "{{ project_name }}"
 
 - name: Build spec
   ansible.builtin.template:
     src: "{{ stack_dir }}/compose.j2"
     dest: "{{ stack_dir }}/target/context/compose.yaml"
     mode: "644"
-  vars:
-    stack:
-      name: "{{ project_name }}"
-      config:
-        file_name: "application.{{ config_exts[application.config.mapping_mode] }}"
-        mapping_mode: "{{ application.config.mapping_mode }}"
-    database:
-      name: "{{ project_name }}"
-    schemas:
-      - name: sepulkarium
-        image:
-          name: "{{ schema_images.postgres }}"
-          tag: "{{ schema_cids.postgres }}"
-        owner:
-          name: "{{ project_name }}"
-          password: "{{ project_name }}"
-    apps:
-      - name: sepuling
-        image:
-          name: "{{ app_images['sepuling-' ~ runtime.lang] }}"
-          tag: "{{ hostvars.app.image_cids['sepuling-' ~ runtime.lang][:7] }}-{{ devenv }}"

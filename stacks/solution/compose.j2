@@ -1,20 +1,20 @@
 #jinja2: lstrip_blocks: True, trim_blocks: True
-name: {{ stack.name }}
+name: {{ solution.name }}
 
 networks:
   stack_network:
 
 configs:
   stack_config:
-    file: ./{{ stack.config.file_name }}
+    file: ./{{ solution.config.file_name }}
 
 services:
-  {{ storage.name }}:
-    image: {{ storage.name }}:{{ storage.version }}-alpine
+  {{ solution.storage.vendor }}:
+    image: {{ solution.storage.vendor }}:{{ solution.storage.version }}-alpine
     ports:
       - 5432:5432
     environment:
-      POSTGRES_DB: {{ database.name }}
+      POSTGRES_DB: {{ solution.database.name }}
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: password
     healthcheck:
@@ -25,18 +25,18 @@ services:
     networks:
       - stack_network
 
-{% for schema in schemas %}
+{% for schema in solution.schemas %}
   {{ schema.name }}-dba:
     image: {{ schema.image.name }}:{{ schema.image.tag }}
     depends_on:
-      {{ storage.name }}:
+      {{ solution.storage.vendor }}:
         condition: service_healthy
     labels:
       image.name: {{ schema.image.name }}
     command: >
       --show-banner=false
       --changelog-file={{ schema.name }}/dba/changelog.yaml
-      --url=jdbc:postgresql://{{ storage.name }}:5432/{{ database.name }}
+      --url=jdbc:postgresql://{{ solution.storage.vendor }}:5432/{{ solution.database.name }}
       --liquibase-schema-name=public
       --default-schema-name=public
       --username=postgres
@@ -59,7 +59,7 @@ services:
     command: >
       --show-banner=false
       --changelog-file={{ schema.name }}/owner/changelog.yaml
-      --url=jdbc:postgresql://{{ storage.name }}:5432/{{ database.name }}
+      --url=jdbc:postgresql://{{ solution.storage.vendor }}:5432/{{ solution.database.name }}
       --liquibase-schema-name={{ schema.name }}
       --default-schema-name={{ schema.name }}
       --username={{ schema.owner.name }}
@@ -69,19 +69,19 @@ services:
       - stack_network
 {% endfor %}
 
-{% for app in apps %}
+{% for app in solution.apps %}
   {{ app.name }}:
     image: {{ app.image.name }}:{{ app.image.tag }}
     ports:
       - 8080:8080
     configs:
       - source: stack_config
-        target: /home/app/{{ stack.config.file_name }}
+        target: /home/app/{{ solution.config.file_name }}
     command: >
-      --solution.config.mapping.mode={{ stack.config.mapping_mode }}
+      --solution.config.mapping.mode={{ solution.config.mapping_mode }}
       --spring.config.location=optional:file:application.yaml
     depends_on:
-    {% for schema in schemas %}
+    {% for schema in solution.schemas %}
       {{ schema.name }}-owner:
         condition: service_completed_successfully
     {% endfor %}

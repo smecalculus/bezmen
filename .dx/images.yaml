@@ -50,10 +50,6 @@
         strip_empty_ends: false
       changed_when: true
       when: image_status is changed
-    - name: Capture env
-      ansible.builtin.include_vars:
-        file: ../envs/dev/{{ devenv }}/vars.yaml
-        name: dev
     - name: Create images
       ansible.builtin.include_role:
         name: image
@@ -64,7 +60,7 @@
         image_context: target/docker-context
         image_push: "{{ image_repo != 'local' }}"
         image_args:
-          JAVA_RELEASE: "{{ dev.java_release }}"
+          JAVA_RELEASE: "{{ dev[devenv].jdk.release }}"
       loop: "{{ image_status.results|select('changed')|map(attribute='app') }}"
       loop_control:
         loop_var: app

@@ -1,0 +1,15 @@
+---
+solution:
+  messaging:
+    mapping:
+      modes: [spring_mvc, spring_management]
+  storage:
+    protocol:
+      mode: {{ solution.storage.vendor }}
+      postgres:
+        url: "jdbc:postgresql://{{ solution.storage.vendor }}:5432/{{ solution.database.name }}"
+        schema: "{{ solution.schemas[0].name }}"
+        username: "{{ solution.schemas[0].owner.name }}"
+        password: "{{ solution.schemas[0].owner.password }}"
+    mapping:
+      mode: {{ solution.storage.mapping_mode }}

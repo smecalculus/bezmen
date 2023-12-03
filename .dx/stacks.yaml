@@ -21,8 +21,6 @@
 - name: Testing
   hosts: stack
   run_once: true
-  vars_files:
-    - "{{ playbook_dir }}/../envs/ops/{{ opsenv }}/vars.yaml"
   vars:
     stack_dir: "{{ playbook_dir }}/../stacks/solution"
   tasks:
