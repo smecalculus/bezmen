@@ -31,7 +31,7 @@
     <jetty.version>11.0.18</jetty.version>
     <jackson.version>2.16.0</jackson.version>
     <junit.version>5.10.1</junit.version>
-    <mockito.version>5.7.0</mockito.version>
+    <mockito.version>5.8.0</mockito.version>
     <skipTests>false</skipTests>
     <skipUnits>${skipTests}</skipUnits>
     <maven.compiler.release>19</maven.compiler.release>
