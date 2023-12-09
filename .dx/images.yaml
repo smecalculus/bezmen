@@ -10,7 +10,11 @@
   tasks:
     - name: Capture statuses
       ansible.builtin.command:
-        cmd: docker {{ docker_entity }} inspect {{ solution.databases[storage].image }}:{{ solution.databases[storage].cid }}
+        cmd: >
+          docker
+          {{ docker_entity }}
+          inspect
+          {{ solution.databases[storage].image }}:{{ solution.databases[storage].cid }}
       register: image_status
       changed_when: image_status.rc != 0
       failed_when: false
