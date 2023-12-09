@@ -11,7 +11,7 @@ import org.apache.ibatis.type.JdbcType;
 
 /**
  * If the issue ever gets resolved <a href="https://github.com/spring-projects/spring-data-relational/issues/1648"/>
- * Then we can use String type with overridden JdbcType in the edge model {@link smecalculus.bezmen.storage.EdgeSide.AggregateState#internalId}.
+ * Then we can use String type with overridden JdbcType in the edge model {@link smecalculus.bezmen.storage.SepulkaStateEm.AggregateRoot#internalId}.
  * So that type handler can be removed completely.
  */
 public class UuidTypeHandler extends BaseTypeHandler<UUID> {

@@ -3,24 +3,16 @@
   hosts: app
   run_once: true
   tasks:
-    - name: Capture env
-      ansible.builtin.include_vars:
-        file: ../envs/dev/{{ devenv }}/vars.yaml
-        name: dev
-      tags: [always]
     - name: Capture cid's
       ansible.builtin.command:
         cmd: git hash-object --stdin
         stdin: |
-          {{ app_cids[app] }}
-          {% for lib in app_deps[app] %}
-          {{ lib_cids[lib] }}
-          {% endfor %}
+          {{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=libs')[:7] }}
+          {{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=apps/' ~ app)[:7] }}
       # TODO: try to choose better name
       register: image_cid
       changed_when: false
-      # TODO: simplify after fix of https://youtrack.jetbrains.com/issue/KT-60507
-      loop: "{{ app_cids.keys() if dev.java_release < 21 else app_cids.keys()|difference(['sepuling-kotlin']) }}"
+      loop: "{{ solution.apps.values()|flatten|map(attribute='binary') }}"
       loop_control:
         loop_var: app
       tags: [always]
@@ -30,13 +22,15 @@
       tags: [always]
     - name: Capture statuses
       ansible.builtin.command:
-        cmd: docker {{ docker_entity }} inspect {{ app_images[app] }}:{{ image_cids[app][:7] }}-{{ devenv }}
+        cmd: docker {{ docker_entity }} inspect {{ app.image }}:{{ image_cids[app.binary][:7] }}-{{ devenv }}
       register: image_status
-      changed_when: image_status.rc != 0
+      changed_when:
+        - image_status.rc != 0
       failed_when: false
-      loop: "{{ image_cids.keys() }}"
+      loop: "{{ solution.apps.values()|flatten }}"
       loop_control:
         loop_var: app
+        label: "{{ app.binary }}"
       tags: [always]
     - name: Status commands
       ansible.builtin.debug:
@@ -50,18 +44,18 @@
           --no-snapshot-updates
           --fail-fast
           --batch-mode
-          --threads 1C
+          --threads 2
           --projects {{
             image_status.results
             | select('changed')
-            | map(attribute='app')
-            | map('regex_replace', '^', 'apps/')
+            | map(attribute='app.binary')
+            | map('regex_replace', '^', ':')
             | join(',')
           }}
           --also-make
           clean
           {{ maven_phase | default('package') }}
-          --define maven.compiler.release={{ dev.java_release }}
+          --define maven.compiler.release={{ dev[devenv].jdk.release }}
         chdir: "{{ playbook_dir }}/.."
         strip_empty_ends: false
       changed_when: true

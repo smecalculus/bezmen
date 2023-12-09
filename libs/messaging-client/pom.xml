@@ -11,6 +11,7 @@
   </parent>
 
   <artifactId>messaging-client</artifactId>
+  <packaging>jar</packaging>
 
   <dependencies>
     <!--CORE-->

@@ -43,6 +43,9 @@ public abstract class StorageEm {
         String url;
 
         @NotBlank
+        String schema;
+
+        @NotBlank
         String username;
 
         @NotBlank

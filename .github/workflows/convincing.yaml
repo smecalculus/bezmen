@@ -34,8 +34,8 @@ jobs:
       - id: images
         run: >
           ansible-playbook images.yaml
-          -e binary_repo=maven.pkg.github.com
-          -e image_repo=ghcr.io
+          -e binary_storage=maven.pkg.github.com
+          -e image_storage=ghcr.io
         working-directory: .dx
         env:
           GITHUB_ACTOR: ${{ github.actor }}

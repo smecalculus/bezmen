@@ -14,6 +14,8 @@ import smecalculus.bezmen.storage.SepulkaStateMapper
 import smecalculus.bezmen.storage.SepulkaStateMapperImpl
 import smecalculus.bezmen.storage.mybatis.SepulkaSqlMapper
 import smecalculus.bezmen.storage.springdata.SepulkaRepository
+import smecalculus.bezmen.testing.Constants.CREATE_SQL
+import smecalculus.bezmen.testing.Constants.DROP_SQL
 import javax.sql.DataSource
 
 class SepulkaDaoBeans {
@@ -61,12 +63,12 @@ class SepulkaDaoBeans {
                     else -> throw IllegalStateException("Unrepresentable state")
                 }
 
-            val nameWithSettings = listOf("testdb") + common + specific
+            val nameWithSettings = listOf("test") + common + specific
             return EmbeddedDatabaseBuilder()
                 .setType(EmbeddedDatabaseType.H2)
                 .setName(nameWithSettings.joinToString(";"))
-                .addScript("/schemas/sepulkarium/drop.sql")
-                .addScript("/schemas/sepulkarium/create.sql")
+                .addScript(DROP_SQL)
+                .addScript(CREATE_SQL)
                 .build()
         }
     }

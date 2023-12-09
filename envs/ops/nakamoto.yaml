@@ -1,9 +1,0 @@
----
-java_release: 21
-postgres_version: 16.0
-config_mapping_mode: spring_config
-config_file_name:
-  source: nakamoto.yaml
-  target: application.yaml
-sepuling:
-  lang_mode: java
