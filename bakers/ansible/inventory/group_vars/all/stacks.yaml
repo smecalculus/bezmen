@@ -1,13 +1,10 @@
 ---
 toolchain:
-  image:
-    name: "{{ image_repo }}/stack/toolchain"
+  image: "{{ image_repo }}/stack/toolchain"
 
 solution:
   name: "{{ project.name }}"
-  cid: "{{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=stacks/solution')[:7] }}"
-  image:
-    name: "{{ image_repo }}/stack/solution-{{ aim }}"
+  image: "{{ image_repo }}/stack/solution"
   config:
     file_name: "application.{{ config_exts[ops[opsenv].config.mapping_mode] }}"
     mapping_mode: "{{ ops[opsenv].config.mapping_mode }}"
@@ -23,7 +20,7 @@ solution:
   databases:
     postgres:
       name: "{{ project.name }}"
-      cid: "{{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=databases/postgres')[:7] }}"
+      cid: "{{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=dbs/postgres')[:7] }}"
       image: "{{ image_repo }}/database/postgres"
   schemas:
     postgres:

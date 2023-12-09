@@ -10,7 +10,7 @@
   tasks:
     - name: Capture statuses
       ansible.builtin.command:
-        cmd: >
+        cmd: >-
           docker
           {{ docker_entity }}
           inspect
@@ -31,7 +31,7 @@
       vars:
         image_tag: "{{ solution.databases[storage].cid }}"
         image_name: "{{ solution.databases[storage].image }}"
-        image_home: "{{ playbook_dir }}/../databases/{{ storage }}"
+        image_home: "{{ project.dir }}/dbs/{{ storage }}"
         image_push: "{{ image_storage != 'local' }}"
       loop: "{{ image_status.results|select('changed')|map(attribute='storage') }}"
       loop_control:
@@ -43,14 +43,14 @@
   tasks:
     - name: Analyze coverage
       ansible.builtin.command:
-        cmd: >
+        cmd: >-
           mvn
           --no-snapshot-updates
           --batch-mode
           --projects tools
           clean
           antrun:run@coverage
-        chdir: "{{ playbook_dir }}/.."
+        chdir: "{{ project.dir }}"
         strip_empty_ends: false
       changed_when: true
       when: image_status is changed
@@ -58,10 +58,10 @@
       ansible.builtin.include_role:
         name: image
       vars:
-        image_tag: "{{ image_cids[app.binary][:7] }}-{{ devenv }}"
+        image_tag: "{{ image_tags[app.binary] }}"
         image_name: "{{ app.image }}"
-        image_home: "{{ playbook_dir }}/../apps/{{ app.binary }}"
-        image_context: target/docker-context
+        image_home: "{{ project.dir }}/apps/{{ app.binary }}"
+        image_context: target/image-context
         image_push: "{{ image_storage != 'local' }}"
         image_args:
           JAVA_RELEASE: "{{ dev[devenv].jdk.release }}"

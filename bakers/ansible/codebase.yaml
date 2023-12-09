@@ -5,13 +5,13 @@
   tasks:
     - name: Analyze
       ansible.builtin.command:
-        cmd: >
+        cmd: >-
           mvn
           --no-snapshot-updates
           --batch-mode
           enforcer:enforce
           spotless:check
-        chdir: "{{ playbook_dir }}/.."
+        chdir: "{{ project.dir }}"
         strip_empty_ends: false
       changed_when: false
 
@@ -22,7 +22,7 @@
     - name: Analyze
       ansible.builtin.command:
         # list all top level playbooks
-        cmd: >
+        cmd: >-
           ansible-lint
           toolchain.yaml
           codebase.yaml
@@ -36,6 +36,6 @@
   tasks:
     - name: Analyze
       ansible.builtin.command:
-        cmd: yamllint ../.github
+        cmd: yamllint {{ project.dir }}/.github
         strip_empty_ends: false
       changed_when: false

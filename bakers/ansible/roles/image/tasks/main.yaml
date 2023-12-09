@@ -24,7 +24,7 @@
 
 - name: Build fresh
   ansible.builtin.command:
-    cmd: >
+    cmd: >-
       docker build {{ image_context }}
       -f Dockerfile
       -t {{ image_name }}:{{ image_tag }}

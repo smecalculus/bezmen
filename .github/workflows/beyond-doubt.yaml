@@ -37,17 +37,17 @@ jobs:
           tools: python java docker
           token: ${{ secrets.GITHUB_TOKEN }}
       - run: ansible-playbook codebase.yaml
-        working-directory: .dx
+        working-directory: bakers/ansible
         env:
           GITHUB_ACTOR: ${{ github.actor }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - id: images
-        run: >
+        run: >-
           ansible-playbook images.yaml
           -e binary_storage=${{ env.BINARY_STORAGE }}
           -e image_storage=${{ env.IMAGE_STORAGE }}
           -e devenv=${{ matrix.env.dev }}
-        working-directory: .dx
+        working-directory: bakers/ansible
         env:
           GITHUB_ACTOR: ${{ github.actor }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -75,7 +75,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        aim: [func]
+        purpose: [func]
         env:
           - dev: godel
             os: ubuntu-20.04
@@ -97,27 +97,27 @@ jobs:
           devenv: ${{ matrix.env.dev }}
           tools: python docker
           token: ${{ secrets.GITHUB_TOKEN }}
-      - run: >
+      - run: >-
           ansible-playbook stacks.yaml -t build
           -e image_storage=${{ env.IMAGE_STORAGE }}
-          -e aim=${{ matrix.aim }}
+          -e purpose=${{ matrix.purpose }}
           -e devenv=${{ matrix.env.dev }}
           -e opsenv=${{ matrix.env.ops }}
-        working-directory: .dx
+        working-directory: bakers/ansible
       - uses: actions/upload-artifact@v3.1.3
         with:
-          name: solution-${{ matrix.aim }}-${{ matrix.env.ops }}
-          path: stacks/solution/target/context
+          name: solution-${{ matrix.purpose }}-${{ matrix.env.ops }}
+          path: stacks/solution/target/image-context
           if-no-files-found: ignore
 
   stack-testing:
-    name: Stack testing (${{ matrix.shard }}, ${{ matrix.aim }}, ${{ matrix.env.ops }})
+    name: Stack testing (${{ matrix.shard }}, ${{ matrix.purpose }}, ${{ matrix.env.ops }})
     timeout-minutes: 15
     needs: [stack-building]
     strategy:
       fail-fast: false
       matrix:
-        aim: [func]
+        purpose: [func]
         shard: [0, 1]
         env:
           - dev: godel
@@ -143,35 +143,35 @@ jobs:
       - uses: actions/download-artifact@v3.0.2
         continue-on-error: true  # it's ok because stack building can be skipped
         with:
-          name: solution-${{ matrix.aim }}-${{ matrix.env.ops }}
-          path: stacks/solution/target/context
-      - run: >
+          name: solution-${{ matrix.purpose }}-${{ matrix.env.ops }}
+          path: stacks/solution/target/image-context
+      - run: >-
           ansible-playbook stacks.yaml -t test
           -e image_storage=${{ env.IMAGE_STORAGE }}
-          -e aim=${{ matrix.aim }}
+          -e purpose=${{ matrix.purpose }}
           -e reminder=${{ matrix.shard }}
           -e modulus=2
           -e devenv=${{ matrix.env.dev }}
           -e opsenv=${{ matrix.env.ops }}
-        working-directory: .dx
+        working-directory: bakers/ansible
         env:
           GITHUB_ACTOR: ${{ github.actor }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - uses: actions/upload-artifact@v3.1.3
         if: ${{ !cancelled() }}
         with:
-          name: e2e-test-report-${{ matrix.shard }}-${{ matrix.aim }}-${{ matrix.env.ops }}
+          name: e2e-test-report-${{ matrix.shard }}-${{ matrix.purpose }}-${{ matrix.env.ops }}
           path: tests/e2e/target/surefire-reports/*.xml
           if-no-files-found: ignore
 
   stack-publishing:
-    name: Stack publishing (${{ matrix.aim }}, ${{ matrix.env.ops }})
+    name: Stack publishing (${{ matrix.purpose }}, ${{ matrix.env.ops }})
     timeout-minutes: 5
     needs: [stack-testing]
     strategy:
       fail-fast: false
       matrix:
-        aim: [func]
+        purpose: [func]
         env:
           - dev: godel
             os: ubuntu-20.04
@@ -198,14 +198,14 @@ jobs:
       - uses: actions/download-artifact@v3.0.2
         continue-on-error: true  # it's ok because stack building can be skipped
         with:
-          name: solution-${{ matrix.aim }}-${{ matrix.env.ops }}
-          path: stacks/solution/target/context
-      - run: >
+          name: solution-${{ matrix.purpose }}-${{ matrix.env.ops }}
+          path: stacks/solution/target/image-context
+      - run: >-
           ansible-playbook stacks.yaml -t package
           -e image_storage=${{ env.IMAGE_STORAGE }}
-          -e aim=${{ matrix.aim }}
+          -e purpose=${{ matrix.purpose }}
           -e opsenv=${{ matrix.env.ops }}
-        working-directory: .dx
+        working-directory: bakers/ansible
 
   stack-reporting:
     name: Stack reporting

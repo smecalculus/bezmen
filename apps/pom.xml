@@ -86,7 +86,7 @@
               <configuration>
                 <includeScope>runtime</includeScope>
                 <excludeGroupIds>${project.groupId}</excludeGroupIds>
-                <outputDirectory>${project.build.directory}/docker-context/lib</outputDirectory>
+                <outputDirectory>${project.build.directory}/image-context/lib</outputDirectory>
               </configuration>
             </execution>
             <execution>
@@ -98,7 +98,7 @@
               <configuration>
                 <includeScope>runtime</includeScope>
                 <includeGroupIds>${project.groupId}</includeGroupIds>
-                <outputDirectory>${project.build.directory}/docker-context/bin</outputDirectory>
+                <outputDirectory>${project.build.directory}/image-context/bin</outputDirectory>
               </configuration>
             </execution>
             <execution>
@@ -113,7 +113,7 @@
                     <groupId>${project.groupId}</groupId>
                     <artifactId>${project.artifactId}</artifactId>
                     <version>${project.version}</version>
-                    <outputDirectory>${project.build.directory}/docker-context/bin</outputDirectory>
+                    <outputDirectory>${project.build.directory}/image-context/bin</outputDirectory>
                   </artifactItem>
                 </artifactItems>
               </configuration>

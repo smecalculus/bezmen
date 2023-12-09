@@ -27,16 +27,16 @@ jobs:
           tools: python java docker
           token: ${{ secrets.GITHUB_TOKEN }}
       - run: ansible-playbook codebase.yaml
-        working-directory: .dx
+        working-directory: bakers/ansible
         env:
           GITHUB_ACTOR: ${{ github.actor }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - id: images
-        run: >
+        run: >-
           ansible-playbook images.yaml
           -e binary_storage=maven.pkg.github.com
           -e image_storage=ghcr.io
-        working-directory: .dx
+        working-directory: bakers/ansible
         env:
           GITHUB_ACTOR: ${{ github.actor }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

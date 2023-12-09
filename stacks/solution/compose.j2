@@ -32,7 +32,7 @@ services:
         condition: service_healthy
     labels:
       image.name: {{ database.image }}
-    command: >
+    command: >-
       --show-banner=false
       --changelog-file=dba/changelog.yaml
       --url=jdbc:postgresql://storage:5432/postgres
@@ -56,7 +56,7 @@ services:
         condition: service_completed_successfully
     labels:
       image.name: {{ database.image }}
-    command: >
+    command: >-
       --show-banner=false
       --changelog-file=owner/changelog.yaml
       --url=jdbc:postgresql://storage:5432/{{ database.name }}
@@ -70,16 +70,16 @@ services:
       - stack_network
 {% endfor %}
 
-{% set apps = solution.apps[ops[opsenv].app.lang]|selectattr('service', 'in', aims[aim].apps) %}
+{% set apps = solution.apps[ops[opsenv].app.lang]|selectattr('service', 'in', usage[purpose].apps) %}
 {% for app in apps %}
   {{ app.service }}:
-    image: {{ app.image }}:{{ hostvars.app.image_cids[app.binary][:7] }}-{{ devenv }}
+    image: {{ app.image }}:{{ hostvars.app.image_tags[app.binary] }}
     ports:
       - 8080:8080
     configs:
       - source: stack_config
         target: /home/app/{{ solution.config.file_name }}
-    command: >
+    command: >-
       --solution.config.mapping.mode={{ solution.config.mapping_mode }}
       --spring.config.location=optional:file:application.yaml
     depends_on:

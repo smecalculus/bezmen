@@ -3,26 +3,32 @@
   hosts: app
   run_once: true
   tasks:
-    - name: Capture cid's
+    - name: Capture cids
       ansible.builtin.command:
         cmd: git hash-object --stdin
         stdin: |
-          {{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=libs')[:7] }}
-          {{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=apps/' ~ app)[:7] }}
-      # TODO: try to choose better name
+          {{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=libs') }}
+          {{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=apps/' ~ app) }}
       register: image_cid
       changed_when: false
       loop: "{{ solution.apps.values()|flatten|map(attribute='binary') }}"
       loop_control:
         loop_var: app
       tags: [always]
-    - name: Declare cid's
+    - name: Declare tags
       ansible.builtin.set_fact:
-        image_cids: "{{ image_cid.results|items2dict(key_name='app', value_name='stdout') }}"
+        image_tags: >-
+          {{ dict(image_cid.results
+            |map(attribute='stdout')
+            |map('truncate', 7, True, '')
+            |map('regex_replace', '^', devenv ~ '-')
+            |zip(image_cid.results|map(attribute='app'))
+            |map('reverse'))
+          }}
       tags: [always]
     - name: Capture statuses
       ansible.builtin.command:
-        cmd: docker {{ docker_entity }} inspect {{ app.image }}:{{ image_cids[app.binary][:7] }}-{{ devenv }}
+        cmd: docker {{ docker_entity }} inspect {{ app.image }}:{{ image_tags[app.binary] }}
       register: image_status
       changed_when:
         - image_status.rc != 0
@@ -39,7 +45,7 @@
       tags: [always]
     - name: Create binaries
       ansible.builtin.command:
-        cmd: >
+        cmd: >-
           mvn
           --no-snapshot-updates
           --fail-fast
@@ -56,7 +62,7 @@
           clean
           {{ maven_phase | default('package') }}
           --define maven.compiler.release={{ dev[devenv].jdk.release }}
-        chdir: "{{ playbook_dir }}/.."
+        chdir: "{{ project.dir }}"
         strip_empty_ends: false
       changed_when: true
       when: image_status is changed
@@ -67,7 +73,7 @@
   tasks:
     - name: Create binaries
       ansible.builtin.command:
-        cmd: >
+        cmd: >-
           mvn
           --no-snapshot-updates
           --batch-mode
@@ -75,6 +81,6 @@
           --also-make
           clean
           package
-        chdir: "{{ playbook_dir }}/.."
+        chdir: "{{ project.dir }}"
         strip_empty_ends: false
       changed_when: true
