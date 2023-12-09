@@ -4,39 +4,30 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <packaging>pom</packaging>
+  <parent>
+    <groupId>smecalculus.bezmen</groupId>
+    <artifactId>bezmen</artifactId>
+    <version>latest</version>
+  </parent>
 
-  <groupId>smecalculus.bezmen</groupId>
   <artifactId>apps</artifactId>
   <version>${revision}</version>
+  <packaging>pom</packaging>
 
   <modules>
     <module>sepuling-java</module>
     <module>sepuling-kotlin</module>
   </modules>
 
-  <properties>
-    <revision>0.1.0-SNAPSHOT</revision>
-    <lombok.version>1.18.30</lombok.version>
-    <mapstruct.version>1.5.5.Final</mapstruct.version>
-    <kotlin.version>1.9.21</kotlin.version>
-    <skipTests>false</skipTests>
-    <skipUnits>${skipTests}</skipUnits>
-    <maven.compiler.release>19</maven.compiler.release>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-  </properties>
-
   <dependencies>
     <dependency>
       <groupId>org.projectlombok</groupId>
       <artifactId>lombok</artifactId>
-      <version>${lombok.version}</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.mapstruct</groupId>
       <artifactId>mapstruct</artifactId>
-      <version>${mapstruct.version}</version>
       <scope>provided</scope>
     </dependency>
   </dependencies>
@@ -46,9 +37,9 @@
       <dependency>
         <groupId>${project.groupId}</groupId>
         <artifactId>libs</artifactId>
-        <version>0.1.0-SNAPSHOT</version>
-        <type>pom</type>
+        <version>${revision}</version>
         <scope>import</scope>
+        <type>pom</type>
       </dependency>
     </dependencies>
   </dependencyManagement>
@@ -77,211 +68,57 @@
       <plugins>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-enforcer-plugin</artifactId>
-          <version>3.4.1</version>
-          <configuration>
-            <skip>true</skip>
-          </configuration>
-        </plugin>
-        <plugin>
-          <groupId>com.diffplug.spotless</groupId>
-          <artifactId>spotless-maven-plugin</artifactId>
-          <version>2.41.0</version>
-          <executions>
-            <execution>
-              <phase>validate</phase>
-            </execution>
-          </executions>
-          <configuration>
-            <formats>
-              <format>
-                <includes>
-                  <include>*.xml</include>
-                  <include>*.yaml</include>
-                  <include>Dockerfile</include>
-                </includes>
-                <trimTrailingWhitespace/>
-                <endWithNewline/>
-                <indent>
-                  <spaces>true</spaces>
-                  <spacesPerTab>2</spacesPerTab>
-                </indent>
-              </format>
-            </formats>
-            <java>
-              <palantirJavaFormat>
-                <version>2.38.0</version>
-              </palantirJavaFormat>
-            </java>
-            <kotlin>
-              <ktlint>
-                <version>1.0.1</version>
-              </ktlint>
-            </kotlin>
-          </configuration>
-        </plugin>
-        <plugin>
-          <groupId>org.jetbrains.kotlin</groupId>
-          <artifactId>kotlin-maven-plugin</artifactId>
-          <version>${kotlin.version}</version>
-          <configuration>
-            <jvmTarget>${maven.compiler.release}</jvmTarget>
-          </configuration>
-          <executions>
-            <execution>
-              <id>kapt</id>
-              <goals>
-                <goal>kapt</goal>
-              </goals>
-              <configuration>
-                <annotationProcessorPaths>
-                  <annotationProcessorPath>
-                    <groupId>org.mapstruct</groupId>
-                    <artifactId>mapstruct-processor</artifactId>
-                    <version>${mapstruct.version}</version>
-                  </annotationProcessorPath>
-                </annotationProcessorPaths>
-              </configuration>
-            </execution>
-            <execution>
-              <id>compile</id>
-              <goals>
-                <goal>compile</goal>
-              </goals>
-            </execution>
-            <execution>
-              <id>test-compile</id>
-              <goals>
-                <goal>test-compile</goal>
-              </goals>
-            </execution>
-          </executions>
-        </plugin>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-compiler-plugin</artifactId>
-          <version>3.11.0</version>
-          <configuration>
-            <annotationProcessorPaths>
-              <path>
-                <groupId>org.projectlombok</groupId>
-                <artifactId>lombok</artifactId>
-                <version>${lombok.version}</version>
-              </path>
-              <path>
-                <groupId>org.mapstruct</groupId>
-                <artifactId>mapstruct-processor</artifactId>
-                <version>${mapstruct.version}</version>
-              </path>
-            </annotationProcessorPaths>
-          </configuration>
-          <executions>
-            <execution>
-              <id>default-compile</id>
-              <phase>none</phase>
-            </execution>
-            <execution>
-              <id>default-testCompile</id>
-              <phase>none</phase>
-            </execution>
-            <execution>
-              <id>java-compile</id>
-              <phase>compile</phase>
-              <goals>
-                <goal>compile</goal>
-              </goals>
-            </execution>
-            <execution>
-              <id>java-testCompile</id>
-              <phase>test-compile</phase>
-              <goals>
-                <goal>testCompile</goal>
-              </goals>
-            </execution>
-          </executions>
-        </plugin>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-surefire-plugin</artifactId>
-          <version>3.2.2</version>
           <configuration>
             <skipTests>${skipUnits}</skipTests>
           </configuration>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-failsafe-plugin</artifactId>
-          <version>3.2.2</version>
+          <artifactId>maven-dependency-plugin</artifactId>
           <executions>
             <execution>
-              <goals>
-                <goal>integration-test</goal>
-                <goal>verify</goal>
-              </goals>
-            </execution>
-          </executions>
-        </plugin>
-        <plugin>
-          <groupId>org.jacoco</groupId>
-          <artifactId>jacoco-maven-plugin</artifactId>
-          <version>0.8.11</version>
-          <executions>
-            <execution>
-              <id>default-prepare-agent</id>
-              <goals>
-                <goal>prepare-agent</goal>
-              </goals>
-            </execution>
-            <execution>
-              <id>default-prepare-agent-integration</id>
-              <goals>
-                <goal>prepare-agent-integration</goal>
-              </goals>
-            </execution>
-            <execution>
-              <id>default-report</id>
-              <phase>test</phase>
-              <goals>
-                <goal>report</goal>
-              </goals>
-            </execution>
-            <execution>
-              <id>default-report-integration</id>
-              <goals>
-                <goal>report-integration</goal>
-              </goals>
-            </execution>
-          </executions>
-        </plugin>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-assembly-plugin</artifactId>
-          <version>3.6.0</version>
-          <executions>
-            <execution>
-              <id>make-assembly</id>
+              <id>dep-copy</id>
               <phase>package</phase>
               <goals>
-                <goal>single</goal>
+                <goal>copy-dependencies</goal>
               </goals>
+              <configuration>
+                <includeScope>runtime</includeScope>
+                <excludeGroupIds>${project.groupId}</excludeGroupIds>
+                <outputDirectory>${project.build.directory}/docker-context/lib</outputDirectory>
+              </configuration>
+            </execution>
+            <execution>
+              <id>lib-copy</id>
+              <phase>package</phase>
+              <goals>
+                <goal>copy-dependencies</goal>
+              </goals>
+              <configuration>
+                <includeScope>runtime</includeScope>
+                <includeGroupIds>${project.groupId}</includeGroupIds>
+                <outputDirectory>${project.build.directory}/docker-context/bin</outputDirectory>
+              </configuration>
+            </execution>
+            <execution>
+              <id>app-copy</id>
+              <phase>package</phase>
+              <goals>
+                <goal>copy</goal>
+              </goals>
+              <configuration>
+                <artifactItems>
+                  <artifactItem>
+                    <groupId>${project.groupId}</groupId>
+                    <artifactId>${project.artifactId}</artifactId>
+                    <version>${project.version}</version>
+                    <outputDirectory>${project.build.directory}/docker-context/bin</outputDirectory>
+                  </artifactItem>
+                </artifactItems>
+              </configuration>
             </execution>
           </executions>
-        </plugin>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-install-plugin</artifactId>
-          <version>3.1.1</version>
-          <configuration>
-            <skip>true</skip>
-          </configuration>
-        </plugin>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-deploy-plugin</artifactId>
-          <version>3.1.1</version>
-          <configuration>
-            <skip>true</skip>
-          </configuration>
         </plugin>
       </plugins>
     </pluginManagement>

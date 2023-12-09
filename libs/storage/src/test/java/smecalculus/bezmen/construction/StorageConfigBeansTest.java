@@ -31,7 +31,7 @@ class StorageConfigBeansTest {
         // given
         StorageProps expectedProps = storageProps();
         // and
-        when(keeperMock.read("bezmen.storage", StorageProps.class)).thenReturn(expectedProps);
+        when(keeperMock.read("solution.storage", StorageProps.class)).thenReturn(expectedProps);
         // when
         config.storageProps(keeperMock, validatorMock, mapper);
         // then

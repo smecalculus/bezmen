@@ -6,7 +6,6 @@ import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.test.annotation.DirtiesContext
 import org.springframework.test.context.ContextConfiguration
-import org.springframework.test.context.jdbc.Sql
 import org.springframework.test.context.junit.jupiter.SpringExtension
 import smecalculus.bezmen.construction.SepulkaDaoBeans
 import smecalculus.bezmen.core.SepulkaStateDmEg
@@ -14,7 +13,6 @@ import smecalculus.bezmen.core.SepulkaStateDmEg
 @DirtiesContext
 @ExtendWith(SpringExtension::class)
 @ContextConfiguration(classes = [SepulkaDaoBeans.Anyone::class])
-@Sql("/schemas/sepulkarium/truncate.sql")
 abstract class SepulkaDaoIT {
     @Autowired
     private lateinit var sepulkaDao: SepulkaDao

@@ -3,7 +3,7 @@
     name: image
   vars:
     image_tag: "{{ stack_cid.stdout[:7] }}-{{ devenv }}"
-    image_name: "{{ stack_images.toolchain }}"
+    image_name: "{{ toolchain.image.name }}"
     image_home: "{{ playbook_dir }}/../.github"
     image_context: .
-    image_push: "{{ image_repo != 'local' }}"
+    image_push: "{{ image_storage != 'local' }}"

@@ -3,16 +3,16 @@
   ansible.builtin.command:
     cmd: git hash-object --stdin
     stdin: |
-      {{ dx_cid }}
-      {{ env_cid }}
-      {{ tool_cid }}
-      {{ test_cid }}
+      {{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=.dx')[:7] }}
+      {{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=envs')[:7] }}
+      {{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=tools')[:7] }}
+      {{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=tests')[:7] }}
   register: stack_cid
   changed_when: false
 
 - name: Capture status
   ansible.builtin.command:
-    cmd: docker {{ docker_entity }} inspect {{ stack_images.toolchain }}:{{ stack_cid.stdout[:7] }}-{{ devenv }}
+    cmd: docker {{ docker_entity }} inspect {{ toolchain.image.name }}:{{ stack_cid.stdout[:7] }}-{{ devenv }}
   register: stack_status
   changed_when:
     - stack_status.rc != 0
