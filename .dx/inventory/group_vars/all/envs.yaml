@@ -25,8 +25,7 @@ ops:
       vendor: postgres
       version: 14.9
       mapping_mode: my_batis
-    runtime:
-      release: 17
+    app:
       lang: java
     config:
       mapping_mode: lightbend_config
@@ -35,8 +34,7 @@ ops:
       vendor: postgres
       version: 15.4
       mapping_mode: my_batis
-    runtime:
-      release: 19
+    app:
       lang: kotlin
     config:
       mapping_mode: lightbend_config
@@ -45,8 +43,7 @@ ops:
       vendor: postgres
       version: 15.4
       mapping_mode: spring_data
-    runtime:
-      release: 19
+    app:
       lang: kotlin
     config:
       mapping_mode: spring_config
@@ -55,8 +52,7 @@ ops:
       vendor: postgres
       version: 16.0
       mapping_mode: spring_data
-    runtime:
-      release: 21
+    app:
       lang: java
     config:
       mapping_mode: spring_config

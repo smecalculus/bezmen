@@ -3,36 +3,40 @@ toolchain:
   image:
     name: "{{ image_repo }}/stack/toolchain"
 
-app_name: "sepuling-{{ ops[opsenv].runtime.lang }}"
-
 solution:
-  name: "{{ project_name }}"
+  name: "{{ project.name }}"
   cid: "{{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=stacks/solution')[:7] }}"
   image:
-    name: "{{ image_repo }}/stack/solution-{{ usecase }}"
+    name: "{{ image_repo }}/stack/solution-{{ aim }}"
   config:
     file_name: "application.{{ config_exts[ops[opsenv].config.mapping_mode] }}"
     mapping_mode: "{{ ops[opsenv].config.mapping_mode }}"
-  storage: "{{ ops[opsenv].storage }}"
-  database:
-    name: "{{ project_name }}"
-  schemas:
-    sepulkarium:
-      name: sepulkarium
-      image:
-        name: "{{ image_repo }}/schema/{{ ops[opsenv].storage.vendor }}"
-        tag: "{{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=schemas/' ~ ops[opsenv].storage.vendor)[:7] }}"
+  storages:
+    postgres:
+      image: "docker.io/library/postgres"
+      dba:
+        username: "postgres"
+        password: "password"
       owner:
-        name: "{{ project_name }}"
-        password: "{{ project_name }}"
+        username: "{{ project.name }}"
+        password: "{{ project.name }}"
+  databases:
+    postgres:
+      name: "{{ project.name }}"
+      cid: "{{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=databases/postgres')[:7] }}"
+      image: "{{ image_repo }}/database/postgres"
+  schemas:
+    postgres:
+      - name: sepulkarium
   apps:
-    sepuling:
-      name: sepuling
-      cid: "{{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=apps/' ~ app_name)[:7] }}"
-      binary:
-        name: "{{ app_name }}"
-      image:
-        name: "{{ image_repo }}/app/{{ app_name }}"
+    java:
+      - service: sepuling
+        image: "{{ image_repo }}/app/sepuling-java"
+        binary: sepuling-java
+    kotlin:
+      - service: sepuling
+        image: "{{ image_repo }}/app/sepuling-kotlin"
+        binary: sepuling-kotlin
 
 config_exts:
   lightbend_config: conf

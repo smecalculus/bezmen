@@ -3,7 +3,7 @@
   ansible.builtin.command:
     cmd: docker rm -f env-db
   changed_when: false
-  when: hostvars.schema.image_status|default({}) is changed
+  when: hostvars.db.image_status|default({}) is changed
 
 - name: Create stand
   ansible.builtin.command:
@@ -28,7 +28,7 @@
       --batch-mode
       --threads 2
       --projects tests/e2e
-      --activate-profiles {{ usecase }}
+      --activate-profiles {{ aim }}
       --also-make
       clean
       test

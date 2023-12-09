@@ -1,4 +1,3 @@
-#jinja2: lstrip_blocks: True, trim_blocks: True
 name: {{ solution.name }}
 
 networks:
@@ -8,15 +7,16 @@ configs:
   stack_config:
     file: ./{{ solution.config.file_name }}
 
+{% set storage = solution.storages[ops[opsenv].storage.vendor]|combine(ops[opsenv].storage) %}
+{% set database = solution.databases[storage.vendor] %}
 services:
-  {{ solution.storage.vendor }}:
-    image: {{ solution.storage.vendor }}:{{ solution.storage.version }}-alpine
+  storage:
+    image: {{ storage.image }}:{{ storage.version }}-alpine
     ports:
       - 5432:5432
     environment:
-      POSTGRES_DB: {{ solution.database.name }}
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: password
+      POSTGRES_USER: {{ storage.dba.username }}
+      POSTGRES_PASSWORD: {{ storage.dba.password }}
     healthcheck:
       test: ["CMD-SHELL", "pg_isready"]
       interval: 10s
@@ -25,53 +25,55 @@ services:
     networks:
       - stack_network
 
-{% for schema_key, schema in solution.schemas.items() %}
-  {{ schema_key }}-dba:
-    image: {{ schema.image.name }}:{{ schema.image.tag }}
+  database:
+    image: {{ database.image }}:{{ database.cid }}
     depends_on:
-      {{ solution.storage.vendor }}:
+      storage:
         condition: service_healthy
     labels:
-      image.name: {{ schema.image.name }}
+      image.name: {{ database.image }}
     command: >
       --show-banner=false
-      --changelog-file={{ schema_key }}/dba/changelog.yaml
-      --url=jdbc:postgresql://{{ solution.storage.vendor }}:5432/{{ solution.database.name }}
+      --changelog-file=dba/changelog.yaml
+      --url=jdbc:postgresql://storage:5432/postgres
       --liquibase-schema-name=public
       --default-schema-name=public
-      --username=postgres
-      --password=password
-      --labels=schema,user
+      --username={{ storage.dba.username }}
+      --password={{ storage.dba.password }}
+      --labels=database,user
       update
-      -Dschema.name={{ schema_key }}
-      -Downer.name={{ schema.owner.name }}
-      -Downer.password={{ schema.owner.password }}
+      -Ddatabase.name={{ database.name }}
+      -Downer.username={{ storage.owner.username }}
+      -Downer.password={{ storage.owner.password }}
     networks:
       - stack_network
 
-  {{ schema_key }}-owner:
-    image: {{ schema.image.name }}:{{ schema.image.tag }}
+{% for schema in solution.schemas[storage.vendor] %}
+  {{ schema.name }}:
+    image: {{ database.image }}:{{ database.cid }}
     depends_on:
-      {{ schema_key }}-dba:
+      database:
         condition: service_completed_successfully
     labels:
-      image.name: {{ schema.image.name }}
+      image.name: {{ database.image }}
     command: >
       --show-banner=false
-      --changelog-file={{ schema_key }}/owner/changelog.yaml
-      --url=jdbc:postgresql://{{ solution.storage.vendor }}:5432/{{ solution.database.name }}
-      --liquibase-schema-name={{ schema_key }}
-      --default-schema-name={{ schema_key }}
-      --username={{ schema.owner.name }}
-      --password={{ schema.owner.password }}
+      --changelog-file=owner/changelog.yaml
+      --url=jdbc:postgresql://storage:5432/{{ database.name }}
+      --liquibase-schema-name=public
+      --default-schema-name={{ schema.name }}
+      --username={{ storage.owner.username }}
+      --password={{ storage.owner.password }}
       update
+      -Dschema.name={{ schema.name }}
     networks:
       - stack_network
 {% endfor %}
 
-{% for app_key, app in solution.apps.items() %}
-  {{ app_key }}:
-    image: {{ app.image.name }}:{{ hostvars.app.image_cids[app_key][:7] }}-{{ devenv }}
+{% set apps = solution.apps[ops[opsenv].app.lang]|selectattr('service', 'in', aims[aim].apps) %}
+{% for app in apps %}
+  {{ app.service }}:
+    image: {{ app.image }}:{{ hostvars.app.image_cids[app.binary][:7] }}-{{ devenv }}
     ports:
       - 8080:8080
     configs:
@@ -81,12 +83,12 @@ services:
       --solution.config.mapping.mode={{ solution.config.mapping_mode }}
       --spring.config.location=optional:file:application.yaml
     depends_on:
-    {% for schema_key in solution.schemas.keys() %}
-      {{ schema_key }}-owner:
+    {% for schema in solution.schemas.values()|flatten %}
+      {{ schema.name }}:
         condition: service_completed_successfully
     {% endfor %}
     labels:
-      image.name: {{ app.image.name }}
+      image.name: {{ app.image }}
     networks:
       - stack_network
 {% endfor %}

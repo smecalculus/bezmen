@@ -3,10 +3,10 @@
   ansible.builtin.command:
     cmd: git hash-object --stdin
     stdin: |
-      {{ dx_cid }}
-      {{ env_cid }}
-      {{ tool_cid }}
-      {{ test_cid }}
+      {{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=.dx')[:7] }}
+      {{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=envs')[:7] }}
+      {{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=tools')[:7] }}
+      {{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=tests')[:7] }}
   register: stack_cid
   changed_when: false
 

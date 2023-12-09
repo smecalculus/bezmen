@@ -7,12 +7,12 @@
       ansible.builtin.command:
         cmd: git hash-object --stdin
         stdin: |
-          {{ lib_cid }}
-          {{ solution.apps[app].cid }}
+          {{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=libs')[:7] }}
+          {{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=apps/' ~ app)[:7] }}
       # TODO: try to choose better name
       register: image_cid
       changed_when: false
-      loop: "{{ solution.apps.keys() }}"
+      loop: "{{ solution.apps.values()|flatten|map(attribute='binary') }}"
       loop_control:
         loop_var: app
       tags: [always]
@@ -22,14 +22,15 @@
       tags: [always]
     - name: Capture statuses
       ansible.builtin.command:
-        cmd: docker {{ docker_entity }} inspect {{ app.image.name }}:{{ image_cids[app.name][:7] }}-{{ devenv }}
+        cmd: docker {{ docker_entity }} inspect {{ app.image }}:{{ image_cids[app.binary][:7] }}-{{ devenv }}
       register: image_status
-      changed_when: image_status.rc != 0
+      changed_when:
+        - image_status.rc != 0
       failed_when: false
-      loop: "{{ solution.apps.values() }}"
+      loop: "{{ solution.apps.values()|flatten }}"
       loop_control:
         loop_var: app
-        label: "{{ app.binary.name }}"
+        label: "{{ app.binary }}"
       tags: [always]
     - name: Status commands
       ansible.builtin.debug:
@@ -47,8 +48,8 @@
           --projects {{
             image_status.results
             | select('changed')
-            | map(attribute='app.binary.name')
-            | map('regex_replace', '^', 'apps/')
+            | map(attribute='app.binary')
+            | map('regex_replace', '^', ':')
             | join(',')
           }}
           --also-make

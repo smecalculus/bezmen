@@ -3,10 +3,10 @@
   ansible.builtin.command:
     cmd: git hash-object --stdin
     stdin: |
-      {{ lib_cid }}
-      {{ app_cid }}
-      {{ schema_cid }}
-      {{ solution.cid }}
+      {{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=libs')[:7] }}
+      {{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=apps')[:7] }}
+      {{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=databases')[:7] }}
+      {{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=stacks/solution')[:7] }}
   register: stack_cid
   changed_when: false
 
