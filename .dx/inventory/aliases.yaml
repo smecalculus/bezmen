@@ -1,21 +1,17 @@
 ---
-all:
-  hosts:
-    app:
-    schema:
-    test:
-  vars:
-    ansible_connection: local
 codebase:
   hosts:
     java:
     ansible:
     github:
-  vars:
-    ansible_connection: local
 stack:
   hosts:
     solution:
     toolchain:
+all:
+  hosts:
+    db:
+    app:
+    test:
   vars:
     ansible_connection: local

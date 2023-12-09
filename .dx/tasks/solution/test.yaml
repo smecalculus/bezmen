@@ -3,7 +3,7 @@
   ansible.builtin.command:
     cmd: docker rm -f env-db
   changed_when: false
-  when: hostvars.schema.image_status|default({}) is changed
+  when: hostvars.db.image_status|default({}) is changed
 
 - name: Create stand
   ansible.builtin.command:
@@ -16,14 +16,9 @@
       --quiet-pull
       --no-deps
       --detach
-    chdir: "{{ playbook_dir }}/../solutions/target/context"
+    chdir: "{{ stack_dir }}/target/context"
     strip_empty_ends: false
   changed_when: true
-
-- name: Capture env
-  ansible.builtin.include_vars:
-    file: ../envs/dev/{{ devenv }}/vars.yaml
-    name: dev
 
 - name: Test stand
   ansible.builtin.command:
@@ -33,18 +28,18 @@
       --batch-mode
       --threads 2
       --projects tests/e2e
-      --activate-profiles {{ usecase }}
+      --activate-profiles {{ aim }}
       --also-make
       clean
       test
       --define props={{ opsenv }}
       {% if reminder is defined %}
-      --define bezmen.sharding.reminder={{ reminder }}
+      --define toolchain.testing.sharding.reminder={{ reminder }}
       {% endif %}
       {% if modulus is defined %}
-      --define bezmen.sharding.modulus={{ modulus }}
+      --define toolchain.testing.sharding.modulus={{ modulus }}
       {% endif %}
-      --define maven.compiler.release={{ dev.java_release }}
+      --define maven.compiler.release={{ dev[devenv].jdk.release }}
       --define skipUnits=true
     chdir: "{{ playbook_dir }}/.."
     strip_empty_ends: false

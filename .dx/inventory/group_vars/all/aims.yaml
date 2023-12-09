@@ -1,0 +1,11 @@
+---
+aim: toy
+aims:
+  toy:
+    storage: postgres
+    apps:
+      - sepuling
+  func:
+    storage: postgres
+    apps:
+      - sepuling

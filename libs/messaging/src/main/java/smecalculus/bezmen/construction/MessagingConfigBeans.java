@@ -26,7 +26,7 @@ public class MessagingConfigBeans {
     @Bean
     MessagingDm.MessagingProps messagingProps(
             PropsKeeper keeper, EdgeValidator validator, MessagingPropsMapper mapper) {
-        var propsEdge = keeper.read("bezmen.messaging", MessagingEm.MessagingProps.class);
+        var propsEdge = keeper.read("solution.messaging", MessagingEm.MessagingProps.class);
         validator.validate(propsEdge);
         LOG.info("Read {}", propsEdge);
         return mapper.toDomain(propsEdge);

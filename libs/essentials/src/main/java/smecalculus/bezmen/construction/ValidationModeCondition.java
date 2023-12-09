@@ -6,8 +6,8 @@ import lombok.NonNull;
 import org.springframework.context.annotation.ConditionContext;
 import org.springframework.context.annotation.ConfigurationCondition;
 import org.springframework.core.type.AnnotatedTypeMetadata;
-import smecalculus.bezmen.configuration.ValidationMode;
-import smecalculus.bezmen.configuration.ValidationProps;
+import smecalculus.bezmen.configuration.ValidationDm.ValidationMode;
+import smecalculus.bezmen.configuration.ValidationDm.ValidationProps;
 
 class ValidationModeCondition implements ConfigurationCondition {
 

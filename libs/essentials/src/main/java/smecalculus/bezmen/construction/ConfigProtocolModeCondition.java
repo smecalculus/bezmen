@@ -15,7 +15,7 @@ class ConfigProtocolModeCondition implements ConfigurationCondition {
         var attributes = metadata.getAnnotationAttributes(ConditionalOnConfigProtocolMode.class.getName());
         var expectedMode = (ConfigProtocolMode) attributes.get("value");
         var actualMode = context.getEnvironment()
-                .getProperty("bezmen.config.protocol.mode", ConfigProtocolMode.FILE_SYSTEM.name());
+                .getProperty("solution.config.protocol.mode", ConfigProtocolMode.FILE_SYSTEM.name());
         return expectedMode.name().equalsIgnoreCase(actualMode);
     }
 

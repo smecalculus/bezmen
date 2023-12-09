@@ -36,5 +36,6 @@ public class StorageBeans {
         dataSource.setUrl(props.url());
         dataSource.setUsername(props.username());
         dataSource.setPassword(props.password());
+        dataSource.setSchema(props.schema());
     }
 }

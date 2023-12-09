@@ -11,6 +11,7 @@
   </parent>
 
   <artifactId>messaging</artifactId>
+  <packaging>jar</packaging>
 
   <dependencies>
     <!--CORE-->
@@ -34,11 +35,6 @@
           <artifactId>spring-expression</artifactId>
         </exclusion>
       </exclusions>
-    </dependency>
-    <dependency>
-      <groupId>com.fasterxml.jackson.core</groupId>
-      <artifactId>jackson-databind</artifactId>
-      <scope>runtime</scope>
     </dependency>
     <!--PROTOCOLS-->
     <dependency>
