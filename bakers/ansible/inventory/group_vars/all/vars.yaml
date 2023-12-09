@@ -2,6 +2,7 @@
 project:
   name: bezmen
   org: smecalculus
+  dir: "{{ playbook_dir }}/../.."
 
 binary_storage: local
 image_storage: local

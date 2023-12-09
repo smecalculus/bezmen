@@ -4,6 +4,6 @@
   vars:
     image_tag: "{{ stack_cid.stdout[:7] }}-{{ devenv }}"
     image_name: "{{ toolchain.image.name }}"
-    image_home: "{{ playbook_dir }}/../.github"
+    image_home: "{{ project.dir }}/.github"
     image_context: .
     image_push: "{{ image_storage != 'local' }}"

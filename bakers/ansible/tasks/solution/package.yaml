@@ -4,6 +4,6 @@
   vars:
     image_tag: "{{ stack_cid.stdout[:7] }}-{{ opsenv }}"
     image_name: "{{ solution.image.name }}"
-    image_home: "{{ playbook_dir }}/../stacks/solution"
+    image_home: "{{ project.dir }}/stacks/solution"
     image_context: target/context
     image_push: "{{ image_storage != 'local' }}"

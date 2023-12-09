@@ -23,7 +23,7 @@ solution:
   databases:
     postgres:
       name: "{{ project.name }}"
-      cid: "{{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=databases/postgres')[:7] }}"
+      cid: "{{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=dbs/postgres')[:7] }}"
       image: "{{ image_repo }}/database/postgres"
   schemas:
     postgres:

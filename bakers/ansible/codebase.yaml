@@ -11,7 +11,7 @@
           --batch-mode
           enforcer:enforce
           spotless:check
-        chdir: "{{ playbook_dir }}/.."
+        chdir: "{{ project.dir }}"
         strip_empty_ends: false
       changed_when: false
 
