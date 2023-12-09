@@ -5,7 +5,7 @@
   tasks:
     - name: Analyze
       ansible.builtin.command:
-        cmd: >
+        cmd: >-
           mvn
           --no-snapshot-updates
           --batch-mode
@@ -22,7 +22,7 @@
     - name: Analyze
       ansible.builtin.command:
         # list all top level playbooks
-        cmd: >
+        cmd: >-
           ansible-lint
           toolchain.yaml
           codebase.yaml

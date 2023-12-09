@@ -1,6 +1,6 @@
 ---
-aim: toy
-aims:
+purpose: toy
+usage:
   toy:
     storage: postgres
     apps:

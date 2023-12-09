@@ -10,7 +10,7 @@
   tasks:
     - name: Capture statuses
       ansible.builtin.command:
-        cmd: >
+        cmd: >-
           docker
           {{ docker_entity }}
           inspect
@@ -43,7 +43,7 @@
   tasks:
     - name: Analyze coverage
       ansible.builtin.command:
-        cmd: >
+        cmd: >-
           mvn
           --no-snapshot-updates
           --batch-mode
@@ -58,10 +58,10 @@
       ansible.builtin.include_role:
         name: image
       vars:
-        image_tag: "{{ image_cids[app.binary][:7] }}-{{ devenv }}"
+        image_tag: "{{ image_tags[app.binary] }}"
         image_name: "{{ app.image }}"
         image_home: "{{ project.dir }}/apps/{{ app.binary }}"
-        image_context: target/docker-context
+        image_context: target/image-context
         image_push: "{{ image_storage != 'local' }}"
         image_args:
           JAVA_RELEASE: "{{ dev[devenv].jdk.release }}"

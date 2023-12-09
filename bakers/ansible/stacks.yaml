@@ -27,13 +27,13 @@
     - ansible.builtin.import_tasks:  # noqa: name[missing]
         file: tasks/solution/build.yaml
       tags: [build]
-      when: >
+      when: >-
         hostvars.solution.stack_status is changed or
         hostvars.toolchain.stack_status is changed
     - ansible.builtin.import_tasks:  # noqa: name[missing]
         file: tasks/solution/test.yaml
       tags: [test]
-      when: >
+      when: >-
         hostvars.solution.stack_status is changed or
         hostvars.toolchain.stack_status is changed
 
