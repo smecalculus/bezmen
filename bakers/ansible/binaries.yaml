@@ -9,7 +9,6 @@
         stdin: |
           {{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=libs') }}
           {{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=apps/' ~ app) }}
-      # TODO: try to choose better name
       register: image_cid
       changed_when: false
       loop: "{{ solution.apps.values()|flatten|map(attribute='binary') }}"
