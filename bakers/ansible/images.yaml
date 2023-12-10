@@ -1,5 +1,5 @@
 ---
-- import_playbook: binaries.yaml   # noqa: name[play]
+- import_playbook: binaries.yaml  # noqa: name[play]
   vars:
     maven_phase: "{{ 'install' if binary_storage == 'local' else 'deploy' }}"
   tags: [binaries, deps]
@@ -11,9 +11,7 @@
     - name: Capture statuses
       ansible.builtin.command:
         cmd: >-
-          docker
-          {{ docker_entity }}
-          inspect
+          docker {{ docker_entity }} inspect
           {{ solution.databases[storage].image }}:{{ solution.databases[storage].cid }}
       register: image_status
       changed_when: image_status.rc != 0

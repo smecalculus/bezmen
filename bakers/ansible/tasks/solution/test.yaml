@@ -34,10 +34,10 @@
       test
       --define props={{ opsenv }}
       {% if reminder is defined %}
-      --define toolchain.testing.sharding.reminder={{ reminder }}
+      --define testing.sharding.reminder={{ reminder }}
       {% endif %}
       {% if modulus is defined %}
-      --define toolchain.testing.sharding.modulus={{ modulus }}
+      --define testing.sharding.modulus={{ modulus }}
       {% endif %}
       --define maven.compiler.release={{ dev[devenv].jdk.release }}
       --define skipUnits=true

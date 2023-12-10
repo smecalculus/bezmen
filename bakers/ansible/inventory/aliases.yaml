@@ -12,6 +12,5 @@ all:
   hosts:
     db:
     app:
-    test:
   vars:
     ansible_connection: local
