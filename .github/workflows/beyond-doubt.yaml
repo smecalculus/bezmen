@@ -51,7 +51,7 @@ jobs:
         env:
           GITHUB_ACTOR: ${{ github.actor }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - uses: mikepenz/action-junit-report@v4
+      - uses: mikepenz/action-junit-report@v4.0.3
         if: ${{ !cancelled() && (steps.images.outcome == 'success' || steps.images.outcome == 'failure') }}
         with:
           check_name: Unit test report
@@ -59,7 +59,7 @@ jobs:
           require_tests: "${{ steps.images.outcome == 'failure' }}"
           fail_on_failure: false
           job_summary: false
-      - uses: mikepenz/action-junit-report@v4
+      - uses: mikepenz/action-junit-report@v4.0.3
         if: ${{ !cancelled() && (steps.images.outcome == 'success' || steps.images.outcome == 'failure') }}
         with:
           check_name: Integration test report
@@ -79,16 +79,17 @@ jobs:
         env:
           - dev: godel
             os: ubuntu-20.04
-            ops: shannon
-          - ops: lamport
+            ops: marx
+          - dev: turing
             os: ubuntu-22.04
-            dev: turing
-          - ops: milner
+            ops: durkheim
+          - dev: turing
             os: ubuntu-22.04
-            dev: turing
-          - ops: nakamoto
+            ops: veblen
+          - dev: church
             os: ubuntu-22.04
-            dev: church
+            ops: commons
+
     runs-on: ${{ matrix.env.os }}
     steps:
       - uses: actions/checkout@v4.1.1
@@ -122,16 +123,16 @@ jobs:
         env:
           - dev: godel
             os: ubuntu-20.04
-            ops: shannon
-          - ops: lamport
+            ops: marx
+          - dev: turing
             os: ubuntu-22.04
-            dev: turing
-          - ops: milner
+            ops: durkheim
+          - dev: turing
             os: ubuntu-22.04
-            dev: turing
-          - ops: nakamoto
+            ops: veblen
+          - dev: church
             os: ubuntu-22.04
-            dev: church
+            ops: commons
     runs-on: ${{ matrix.env.os }}
     steps:
       - uses: actions/checkout@v4.1.1
@@ -175,16 +176,16 @@ jobs:
         env:
           - dev: godel
             os: ubuntu-20.04
-            ops: shannon
-          - ops: lamport
+            ops: marx
+          - dev: turing
             os: ubuntu-22.04
-            dev: turing
-          - ops: milner
+            ops: durkheim
+          - dev: turing
             os: ubuntu-22.04
-            dev: turing
-          - ops: nakamoto
+            ops: veblen
+          - dev: church
             os: ubuntu-22.04
-            dev: church
+            ops: commons
     runs-on: ${{ matrix.env.os }}
     permissions:
       packages: write
@@ -219,8 +220,7 @@ jobs:
       - uses: actions/download-artifact@v3.0.2
         with:
           path: artifacts
-      - run: ls -R
-      - uses: mikepenz/action-junit-report@v4
+      - uses: mikepenz/action-junit-report@v4.0.3
         with:
           check_name: E2E test report
           report_paths: "artifacts/e2e-test-report-*/**/TEST-*.xml"

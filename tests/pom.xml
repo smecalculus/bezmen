@@ -17,10 +17,6 @@
     <module>e2e</module>
   </modules>
 
-  <properties>
-    <props>shannon</props>
-  </properties>
-
   <dependencies>
     <dependency>
       <groupId>org.projectlombok</groupId>

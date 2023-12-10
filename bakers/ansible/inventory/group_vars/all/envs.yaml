@@ -18,9 +18,9 @@ dev:
     jdk:
       release: 21
 
-opsenv: lamport
+opsenv: durkheim
 ops:
-  shannon:
+  marx:
     storage:
       vendor: postgres
       version: 14.9
@@ -29,7 +29,7 @@ ops:
       lang: java
     config:
       mapping_mode: lightbend_config
-  lamport:
+  durkheim:
     storage:
       vendor: postgres
       version: 15.4
@@ -38,7 +38,7 @@ ops:
       lang: kotlin
     config:
       mapping_mode: lightbend_config
-  milner:
+  veblen:
     storage:
       vendor: postgres
       version: 15.4
@@ -47,7 +47,7 @@ ops:
       lang: kotlin
     config:
       mapping_mode: spring_config
-  nakamoto:
+  commons:
     storage:
       vendor: postgres
       version: 16.0

@@ -66,21 +66,3 @@
         strip_empty_ends: false
       changed_when: true
       when: image_status is changed
-
-- name: Binaries
-  hosts: test
-  run_once: true
-  tasks:
-    - name: Create binaries
-      ansible.builtin.command:
-        cmd: >-
-          mvn
-          --no-snapshot-updates
-          --batch-mode
-          --projects tools,tests
-          --also-make
-          clean
-          package
-        chdir: "{{ project.dir }}"
-        strip_empty_ends: false
-      changed_when: true

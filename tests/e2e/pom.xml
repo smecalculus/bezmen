@@ -52,7 +52,6 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
         <configuration>
-          <systemPropertiesFile>${project.parent.basedir}/props/${props}.properties</systemPropertiesFile>
           <test>smecalculus.bezmen.${suite.name}</test>
         </configuration>
       </plugin>
