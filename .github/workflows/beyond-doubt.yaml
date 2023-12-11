@@ -231,3 +231,8 @@ jobs:
           require_tests: "${{ needs.stack-testing.result == 'failure' }}"
           fail_on_failure: false
           job_summary: false
+
+  beyond-doubt:
+    name: Beyond doubt
+    needs: [stack-publishing, stack-reporting]
+    runs-on: ubuntu-latest
