@@ -5,6 +5,10 @@ on:
   merge_group:
     branches:
       - main
+  # for the sake of testing
+  pull_request:
+    branches:
+      - test
   workflow_dispatch:
 
 env:
