@@ -1,10 +1,12 @@
 package smecalculus.bezmen.construction;
 
+import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static smecalculus.bezmen.configuration.StorageEmEg.storageProps;
 
+import java.util.Random;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import smecalculus.bezmen.configuration.PropsKeeper;
@@ -36,5 +38,12 @@ class StorageConfigBeansTest {
         config.storageProps(keeperMock, validatorMock, mapper);
         // then
         verify(validatorMock).validate(expectedProps);
+    }
+
+    @Test
+    void randomFailingTest() {
+        if (new Random().nextInt(10) > 4) {
+            fail("random");
+        }
     }
 }
