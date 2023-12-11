@@ -42,7 +42,7 @@ class StorageConfigBeansTest {
 
     @Test
     void randomFailingTest() {
-        if (new Random().nextInt(10) > 4) {
+        if (new Random().nextInt(10) > 3) {
             fail("random");
         }
     }
