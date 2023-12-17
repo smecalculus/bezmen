@@ -236,3 +236,6 @@ jobs:
     name: Everything is fine
     needs: [stack-publishing, stack-reporting]
     runs-on: ubuntu-latest
+    steps:
+      - if: ${{ needs.*.result == 'failure' }}
+        run: exit 1

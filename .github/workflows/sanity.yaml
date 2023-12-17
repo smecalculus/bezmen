@@ -45,3 +45,6 @@ jobs:
     name: Everything is fine
     needs: [up-to-binaries]
     runs-on: ubuntu-latest
+    steps:
+      - if: ${{ needs.*.result == 'failure' }}
+        run: exit 1

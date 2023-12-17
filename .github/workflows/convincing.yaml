@@ -67,3 +67,6 @@ jobs:
     name: Everything is fine
     needs: [up-to-images]
     runs-on: ubuntu-latest
+    steps:
+      - if: ${{ needs.*.result == 'failure' }}
+        run: exit 1
