@@ -41,7 +41,7 @@ jobs:
           fail_on_failure: false
           job_summary: false
 
-  sanity:
-    name: Sanity
+  everything-is-fine:
+    name: Everything is fine
     needs: [up-to-binaries]
     runs-on: ubuntu-latest

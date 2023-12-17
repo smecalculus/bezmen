@@ -232,7 +232,7 @@ jobs:
           fail_on_failure: false
           job_summary: false
 
-  beyond-doubt:
-    name: Beyond doubt
+  everything-is-fine:
+    name: Everything is fine
     needs: [stack-publishing, stack-reporting]
     runs-on: ubuntu-latest

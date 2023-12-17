@@ -63,7 +63,7 @@ jobs:
           path: tools/target/coverage
           if-no-files-found: ignore
 
-  convincing:
-    name: Convincing
+  everything-is-fine:
+    name: Everything is fine
     needs: [up-to-images]
     runs-on: ubuntu-latest
