@@ -69,7 +69,7 @@ jobs:
     runs-on: ubuntu-latest
     if: ${{ always() }}
     steps:
-      - if: ${{ failure() || cancelled() || contains(needs.*.result, 'skipped') }}
+      - if: ${{ failure() || contains(needs.*.result, 'skipped') || contains(needs.*.result, 'cancelled') }}
         run: |
           echo "::error::Something went wrong"
           exit 1
