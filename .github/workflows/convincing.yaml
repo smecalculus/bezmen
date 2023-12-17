@@ -21,7 +21,6 @@ jobs:
       checks: write
       packages: write
     steps:
-      - run: exit 1
       - uses: actions/checkout@v4.1.1
       - uses: ./.github/actions/prepare
         with:
