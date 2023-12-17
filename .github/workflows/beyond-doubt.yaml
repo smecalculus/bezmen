@@ -231,9 +231,10 @@ jobs:
     name: Everything is fine
     needs: [stack-publishing, stack-reporting]
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     if: ${{ always() }}
     steps:
-      - if: ${{ failure() || contains(needs.*.result, 'skipped') || contains(needs.*.result, 'cancelled') }}
+      - if: ${{ contains(needs.*.result, 'failure') || contains(needs.*.result, 'skipped') || contains(needs.*.result, 'cancelled') }}
         run: |
           echo "::error::Something went wrong"
           exit 1

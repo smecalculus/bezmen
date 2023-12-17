@@ -21,6 +21,7 @@ jobs:
       checks: write
       packages: write
     steps:
+      - run: exit 1
       - uses: actions/checkout@v4.1.1
       - uses: ./.github/actions/prepare
         with:
@@ -62,15 +63,15 @@ jobs:
           name: test-coverage-report
           path: tools/target/coverage
           if-no-files-found: ignore
-      - run: exit 1
 
   everything-is-fine:
     name: Everything is fine
     needs: [up-to-images]
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     if: ${{ always() }}
     steps:
-      - if: ${{ failure() || contains(needs.*.result, 'skipped') || contains(needs.*.result, 'cancelled') }}
+      - if: ${{ contains(needs.*.result, 'failure') || contains(needs.*.result, 'skipped') || contains(needs.*.result, 'cancelled') }}
         run: |
           echo "::error::Something went wrong"
           exit 1
