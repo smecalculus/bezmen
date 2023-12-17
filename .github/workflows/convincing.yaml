@@ -62,6 +62,7 @@ jobs:
           name: test-coverage-report
           path: tools/target/coverage
           if-no-files-found: ignore
+      - run: exit 1
 
   everything-is-fine:
     name: Everything is fine
