@@ -66,9 +66,9 @@ jobs:
   everything-is-fine:
     name: Everything is fine
     needs: [up-to-images]
+    if: ${{ contains(needs.*.result, 'failure') }}
     runs-on: ubuntu-latest
     steps:
-      - if: ${{ needs.*.result != 'success' }}
-        run: |
+      - run: |
           echo "::error::Something went wrong"
           exit 1
