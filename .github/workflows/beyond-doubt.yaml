@@ -5,10 +5,6 @@ on:
   merge_group:
     branches:
       - main
-  # for the sake of testing
-  pull_request:
-    branches:
-      - test
   workflow_dispatch:
 
 env:
@@ -237,5 +233,7 @@ jobs:
     needs: [stack-publishing, stack-reporting]
     runs-on: ubuntu-latest
     steps:
-      - if: ${{ needs.*.result == 'failure' }}
-        run: exit 1
+      - if: ${{ needs.*.result != 'success' }}
+        run: |
+          echo "::error::Something went wrong"
+          exit 1
