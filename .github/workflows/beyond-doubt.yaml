@@ -89,7 +89,6 @@ jobs:
           - dev: church
             os: ubuntu-22.04
             ops: commons
-
     runs-on: ${{ matrix.env.os }}
     steps:
       - uses: actions/checkout@v4.1.1
@@ -101,8 +100,8 @@ jobs:
       - run: >-
           ansible-playbook stacks.yaml -t build
           -e image_storage=${{ env.IMAGE_STORAGE }}
-          -e purpose=${{ matrix.purpose }}
           -e devenv=${{ matrix.env.dev }}
+          -e purpose=${{ matrix.purpose }}
           -e opsenv=${{ matrix.env.ops }}
         working-directory: bakers/ansible
       - uses: actions/upload-artifact@v4.0.0
@@ -149,10 +148,10 @@ jobs:
       - run: >-
           ansible-playbook stacks.yaml -t test
           -e image_storage=${{ env.IMAGE_STORAGE }}
-          -e purpose=${{ matrix.purpose }}
           -e reminder=${{ matrix.shard }}
           -e modulus=2
           -e devenv=${{ matrix.env.dev }}
+          -e purpose=${{ matrix.purpose }}
           -e opsenv=${{ matrix.env.ops }}
         working-directory: bakers/ansible
         env:
@@ -204,6 +203,7 @@ jobs:
       - run: >-
           ansible-playbook stacks.yaml -t package
           -e image_storage=${{ env.IMAGE_STORAGE }}
+          -e devenv=${{ matrix.env.dev }}
           -e purpose=${{ matrix.purpose }}
           -e opsenv=${{ matrix.env.ops }}
         working-directory: bakers/ansible
