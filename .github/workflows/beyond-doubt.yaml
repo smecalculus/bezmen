@@ -51,7 +51,7 @@ jobs:
         env:
           GITHUB_ACTOR: ${{ github.actor }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - uses: mikepenz/action-junit-report@v4.0.3
+      - uses: mikepenz/action-junit-report@v4.0.4
         if: ${{ !cancelled() && (steps.images.outcome == 'success' || steps.images.outcome == 'failure') }}
         with:
           check_name: Unit test report (${{ matrix.env.dev }})
@@ -59,7 +59,7 @@ jobs:
           require_tests: "${{ steps.images.outcome == 'failure' }}"
           fail_on_failure: false
           job_summary: false
-      - uses: mikepenz/action-junit-report@v4.0.3
+      - uses: mikepenz/action-junit-report@v4.0.4
         if: ${{ !cancelled() && (steps.images.outcome == 'success' || steps.images.outcome == 'failure') }}
         with:
           check_name: Integration test report (${{ matrix.env.dev }})
@@ -220,7 +220,7 @@ jobs:
       - uses: actions/download-artifact@v4.1.1
         with:
           path: artifacts
-      - uses: mikepenz/action-junit-report@v4.0.3
+      - uses: mikepenz/action-junit-report@v4.0.4
         with:
           check_name: E2E test report
           report_paths: "artifacts/e2e-test-report-*/**/TEST-*.xml"

@@ -35,7 +35,7 @@ jobs:
         env:
           GITHUB_ACTOR: ${{ github.actor }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - uses: mikepenz/action-junit-report@v4.0.3
+      - uses: mikepenz/action-junit-report@v4.0.4
         if: ${{ !cancelled() && (steps.images.outcome == 'success' || steps.images.outcome == 'failure') }}
         with:
           check_name: Unit test report
@@ -43,7 +43,7 @@ jobs:
           require_tests: "${{ steps.images.outcome == 'failure' }}"
           fail_on_failure: false
           job_summary: false
-      - uses: mikepenz/action-junit-report@v4.0.3
+      - uses: mikepenz/action-junit-report@v4.0.4
         if: ${{ !cancelled() && (steps.images.outcome == 'success' || steps.images.outcome == 'failure') }}
         with:
           check_name: Integration test report
