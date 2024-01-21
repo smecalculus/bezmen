@@ -1,10 +1,10 @@
 package smecalculus.bezmen.storage
 
-import org.mapstruct.Mapper
+import io.mcarle.konvert.api.Konverter
 import smecalculus.bezmen.core.SepulkaStateDm
 import smecalculus.bezmen.mapping.EdgeMapper
 
-@Mapper
+@Konverter
 interface SepulkaStateMapper : EdgeMapper {
     fun toEdge(state: SepulkaStateDm.AggregateRoot): SepulkaStateEm.AggregateRoot
 
@@ -13,8 +13,6 @@ interface SepulkaStateMapper : EdgeMapper {
     fun toEdge(state: SepulkaStateDm.Touch): SepulkaStateEm.Touch
 
     fun toDomain(state: SepulkaStateEm.Existence): SepulkaStateDm.Existence
-
-    fun toEdge(state: SepulkaStateDm.Preview): SepulkaStateEm.Preview
 
     fun toDomain(state: SepulkaStateEm.Preview): SepulkaStateDm.Preview
 }

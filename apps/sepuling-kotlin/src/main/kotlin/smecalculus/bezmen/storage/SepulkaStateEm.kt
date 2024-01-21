@@ -9,19 +9,19 @@ import java.util.UUID
 
 abstract class SepulkaStateEm {
     data class Existence(
-        var internalId: UUID,
-        var externalId: String,
+        var internalId: UUID?,
+        var externalId: String?,
     )
 
     data class Preview(
-        var internalId: UUID,
-        var externalId: String,
-        var createdAt: LocalDateTime,
+        var internalId: UUID?,
+        var externalId: String?,
+        var createdAt: LocalDateTime?,
     )
 
     data class Touch(
-        var revision: Int,
-        var updatedAt: LocalDateTime,
+        var revision: Int?,
+        var updatedAt: LocalDateTime?,
     )
 
     @Table("sepulkas")
