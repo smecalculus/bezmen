@@ -1,5 +1,6 @@
 package smecalculus.bezmen.construction;
 
+import static java.util.Objects.requireNonNull;
 import static org.springframework.context.annotation.ConfigurationCondition.ConfigurationPhase.REGISTER_BEAN;
 
 import lombok.NonNull;
@@ -13,7 +14,7 @@ class ConfigMappingModeCondition implements ConfigurationCondition {
     @Override
     public boolean matches(ConditionContext context, AnnotatedTypeMetadata metadata) {
         var attributes = metadata.getAnnotationAttributes(ConditionalOnConfigMappingMode.class.getName());
-        var expectedMode = (ConfigMappingMode) attributes.get("value");
+        var expectedMode = (ConfigMappingMode) requireNonNull(attributes).get("value");
         var actualMode = context.getEnvironment()
                 .getProperty("solution.config.mapping.mode", ConfigMappingMode.LIGHTBEND_CONFIG.name());
         return expectedMode.name().equalsIgnoreCase(actualMode);

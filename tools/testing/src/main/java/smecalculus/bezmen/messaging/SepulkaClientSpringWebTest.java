@@ -11,7 +11,7 @@ import smecalculus.bezmen.messaging.SepulkaMessageEm.RegistrationResponse;
 public class SepulkaClientSpringWebTest implements SepulkaClient {
 
     @NonNull
-    private WebTestClient client;
+    private final WebTestClient client;
 
     @Override
     public RegistrationResponse register(RegistrationRequest request) {

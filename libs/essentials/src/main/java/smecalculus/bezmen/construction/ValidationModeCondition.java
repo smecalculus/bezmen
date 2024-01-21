@@ -1,5 +1,6 @@
 package smecalculus.bezmen.construction;
 
+import static java.util.Objects.requireNonNull;
 import static org.springframework.context.annotation.ConfigurationCondition.ConfigurationPhase.REGISTER_BEAN;
 
 import lombok.NonNull;
@@ -14,8 +15,8 @@ class ValidationModeCondition implements ConfigurationCondition {
     @Override
     public boolean matches(ConditionContext context, AnnotatedTypeMetadata metadata) {
         var attributes = metadata.getAnnotationAttributes(ConditionalOnValidationMode.class.getName());
-        var mode = (ValidationMode) attributes.get("value");
-        var props = context.getBeanFactory().getBean(ValidationProps.class);
+        var mode = (ValidationMode) requireNonNull(attributes).get("value");
+        var props = requireNonNull(context.getBeanFactory()).getBean(ValidationProps.class);
         return mode == props.validationMode();
     }
 

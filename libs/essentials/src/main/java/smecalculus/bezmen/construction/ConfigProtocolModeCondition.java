@@ -1,5 +1,6 @@
 package smecalculus.bezmen.construction;
 
+import static java.util.Objects.requireNonNull;
 import static org.springframework.context.annotation.ConfigurationCondition.ConfigurationPhase.REGISTER_BEAN;
 
 import lombok.NonNull;
@@ -13,7 +14,7 @@ class ConfigProtocolModeCondition implements ConfigurationCondition {
     @Override
     public boolean matches(ConditionContext context, AnnotatedTypeMetadata metadata) {
         var attributes = metadata.getAnnotationAttributes(ConditionalOnConfigProtocolMode.class.getName());
-        var expectedMode = (ConfigProtocolMode) attributes.get("value");
+        var expectedMode = (ConfigProtocolMode) requireNonNull(attributes).get("value");
         var actualMode = context.getEnvironment()
                 .getProperty("solution.config.protocol.mode", ConfigProtocolMode.FILE_SYSTEM.name());
         return expectedMode.name().equalsIgnoreCase(actualMode);
