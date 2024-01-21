@@ -36,7 +36,9 @@ jobs:
           devenv: ${{ matrix.env.dev }}
           tools: python java docker
           token: ${{ secrets.GITHUB_TOKEN }}
-      - run: ansible-playbook codebase.yaml
+      - run: >-
+          ansible-playbook codebase.yaml
+          -e devenv=${{ matrix.env.dev }}
         working-directory: bakers/ansible
         env:
           GITHUB_ACTOR: ${{ github.actor }}

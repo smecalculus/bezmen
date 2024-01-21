@@ -14,6 +14,7 @@
           pmd:check
           compiler:compile
           spotbugs:check
+          --define maven.compiler.release={{ dev[devenv].jdk.release }}
         chdir: "{{ project.dir }}"
         strip_empty_ends: false
       changed_when: false
