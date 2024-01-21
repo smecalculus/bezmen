@@ -45,6 +45,11 @@
       <artifactId>kotlin-reflect</artifactId>
       <scope>compile</scope>
     </dependency>
+    <dependency>
+      <groupId>io.mcarle</groupId>
+      <artifactId>konvert-api</artifactId>
+      <scope>compile</scope>
+    </dependency>
   </dependencies>
 
   <dependencyManagement>
@@ -60,8 +65,6 @@
   </dependencyManagement>
 
   <build>
-    <sourceDirectory>${project.basedir}/src/main/kotlin</sourceDirectory>
-    <testSourceDirectory>${project.basedir}/src/test/kotlin</testSourceDirectory>
     <plugins>
       <plugin>
         <groupId>org.jetbrains.kotlin</groupId>
@@ -70,6 +73,10 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <skipMain>true</skipMain>
+          <skip>true</skip>
+        </configuration>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>

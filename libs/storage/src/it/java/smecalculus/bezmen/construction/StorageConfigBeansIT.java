@@ -1,6 +1,7 @@
 package smecalculus.bezmen.construction;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static smecalculus.bezmen.configuration.StorageDmEg.storageProps;
 
 import org.junit.jupiter.api.Test;

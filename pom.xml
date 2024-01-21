@@ -22,6 +22,7 @@
     <mapstruct.version>1.5.5.Final</mapstruct.version>
     <spring.version>6.1.2</spring.version>
     <kotlin.version>1.9.22</kotlin.version>
+    <konvert.version>3.0.0</konvert.version>
     <jacoco.version>0.8.11</jacoco.version>
     <skipTests>false</skipTests>
     <skipUnits>${skipTests}</skipUnits>
@@ -30,6 +31,14 @@
   </properties>
 
   <build>
+    <testResources>
+      <testResource>
+        <directory>${project.basedir}/src/test/resources</directory>
+      </testResource>
+      <testResource>
+        <directory>${project.basedir}/src/it/resources</directory>
+      </testResource>
+    </testResources>
     <pluginManagement>
       <plugins>
         <plugin>
@@ -130,36 +139,51 @@
           <version>${kotlin.version}</version>
           <configuration>
             <jvmTarget>${maven.compiler.release}</jvmTarget>
+            <compilerPlugins>
+              <plugin>ksp</plugin>
+            </compilerPlugins>
+            <pluginOptions>
+              <option>ksp:apoption=konvert.konverter.generate-class=true</option>
+              <option>ksp:apoption=konvert.enforce-not-null=true</option>
+            </pluginOptions>
           </configuration>
           <executions>
             <execution>
-              <id>kapt</id>
-              <goals>
-                <goal>kapt</goal>
-              </goals>
-              <configuration>
-                <annotationProcessorPaths>
-                  <annotationProcessorPath>
-                    <groupId>org.mapstruct</groupId>
-                    <artifactId>mapstruct-processor</artifactId>
-                    <version>${mapstruct.version}</version>
-                  </annotationProcessorPath>
-                </annotationProcessorPaths>
-              </configuration>
-            </execution>
-            <execution>
-              <id>kotlin-compile</id>
+              <id>compile</id>
               <goals>
                 <goal>compile</goal>
               </goals>
+              <configuration>
+                <sourceDirs>
+                  <sourceDir>${project.basedir}/src/main/kotlin</sourceDir>
+                </sourceDirs>
+              </configuration>
             </execution>
             <execution>
-              <id>kotlin-testCompile</id>
+              <id>testCompile</id>
               <goals>
                 <goal>test-compile</goal>
               </goals>
+              <configuration>
+                <sourceDirs>
+                  <sourceDir>${project.basedir}/src/test/kotlin</sourceDir>
+                  <sourceDir>${project.basedir}/src/it/kotlin</sourceDir>
+                </sourceDirs>
+              </configuration>
             </execution>
           </executions>
+          <dependencies>
+            <dependency>
+              <groupId>com.dyescape</groupId>
+              <artifactId>kotlin-maven-symbol-processing</artifactId>
+              <version>1.6</version>
+            </dependency>
+            <dependency>
+              <groupId>io.mcarle</groupId>
+              <artifactId>konvert</artifactId>
+              <version>${konvert.version}</version>
+            </dependency>
+          </dependencies>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
@@ -181,26 +205,17 @@
           </configuration>
           <executions>
             <execution>
-              <id>default-compile</id>
-              <phase>none</phase>
-            </execution>
-            <execution>
               <id>default-testCompile</id>
-              <phase>none</phase>
-            </execution>
-            <execution>
-              <id>java-compile</id>
-              <phase>compile</phase>
-              <goals>
-                <goal>compile</goal>
-              </goals>
-            </execution>
-            <execution>
-              <id>java-testCompile</id>
               <phase>test-compile</phase>
               <goals>
                 <goal>testCompile</goal>
               </goals>
+              <configuration>
+                <compileSourceRoots>
+                  <compileSourceRoot>${project.basedir}/src/test/java</compileSourceRoot>
+                  <compileSourceRoot>${project.basedir}/src/it/java</compileSourceRoot>
+                </compileSourceRoots>
+              </configuration>
             </execution>
           </executions>
         </plugin>
@@ -208,11 +223,17 @@
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-surefire-plugin</artifactId>
           <version>3.2.5</version>
+          <configuration>
+            <skipTests>${skipUnits}</skipTests>
+          </configuration>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-failsafe-plugin</artifactId>
           <version>3.2.5</version>
+          <configuration>
+            <skipITs>${skipTests}</skipITs>
+          </configuration>
           <executions>
             <execution>
               <goals>
