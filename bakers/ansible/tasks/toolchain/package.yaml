@@ -4,5 +4,6 @@
   vars:
     image_tag: "{{ toolchain_tag }}"
     image_name: "{{ toolchain.image }}"
-    image_home: "{{ project.dir }}/.github"
+    image_home: "{{ stack_dir }}"
+    image_context: "{{ stack_dir }}/{{ devenv }}"
     image_push: "{{ image_storage != 'local' }}"
