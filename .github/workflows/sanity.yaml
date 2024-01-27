@@ -24,8 +24,10 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
       - run: ansible-playbook toolchain.yaml
         working-directory: bakers/ansible
-      - run: ansible-playbook codebase.yaml
-        working-directory: bakers/ansible
+      - uses: docker://ghcr.io/smecalculus/bezmen/stack/toolchain:turing-841f6a5
+        with:
+          entrypoint: ansible-playbook
+          args: bakers/ansible/codebase.yaml
         env:
           GITHUB_ACTOR: ${{ github.actor }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
