@@ -20,10 +20,10 @@ jobs:
       - run: ansible-playbook toolchain.yaml
         working-directory: bakers/ansible
       - run: >-
-          docker run --rm local/smecalculus/bezmen/stack/toolchain:turing-5f1b228
+          docker run --rm --workdir $(pwd)
           --volume /var/run/docker.sock:/var/run/docker.sock
           --volume $(pwd):$(pwd)
-          --workdir $(pwd)
+          local/smecalculus/bezmen/stack/toolchain:turing-5f1b228
           ansible-playbook bakers/ansible/codebase.yaml
         env:
           GITHUB_ACTOR: ${{ github.actor }}
