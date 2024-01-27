@@ -7,4 +7,4 @@
     image_home: "{{ stack_dir }}/{{ devenv }}"
     image_push: false
     image_args:
-      DOCKER_VERSION: "{{ lookup('ansible.builtin.pipe', 'docker version --format {{.Client.Version}}') }}"
+      DOCKER_VERSION: "{{ lookup('ansible.builtin.pipe', 'docker version --format {% raw %}{{.Client.Version}}{% endraw %}') }}"
