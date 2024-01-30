@@ -32,7 +32,7 @@ jobs:
         env:
           GITHUB_ACTOR: ${{ github.actor }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - uses: mikepenz/action-junit-report@v4.0.4
+      - uses: mikepenz/action-junit-report@v4.1.0
         if: ${{ !cancelled() && (steps.binaries.outcome == 'success' || steps.binaries.outcome == 'failure') }}
         with:
           check_name: Unit test report
