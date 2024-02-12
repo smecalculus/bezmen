@@ -1,2 +1,2 @@
-FROM liquibase/liquibase:4.25-alpine
+FROM liquibase/liquibase:4.26-alpine
 COPY . /liquibase/changelog/
