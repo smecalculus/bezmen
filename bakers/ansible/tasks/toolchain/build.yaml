@@ -3,8 +3,9 @@
     name: image
   vars:
     image_tag: "{{ toolchain_tag }}"
-    image_name: "{{ toolchain.image }}"
-    image_home: "{{ stack_dir }}/{{ devenv }}"
+    image_name: "{{ image_repo }}/{{ toolchain.image }}"
+    image_home: "{{ project.dir }}/stacks/toolchain/{{ devenv }}"
+    image_key: "{{ toolchain.image }}:{{ devenv }}"
     image_push: false
     image_args:
-      DOCKER_VERSION: "{{ lookup('ansible.builtin.pipe', 'docker version --format {% raw %}{{.Client.Version}}{% endraw %}') }}"
+      DOCKER_VERSION: "{{ lookup('ansible.builtin.pipe', 'docker version --format {% raw %}{{.Client.Version}}{% endraw %}') }}"  # noqa: yaml[line-length]

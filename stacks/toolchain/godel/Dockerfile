@@ -1,25 +1,37 @@
-FROM eclipse-temurin:17-jdk-focal
-
-ENV REPO_URL=https://download.docker.com/linux/ubuntu \
-    GPG_FILE=/etc/apt/keyrings/docker.gpg
+FROM ubuntu:focal
 
 RUN apt-get update \
   && apt-get install -y --no-install-recommends \
-    ca-certificates curl gnupg python3=3.8.* python3-pip maven=3.6.* \
-  && install -m 0755 -d /etc/apt/keyrings \
-  && curl -fsSL ${REPO_URL}/gpg | gpg --dearmor -o ${GPG_FILE} \
-  && chmod a+r ${GPG_FILE}
-
-RUN echo "deb [arch=amd64 signed-by=${GPG_FILE}] ${REPO_URL} focal stable" | tee /etc/apt/sources.list.d/docker.list > /dev/null
-
-ARG DOCKER_VERSION
-RUN apt-get update \
-  && apt-get install -y --no-install-recommends \
-    docker-ce-cli=5:${DOCKER_VERSION}* docker-buildx-plugin docker-compose-plugin \
+    ca-certificates \
+    gnupg \
+    curl \
+    git \
+    sudo \
+    python3=3.8.* \
+    python3-pip \
   && rm -rf /var/lib/apt/lists/*
 
-ENTRYPOINT []
+ARG DOCKER_VERSION
+ARG DOCKER_REPO=https://download.docker.com/linux/ubuntu
+ARG DOCKER_KEY=/etc/apt/keyrings/docker.gpg
+RUN install -m 0755 -d /etc/apt/keyrings \
+  && curl -fsSL $DOCKER_REPO/gpg | gpg --dearmor -o $DOCKER_KEY \
+  && chmod a+r $DOCKER_KEY \
+  && echo "deb [arch=amd64 signed-by=$DOCKER_KEY] $DOCKER_REPO focal stable" \
+    | tee /etc/apt/sources.list.d/docker.list > /dev/null \
+  && apt-get update \
+  && apt-get install -y --no-install-recommends \
+    docker-ce-cli=5:$DOCKER_VERSION* \
+    docker-buildx-plugin \
+    docker-compose-plugin \
+  && rm -rf /var/lib/apt/lists/*
+
+ENV JAVA_HOME=/opt/java/openjdk
+ENV MAVEN_HOME=/usr/share/maven
+ENV PATH=${MAVEN_HOME}/bin:${JAVA_HOME}/bin:${PATH}
+
+COPY --from=eclipse-temurin:17-jdk-focal ${JAVA_HOME} ${JAVA_HOME}
+COPY --from=maven:3.6.3-openjdk-17 ${MAVEN_HOME} ${MAVEN_HOME}
 
 COPY requirements.txt .
-
 RUN pip install -r requirements.txt

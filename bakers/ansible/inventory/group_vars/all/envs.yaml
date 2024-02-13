@@ -6,7 +6,7 @@ dev:
       release: 21
   turing:
     jdk:
-      release: 19
+      release: 17
   godel:
     jdk:
       release: 17

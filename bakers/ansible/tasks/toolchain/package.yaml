@@ -3,7 +3,7 @@
     name: image
   vars:
     image_tag: "{{ toolchain_tag }}"
-    image_name: "{{ toolchain.image }}"
-    image_home: "{{ stack_dir }}"
-    image_context: "{{ stack_dir }}/{{ devenv }}"
+    image_name: "{{ image_repo }}/{{ toolchain.image }}"
+    image_home: "{{ project.dir }}/stacks/toolchain/{{ devenv }}"
+    image_key: "{{ toolchain.image }}:{{ devenv }}"
     image_push: "{{ image_storage != 'local' }}"

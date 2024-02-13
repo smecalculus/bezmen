@@ -28,7 +28,7 @@
       tags: [always]
     - name: Capture statuses
       ansible.builtin.command:
-        cmd: docker {{ docker_entity }} inspect {{ app.image }}:{{ image_tags[app.binary] }}
+        cmd: docker {{ docker_entity }} inspect {{ image_repo }}/{{ app.image }}:{{ image_tags[app.binary] }}
       register: image_status
       changed_when:
         - image_status.rc != 0

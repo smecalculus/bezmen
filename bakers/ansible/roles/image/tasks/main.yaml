@@ -5,10 +5,11 @@
     that:
       - image_name is defined
       - image_home is defined
+      - image_key is defined
 
 - name: Kill containers
   ansible.builtin.shell:
-    cmd: docker container rm -f $(docker ps -aq -f label=image.name={{ image_name }})
+    cmd: docker container rm -f $(docker ps -aq --filter label=image.key={{ image_key }})
     strip_empty_ends: false
   changed_when: false
   failed_when: false
@@ -16,7 +17,7 @@
 
 - name: Remove outdated
   ansible.builtin.shell:
-    cmd: docker image rm -f $(docker images -q -f reference={{ image_name }})
+    cmd: docker image rm -f $(docker images -q --filter label=image.key={{ image_key }})
     strip_empty_ends: false
   changed_when: false
   failed_when: false
@@ -25,9 +26,10 @@
 - name: Build fresh
   ansible.builtin.command:
     cmd: >-
-      docker build {{ image_context }}
-      -f Dockerfile
-      -t {{ image_name }}:{{ image_tag }}
+      docker build {{ image_context }} --file Dockerfile
+      --tag {{ image_name }}:{{ image_tag }}
+      --tag {{ image_name }}:latest
+      --label image.key={{ image_key }}
       {% for key, value in image_args.items() %}
       --build-arg {{ key }}={{ value }}
       {% endfor %}

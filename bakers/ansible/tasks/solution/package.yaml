@@ -3,7 +3,8 @@
     name: image
   vars:
     image_tag: "{{ solution_tag }}"
-    image_name: "{{ solution.image }}"
+    image_name: "{{ image_repo }}/{{ solution.image }}"
     image_home: "{{ project.dir }}/stacks/solution"
     image_context: target/image-context
+    image_key: "{{ solution.image }}:{{ purpose }}-{{ opsenv }}"
     image_push: "{{ image_storage != 'local' }}"
