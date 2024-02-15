@@ -10,7 +10,7 @@ runs:
   steps:
     - shell: bash
       run: |
-        jq -n '. + {"userns-remap": "runner"}' /etc/docker/daemon.json | sudo tee /etc/docker/daemon.json
+        cat /etc/docker/daemon.json | jq -n '. + {"userns-remap": "runner"}' | sudo tee /etc/docker/daemon.json
         sudo sed -i -e "1i runner:$(id -u):1" /etc/subuid
         sudo sed -i -e "1i runner:$(getent group docker | cut -d: -f3):1" /etc/subgid
         sudo systemctl restart docker
