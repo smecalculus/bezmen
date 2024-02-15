@@ -37,7 +37,7 @@ jobs:
           load: true
           cache-from: type=gha
           cache-to: type=gha,mode=max
-      - name: ansible-playbook codebase.yaml
+      - name: Run ansible-playbook codebase.yaml
         run: >-
           docker run --rm --workdir $(pwd)/bakers/ansible
           --volume ~/.m2:/root/.m2
@@ -48,8 +48,10 @@ jobs:
           GITHUB_ACTOR: ${{ github.actor }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - run: |
+          id
+          cat /etc/docker/daemon.json
           ls -laR
-      - name: ansible-playbook binaries.yaml
+      - name: Run ansible-playbook binaries.yaml
         id: binaries
         run: >-
           docker run --rm --workdir $(pwd)/bakers/ansible
