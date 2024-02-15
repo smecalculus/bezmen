@@ -37,6 +37,9 @@ jobs:
           load: true
           cache-from: type=gha
           cache-to: type=gha,mode=max
+      - run: cat /etc/docker/daemon.json
+      - run: cat /etc/subuid
+      - run: cat /etc/subgid
       - name: Run ansible-playbook codebase.yaml
         run: >-
           docker run --rm --workdir $(pwd)/bakers/ansible
@@ -47,10 +50,7 @@ jobs:
         env:
           GITHUB_ACTOR: ${{ github.actor }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - run: |
-          id
-          cat /etc/docker/daemon.json
-          ls -laR
+      - run: ls -laR
       - name: Run ansible-playbook binaries.yaml
         id: binaries
         run: >-
