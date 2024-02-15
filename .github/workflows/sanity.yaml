@@ -38,15 +38,13 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
       - run: cat /etc/docker/daemon.json
-      - run: cat /etc/subuid
-      - run: cat /etc/subgid
       - name: Run ansible-playbook codebase.yaml
         run: >-
           docker run --rm --workdir $(pwd)/bakers/ansible
           --volume ~/.m2:/root/.m2
           --volume $(pwd):$(pwd)
           stack/toolchain:turing
-          ansible-playbook codebase.yaml
+          ansible-playbook codebase.yaml -v
         env:
           GITHUB_ACTOR: ${{ github.actor }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
