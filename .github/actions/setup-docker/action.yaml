@@ -10,7 +10,7 @@ runs:
   steps:
     - shell: bash
       run: |
-        jq --arg user ${USER} ". + {\"userns-remap\": \"$user\"}" /etc/docker/daemon.json
+        jq --arg user $(whoami) ". + {\"userns-remap\": \"$user\"}" /etc/docker/daemon.json
         sudo bash -c 'jq --arg user ${USER} ". + {\"userns-remap\": \"$user\"}" /etc/docker/daemon.json' > /etc/docker/daemon.json
         cat /etc/docker/daemon.json
         sudo systemctl restart docker
