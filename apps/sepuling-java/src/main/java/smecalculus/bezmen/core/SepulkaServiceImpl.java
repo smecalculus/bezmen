@@ -25,7 +25,8 @@ public class SepulkaServiceImpl implements SepulkaService {
     @Override
     public RegistrationResponse register(RegistrationRequest request) {
         var now = LocalDateTime.now();
-        var sepulkaCreated = converter.toState(request)
+        var sepulkaCreated = converter
+                .toState(request)
                 .internalId(randomUUID())
                 .revision(0)
                 .createdAt(now)
