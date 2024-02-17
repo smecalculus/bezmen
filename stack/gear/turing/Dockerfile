@@ -30,8 +30,8 @@ ENV JAVA_HOME=/opt/java/openjdk
 ENV MAVEN_HOME=/usr/share/maven
 ENV PATH=${MAVEN_HOME}/bin:${JAVA_HOME}/bin:${PATH}
 
-COPY --from=eclipse-temurin:17-jdk-jammy ${JAVA_HOME} ${JAVA_HOME}
-COPY --from=maven:3.8.8-eclipse-temurin-17 ${MAVEN_HOME} ${MAVEN_HOME}
+COPY --from=eclipse-temurin:21-jdk-jammy ${JAVA_HOME} ${JAVA_HOME}
+COPY --from=maven:3.8.8-eclipse-temurin-21 ${MAVEN_HOME} ${MAVEN_HOME}
 
 COPY requirements.txt .
 RUN pip install -r requirements.txt

@@ -22,11 +22,11 @@ updates:
     schedule:
       interval: "weekly"
   - package-ecosystem: "pip"
-    directory: "/envs/dev/church"
+    directory: "/stack/gear/church"
     schedule:
       interval: "weekly"
   - package-ecosystem: "pip"
-    directory: "/envs/dev/turing"
+    directory: "/stack/gear/turing"
     schedule:
       interval: "weekly"
     ignore:
@@ -35,7 +35,7 @@ updates:
           - version-update:semver-major
           - version-update:semver-minor
   - package-ecosystem: "pip"
-    directory: "/envs/dev/godel"
+    directory: "/stack/gear/godel"
     schedule:
       interval: "weekly"
     ignore:
