@@ -249,6 +249,8 @@ jobs:
         run: >-
           docker run --rm
           --volume $(pwd):$(pwd)
+          --volume /var/run/docker.sock:/var/run/docker.sock
+          --volume ~/.docker/config.json:/root/.docker/config.json:ro
           --workdir $(pwd)/bakers/ansible
           ${{ env.IMAGE_NAME }}:${{ matrix.env.dev }}
           ansible-playbook stacks.yaml -t package
