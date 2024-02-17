@@ -3,7 +3,7 @@ devenv: turing
 dev:
   church:
     jdk:
-      release: 23
+      release: 22
   turing:
     jdk:
       release: 21

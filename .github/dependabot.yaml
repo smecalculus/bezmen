@@ -21,6 +21,10 @@ updates:
     directory: "/dbs/postgres"
     schedule:
       interval: "weekly"
+  - package-ecosystem: "docker"
+    directory: "/stack/gear/church"
+    schedule:
+      interval: "weekly"
   - package-ecosystem: "pip"
     directory: "/stack/gear/church"
     schedule:
