@@ -4,9 +4,9 @@ project:
   org: smecalculus
   dir: "{{ playbook_dir }}/../.."
 
-binary_storage: local
-image_storage: local
+binary_repo: local
+image_repo: local
 
-image_repo: "{{ image_storage }}/{{ project.org }}/{{ project.name }}"
+image_ns: "{{ image_repo }}/{{ project.org }}/{{ project.name }}"
 
-docker_entity: "{{ 'image' if image_storage == 'local' else 'manifest' }}"
+docker_entity: "{{ 'image' if image_repo == 'local' else 'manifest' }}"

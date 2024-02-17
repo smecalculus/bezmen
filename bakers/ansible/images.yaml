@@ -1,7 +1,7 @@
 ---
 - import_playbook: binaries.yaml  # noqa: name[play]
   vars:
-    maven_phase: "{{ 'install' if binary_storage == 'local' else 'deploy' }}"
+    maven_phase: "{{ 'install' if binary_repo == 'local' else 'deploy' }}"
   tags: [binaries, deps]
 
 - name: Images
@@ -12,7 +12,7 @@
       ansible.builtin.command:
         cmd: >-
           docker {{ docker_entity }} inspect
-          {{ image_repo }}/{{ solution.databases[storage].image }}:{{ solution.databases[storage].cid }}
+          {{ image_ns }}/{{ solution.databases[storage].image }}:{{ solution.databases[storage].cid }}
       register: image_status
       changed_when: image_status.rc != 0
       failed_when: false
@@ -28,10 +28,10 @@
         name: image
       vars:
         image_tag: "{{ solution.databases[storage].cid }}"
-        image_name: "{{ image_repo }}/{{ solution.databases[storage].image }}"
+        image_name: "{{ image_ns }}/{{ solution.databases[storage].image }}"
         image_home: "{{ project.dir }}/dbs/{{ storage }}"
         image_key: "{{ solution.databases[storage].image }}"
-        image_push: "{{ image_storage != 'local' }}"
+        image_push: "{{ image_repo != 'local' }}"
       loop: "{{ image_status.results|select('changed')|map(attribute='storage') }}"
       loop_control:
         loop_var: storage
@@ -58,11 +58,11 @@
         name: image
       vars:
         image_tag: "{{ image_tags[app.binary] }}"
-        image_name: "{{ image_repo }}/{{ app.image }}"
+        image_name: "{{ image_ns }}/{{ app.image }}"
         image_home: "{{ project.dir }}/apps/{{ app.binary }}"
         image_context: target/image-context
         image_key: "{{ app.image }}"
-        image_push: "{{ image_storage != 'local' }}"
+        image_push: "{{ image_repo != 'local' }}"
         image_args:
           JAVA_RELEASE: "{{ dev[devenv].jdk.release }}"
       loop: "{{ image_status.results|select('changed')|map(attribute='app') }}"

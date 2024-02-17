@@ -9,8 +9,8 @@ on:
 
 env:
   IMAGE_NAME: stack/gear
-  BINARY_STORAGE: maven.pkg.github.com
-  IMAGE_STORAGE: ghcr.io
+  BINARY_REPO: maven.pkg.github.com
+  IMAGE_REPO: ghcr.io
 
 jobs:
   up-to-images:
@@ -59,8 +59,8 @@ jobs:
           ${{ env.IMAGE_NAME }}:${{ matrix.env.dev }}
           ansible-playbook images.yaml -v
           -e devenv=${{ matrix.env.dev }}
-          -e binary_storage=${{ env.BINARY_STORAGE }}
-          -e image_storage=${{ env.IMAGE_STORAGE }}
+          -e binary_repo=${{ env.BINARY_REPO }}
+          -e image_repo=${{ env.IMAGE_REPO }}
       - uses: mikepenz/action-junit-report@v4.1.0
         if: ${{ !cancelled() && (steps.images.outcome == 'success' || steps.images.outcome == 'failure') }}
         with:
@@ -110,7 +110,7 @@ jobs:
           --workdir $(pwd)/bakers/ansible
           ${{ env.IMAGE_NAME }}:${{ matrix.env.dev }}
           ansible-playbook stacks.yaml -t build
-          -e image_storage=${{ env.IMAGE_STORAGE }}
+          -e image_repo=${{ env.IMAGE_REPO }}
           -e devenv=${{ matrix.env.dev }}
           -e purpose=${{ matrix.purpose }}
           -e opsenv=${{ matrix.env.ops }}
@@ -162,7 +162,7 @@ jobs:
           --workdir $(pwd)/bakers/ansible
           ${{ env.IMAGE_NAME }}:${{ matrix.env.dev }}
           ansible-playbook stacks.yaml -t test
-          -e image_storage=${{ env.IMAGE_STORAGE }}
+          -e image_repo=${{ env.IMAGE_REPO }}
           -e devenv=${{ matrix.env.dev }}
           -e purpose=${{ matrix.purpose }}
           -e opsenv=${{ matrix.env.ops }}
@@ -216,7 +216,7 @@ jobs:
           --workdir $(pwd)/bakers/ansible
           ${{ env.IMAGE_NAME }}:${{ matrix.env.dev }}
           ansible-playbook stacks.yaml -t package
-          -e image_storage=${{ env.IMAGE_STORAGE }}
+          -e image_repo=${{ env.IMAGE_REPO }}
           -e devenv=${{ matrix.env.dev }}
           -e purpose=${{ matrix.purpose }}
           -e opsenv=${{ matrix.env.ops }}

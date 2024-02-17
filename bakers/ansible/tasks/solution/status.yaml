@@ -16,7 +16,7 @@
 
 - name: Capture status
   ansible.builtin.command:
-    cmd: docker {{ docker_entity }} inspect {{ image_repo }}/{{ solution.image }}:{{ solution_tag }}
+    cmd: docker {{ docker_entity }} inspect {{ image_ns }}/{{ solution.image }}:{{ solution_tag }}
   register: stack_status
   changed_when:
     - stack_status.rc != 0
