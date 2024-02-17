@@ -45,11 +45,6 @@
       <artifactId>kotlin-reflect</artifactId>
       <scope>compile</scope>
     </dependency>
-    <dependency>
-      <groupId>io.mcarle</groupId>
-      <artifactId>konvert-api</artifactId>
-      <scope>compile</scope>
-    </dependency>
   </dependencies>
 
   <dependencyManagement>

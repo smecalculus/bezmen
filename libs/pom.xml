@@ -95,11 +95,6 @@
         <version>${mapstruct.version}</version>
       </dependency>
       <dependency>
-        <groupId>io.mcarle</groupId>
-        <artifactId>konvert-api</artifactId>
-        <version>${konvert.version}</version>
-      </dependency>
-      <dependency>
         <groupId>org.slf4j</groupId>
         <artifactId>slf4j-api</artifactId>
         <version>2.0.12</version>
