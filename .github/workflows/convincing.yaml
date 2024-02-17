@@ -12,7 +12,7 @@ env:
 
 jobs:
   up-to-images:
-    name: Up to images
+    name: Up to images (${{ matrix.env.dev }})
     timeout-minutes: 10
     permissions:
       checks: write
