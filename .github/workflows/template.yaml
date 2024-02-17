@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - id: orgbot
-        uses: actions/create-github-app-token@v1.7.0
+        uses: actions/create-github-app-token@v1.8.0
         with:
           app-id: ${{ secrets.ORGBOT_APP_ID }}
           private-key: ${{ secrets.ORGBOT_PRIVATE_KEY }}
@@ -18,7 +18,7 @@ jobs:
         with:
           token: ${{ steps.orgbot.outputs.token }}
           persist-credentials: false
-      - uses: AndreasAugustin/actions-template-sync@v1.4.0
+      - uses: AndreasAugustin/actions-template-sync@v1.5.0
         with:
           pr_title: Syncing with template
           source_repo_path: smecalculus/bezmen
