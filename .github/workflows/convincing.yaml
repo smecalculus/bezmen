@@ -32,8 +32,8 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
       - uses: docker/build-push-action@v5.1.0
         with:
-          context: ${{ IMAGE_NAME }}/${{ matrix.env.dev }}
-          tags: ${{ IMAGE_NAME }}:${{ matrix.env.dev }}
+          context: ${{ env.IMAGE_NAME }}/${{ matrix.env.dev }}
+          tags: ${{ env.IMAGE_NAME }}:${{ matrix.env.dev }}
           load: true
           cache-from: type=gha
           cache-to: type=gha,mode=max
@@ -47,7 +47,7 @@ jobs:
           --volume $(pwd):$(pwd)
           --volume ~/.m2:/root/.m2
           --workdir $(pwd)/bakers/ansible
-          ${{ IMAGE_NAME }}:${{ matrix.env.dev }}
+          ${{ env.IMAGE_NAME }}:${{ matrix.env.dev }}
           ansible-playbook codebase.yaml
           -e devenv=${{ matrix.env.dev }}
       - name: Run ansible-playbook images.yaml
@@ -59,7 +59,7 @@ jobs:
           --env GITHUB_ACTOR=${{ github.actor }}
           --env GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }}
           --workdir $(pwd)/bakers/ansible
-          ${{ IMAGE_NAME }}:${{ matrix.env.dev }}
+          ${{ env.IMAGE_NAME }}:${{ matrix.env.dev }}
           ansible-playbook images.yaml -v
           -e devenv=${{ matrix.env.dev }}
           -e binary_storage=maven.pkg.github.com
