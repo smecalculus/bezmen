@@ -37,7 +37,7 @@ jobs:
           docker run --rm
           --volume $(pwd):$(pwd)
           --volume ~/.m2:/root/.m2
-          --workdir $(pwd)/bakers/ansible
+          --workdir $(pwd)/baker/ansible
           ${{ env.IMAGE_NAME }}:${{ matrix.env.dev }}
           ansible-playbook sources.yaml
           -e devenv=${{ matrix.env.dev }}
@@ -47,7 +47,7 @@ jobs:
           docker run --rm
           --volume $(pwd):$(pwd)
           --volume ~/.m2:/root/.m2
-          --workdir $(pwd)/bakers/ansible
+          --workdir $(pwd)/baker/ansible
           ${{ env.IMAGE_NAME }}:${{ matrix.env.dev }}
           ansible-playbook binaries.yaml
           -e devenv=${{ matrix.env.dev }}

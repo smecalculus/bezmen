@@ -41,7 +41,7 @@ jobs:
           docker run --rm
           --volume $(pwd):$(pwd)
           --volume ~/.m2:/root/.m2
-          --workdir $(pwd)/bakers/ansible
+          --workdir $(pwd)/baker/ansible
           ${{ env.IMAGE_NAME }}:${{ matrix.env.dev }}
           ansible-playbook sources.yaml
           -e devenv=${{ matrix.env.dev }}
@@ -55,7 +55,7 @@ jobs:
           --volume ~/.docker/config.json:/root/.docker/config.json:ro
           --env GITHUB_ACTOR=${{ github.actor }}
           --env GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }}
-          --workdir $(pwd)/bakers/ansible
+          --workdir $(pwd)/baker/ansible
           ${{ env.IMAGE_NAME }}:${{ matrix.env.dev }}
           ansible-playbook images.yaml -v
           -e devenv=${{ matrix.env.dev }}
@@ -107,7 +107,7 @@ jobs:
         run: >-
           docker run --rm
           --volume $(pwd):$(pwd)
-          --workdir $(pwd)/bakers/ansible
+          --workdir $(pwd)/baker/ansible
           ${{ env.IMAGE_NAME }}:${{ matrix.env.dev }}
           ansible-playbook stacks.yaml -t build
           -e image_repo=${{ env.IMAGE_REPO }}
@@ -116,8 +116,8 @@ jobs:
           -e opsenv=${{ matrix.env.ops }}
       - uses: actions/upload-artifact@v4.3.1
         with:
-          name: solution-${{ matrix.purpose }}-${{ matrix.env.ops }}
-          path: stack/solution/target/image-context
+          name: product-${{ matrix.purpose }}-${{ matrix.env.ops }}
+          path: stack/product/target/image-context
           if-no-files-found: ignore
 
   stack-testing:
@@ -149,8 +149,8 @@ jobs:
       - uses: actions/download-artifact@v4.1.2
         continue-on-error: true  # it's ok because stack building can be skipped
         with:
-          name: solution-${{ matrix.purpose }}-${{ matrix.env.ops }}
-          path: stack/solution/target/image-context
+          name: product-${{ matrix.purpose }}-${{ matrix.env.ops }}
+          path: stack/product/target/image-context
       - name: Run setup-maven
         uses: ./.github/actions/setup-maven
       - name: Run ansible-playbook stacks.yaml -t test
@@ -159,7 +159,7 @@ jobs:
           --volume $(pwd):$(pwd)
           --volume ~/.m2:/root/.m2
           --volume /var/run/docker.sock:/var/run/docker.sock
-          --workdir $(pwd)/bakers/ansible
+          --workdir $(pwd)/baker/ansible
           ${{ env.IMAGE_NAME }}:${{ matrix.env.dev }}
           ansible-playbook stacks.yaml -t test
           -e image_repo=${{ env.IMAGE_REPO }}
@@ -172,7 +172,7 @@ jobs:
         if: ${{ !cancelled() }}
         with:
           name: e2e-test-report-${{ matrix.shard }}-${{ matrix.purpose }}-${{ matrix.env.ops }}
-          path: tests/e2e/target/surefire-reports/*.xml
+          path: test/e2e/target/surefire-reports/*.xml
           if-no-files-found: ignore
 
   stack-publishing:
@@ -205,15 +205,15 @@ jobs:
       - uses: actions/download-artifact@v4.1.2
         continue-on-error: true  # it's ok because stack building can be skipped
         with:
-          name: solution-${{ matrix.purpose }}-${{ matrix.env.ops }}
-          path: stack/solution/target/image-context
+          name: product-${{ matrix.purpose }}-${{ matrix.env.ops }}
+          path: stack/product/target/image-context
       - name: Run ansible-playbook stacks.yaml -t package
         run: >-
           docker run --rm
           --volume $(pwd):$(pwd)
           --volume /var/run/docker.sock:/var/run/docker.sock
           --volume ~/.docker/config.json:/root/.docker/config.json:ro
-          --workdir $(pwd)/bakers/ansible
+          --workdir $(pwd)/baker/ansible
           ${{ env.IMAGE_NAME }}:${{ matrix.env.dev }}
           ansible-playbook stacks.yaml -t package -v
           -e image_repo=${{ env.IMAGE_REPO }}

@@ -1,0 +1,56 @@
+---
+- import_playbook: images.yaml  # noqa: name[play]
+  tags: [images, deps]
+
+- name: Capturing
+  hosts: product
+  run_once: true
+  tasks:
+    - ansible.builtin.import_tasks:  # noqa: name[missing]
+        file: tasks/product/status.yaml
+      tags: [always]
+
+- name: Capturing
+  hosts: gear
+  run_once: true
+  tasks:
+    - ansible.builtin.import_tasks:  # noqa: name[missing]
+        file: tasks/gear/status.yaml
+      tags: [always]
+
+- name: Testing
+  hosts: stack
+  run_once: true
+  vars:
+    stack_dir: "{{ project.dir }}/stack/product"
+  tasks:
+    - ansible.builtin.import_tasks:  # noqa: name[missing]
+        file: tasks/product/build.yaml
+      tags: [build]
+      when: >-
+        hostvars.product.stack_status is changed or
+        hostvars.gear.stack_status is changed
+    - ansible.builtin.import_tasks:  # noqa: name[missing]
+        file: tasks/product/test.yaml
+      tags: [test]
+      when: >-
+        hostvars.product.stack_status is changed or
+        hostvars.gear.stack_status is changed
+
+- name: Packaging
+  hosts: product
+  run_once: true
+  tasks:
+    - ansible.builtin.import_tasks:  # noqa: name[missing]
+        file: tasks/product/package.yaml
+      tags: [package]
+      when: stack_status is changed
+
+- name: Packaging
+  hosts: gear
+  run_once: true
+  tasks:
+    - ansible.builtin.import_tasks:  # noqa: name[missing]
+        file: tasks/gear/package.yaml
+      tags: [package]
+      when: stack_status is changed
