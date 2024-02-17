@@ -3,7 +3,7 @@ devenv: turing
 dev:
   church:
     jdk:
-      release: 22
+      release: 21
     kotlin:
       version: 2.0.0-Beta4
   turing:
