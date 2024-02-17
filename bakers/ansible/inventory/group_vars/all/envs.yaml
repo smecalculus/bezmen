@@ -3,20 +3,13 @@ devenv: turing
 dev:
   church:
     jdk:
-      release: 21
+      release: 23
   turing:
     jdk:
-      release: 17
+      release: 21
   godel:
     jdk:
       release: 17
-  anyone:
-    maven:
-      min: 3.8.0
-      max: 3.10.0
-    docker:
-      min: 24.0.0
-      max: 25.0.0
 
 opsenv: durkheim
 ops:
