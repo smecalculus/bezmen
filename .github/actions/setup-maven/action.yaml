@@ -18,6 +18,6 @@ runs:
           pom.xml
           libs/pom.xml
           tools/pom.xml
-        env:
-          GITHUB_ACTOR: ${{ github.actor }}
-          GITHUB_TOKEN: ${{ inputs.token }}
+      env:
+        GITHUB_ACTOR: ${{ github.actor }}
+        GITHUB_TOKEN: ${{ inputs.token }}

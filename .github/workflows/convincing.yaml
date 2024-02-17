@@ -17,21 +17,43 @@ jobs:
       packages: write
     steps:
       - uses: actions/checkout@v4.1.1
-      - uses: ./.github/actions/prepare
+      - name: Run setup-docker
+        uses: ./.github/actions/setup-docker
         with:
-          tools: python java docker
           token: ${{ secrets.GITHUB_TOKEN }}
-      - run: ansible-playbook codebase.yaml
-        working-directory: bakers/ansible
+      - uses: docker/build-push-action@v5.1.0
+        with:
+          context: stacks/toolchain/turing
+          tags: stack/toolchain:turing
+          load: true
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+      - name: Run setup-maven
+        uses: ./.github/actions/setup-maven
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Run ansible-playbook codebase.yaml
+        run: >-
+          docker run --rm
+          --volume $(pwd):$(pwd)
+          --volume ~/.m2:/root/.m2
+          --workdir $(pwd)/bakers/ansible
+          stack/toolchain:turing
+          ansible-playbook codebase.yaml
         env:
           GITHUB_ACTOR: ${{ github.actor }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - id: images
+      - name: Run ansible-playbook images.yaml
+        id: images
         run: >-
-          ansible-playbook images.yaml
+          docker run --rm
+          --volume $(pwd):$(pwd)
+          --volume ~/.m2:/root/.m2
+          --workdir $(pwd)/bakers/ansible
+          stack/toolchain:turing
+          ansible-playbook images.yaml -v
           -e binary_storage=maven.pkg.github.com
           -e image_storage=ghcr.io
-        working-directory: bakers/ansible
         env:
           GITHUB_ACTOR: ${{ github.actor }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
