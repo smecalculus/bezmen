@@ -24,12 +24,9 @@ jobs:
       matrix:
         env:
           - dev: godel
-            os: ubuntu-20.04
           - dev: turing
-            os: ubuntu-22.04
           - dev: church
-            os: ubuntu-22.04
-    runs-on: ${{ matrix.env.os }}
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4.1.1
       - name: Run setup-gear
@@ -91,18 +88,14 @@ jobs:
         purpose: [func]
         env:
           - dev: godel
-            os: ubuntu-20.04
             ops: marx
           - dev: turing
-            os: ubuntu-22.04
             ops: durkheim
           - dev: turing
-            os: ubuntu-22.04
             ops: veblen
           - dev: church
-            os: ubuntu-22.04
             ops: commons
-    runs-on: ${{ matrix.env.os }}
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4.1.1
       - name: Run setup-gear
@@ -138,18 +131,14 @@ jobs:
         shard: [0, 1]
         env:
           - dev: godel
-            os: ubuntu-20.04
             ops: marx
           - dev: turing
-            os: ubuntu-22.04
             ops: durkheim
           - dev: turing
-            os: ubuntu-22.04
             ops: veblen
           - dev: church
-            os: ubuntu-22.04
             ops: commons
-    runs-on: ${{ matrix.env.os }}
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4.1.1
       - name: Run setup-gear
@@ -196,18 +185,14 @@ jobs:
         purpose: [func]
         env:
           - dev: godel
-            os: ubuntu-20.04
             ops: marx
           - dev: turing
-            os: ubuntu-22.04
             ops: durkheim
           - dev: turing
-            os: ubuntu-22.04
             ops: veblen
           - dev: church
-            os: ubuntu-22.04
             ops: commons
-    runs-on: ${{ matrix.env.os }}
+    runs-on: ubuntu-latest
     permissions:
       packages: write
     steps:

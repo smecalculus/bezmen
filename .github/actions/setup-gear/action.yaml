@@ -14,8 +14,8 @@ runs:
     - shell: bash
       run: |
         cat /etc/docker/daemon.json | jq '. + {"userns-remap": "runner"}' | sudo tee /etc/docker/daemon.json
-        sudo sed -i -e "1i runner:$(id -u):1" /etc/subuid
         sudo sed -i -e "1i runner:$(getent group docker | cut -d: -f3):1" /etc/subgid
+        sudo sed -i -e "1i runner:$(id -u):1" /etc/subuid
         sudo systemctl restart docker
     - uses: docker/setup-buildx-action@v3.0.0
     - uses: docker/build-push-action@v5.1.0

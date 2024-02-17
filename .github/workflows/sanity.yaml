@@ -22,8 +22,7 @@ jobs:
       matrix:
         env:
           - dev: turing
-            os: ubuntu-22.04
-    runs-on: ${{ matrix.env.os }}
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4.1.1
       - name: Run setup-gear
