@@ -147,13 +147,6 @@
           <version>${kotlin.version}</version>
           <configuration>
             <jvmTarget>${maven.compiler.release}</jvmTarget>
-            <compilerPlugins>
-              <plugin>ksp</plugin>
-            </compilerPlugins>
-            <pluginOptions>
-              <option>ksp:apoption=konvert.konverter.generate-class=true</option>
-              <option>ksp:apoption=konvert.enforce-not-null=true</option>
-            </pluginOptions>
           </configuration>
           <executions>
             <execution>
@@ -180,18 +173,6 @@
               </configuration>
             </execution>
           </executions>
-          <dependencies>
-            <dependency>
-              <groupId>com.dyescape</groupId>
-              <artifactId>kotlin-maven-symbol-processing</artifactId>
-              <version>1.6</version>
-            </dependency>
-            <dependency>
-              <groupId>io.mcarle</groupId>
-              <artifactId>konvert</artifactId>
-              <version>${konvert.version}</version>
-            </dependency>
-          </dependencies>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>

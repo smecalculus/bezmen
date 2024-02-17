@@ -8,8 +8,8 @@ import org.springframework.context.annotation.PropertySource
 import smecalculus.bezmen.configuration.MessagingDm.MappingMode.SPRING_MVC
 import smecalculus.bezmen.configuration.StorageDm.MappingMode.MY_BATIS
 import smecalculus.bezmen.configuration.StorageDm.MappingMode.SPRING_DATA
-import smecalculus.bezmen.core.SepulkaMapper
-import smecalculus.bezmen.core.SepulkaMapperImpl
+import smecalculus.bezmen.core.SepulkaConverter
+import smecalculus.bezmen.core.SepulkaConverterImpl
 import smecalculus.bezmen.core.SepulkaService
 import smecalculus.bezmen.core.SepulkaServiceImpl
 import smecalculus.bezmen.messaging.SepulkaClient
@@ -55,13 +55,13 @@ class App {
     }
 
     @Bean
-    fun sepulkaMapper(): SepulkaMapper {
-        return SepulkaMapperImpl()
+    fun sepulkaConverter(): SepulkaConverter {
+        return SepulkaConverterImpl()
     }
 
     @Bean
     fun sepulkaService(
-        mapper: SepulkaMapper,
+        mapper: SepulkaConverter,
         dao: SepulkaDao,
     ): SepulkaService {
         return SepulkaServiceImpl(mapper, dao)

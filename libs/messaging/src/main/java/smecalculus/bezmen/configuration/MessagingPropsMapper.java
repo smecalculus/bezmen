@@ -4,10 +4,9 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import smecalculus.bezmen.configuration.MessagingDm.MappingMode;
 import smecalculus.bezmen.configuration.MessagingDm.ProtocolMode;
-import smecalculus.bezmen.mapping.EdgeMapper;
 
 @Mapper
-public interface MessagingPropsMapper extends EdgeMapper {
+public interface MessagingPropsMapper {
     @Mapping(source = "protocol", target = "protocolProps")
     @Mapping(source = "mapping", target = "mappingProps")
     MessagingDm.MessagingProps toDomain(MessagingEm.MessagingProps propsEdge);
