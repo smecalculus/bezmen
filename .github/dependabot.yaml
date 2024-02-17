@@ -1,10 +1,6 @@
 ---
 version: 2
 updates:
-  - package-ecosystem: "github-actions"
-    directory: "/"
-    schedule:
-      interval: "weekly"
   - package-ecosystem: "maven"
     directory: "/"
     open-pull-requests-limit: 10
@@ -17,8 +13,12 @@ updates:
       junit-platform:
         patterns:
           - "org.junit*"
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
   - package-ecosystem: "docker"
-    directory: "/dbs/postgres"
+    directory: "/db/postgres"
     schedule:
       interval: "weekly"
   - package-ecosystem: "docker"
@@ -34,10 +34,9 @@ updates:
     schedule:
       interval: "weekly"
     ignore:
-      - dependency-name: "ansible-core"
+      - dependency-name: "*"
         update-types:
           - version-update:semver-major
-          - version-update:semver-minor
   - package-ecosystem: "pip"
     directory: "/stack/gear/godel"
     schedule:

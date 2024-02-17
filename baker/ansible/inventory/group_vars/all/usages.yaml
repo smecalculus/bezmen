@@ -1,0 +1,11 @@
+---
+purpose: toy
+usages:
+  toy:
+    storage: postgres
+    apps:
+      - sepuling
+  func:
+    storage: postgres
+    apps:
+      - sepuling

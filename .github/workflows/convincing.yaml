@@ -37,7 +37,7 @@ jobs:
           docker run --rm
           --volume $(pwd):$(pwd)
           --volume ~/.m2:/root/.m2
-          --workdir $(pwd)/bakers/ansible
+          --workdir $(pwd)/baker/ansible
           ${{ env.IMAGE_NAME }}:${{ matrix.env.dev }}
           ansible-playbook sources.yaml
           -e devenv=${{ matrix.env.dev }}
@@ -51,7 +51,7 @@ jobs:
           --volume ~/.docker/config.json:/root/.docker/config.json:ro
           --env GITHUB_ACTOR=${{ github.actor }}
           --env GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }}
-          --workdir $(pwd)/bakers/ansible
+          --workdir $(pwd)/baker/ansible
           ${{ env.IMAGE_NAME }}:${{ matrix.env.dev }}
           ansible-playbook images.yaml -v
           -e devenv=${{ matrix.env.dev }}
@@ -77,7 +77,7 @@ jobs:
         if: ${{ !cancelled() }}
         with:
           name: test-coverage-report
-          path: tools/target/coverage
+          path: tool/target/coverage
           if-no-files-found: ignore
 
   everything-is-fine:

@@ -1,0 +1,16 @@
+---
+sources:
+  hosts:
+    java:
+    ansible:
+    github:
+stack:
+  hosts:
+    gear:
+    product:
+all:
+  hosts:
+    db:
+    app:
+  vars:
+    ansible_connection: local

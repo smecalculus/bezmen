@@ -12,7 +12,7 @@ runs:
         cache: 'maven'
         cache-dependency-path: |
           pom.xml
-          libs/pom.xml
-          tools/pom.xml
+          lib/pom.xml
+          tool/pom.xml
     - shell: bash
       run: cat ~/.m2/settings.xml
