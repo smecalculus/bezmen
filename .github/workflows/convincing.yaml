@@ -39,8 +39,6 @@ jobs:
           cache-to: type=gha,mode=max,scope=${{ env.IMAGE_NAME }}/${{ matrix.env.dev }}
       - name: Run setup-maven
         uses: ./.github/actions/setup-maven
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
       - name: Run ansible-playbook codebase.yaml
         run: >-
           docker run --rm

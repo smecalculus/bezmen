@@ -1,10 +1,6 @@
 ---
 name: Setup Maven
 description: Settings & caching
-inputs:
-  token:
-    description: Github token
-    required: false
 runs:
   using: "composite"
   steps:
@@ -18,8 +14,5 @@ runs:
           pom.xml
           libs/pom.xml
           tools/pom.xml
-      env:
-        GITHUB_ACTOR: ${{ github.actor }}
-        GITHUB_TOKEN: ${{ inputs.token }}
     - shell: bash
       run: cat ~/.m2/settings.xml
