@@ -6,7 +6,7 @@
       {{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=tools') }}
       {{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=tests') }}
       {{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=bakers') }}
-      {{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=stack/gear') }}
+      {{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=stack/gear/{{ devenv }}') }}
   register: stack_cid
   changed_when: false
 
