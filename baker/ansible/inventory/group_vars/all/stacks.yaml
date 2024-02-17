@@ -21,7 +21,7 @@ product:
     postgres:
       name: "{{ project.name }}"
       cid: "{{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=db/postgres')[:7] }}"
-      image: database/postgres
+      image: db/postgres
   schemas:
     postgres:
       - name: sepulkarium
