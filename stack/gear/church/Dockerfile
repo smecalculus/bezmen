@@ -26,11 +26,11 @@ RUN install -m 0755 -d /etc/apt/keyrings \
     docker-compose-plugin \
   && rm -rf /var/lib/apt/lists/*
 
-ENV JAVA_HOME=/usr/local/openjdk-23
+ENV JAVA_HOME=/usr/local/openjdk-22
 ENV MAVEN_HOME=/usr/share/maven
 ENV PATH=${MAVEN_HOME}/bin:${JAVA_HOME}/bin:${PATH}
 
-COPY --from=openjdk:23-jdk-bullseye ${JAVA_HOME} ${JAVA_HOME}
+COPY --from=openjdk:22-jdk-bullseye ${JAVA_HOME} ${JAVA_HOME}
 COPY --from=maven:3.9.6-eclipse-temurin-21 ${MAVEN_HOME} ${MAVEN_HOME}
 
 COPY requirements.txt .
