@@ -39,14 +39,14 @@ jobs:
           cache-to: type=gha,mode=max,scope=${{ env.IMAGE_NAME }}/${{ matrix.env.dev }}
       - name: Run setup-maven
         uses: ./.github/actions/setup-maven
-      - name: Run ansible-playbook codebase.yaml
+      - name: Run ansible-playbook sources.yaml
         run: >-
           docker run --rm
           --volume $(pwd):$(pwd)
           --volume ~/.m2:/root/.m2
           --workdir $(pwd)/bakers/ansible
           ${{ env.IMAGE_NAME }}:${{ matrix.env.dev }}
-          ansible-playbook codebase.yaml
+          ansible-playbook sources.yaml
           -e devenv=${{ matrix.env.dev }}
       - name: Run ansible-playbook images.yaml
         id: images

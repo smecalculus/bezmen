@@ -32,7 +32,7 @@ devenv: church
 [source,bash]
 ----
 cd bakers/ansible
-ansible-playbook codebase.yaml
+ansible-playbook sources.yaml
 ansible-playbook stacks.yaml
 ----
 . Создаем пул-реквест.
