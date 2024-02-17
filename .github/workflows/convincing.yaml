@@ -56,6 +56,7 @@ jobs:
           docker run --rm
           --volume $(pwd):$(pwd)
           --volume ~/.m2:/root/.m2
+          --volume /var/run/docker.sock:/var/run/docker.sock
           --env GITHUB_ACTOR=${{ github.actor }}
           --env GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }}
           --workdir $(pwd)/bakers/ansible
