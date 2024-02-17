@@ -35,8 +35,8 @@ jobs:
           context: ${{ env.IMAGE_NAME }}/${{ matrix.env.dev }}
           tags: ${{ env.IMAGE_NAME }}:${{ matrix.env.dev }}
           load: true
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
+          cache-from: type=gha,scope=${{ env.IMAGE_NAME }}/${{ matrix.env.dev }}
+          cache-to: type=gha,mode=max,scope=${{ env.IMAGE_NAME }}/${{ matrix.env.dev }}
       - name: Run setup-maven
         uses: ./.github/actions/setup-maven
         with:

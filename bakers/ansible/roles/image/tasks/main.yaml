@@ -28,7 +28,6 @@
     cmd: >-
       docker build {{ image_context }} --file Dockerfile
       --tag {{ image_name }}:{{ image_tag }}
-      --tag {{ image_name }}:latest
       --label image.key={{ image_key }}
       {% for key, value in image_args.items() %}
       --build-arg {{ key }}={{ value }}
