@@ -40,23 +40,19 @@ jobs:
           --workdir $(pwd)/bakers/ansible
           stack/toolchain:turing
           ansible-playbook codebase.yaml
-        env:
-          GITHUB_ACTOR: ${{ github.actor }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Run ansible-playbook images.yaml
         id: images
         run: >-
           docker run --rm
           --volume $(pwd):$(pwd)
           --volume ~/.m2:/root/.m2
+          --env GITHUB_ACTOR=${{ github.actor }}
+          --env GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }}
           --workdir $(pwd)/bakers/ansible
           stack/toolchain:turing
           ansible-playbook images.yaml -v
           -e binary_storage=maven.pkg.github.com
           -e image_storage=ghcr.io
-        env:
-          GITHUB_ACTOR: ${{ github.actor }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - uses: mikepenz/action-junit-report@v4.1.0
         if: ${{ !cancelled() && (steps.images.outcome == 'success' || steps.images.outcome == 'failure') }}
         with:

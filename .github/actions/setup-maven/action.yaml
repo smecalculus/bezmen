@@ -8,6 +8,8 @@ inputs:
 runs:
   using: "composite"
   steps:
+    - shell: bash
+      run: cat ~/.m2/settings.xml
     - uses: actions/setup-java@v4.0.0
       with:
         distribution: 'temurin'
@@ -21,3 +23,5 @@ runs:
       env:
         GITHUB_ACTOR: ${{ github.actor }}
         GITHUB_TOKEN: ${{ inputs.token }}
+    - shell: bash
+      run: cat ~/.m2/settings.xml

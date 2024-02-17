@@ -40,9 +40,6 @@ jobs:
           --workdir $(pwd)/bakers/ansible
           stack/toolchain:turing
           ansible-playbook codebase.yaml
-        env:
-          GITHUB_ACTOR: ${{ github.actor }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Run ansible-playbook binaries.yaml
         id: binaries
         run: >-
@@ -51,10 +48,7 @@ jobs:
           --volume ~/.m2:/root/.m2
           --workdir $(pwd)/bakers/ansible
           stack/toolchain:turing
-          ansible-playbook binaries.yaml -v
-        env:
-          GITHUB_ACTOR: ${{ github.actor }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ansible-playbook binaries.yaml
       - uses: mikepenz/action-junit-report@v4.1.0
         if: ${{ !cancelled() && (steps.binaries.outcome == 'success' || steps.binaries.outcome == 'failure') }}
         with:
