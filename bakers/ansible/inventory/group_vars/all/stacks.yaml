@@ -1,6 +1,6 @@
 ---
-toolchain:
-  image: stack/toolchain
+gear:
+  image: stack/gear
 
 solution:
   name: "{{ project.name }}"

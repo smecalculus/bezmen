@@ -2,10 +2,10 @@
 - ansible.builtin.import_role:  # noqa: name[missing]
     name: image
   vars:
-    image_tag: "{{ toolchain_tag }}"
-    image_name: "{{ image_repo }}/{{ toolchain.image }}"
+    image_tag: "{{ gear_tag }}"
+    image_name: "{{ image_repo }}/{{ gear.image }}"
     image_home: "{{ project.dir }}/stack/gear/{{ devenv }}"
-    image_key: "{{ toolchain.image }}:{{ devenv }}"
+    image_key: "{{ gear.image }}:{{ devenv }}"
     image_push: false
     image_args:
       DOCKER_VERSION: "{{ lookup('ansible.builtin.pipe', 'docker version --format {% raw %}{{.Client.Version}}{% endraw %}') }}"  # noqa: yaml[line-length]

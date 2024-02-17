@@ -11,11 +11,11 @@
       tags: [always]
 
 - name: Capturing
-  hosts: toolchain
+  hosts: gear
   run_once: true
   tasks:
     - ansible.builtin.import_tasks:  # noqa: name[missing]
-        file: tasks/toolchain/status.yaml
+        file: tasks/gear/status.yaml
       tags: [always]
 
 - name: Testing
@@ -29,13 +29,13 @@
       tags: [build]
       when: >-
         hostvars.solution.stack_status is changed or
-        hostvars.toolchain.stack_status is changed
+        hostvars.gear.stack_status is changed
     - ansible.builtin.import_tasks:  # noqa: name[missing]
         file: tasks/solution/test.yaml
       tags: [test]
       when: >-
         hostvars.solution.stack_status is changed or
-        hostvars.toolchain.stack_status is changed
+        hostvars.gear.stack_status is changed
 
 - name: Packaging
   hosts: solution
@@ -47,10 +47,10 @@
       when: stack_status is changed
 
 - name: Packaging
-  hosts: toolchain
+  hosts: gear
   run_once: true
   tasks:
     - ansible.builtin.import_tasks:  # noqa: name[missing]
-        file: tasks/toolchain/package.yaml
+        file: tasks/gear/package.yaml
       tags: [package]
       when: stack_status is changed
