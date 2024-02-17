@@ -8,6 +8,7 @@ on:
   workflow_dispatch:
 
 env:
+  IMAGE_NAME: stack/gear
   BINARY_STORAGE: maven.pkg.github.com
   IMAGE_STORAGE: ghcr.io
 
@@ -31,28 +32,44 @@ jobs:
     runs-on: ${{ matrix.env.os }}
     steps:
       - uses: actions/checkout@v4.1.1
-      - uses: ./.github/actions/prepare
+      - name: Run setup-docker
+        uses: ./.github/actions/setup-docker
         with:
-          devenv: ${{ matrix.env.dev }}
-          tools: python java docker
           token: ${{ secrets.GITHUB_TOKEN }}
-      - run: >-
+      - uses: docker/build-push-action@v5.1.0
+        with:
+          context: ${{ env.IMAGE_NAME }}/${{ matrix.env.dev }}
+          tags: ${{ env.IMAGE_NAME }}:${{ matrix.env.dev }}
+          load: true
+          cache-from: type=gha,scope=${{ env.IMAGE_NAME }}/${{ matrix.env.dev }}
+          cache-to: type=gha,mode=max,scope=${{ env.IMAGE_NAME }}/${{ matrix.env.dev }}
+      - name: Run setup-maven
+        uses: ./.github/actions/setup-maven
+      - name: Run ansible-playbook codebase.yaml
+        run: >-
+          docker run --rm
+          --volume $(pwd):$(pwd)
+          --volume ~/.m2:/root/.m2
+          --workdir $(pwd)/bakers/ansible
+          ${{ env.IMAGE_NAME }}:${{ matrix.env.dev }}
           ansible-playbook codebase.yaml
           -e devenv=${{ matrix.env.dev }}
-        working-directory: bakers/ansible
-        env:
-          GITHUB_ACTOR: ${{ github.actor }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - id: images
+      - name: Run ansible-playbook images.yaml
+        id: images
         run: >-
-          ansible-playbook images.yaml
+          docker run --rm
+          --volume $(pwd):$(pwd)
+          --volume ~/.m2:/root/.m2
+          --volume /var/run/docker.sock:/var/run/docker.sock
+          --volume ~/.docker/config.json:/root/.docker/config.json:ro
+          --env GITHUB_ACTOR=${{ github.actor }}
+          --env GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }}
+          --workdir $(pwd)/bakers/ansible
+          ${{ env.IMAGE_NAME }}:${{ matrix.env.dev }}
+          ansible-playbook images.yaml -v
+          -e devenv=${{ matrix.env.dev }}
           -e binary_storage=${{ env.BINARY_STORAGE }}
           -e image_storage=${{ env.IMAGE_STORAGE }}
-          -e devenv=${{ matrix.env.dev }}
-        working-directory: bakers/ansible
-        env:
-          GITHUB_ACTOR: ${{ github.actor }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - uses: mikepenz/action-junit-report@v4.1.0
         if: ${{ !cancelled() && (steps.images.outcome == 'success' || steps.images.outcome == 'failure') }}
         with:
@@ -94,18 +111,28 @@ jobs:
     runs-on: ${{ matrix.env.os }}
     steps:
       - uses: actions/checkout@v4.1.1
-      - uses: ./.github/actions/prepare
+      - name: Run setup-docker
+        uses: ./.github/actions/setup-docker
         with:
-          devenv: ${{ matrix.env.dev }}
-          tools: python docker
           token: ${{ secrets.GITHUB_TOKEN }}
-      - run: >-
+      - uses: docker/build-push-action@v5.1.0
+        with:
+          context: ${{ env.IMAGE_NAME }}/${{ matrix.env.dev }}
+          tags: ${{ env.IMAGE_NAME }}:${{ matrix.env.dev }}
+          load: true
+          cache-from: type=gha,scope=${{ env.IMAGE_NAME }}/${{ matrix.env.dev }}
+          cache-to: type=gha,mode=max,scope=${{ env.IMAGE_NAME }}/${{ matrix.env.dev }}
+      - name: Run ansible-playbook stacks.yaml -t build
+        run: >-
+          docker run --rm
+          --volume $(pwd):$(pwd)
+          --workdir $(pwd)/bakers/ansible
+          ${{ env.IMAGE_NAME }}:${{ matrix.env.dev }}
           ansible-playbook stacks.yaml -t build
           -e image_storage=${{ env.IMAGE_STORAGE }}
           -e devenv=${{ matrix.env.dev }}
           -e purpose=${{ matrix.purpose }}
           -e opsenv=${{ matrix.env.ops }}
-        working-directory: bakers/ansible
       - uses: actions/upload-artifact@v4.3.0
         with:
           name: solution-${{ matrix.purpose }}-${{ matrix.env.ops }}
@@ -137,28 +164,38 @@ jobs:
     runs-on: ${{ matrix.env.os }}
     steps:
       - uses: actions/checkout@v4.1.1
-      - uses: ./.github/actions/prepare
+      - name: Run setup-docker
+        uses: ./.github/actions/setup-docker
         with:
-          devenv: ${{ matrix.env.dev }}
-          tools: python java docker
           token: ${{ secrets.GITHUB_TOKEN }}
+      - uses: docker/build-push-action@v5.1.0
+        with:
+          context: ${{ env.IMAGE_NAME }}/${{ matrix.env.dev }}
+          tags: ${{ env.IMAGE_NAME }}:${{ matrix.env.dev }}
+          load: true
+          cache-from: type=gha,scope=${{ env.IMAGE_NAME }}/${{ matrix.env.dev }}
+          cache-to: type=gha,mode=max,scope=${{ env.IMAGE_NAME }}/${{ matrix.env.dev }}
       - uses: actions/download-artifact@v4.1.1
         continue-on-error: true  # it's ok because stack building can be skipped
         with:
           name: solution-${{ matrix.purpose }}-${{ matrix.env.ops }}
           path: stack/solution/target/image-context
-      - run: >-
+      - name: Run setup-maven
+        uses: ./.github/actions/setup-maven
+      - name: Run ansible-playbook stacks.yaml -t test
+        run: >-
+          docker run --rm
+          --volume $(pwd):$(pwd)
+          --volume ~/.m2:/root/.m2
+          --workdir $(pwd)/bakers/ansible
+          ${{ env.IMAGE_NAME }}:${{ matrix.env.dev }}
           ansible-playbook stacks.yaml -t test
           -e image_storage=${{ env.IMAGE_STORAGE }}
-          -e reminder=${{ matrix.shard }}
-          -e modulus=2
           -e devenv=${{ matrix.env.dev }}
           -e purpose=${{ matrix.purpose }}
           -e opsenv=${{ matrix.env.ops }}
-        working-directory: bakers/ansible
-        env:
-          GITHUB_ACTOR: ${{ github.actor }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          -e reminder=${{ matrix.shard }}
+          -e modulus=2
       - uses: actions/upload-artifact@v4.3.0
         if: ${{ !cancelled() }}
         with:
@@ -192,23 +229,33 @@ jobs:
       packages: write
     steps:
       - uses: actions/checkout@v4.1.1
-      - uses: ./.github/actions/prepare
+      - name: Run setup-docker
+        uses: ./.github/actions/setup-docker
         with:
-          devenv: ${{ matrix.env.dev }}
-          tools: python docker
           token: ${{ secrets.GITHUB_TOKEN }}
+      - uses: docker/build-push-action@v5.1.0
+        with:
+          context: ${{ env.IMAGE_NAME }}/${{ matrix.env.dev }}
+          tags: ${{ env.IMAGE_NAME }}:${{ matrix.env.dev }}
+          load: true
+          cache-from: type=gha,scope=${{ env.IMAGE_NAME }}/${{ matrix.env.dev }}
+          cache-to: type=gha,mode=max,scope=${{ env.IMAGE_NAME }}/${{ matrix.env.dev }}
       - uses: actions/download-artifact@v4.1.1
         continue-on-error: true  # it's ok because stack building can be skipped
         with:
           name: solution-${{ matrix.purpose }}-${{ matrix.env.ops }}
           path: stack/solution/target/image-context
-      - run: >-
+      - name: Run ansible-playbook stacks.yaml -t package
+        run: >-
+          docker run --rm
+          --volume $(pwd):$(pwd)
+          --workdir $(pwd)/bakers/ansible
+          ${{ env.IMAGE_NAME }}:${{ matrix.env.dev }}
           ansible-playbook stacks.yaml -t package
           -e image_storage=${{ env.IMAGE_STORAGE }}
           -e devenv=${{ matrix.env.dev }}
           -e purpose=${{ matrix.purpose }}
           -e opsenv=${{ matrix.env.ops }}
-        working-directory: bakers/ansible
 
   stack-reporting:
     name: Stack reporting
