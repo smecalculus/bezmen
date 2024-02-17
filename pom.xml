@@ -22,11 +22,10 @@
     <mapstruct.version>1.5.5.Final</mapstruct.version>
     <spring.version>6.1.3</spring.version>
     <kotlin.version>1.9.22</kotlin.version>
-    <konvert.version>3.0.0</konvert.version>
     <jacoco.version>0.8.11</jacoco.version>
     <skipTests>false</skipTests>
     <skipUnits>${skipTests}</skipUnits>
-    <maven.compiler.release>19</maven.compiler.release>
+    <maven.compiler.release>17</maven.compiler.release>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
 
@@ -147,13 +146,6 @@
           <version>${kotlin.version}</version>
           <configuration>
             <jvmTarget>${maven.compiler.release}</jvmTarget>
-            <compilerPlugins>
-              <plugin>ksp</plugin>
-            </compilerPlugins>
-            <pluginOptions>
-              <option>ksp:apoption=konvert.konverter.generate-class=true</option>
-              <option>ksp:apoption=konvert.enforce-not-null=true</option>
-            </pluginOptions>
           </configuration>
           <executions>
             <execution>
@@ -180,18 +172,6 @@
               </configuration>
             </execution>
           </executions>
-          <dependencies>
-            <dependency>
-              <groupId>com.dyescape</groupId>
-              <artifactId>kotlin-maven-symbol-processing</artifactId>
-              <version>1.6</version>
-            </dependency>
-            <dependency>
-              <groupId>io.mcarle</groupId>
-              <artifactId>konvert</artifactId>
-              <version>${konvert.version}</version>
-            </dependency>
-          </dependencies>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
@@ -230,7 +210,7 @@
         <plugin>
           <groupId>com.github.spotbugs</groupId>
           <artifactId>spotbugs-maven-plugin</artifactId>
-          <version>4.8.3.0</version>
+          <version>4.8.3.1</version>
           <configuration>
             <failThreshold>High</failThreshold>
             <jvmArgs>-Dfindbugs.assertionmethods=java.util.Objects.requireNonNull</jvmArgs>

@@ -6,7 +6,7 @@ import smecalculus.bezmen.core.SepulkaMessageDm.RegistrationResponse;
 import smecalculus.bezmen.core.SepulkaStateDm.AggregateRoot;
 
 @Mapper
-public interface SepulkaMapper {
+public interface SepulkaConverter {
     AggregateRoot.Builder toState(RegistrationRequest request);
 
     RegistrationResponse.Builder toMessage(AggregateRoot state);

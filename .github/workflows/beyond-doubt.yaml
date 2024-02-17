@@ -8,8 +8,9 @@ on:
   workflow_dispatch:
 
 env:
-  BINARY_STORAGE: maven.pkg.github.com
-  IMAGE_STORAGE: ghcr.io
+  IMAGE_NAME: stack/gear
+  BINARY_REPO: maven.pkg.github.com
+  IMAGE_REPO: ghcr.io
 
 jobs:
   up-to-images:
@@ -23,36 +24,43 @@ jobs:
       matrix:
         env:
           - dev: godel
-            os: ubuntu-20.04
           - dev: turing
-            os: ubuntu-22.04
           - dev: church
-            os: ubuntu-22.04
-    runs-on: ${{ matrix.env.os }}
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4.1.1
-      - uses: ./.github/actions/prepare
+      - name: Run setup-gear
+        uses: ./.github/actions/setup-gear
         with:
           devenv: ${{ matrix.env.dev }}
-          tools: python java docker
           token: ${{ secrets.GITHUB_TOKEN }}
-      - run: >-
-          ansible-playbook codebase.yaml
-          -e devenv=${{ matrix.env.dev }}
-        working-directory: bakers/ansible
-        env:
-          GITHUB_ACTOR: ${{ github.actor }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - id: images
+      - name: Run setup-maven
+        uses: ./.github/actions/setup-maven
+      - name: Run ansible-playbook sources.yaml
         run: >-
-          ansible-playbook images.yaml
-          -e binary_storage=${{ env.BINARY_STORAGE }}
-          -e image_storage=${{ env.IMAGE_STORAGE }}
+          docker run --rm
+          --volume $(pwd):$(pwd)
+          --volume ~/.m2:/root/.m2
+          --workdir $(pwd)/bakers/ansible
+          ${{ env.IMAGE_NAME }}:${{ matrix.env.dev }}
+          ansible-playbook sources.yaml
           -e devenv=${{ matrix.env.dev }}
-        working-directory: bakers/ansible
-        env:
-          GITHUB_ACTOR: ${{ github.actor }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Run ansible-playbook images.yaml
+        id: images
+        run: >-
+          docker run --rm
+          --volume $(pwd):$(pwd)
+          --volume ~/.m2:/root/.m2
+          --volume /var/run/docker.sock:/var/run/docker.sock
+          --volume ~/.docker/config.json:/root/.docker/config.json:ro
+          --env GITHUB_ACTOR=${{ github.actor }}
+          --env GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }}
+          --workdir $(pwd)/bakers/ansible
+          ${{ env.IMAGE_NAME }}:${{ matrix.env.dev }}
+          ansible-playbook images.yaml -v
+          -e devenv=${{ matrix.env.dev }}
+          -e binary_repo=${{ env.BINARY_REPO }}
+          -e image_repo=${{ env.IMAGE_REPO }}
       - uses: mikepenz/action-junit-report@v4.1.0
         if: ${{ !cancelled() && (steps.images.outcome == 'success' || steps.images.outcome == 'failure') }}
         with:
@@ -80,36 +88,36 @@ jobs:
         purpose: [func]
         env:
           - dev: godel
-            os: ubuntu-20.04
             ops: marx
           - dev: turing
-            os: ubuntu-22.04
             ops: durkheim
           - dev: turing
-            os: ubuntu-22.04
             ops: veblen
           - dev: church
-            os: ubuntu-22.04
             ops: commons
-    runs-on: ${{ matrix.env.os }}
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4.1.1
-      - uses: ./.github/actions/prepare
+      - name: Run setup-gear
+        uses: ./.github/actions/setup-gear
         with:
           devenv: ${{ matrix.env.dev }}
-          tools: python docker
           token: ${{ secrets.GITHUB_TOKEN }}
-      - run: >-
+      - name: Run ansible-playbook stacks.yaml -t build
+        run: >-
+          docker run --rm
+          --volume $(pwd):$(pwd)
+          --workdir $(pwd)/bakers/ansible
+          ${{ env.IMAGE_NAME }}:${{ matrix.env.dev }}
           ansible-playbook stacks.yaml -t build
-          -e image_storage=${{ env.IMAGE_STORAGE }}
+          -e image_repo=${{ env.IMAGE_REPO }}
           -e devenv=${{ matrix.env.dev }}
           -e purpose=${{ matrix.purpose }}
           -e opsenv=${{ matrix.env.ops }}
-        working-directory: bakers/ansible
       - uses: actions/upload-artifact@v4.3.0
         with:
           name: solution-${{ matrix.purpose }}-${{ matrix.env.ops }}
-          path: stacks/solution/target/image-context
+          path: stack/solution/target/image-context
           if-no-files-found: ignore
 
   stack-testing:
@@ -123,42 +131,43 @@ jobs:
         shard: [0, 1]
         env:
           - dev: godel
-            os: ubuntu-20.04
             ops: marx
           - dev: turing
-            os: ubuntu-22.04
             ops: durkheim
           - dev: turing
-            os: ubuntu-22.04
             ops: veblen
           - dev: church
-            os: ubuntu-22.04
             ops: commons
-    runs-on: ${{ matrix.env.os }}
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4.1.1
-      - uses: ./.github/actions/prepare
+      - name: Run setup-gear
+        uses: ./.github/actions/setup-gear
         with:
           devenv: ${{ matrix.env.dev }}
-          tools: python java docker
           token: ${{ secrets.GITHUB_TOKEN }}
       - uses: actions/download-artifact@v4.1.1
         continue-on-error: true  # it's ok because stack building can be skipped
         with:
           name: solution-${{ matrix.purpose }}-${{ matrix.env.ops }}
-          path: stacks/solution/target/image-context
-      - run: >-
+          path: stack/solution/target/image-context
+      - name: Run setup-maven
+        uses: ./.github/actions/setup-maven
+      - name: Run ansible-playbook stacks.yaml -t test
+        run: >-
+          docker run --rm
+          --volume $(pwd):$(pwd)
+          --volume ~/.m2:/root/.m2
+          --volume /var/run/docker.sock:/var/run/docker.sock
+          --workdir $(pwd)/bakers/ansible
+          ${{ env.IMAGE_NAME }}:${{ matrix.env.dev }}
           ansible-playbook stacks.yaml -t test
-          -e image_storage=${{ env.IMAGE_STORAGE }}
-          -e reminder=${{ matrix.shard }}
-          -e modulus=2
+          -e image_repo=${{ env.IMAGE_REPO }}
           -e devenv=${{ matrix.env.dev }}
           -e purpose=${{ matrix.purpose }}
           -e opsenv=${{ matrix.env.ops }}
-        working-directory: bakers/ansible
-        env:
-          GITHUB_ACTOR: ${{ github.actor }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          -e reminder=${{ matrix.shard }}
+          -e modulus=2
       - uses: actions/upload-artifact@v4.3.0
         if: ${{ !cancelled() }}
         with:
@@ -168,7 +177,7 @@ jobs:
 
   stack-publishing:
     name: Stack publishing (${{ matrix.purpose }}, ${{ matrix.env.ops }})
-    timeout-minutes: 5
+    timeout-minutes: 10
     needs: [stack-testing]
     strategy:
       fail-fast: false
@@ -176,39 +185,41 @@ jobs:
         purpose: [func]
         env:
           - dev: godel
-            os: ubuntu-20.04
             ops: marx
           - dev: turing
-            os: ubuntu-22.04
             ops: durkheim
           - dev: turing
-            os: ubuntu-22.04
             ops: veblen
           - dev: church
-            os: ubuntu-22.04
             ops: commons
-    runs-on: ${{ matrix.env.os }}
+    runs-on: ubuntu-latest
     permissions:
       packages: write
     steps:
       - uses: actions/checkout@v4.1.1
-      - uses: ./.github/actions/prepare
+      - name: Run setup-gear
+        uses: ./.github/actions/setup-gear
         with:
           devenv: ${{ matrix.env.dev }}
-          tools: python docker
           token: ${{ secrets.GITHUB_TOKEN }}
       - uses: actions/download-artifact@v4.1.1
         continue-on-error: true  # it's ok because stack building can be skipped
         with:
           name: solution-${{ matrix.purpose }}-${{ matrix.env.ops }}
-          path: stacks/solution/target/image-context
-      - run: >-
-          ansible-playbook stacks.yaml -t package
-          -e image_storage=${{ env.IMAGE_STORAGE }}
+          path: stack/solution/target/image-context
+      - name: Run ansible-playbook stacks.yaml -t package
+        run: >-
+          docker run --rm
+          --volume $(pwd):$(pwd)
+          --volume /var/run/docker.sock:/var/run/docker.sock
+          --volume ~/.docker/config.json:/root/.docker/config.json:ro
+          --workdir $(pwd)/bakers/ansible
+          ${{ env.IMAGE_NAME }}:${{ matrix.env.dev }}
+          ansible-playbook stacks.yaml -t package -v
+          -e image_repo=${{ env.IMAGE_REPO }}
           -e devenv=${{ matrix.env.dev }}
           -e purpose=${{ matrix.purpose }}
           -e opsenv=${{ matrix.env.ops }}
-        working-directory: bakers/ansible
 
   stack-reporting:
     name: Stack reporting

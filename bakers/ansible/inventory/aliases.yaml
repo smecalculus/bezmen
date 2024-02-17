@@ -1,5 +1,5 @@
 ---
-codebase:
+sources:
   hosts:
     java:
     ansible:
@@ -7,7 +7,7 @@ codebase:
 stack:
   hosts:
     solution:
-    toolchain:
+    gear:
 all:
   hosts:
     db:

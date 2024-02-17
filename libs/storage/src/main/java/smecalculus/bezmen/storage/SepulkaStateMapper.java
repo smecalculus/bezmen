@@ -2,10 +2,9 @@ package smecalculus.bezmen.storage;
 
 import org.mapstruct.Mapper;
 import smecalculus.bezmen.core.SepulkaStateDm;
-import smecalculus.bezmen.mapping.EdgeMapper;
 
 @Mapper
-public interface SepulkaStateMapper extends EdgeMapper {
+public interface SepulkaStateMapper {
     SepulkaStateEm.AggregateRoot toEdge(SepulkaStateDm.AggregateRoot state);
 
     SepulkaStateDm.AggregateRoot toDomain(SepulkaStateEm.AggregateRoot state);

@@ -7,34 +7,56 @@ on:
       - main
   workflow_dispatch:
 
+env:
+  IMAGE_NAME: stack/gear
+
 jobs:
   up-to-images:
-    name: Up to images
+    name: Up to images (${{ matrix.env.dev }})
     timeout-minutes: 10
-    runs-on: ubuntu-22.04
     permissions:
       checks: write
       packages: write
+    strategy:
+      fail-fast: false
+      matrix:
+        env:
+          - dev: turing
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4.1.1
-      - uses: ./.github/actions/prepare
+      - name: Run setup-gear
+        uses: ./.github/actions/setup-gear
         with:
-          tools: python java docker
+          devenv: ${{ matrix.env.dev }}
           token: ${{ secrets.GITHUB_TOKEN }}
-      - run: ansible-playbook codebase.yaml
-        working-directory: bakers/ansible
-        env:
-          GITHUB_ACTOR: ${{ github.actor }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - id: images
+      - name: Run setup-maven
+        uses: ./.github/actions/setup-maven
+      - name: Run ansible-playbook sources.yaml
         run: >-
-          ansible-playbook images.yaml
-          -e binary_storage=maven.pkg.github.com
-          -e image_storage=ghcr.io
-        working-directory: bakers/ansible
-        env:
-          GITHUB_ACTOR: ${{ github.actor }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          docker run --rm
+          --volume $(pwd):$(pwd)
+          --volume ~/.m2:/root/.m2
+          --workdir $(pwd)/bakers/ansible
+          ${{ env.IMAGE_NAME }}:${{ matrix.env.dev }}
+          ansible-playbook sources.yaml
+          -e devenv=${{ matrix.env.dev }}
+      - name: Run ansible-playbook images.yaml
+        id: images
+        run: >-
+          docker run --rm
+          --volume $(pwd):$(pwd)
+          --volume ~/.m2:/root/.m2
+          --volume /var/run/docker.sock:/var/run/docker.sock
+          --volume ~/.docker/config.json:/root/.docker/config.json:ro
+          --env GITHUB_ACTOR=${{ github.actor }}
+          --env GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }}
+          --workdir $(pwd)/bakers/ansible
+          ${{ env.IMAGE_NAME }}:${{ matrix.env.dev }}
+          ansible-playbook images.yaml -v
+          -e devenv=${{ matrix.env.dev }}
+          -e binary_repo=maven.pkg.github.com
+          -e image_repo=ghcr.io
       - uses: mikepenz/action-junit-report@v4.1.0
         if: ${{ !cancelled() && (steps.images.outcome == 'success' || steps.images.outcome == 'failure') }}
         with:

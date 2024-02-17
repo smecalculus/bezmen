@@ -1,5 +1,5 @@
 ---
-- name: Codebase
+- name: Sources
   hosts: java
   run_once: true
   tasks:
@@ -19,7 +19,7 @@
         strip_empty_ends: false
       changed_when: false
 
-- name: Codebase
+- name: Sources
   hosts: ansible
   run_once: true
   tasks:
@@ -28,13 +28,12 @@
         # list all top level playbooks
         cmd: >-
           ansible-lint
-          toolchain.yaml
-          codebase.yaml
+          sources.yaml
           stacks.yaml
         strip_empty_ends: false
       changed_when: false
 
-- name: Codebase
+- name: Sources
   hosts: github
   run_once: true
   tasks:

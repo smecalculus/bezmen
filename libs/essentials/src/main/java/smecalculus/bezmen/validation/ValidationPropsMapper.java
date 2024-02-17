@@ -5,10 +5,9 @@ import org.mapstruct.Mapping;
 import smecalculus.bezmen.configuration.ValidationDm;
 import smecalculus.bezmen.configuration.ValidationDm.ValidationMode;
 import smecalculus.bezmen.configuration.ValidationEm;
-import smecalculus.bezmen.mapping.EdgeMapper;
 
 @Mapper
-public interface ValidationPropsMapper extends EdgeMapper {
+public interface ValidationPropsMapper {
     @Mapping(source = "mode", target = "validationMode")
     ValidationDm.ValidationProps toDomain(ValidationEm.ValidationProps props);
 

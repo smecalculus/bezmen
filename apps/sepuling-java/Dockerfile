@@ -1,5 +1,4 @@
 ARG JAVA_RELEASE
-
 FROM eclipse-temurin:${JAVA_RELEASE}-jre-alpine
 RUN addgroup -S app && adduser -S app -G app
 USER app:app

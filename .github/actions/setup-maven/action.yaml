@@ -1,0 +1,18 @@
+---
+name: Setup Maven
+description: Settings & caching
+runs:
+  using: "composite"
+  steps:
+    - uses: actions/setup-java@v4.0.0
+      with:
+        distribution: 'temurin'
+        java-version: '21'  # no matter
+        check-latest: false
+        cache: 'maven'
+        cache-dependency-path: |
+          pom.xml
+          libs/pom.xml
+          tools/pom.xml
+    - shell: bash
+      run: cat ~/.m2/settings.xml

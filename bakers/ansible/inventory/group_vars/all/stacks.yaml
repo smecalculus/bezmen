@@ -1,10 +1,10 @@
 ---
-toolchain:
-  image: "{{ image_repo }}/stack/toolchain"
+gear:
+  image: stack/gear
 
 solution:
   name: "{{ project.name }}"
-  image: "{{ image_repo }}/stack/solution"
+  image: stack/solution
   config:
     file_name: "application.{{ config_exts[ops[opsenv].config.mapping_mode] }}"
     mapping_mode: "{{ ops[opsenv].config.mapping_mode }}"
@@ -21,18 +21,18 @@ solution:
     postgres:
       name: "{{ project.name }}"
       cid: "{{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=dbs/postgres')[:7] }}"
-      image: "{{ image_repo }}/database/postgres"
+      image: database/postgres
   schemas:
     postgres:
       - name: sepulkarium
   apps:
     java:
       - service: sepuling
-        image: "{{ image_repo }}/app/sepuling-java"
+        image: app/sepuling-java
         binary: sepuling-java
     kotlin:
       - service: sepuling
-        image: "{{ image_repo }}/app/sepuling-kotlin"
+        image: app/sepuling-kotlin
         binary: sepuling-kotlin
 
 config_exts:

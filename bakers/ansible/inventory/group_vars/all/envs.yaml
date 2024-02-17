@@ -1,22 +1,17 @@
 ---
 devenv: turing
 dev:
-  anyone:
-    maven:
-      min: 3.8.0
-      max: 3.10.0
-    docker:
-      min: 24.0.0
-      max: 25.0.0
-  godel:
-    jdk:
-      release: 17
-  turing:
-    jdk:
-      release: 19
   church:
     jdk:
       release: 21
+    kotlin:
+      version: 2.0.0-Beta4
+  turing:
+    jdk:
+      release: 21
+  godel:
+    jdk:
+      release: 17
 
 opsenv: durkheim
 ops:
