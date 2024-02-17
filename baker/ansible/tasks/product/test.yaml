@@ -40,7 +40,7 @@
       --define testing.sharding.modulus={{ modulus }}
       {% endif %}
       --define maven.compiler.release={{ dev[devenv].jdk.release }}
-      --define skipUnits=true
+      --define skipTests=true
     chdir: "{{ project.dir }}"
     strip_empty_ends: false
   changed_when: true
