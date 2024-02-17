@@ -7,14 +7,23 @@ on:
       - main
   workflow_dispatch:
 
+env:
+  IMAGE_NAME: stack/gear
+
 jobs:
   up-to-binaries:
-    name: Up to binaries
+    name: Up to binaries (${{ matrix.env.dev }})
     timeout-minutes: 5
-    runs-on: ubuntu-22.04
     permissions:
       checks: write
       packages: write
+    strategy:
+      fail-fast: false
+      matrix:
+        env:
+          - dev: turing
+            os: ubuntu-22.04
+    runs-on: ${{ matrix.env.os }}
     steps:
       - uses: actions/checkout@v4.1.1
       - name: Run setup-docker
@@ -23,8 +32,8 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
       - uses: docker/build-push-action@v5.1.0
         with:
-          context: stacks/toolchain/turing
-          tags: stack/toolchain:turing
+          context: ${{ IMAGE_NAME }}/${{ matrix.env.dev }}
+          tags: ${{ IMAGE_NAME }}:${{ matrix.env.dev }}
           load: true
           cache-from: type=gha
           cache-to: type=gha,mode=max
@@ -38,8 +47,9 @@ jobs:
           --volume $(pwd):$(pwd)
           --volume ~/.m2:/root/.m2
           --workdir $(pwd)/bakers/ansible
-          stack/toolchain:turing
+          ${{ IMAGE_NAME }}:${{ matrix.env.dev }}
           ansible-playbook codebase.yaml
+          -e devenv=${{ matrix.env.dev }}
       - name: Run ansible-playbook binaries.yaml
         id: binaries
         run: >-
@@ -47,8 +57,9 @@ jobs:
           --volume $(pwd):$(pwd)
           --volume ~/.m2:/root/.m2
           --workdir $(pwd)/bakers/ansible
-          stack/toolchain:turing
+          ${{ IMAGE_NAME }}:${{ matrix.env.dev }}
           ansible-playbook binaries.yaml
+          -e devenv=${{ matrix.env.dev }}
       - uses: mikepenz/action-junit-report@v4.1.0
         if: ${{ !cancelled() && (steps.binaries.outcome == 'success' || steps.binaries.outcome == 'failure') }}
         with:

@@ -22,7 +22,7 @@
   hosts: stack
   run_once: true
   vars:
-    stack_dir: "{{ project.dir }}/stacks/solution"
+    stack_dir: "{{ project.dir }}/stack/solution"
   tasks:
     - ansible.builtin.import_tasks:  # noqa: name[missing]
         file: tasks/solution/build.yaml

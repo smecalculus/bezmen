@@ -4,7 +4,7 @@
   vars:
     image_tag: "{{ toolchain_tag }}"
     image_name: "{{ image_repo }}/{{ toolchain.image }}"
-    image_home: "{{ project.dir }}/stacks/toolchain/{{ devenv }}"
+    image_home: "{{ project.dir }}/stack/gear/{{ devenv }}"
     image_key: "{{ toolchain.image }}:{{ devenv }}"
     image_push: false
     image_args:

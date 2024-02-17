@@ -30,7 +30,7 @@
   hosts: toolchain
   run_once: true
   vars:
-    stack_dir: "{{ project.dir }}/stacks/toolchain"
+    stack_dir: "{{ project.dir }}/stack/gear"
   tasks:
     - ansible.builtin.import_tasks:  # noqa: name[missing]
         file: tasks/toolchain/build.yaml
