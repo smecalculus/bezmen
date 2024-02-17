@@ -215,7 +215,7 @@ jobs:
           --volume ~/.docker/config.json:/root/.docker/config.json:ro
           --workdir $(pwd)/bakers/ansible
           ${{ env.IMAGE_NAME }}:${{ matrix.env.dev }}
-          ansible-playbook stacks.yaml -t package
+          ansible-playbook stacks.yaml -t package -v
           -e image_repo=${{ env.IMAGE_REPO }}
           -e devenv=${{ matrix.env.dev }}
           -e purpose=${{ matrix.purpose }}
