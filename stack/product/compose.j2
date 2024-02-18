@@ -1,7 +1,7 @@
 name: {{ product.name }}
 
 networks:
-  stack_network:
+  product_network:
 
 configs:
   stack_config:
@@ -23,7 +23,7 @@ services:
       timeout: 5s
       retries: 5
     networks:
-      - stack_network
+      - product_network
 
   database:
     image: {{ image_ns }}/{{ database.image }}:{{ database.cid }}
@@ -46,7 +46,7 @@ services:
       -Downer.username={{ storage.owner.username }}
       -Downer.password={{ storage.owner.password }}
     networks:
-      - stack_network
+      - product_network
 
 {% for schema in product.schemas[storage.vendor] %}
   {{ schema.name }}:
@@ -67,7 +67,7 @@ services:
       update
       -Dschema.name={{ schema.name }}
     networks:
-      - stack_network
+      - product_network
 {% endfor %}
 
 {% set apps = product.apps[ops[opsenv].app.lang]|selectattr('service', 'in', usages[purpose].apps) %}
@@ -90,5 +90,5 @@ services:
     labels:
       image.key: {{ app.image }}
     networks:
-      - stack_network
+      - product_network
 {% endfor %}

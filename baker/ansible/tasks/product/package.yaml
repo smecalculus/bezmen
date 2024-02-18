@@ -6,5 +6,5 @@
     image_name: "{{ image_ns }}/{{ product.image }}"
     image_home: "{{ project.dir }}/stack/product"
     image_context: target/image-context
-    image_key: "{{ product.image }}:{{ purpose }}-{{ opsenv }}"
+    image_key: "{{ product.image }}/{{ purpose }}-{{ opsenv }}"
     image_push: "{{ image_repo != 'local' }}"

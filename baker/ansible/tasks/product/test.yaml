@@ -28,7 +28,9 @@
       --batch-mode
       --threads 2
       --projects test/e2e
-      --activate-profiles {{ purpose }}
+      {% if image_repo != 'local' %}
+      --activate-profiles docker
+      {% endif %}
       --also-make
       clean
       test
@@ -40,7 +42,7 @@
       --define testing.sharding.modulus={{ modulus }}
       {% endif %}
       --define maven.compiler.release={{ dev[devenv].jdk.release }}
-      --define skipTests=true
+      --define skipUnits=true
     chdir: "{{ project.dir }}"
     strip_empty_ends: false
   changed_when: true
