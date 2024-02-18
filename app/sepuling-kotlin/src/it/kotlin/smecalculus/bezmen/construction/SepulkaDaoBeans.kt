@@ -7,6 +7,8 @@ import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType
 import smecalculus.bezmen.configuration.StorageDm
 import smecalculus.bezmen.configuration.StorageDm.ProtocolMode.H2
 import smecalculus.bezmen.configuration.StorageDm.ProtocolMode.POSTGRES
+import smecalculus.bezmen.configuration.TestingConsts.CREATE_SQL
+import smecalculus.bezmen.configuration.TestingConsts.DROP_SQL
 import smecalculus.bezmen.storage.SepulkaDao
 import smecalculus.bezmen.storage.SepulkaDaoMyBatis
 import smecalculus.bezmen.storage.SepulkaDaoSpringData
@@ -14,8 +16,6 @@ import smecalculus.bezmen.storage.SepulkaStateMapper
 import smecalculus.bezmen.storage.SepulkaStateMapperImpl
 import smecalculus.bezmen.storage.mybatis.SepulkaSqlMapper
 import smecalculus.bezmen.storage.springdata.SepulkaRepository
-import smecalculus.bezmen.testing.Constants.CREATE_SQL
-import smecalculus.bezmen.testing.Constants.DROP_SQL
 import javax.sql.DataSource
 
 class SepulkaDaoBeans {

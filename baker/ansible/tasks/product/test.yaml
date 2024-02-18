@@ -5,6 +5,12 @@
   changed_when: false
   when: hostvars.db.image_status|default({}) is changed
 
+- name: Create network
+  ansible.builtin.shell:
+    cmd: docker network inspect gear || docker network create gear
+    strip_empty_ends: false
+  changed_when: false
+
 - name: Create stand
   ansible.builtin.command:
     cmd: >-
@@ -28,7 +34,9 @@
       --batch-mode
       --threads 2
       --projects test/e2e
-      --activate-profiles {{ purpose }}
+      {% if image_repo != 'local' %}
+      --activate-profiles docker
+      {% endif %}
       --also-make
       clean
       test

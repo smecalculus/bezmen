@@ -61,7 +61,7 @@
         image_name: "{{ image_ns }}/{{ app.image }}"
         image_home: "{{ project.dir }}/app/{{ app.binary }}"
         image_context: target/image-context
-        image_key: "{{ app.image }}"
+        image_key: "{{ app.image }}/{{ devenv }}"
         image_push: "{{ image_repo != 'local' }}"
         image_args:
           JAVA_RELEASE: "{{ dev[devenv].jdk.release }}"

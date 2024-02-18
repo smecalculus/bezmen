@@ -156,6 +156,7 @@ jobs:
       - name: Run ansible-playbook stacks.yaml -t test
         run: >-
           docker run --rm
+          --network gear
           --volume $(pwd):$(pwd)
           --volume ~/.m2:/root/.m2
           --volume /var/run/docker.sock:/var/run/docker.sock

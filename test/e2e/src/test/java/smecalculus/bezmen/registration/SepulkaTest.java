@@ -12,7 +12,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import smecalculus.bezmen.StandBeans;
+import smecalculus.bezmen.construction.StandBeans;
 import smecalculus.bezmen.messaging.BezmenClient;
 import smecalculus.bezmen.messaging.SepulkaMessageEmEg;
 

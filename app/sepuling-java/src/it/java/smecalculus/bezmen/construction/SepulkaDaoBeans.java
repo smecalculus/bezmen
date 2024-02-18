@@ -1,8 +1,8 @@
 package smecalculus.bezmen.construction;
 
 import static java.util.stream.Collectors.joining;
-import static smecalculus.bezmen.testing.Constants.CREATE_SQL;
-import static smecalculus.bezmen.testing.Constants.DROP_SQL;
+import static smecalculus.bezmen.configuration.TestingConsts.CREATE_SQL;
+import static smecalculus.bezmen.configuration.TestingConsts.DROP_SQL;
 
 import java.util.Collection;
 import java.util.List;

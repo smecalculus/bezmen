@@ -1,10 +1,14 @@
 name: {{ product.name }}
 
 networks:
-  stack_network:
+  product:
+    name: product
+  gear:
+    name: gear
+    external: true
 
 configs:
-  stack_config:
+  product_config:
     file: ./{{ product.config.file_name }}
 
 {% set storage = product.storages[ops[opsenv].storage.vendor]|combine(ops[opsenv].storage) %}
@@ -12,6 +16,9 @@ configs:
 services:
   storage:
     image: {{ storage.image }}:{{ storage.version }}-alpine
+    networks:
+      - product
+      - gear
     ports:
       - 5432:5432
     environment:
@@ -22,11 +29,12 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
-    networks:
-      - stack_network
 
   database:
     image: {{ image_ns }}/{{ database.image }}:{{ database.cid }}
+    networks:
+      - product
+      - gear
     depends_on:
       storage:
         condition: service_healthy
@@ -45,12 +53,13 @@ services:
       -Ddatabase.name={{ database.name }}
       -Downer.username={{ storage.owner.username }}
       -Downer.password={{ storage.owner.password }}
-    networks:
-      - stack_network
 
 {% for schema in product.schemas[storage.vendor] %}
   {{ schema.name }}:
     image: {{ image_ns }}/{{ database.image }}:{{ database.cid }}
+    networks:
+      - product
+      - gear
     depends_on:
       database:
         condition: service_completed_successfully
@@ -66,18 +75,19 @@ services:
       --password={{ storage.owner.password }}
       update
       -Dschema.name={{ schema.name }}
-    networks:
-      - stack_network
 {% endfor %}
 
 {% set apps = product.apps[ops[opsenv].app.lang]|selectattr('service', 'in', usages[purpose].apps) %}
 {% for app in apps %}
   {{ app.service }}:
     image: {{ image_ns }}/{{ app.image }}:{{ hostvars.app.image_tags[app.binary] }}
+    networks:
+      - product
+      - gear
     ports:
       - 8080:8080
     configs:
-      - source: stack_config
+      - source: product_config
         target: /home/app/{{ product.config.file_name }}
     command: >-
       --product.config.mapping.mode={{ product.config.mapping_mode }}
@@ -89,6 +99,4 @@ services:
     {% endfor %}
     labels:
       image.key: {{ app.image }}
-    networks:
-      - stack_network
 {% endfor %}

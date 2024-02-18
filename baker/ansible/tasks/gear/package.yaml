@@ -5,5 +5,5 @@
     image_tag: "{{ gear_tag }}"
     image_name: "{{ image_ns }}/{{ gear.image }}"
     image_home: "{{ project.dir }}/stack/gear/{{ devenv }}"
-    image_key: "{{ gear.image }}:{{ devenv }}"
+    image_key: "{{ gear.image }}/{{ devenv }}"
     image_push: "{{ image_repo != 'local' }}"
