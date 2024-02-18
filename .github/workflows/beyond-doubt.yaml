@@ -156,10 +156,10 @@ jobs:
       - name: Run ansible-playbook stacks.yaml -t test
         run: >-
           docker run --rm
+          --network gear
           --volume $(pwd):$(pwd)
           --volume ~/.m2:/root/.m2
           --volume /var/run/docker.sock:/var/run/docker.sock
-          --network bezmen_product_network
           --workdir $(pwd)/baker/ansible
           ${{ env.IMAGE_NAME }}:${{ matrix.env.dev }}
           ansible-playbook stacks.yaml -t test
