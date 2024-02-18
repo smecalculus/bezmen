@@ -50,10 +50,7 @@ public class BezmenClientJavaHttp implements BezmenClient {
     public boolean isReady() {
         URI uri = URI.create("http://" + props.host() + ":" + props.port() + "/actuator/health");
         try {
-            var httpRequest = HttpRequest.newBuilder()
-                    .uri(uri)
-                    .GET()
-                    .build();
+            var httpRequest = HttpRequest.newBuilder().uri(uri).GET().build();
             var httpResponse = client.send(httpRequest, BodyHandlers.discarding());
             return httpResponse.statusCode() == 200;
         } catch (IOException | InterruptedException e) {
