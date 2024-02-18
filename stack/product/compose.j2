@@ -18,7 +18,6 @@ services:
     image: {{ storage.image }}:{{ storage.version }}-alpine
     networks:
       - product
-      - gear
     ports:
       - 5432:5432
     environment:
@@ -34,7 +33,6 @@ services:
     image: {{ image_ns }}/{{ database.image }}:{{ database.cid }}
     networks:
       - product
-      - gear
     depends_on:
       storage:
         condition: service_healthy
@@ -42,6 +40,7 @@ services:
       image.key: {{ database.image }}
     command: >-
       --show-banner=false
+      --classpath=/liquibase/changelog
       --changelog-file=dba/changelog.yaml
       --url=jdbc:postgresql://storage:5432/postgres
       --liquibase-schema-name=public
@@ -59,7 +58,6 @@ services:
     image: {{ image_ns }}/{{ database.image }}:{{ database.cid }}
     networks:
       - product
-      - gear
     depends_on:
       database:
         condition: service_completed_successfully
@@ -67,6 +65,7 @@ services:
       image.key: {{ database.image }}
     command: >-
       --show-banner=false
+      --classpath=/liquibase/changelog
       --changelog-file=owner/changelog.yaml
       --url=jdbc:postgresql://storage:5432/{{ database.name }}
       --liquibase-schema-name=public
