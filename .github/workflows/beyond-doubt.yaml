@@ -34,8 +34,6 @@ jobs:
         with:
           devenv: ${{ matrix.env.dev }}
           token: ${{ secrets.GITHUB_TOKEN }}
-      - name: Run setup-maven
-        uses: ./.github/actions/setup-maven
       - name: Run ansible-playbook sources.yaml
         run: >-
           docker run --rm
@@ -151,8 +149,6 @@ jobs:
         with:
           name: product-${{ matrix.purpose }}-${{ matrix.env.ops }}
           path: stack/product/target/image-context
-      - name: Run setup-maven
-        uses: ./.github/actions/setup-maven
       - name: Run ansible-playbook stacks.yaml -t test
         run: >-
           docker run --rm
