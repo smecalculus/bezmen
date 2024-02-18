@@ -18,7 +18,7 @@ updates:
     schedule:
       interval: "weekly"
   - package-ecosystem: "github-actions"
-    directory: "/actions/setup-gear"
+    directory: "/.github/actions/setup-gear"
     schedule:
       interval: "weekly"
   - package-ecosystem: "docker"
