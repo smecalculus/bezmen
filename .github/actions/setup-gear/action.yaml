@@ -31,3 +31,14 @@ runs:
         registry: ghcr.io
         username: ${{ github.actor }}
         password: ${{ inputs.token }}
+    # for the sake of maven setup & dependency caching
+    - uses: actions/setup-java@v4.0.0
+      with:
+        distribution: 'temurin'
+        java-version: '21'
+        check-latest: false
+        cache: 'maven'
+        cache-dependency-path: |
+          pom.xml
+          lib/pom.xml
+          tool/pom.xml

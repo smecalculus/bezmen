@@ -30,8 +30,6 @@ jobs:
         with:
           devenv: ${{ matrix.env.dev }}
           token: ${{ secrets.GITHUB_TOKEN }}
-      - name: Run setup-maven
-        uses: ./.github/actions/setup-maven
       - name: Run ansible-playbook sources.yaml
         run: >-
           docker run --rm
