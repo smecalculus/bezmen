@@ -1,0 +1,39 @@
+---
+- name: Build binaries
+  ansible.builtin.command:
+    cmd: >-
+      mvn
+      --no-snapshot-updates
+      --batch-mode
+      --fail-fast
+      --threads 2
+      --projects {{
+        image_status.results
+        | select('changed')
+        | map(attribute='app.binary')
+        | map('regex_replace', '^', ':')
+        | join(',')
+      }}
+      --also-make
+      clean
+      {{ maven_phase|mandatory }}
+      --define maven.compiler.release={{ dev[devenv].jdk.release }}
+      {% if dev[devenv].kotlin is defined %}
+      --define kotlin.version={{ dev[devenv].kotlin.version }}
+      {% endif %}
+    chdir: "{{ project.dir }}"
+    strip_empty_ends: false
+  changed_when: true
+
+- name: Analyze coverage
+  ansible.builtin.command:
+    cmd: >-
+      mvn
+      --no-snapshot-updates
+      --batch-mode
+      --projects tool
+      clean
+      antrun:run@coverage
+    chdir: "{{ project.dir }}"
+    strip_empty_ends: false
+  changed_when: true

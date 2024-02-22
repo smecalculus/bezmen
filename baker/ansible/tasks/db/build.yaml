@@ -1,0 +1,13 @@
+---
+- name: Build images
+  ansible.builtin.include_role:
+    name: image
+  vars:
+    image_home: "{{ project.dir }}/{{ db.image }}"
+    image_name: "{{ db.image }}"
+    image_key: "{{ db.image }}/{{ devenv }}"
+    image_tag: "{{ devenv }}"
+  loop: "{{ image_status.results|select('changed')|map(attribute='db') }}"
+  loop_control:
+    loop_var: db
+    label: "{{ db.image }}"

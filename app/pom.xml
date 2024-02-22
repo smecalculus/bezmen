@@ -66,8 +66,8 @@
           <artifactId>maven-dependency-plugin</artifactId>
           <executions>
             <execution>
-              <id>dep-copy</id>
-              <phase>package</phase>
+              <id>deps-context</id>
+              <phase>pre-integration-test</phase>
               <goals>
                 <goal>copy-dependencies</goal>
               </goals>
@@ -78,8 +78,8 @@
               </configuration>
             </execution>
             <execution>
-              <id>lib-copy</id>
-              <phase>package</phase>
+              <id>lib-context</id>
+              <phase>pre-integration-test</phase>
               <goals>
                 <goal>copy-dependencies</goal>
               </goals>
@@ -90,8 +90,8 @@
               </configuration>
             </execution>
             <execution>
-              <id>app-copy</id>
-              <phase>package</phase>
+              <id>app-context</id>
+              <phase>pre-integration-test</phase>
               <goals>
                 <goal>copy</goal>
               </goals>
@@ -107,6 +107,34 @@
               </configuration>
             </execution>
           </executions>
+        </plugin>
+        <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>exec-maven-plugin</artifactId>
+          <executions>
+            <execution>
+              <id>app-image</id>
+              <phase>pre-integration-test</phase>
+              <goals>
+                <goal>exec</goal>
+              </goals>
+            </execution>
+          </executions>
+          <configuration>
+            <executable>docker</executable>
+            <arguments>
+              <argument>build</argument>
+              <argument>${project.build.directory}/image-context</argument>
+              <argument>--file</argument>
+              <argument>${project.basedir}/Dockerfile</argument>
+              <argument>--tag</argument>
+              <argument>app/${project.artifactId}:godel</argument>
+              <argument>--label</argument>
+              <argument>image.key=app/${project.artifactId}/godel</argument>
+              <argument>--build-arg</argument>
+              <argument>JAVA_RELEASE=${maven.compiler.release}</argument>
+            </arguments>
+          </configuration>
         </plugin>
       </plugins>
     </pluginManagement>

@@ -1,0 +1,22 @@
+---
+- name: Tag images
+  ansible.builtin.command:
+    cmd: >-
+      docker tag
+      {{ app.image }}:{{ devenv }}
+      {{ image_ns }}/{{ app.image }}:{{ image_tags[app.binary] }}
+    strip_empty_ends: false
+  loop: "{{ image_status.results|select('changed')|map(attribute='app') }}"
+  loop_control:
+    loop_var: app
+    label: "{{ app.image }}"
+
+- name: Push images
+  ansible.builtin.command:
+    cmd: docker push {{ image_ns }}/{{ app.image }}:{{ image_tags[app.binary] }}
+    strip_empty_ends: false
+  loop: "{{ image_status.results|select('changed')|map(attribute='app') }}"
+  loop_control:
+    loop_var: app
+    label: "{{ app.image }}"
+  tags: [push, never]

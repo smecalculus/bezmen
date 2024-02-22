@@ -8,9 +8,10 @@ stack:
   hosts:
     gear:
     product:
-all:
+image:
   hosts:
     db:
     app:
+all:
   vars:
     ansible_connection: local

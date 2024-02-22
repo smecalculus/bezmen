@@ -1,0 +1,16 @@
+---
+- name: Capture statuses
+  ansible.builtin.command:
+    cmd: docker {{ docker_entity }} inspect {{ image_ns }}/{{ db.image }}:{{ db.cid }}
+  register: image_status
+  changed_when: image_status.rc != 0
+  failed_when: false
+  loop: "{{ product.databases.values() }}"
+  loop_control:
+    loop_var: db
+    label: "{{ db.image }}"
+
+- name: Status commands
+  ansible.builtin.debug:
+    msg: "{{ image_status.results|map(attribute='cmd')|map('join', ' ') }}"
+  when: image_status is changed

@@ -18,7 +18,7 @@
         file: tasks/gear/status.yaml
       tags: [always]
 
-- name: Testing
+- name: Building & Checking
   hosts: stack
   run_once: true
   vars:
@@ -37,7 +37,7 @@
         hostvars.product.stack_status is changed or
         hostvars.gear.stack_status is changed
 
-- name: Packaging
+- name: Publishing
   hosts: product
   run_once: true
   tasks:
@@ -46,7 +46,7 @@
       tags: [package]
       when: stack_status is changed
 
-- name: Packaging
+- name: Publishing
   hosts: gear
   run_once: true
   tasks:
