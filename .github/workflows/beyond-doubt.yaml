@@ -9,8 +9,6 @@ on:
 
 env:
   IMAGE_NAME: stack/gear
-  BINARY_REPO: maven.pkg.github.com
-  IMAGE_REPO: ghcr.io
 
 jobs:
   up-to-images:
@@ -57,8 +55,7 @@ jobs:
           ${{ env.IMAGE_NAME }}:${{ matrix.env.dev }}
           ansible-playbook images.yaml -v
           -e devenv=${{ matrix.env.dev }}
-          -e binary_repo=${{ env.BINARY_REPO }}
-          -e image_repo=${{ env.IMAGE_REPO }}
+          -e repo_mode=rw
       - uses: mikepenz/action-junit-report@v4.1.0
         if: ${{ !cancelled() && (steps.images.outcome == 'success' || steps.images.outcome == 'failure') }}
         with:
@@ -108,7 +105,6 @@ jobs:
           --workdir $(pwd)/baker/ansible
           ${{ env.IMAGE_NAME }}:${{ matrix.env.dev }}
           ansible-playbook stacks.yaml -t build
-          -e image_repo=${{ env.IMAGE_REPO }}
           -e devenv=${{ matrix.env.dev }}
           -e purpose=${{ matrix.purpose }}
           -e opsenv=${{ matrix.env.ops }}
@@ -149,7 +145,7 @@ jobs:
         with:
           name: product-${{ matrix.purpose }}-${{ matrix.env.ops }}
           path: stack/product/target/image-context
-      - name: Run ansible-playbook stacks.yaml -t test
+      - name: Run ansible-playbook stacks.yaml -t check
         run: >-
           docker run --rm
           --network gear
@@ -158,8 +154,7 @@ jobs:
           --volume /var/run/docker.sock:/var/run/docker.sock
           --workdir $(pwd)/baker/ansible
           ${{ env.IMAGE_NAME }}:${{ matrix.env.dev }}
-          ansible-playbook stacks.yaml -t test
-          -e image_repo=${{ env.IMAGE_REPO }}
+          ansible-playbook stacks.yaml -t check
           -e devenv=${{ matrix.env.dev }}
           -e purpose=${{ matrix.purpose }}
           -e opsenv=${{ matrix.env.ops }}
@@ -204,7 +199,7 @@ jobs:
         with:
           name: product-${{ matrix.purpose }}-${{ matrix.env.ops }}
           path: stack/product/target/image-context
-      - name: Run ansible-playbook stacks.yaml -t package
+      - name: Run ansible-playbook stacks.yaml -t publish
         run: >-
           docker run --rm
           --volume $(pwd):$(pwd)
@@ -212,11 +207,11 @@ jobs:
           --volume ~/.docker/config.json:/root/.docker/config.json:ro
           --workdir $(pwd)/baker/ansible
           ${{ env.IMAGE_NAME }}:${{ matrix.env.dev }}
-          ansible-playbook stacks.yaml -t package -v
-          -e image_repo=${{ env.IMAGE_REPO }}
+          ansible-playbook stacks.yaml -t publish -v
           -e devenv=${{ matrix.env.dev }}
           -e purpose=${{ matrix.purpose }}
           -e opsenv=${{ matrix.env.ops }}
+          -e repo_mode=rw
 
   stack-reporting:
     name: Stack reporting

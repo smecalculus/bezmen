@@ -4,7 +4,7 @@
   run_once: true
   tasks:
     - ansible.builtin.import_tasks:  # noqa: name[missing]
-        file: tasks/db/status.yaml
+        file: tasks/db/capture.yaml
       tags: [always]
     - ansible.builtin.import_role:  # noqa: name[missing]
         name: image
@@ -26,7 +26,7 @@
   run_once: true
   tasks:
     - ansible.builtin.import_tasks:  # noqa: name[missing]
-        file: tasks/app/status.yaml
+        file: tasks/app/capture.yaml
       tags: [always]
     - ansible.builtin.import_role:  # noqa: name[missing]
         name: image
@@ -42,7 +42,7 @@
     - ansible.builtin.import_tasks:  # noqa: name[missing]
         file: tasks/app/build-and-check.yaml
       vars:
-        maven_phase: "{{ 'install' if binary_repo == 'local' else 'deploy' }}"
+        maven_phase: "{{ 'deploy' if repo_mode == 'rw' else 'install' }}"
       when: image_status is changed
 
 - name: Publishing

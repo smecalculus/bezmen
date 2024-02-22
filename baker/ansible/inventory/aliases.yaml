@@ -4,14 +4,14 @@ sources:
     java:
     ansible:
     github:
-stack:
-  hosts:
-    gear:
-    product:
 image:
   hosts:
     db:
     app:
+stack:
+  hosts:
+    gear:
+    product:
 all:
   vars:
     ansible_connection: local

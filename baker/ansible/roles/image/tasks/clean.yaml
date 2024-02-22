@@ -1,5 +1,5 @@
 ---
-- name: Enforce variables
+- name: Check inputs
   ansible.builtin.assert:
     quiet: true
     that:

@@ -1,21 +1,22 @@
 ---
-- name: Enforce variables
+- name: Check inputs
   ansible.builtin.assert:
     quiet: true
     that:
-      - image_name is defined
       - image_home is defined
       - image_key is defined
+      - image_tag is defined
 
 - name: Build image
   ansible.builtin.command:
     cmd: >-
       docker build {{ image_context }}
-      --file {{ image_home }}/Dockerfile
+      --file Dockerfile
       --label image.key={{ image_key }}
-      --tag {{ image_name }}:{{ image_tag }}
+      --tag {{ image_tag }}
       {% for key, value in image_args.items() %}
       --build-arg {{ key }}={{ value }}
       {% endfor %}
     strip_empty_ends: false
+    chdir: "{{ image_home }}"
   changed_when: true

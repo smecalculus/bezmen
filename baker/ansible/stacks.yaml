@@ -7,19 +7,23 @@
   run_once: true
   tasks:
     - ansible.builtin.import_tasks:  # noqa: name[missing]
-        file: tasks/product/status.yaml
+        file: tasks/product/capture.yaml
       tags: [always]
 
-- name: Capturing
+- name: Capturing & Building
   hosts: gear
   run_once: true
   tasks:
     - ansible.builtin.import_tasks:  # noqa: name[missing]
-        file: tasks/gear/status.yaml
+        file: tasks/gear/capture.yaml
       tags: [always]
+    - ansible.builtin.import_tasks:  # noqa: name[missing]
+        file: tasks/gear/build.yaml
+      tags: [build]
+      when: hostvars.gear.stack_status is changed
 
 - name: Building & Checking
-  hosts: stack
+  hosts: product
   run_once: true
   vars:
     stack_dir: "{{ project.dir }}/stack/product"
@@ -31,8 +35,8 @@
         hostvars.product.stack_status is changed or
         hostvars.gear.stack_status is changed
     - ansible.builtin.import_tasks:  # noqa: name[missing]
-        file: tasks/product/test.yaml
-      tags: [test]
+        file: tasks/product/check.yaml
+      tags: [check]
       when: >-
         hostvars.product.stack_status is changed or
         hostvars.gear.stack_status is changed
@@ -42,15 +46,15 @@
   run_once: true
   tasks:
     - ansible.builtin.import_tasks:  # noqa: name[missing]
-        file: tasks/product/package.yaml
-      tags: [package]
-      when: stack_status is changed
+        file: tasks/product/publish.yaml
+      tags: [publish]
+      when: hostvars.product.stack_status is changed
 
 - name: Publishing
   hosts: gear
   run_once: true
   tasks:
     - ansible.builtin.import_tasks:  # noqa: name[missing]
-        file: tasks/gear/package.yaml
-      tags: [package]
-      when: stack_status is changed
+        file: tasks/gear/publish.yaml
+      tags: [publish]
+      when: hostvars.gear.stack_status is changed

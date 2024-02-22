@@ -8,9 +8,4 @@
   loop: "{{ product.databases.values() }}"
   loop_control:
     loop_var: db
-    label: "{{ db.image }}"
-
-- name: Status commands
-  ansible.builtin.debug:
-    msg: "{{ image_status.results|map(attribute='cmd')|map('join', ' ') }}"
-  when: image_status is changed
+    label: "{{ db.image }}:{{ db.cid }}"

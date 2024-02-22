@@ -34,7 +34,7 @@
       --batch-mode
       --threads 2
       --projects test/e2e
-      {% if image_repo != 'local' %}
+      {% if is_docker_gear.rc == 0 %}
       --activate-profiles docker
       {% endif %}
       --also-make

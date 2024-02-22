@@ -1,5 +1,5 @@
 ---
-- name: Sources
+- name: Checking
   hosts: java
   run_once: true
   tasks:
@@ -19,11 +19,11 @@
         strip_empty_ends: false
       changed_when: false
 
-- name: Sources
+- name: Checking
   hosts: ansible
   run_once: true
   tasks:
-    - name: Analyze
+    - name: Linting
       ansible.builtin.command:
         # list all top level playbooks
         cmd: >-
@@ -33,11 +33,11 @@
         strip_empty_ends: false
       changed_when: false
 
-- name: Sources
+- name: Checking
   hosts: github
   run_once: true
   tasks:
-    - name: Analyze
+    - name: Linting
       ansible.builtin.command:
         cmd: yamllint {{ project.dir }}/.github
         strip_empty_ends: false

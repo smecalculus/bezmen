@@ -1,19 +1,12 @@
 ---
-- name: Tag images
-  ansible.builtin.command:
-    cmd: docker tag {{ db.image }}:{{ devenv }} {{ image_ns }}/{{ db.image }}:{{ db.cid }}
-    strip_empty_ends: false
-  loop: "{{ image_status.results|select('changed')|map(attribute='db') }}"
+- ansible.builtin.include_role:  # noqa: name[missing]
+    name: image
+    tasks_from: publish
+  vars:
+    source_tag: "{{ db.image }}:{{ devenv }}"
+    target_tags:
+      - "{{ image_ns }}/{{ db.image }}:{{ db.cid }}"
+  loop: "{{ hostvars.db.image_status.results|select('changed')|map(attribute='db') }}"
   loop_control:
     loop_var: db
     label: "{{ db.image }}"
-
-- name: Push images
-  ansible.builtin.command:
-    cmd: docker push {{ image_ns }}/{{ db.image }}:{{ db.cid }}
-    strip_empty_ends: false
-  loop: "{{ image_status.results|select('changed')|map(attribute='db') }}"
-  loop_control:
-    loop_var: db
-    label: "{{ db.image }}"
-  tags: [push, never]

@@ -1,5 +1,5 @@
 ---
-- name: Binaries
+- name: Building & Checking
   hosts: app
   run_once: true
   tasks:

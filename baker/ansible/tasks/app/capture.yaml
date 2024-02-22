@@ -1,5 +1,5 @@
 ---
-- name: Capture cids
+- name: Capture CID's
   ansible.builtin.command:
     cmd: git hash-object --stdin
     stdin: |
@@ -16,11 +16,11 @@
   ansible.builtin.set_fact:
     image_tags: >-
       {{ dict(image_cid.results
-        |map(attribute='stdout')
-        |map('truncate', 7, True, '')
-        |map('regex_replace', '^', devenv ~ '-')
-        |zip(image_cid.results|map(attribute='app.binary'))
-        |map('reverse'))
+        | map(attribute='stdout')
+        | map('truncate', 7, True, '')
+        | map('regex_replace', '^', devenv ~ '-')
+        | zip(image_cid.results|map(attribute='app.binary'))
+        | map('reverse'))
       }}
 
 - name: Capture statuses
@@ -33,9 +33,4 @@
   loop: "{{ product.apps.values()|flatten }}"
   loop_control:
     loop_var: app
-    label: "{{ app.image }}"
-
-- name: Status commands
-  ansible.builtin.debug:
-    msg: "{{ image_status.results|map(attribute='cmd')|map('join', ' ') }}"
-  when: image_status is changed
+    label: "{{ app.image }}:{{ image_tags[app.binary] }}"

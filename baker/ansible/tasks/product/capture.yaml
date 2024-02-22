@@ -1,5 +1,5 @@
 ---
-- name: Capture cid
+- name: Capture CID
   ansible.builtin.command:
     cmd: git hash-object --stdin
     stdin: |
@@ -12,11 +12,11 @@
 
 - name: Declare tag
   ansible.builtin.set_fact:
-    product_tag: "{{ purpose }}-{{ opsenv }}-{{ stack_cid.stdout[:7] }}"
+    stack_tag: "{{ opsenv }}-{{ stack_cid.stdout[:7] }}"
 
 - name: Capture status
   ansible.builtin.command:
-    cmd: docker {{ docker_entity }} inspect {{ image_ns }}/{{ product.image }}:{{ product_tag }}
+    cmd: docker {{ docker_entity }} inspect {{ image_ns }}/{{ product.image }}:{{ stack_tag }}
   register: stack_status
   changed_when:
     - stack_status.rc != 0
