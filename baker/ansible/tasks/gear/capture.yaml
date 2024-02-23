@@ -30,6 +30,6 @@
 - name: Capture env
   ansible.builtin.command:
     cmd: test -f /.dockerenv
-  register: is_docker_gear
+  register: is_virtual
   changed_when: false
   failed_when: false
