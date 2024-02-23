@@ -1,8 +1,12 @@
 ---
-name: Beyond doubt
+name: Work proposal
 
 on:
   merge_group:
+    branches:
+      - main
+  pull_request:
+    types: [opened, reopened]
     branches:
       - main
   workflow_dispatch:
@@ -237,7 +241,7 @@ jobs:
     name: Everything is fine
     needs: [stack-publishing, stack-reporting]
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 5
     if: ${{ always() }}
     steps:
       - if: ${{ contains(needs.*.result, 'failure') || contains(needs.*.result, 'skipped') || contains(needs.*.result, 'cancelled') }}

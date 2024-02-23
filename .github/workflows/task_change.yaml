@@ -1,18 +1,18 @@
 ---
-name: Sanity
+name: Task change
 
 on:
-  pull_request:
-    branches-ignore:
-      - main
+  push:
+    branches:
+      - task/**
   workflow_dispatch:
 
 env:
   IMAGE_NAME: stack/gear
 
 jobs:
-  up-to-binaries:
-    name: Up to binaries (${{ matrix.env.dev }})
+  up-to-sources:
+    name: Up to sources (${{ matrix.env.dev }})
     timeout-minutes: 5
     permissions:
       checks: write
@@ -39,30 +39,12 @@ jobs:
           ${{ env.IMAGE_NAME }}:${{ matrix.env.dev }}
           ansible-playbook sources.yaml
           -e devenv=${{ matrix.env.dev }}
-      - name: Run ansible-playbook binaries.yaml
-        id: binaries
-        run: >-
-          docker run --rm
-          --volume $(pwd):$(pwd)
-          --volume ~/.m2:/root/.m2
-          --workdir $(pwd)/baker/ansible
-          ${{ env.IMAGE_NAME }}:${{ matrix.env.dev }}
-          ansible-playbook binaries.yaml
-          -e devenv=${{ matrix.env.dev }}
-      - uses: mikepenz/action-junit-report@v4.1.0
-        if: ${{ !cancelled() && (steps.binaries.outcome == 'success' || steps.binaries.outcome == 'failure') }}
-        with:
-          check_name: Unit test report
-          report_paths: "**/target/surefire-reports/TEST-*.xml"
-          require_tests: "${{ steps.binaries.outcome == 'failure' }}"
-          fail_on_failure: false
-          job_summary: false
 
   everything-is-fine:
     name: Everything is fine
-    needs: [up-to-binaries]
+    needs: [up-to-sources]
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 5
     if: ${{ always() }}
     steps:
       - if: ${{ contains(needs.*.result, 'failure') || contains(needs.*.result, 'skipped') || contains(needs.*.result, 'cancelled') }}
