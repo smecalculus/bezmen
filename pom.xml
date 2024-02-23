@@ -40,7 +40,7 @@
         </property>
       </activation>
       <properties>
-        <maven.compiler.release>22</maven.compiler.release>
+        <maven.compiler.release>21</maven.compiler.release>  <!--kotlin restriction-->
         <kotlin.version>2.0.0-Beta4</kotlin.version>
       </properties>
     </profile>
