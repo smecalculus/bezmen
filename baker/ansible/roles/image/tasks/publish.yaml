@@ -3,18 +3,20 @@
   ansible.builtin.assert:
     quiet: true
     that:
-      - source_tag is defined
-      - target_tags is defined
+      - image_source_tag is defined
+      - image_target_tags is defined
 
 - name: Tag images
   ansible.builtin.command:
-    cmd: docker tag {{ source_tag }} {{ item }}
+    cmd: docker tag {{ image_source_tag }} {{ item }}
     strip_empty_ends: false
-  loop: "{{ target_tags }}"
+  changed_when: true
+  loop: "{{ image_target_tags }}"
 
 - name: Push images
   ansible.builtin.command:
     cmd: docker push {{ item }}
     strip_empty_ends: false
-  loop: "{{ target_tags }}"
-  tags: [push, never]
+  changed_when: true
+  loop: "{{ image_target_tags }}"
+  tags: [never]

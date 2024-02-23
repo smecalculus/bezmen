@@ -3,8 +3,8 @@
     name: image
     tasks_from: publish
   vars:
-    source_tag: "{{ app.image }}:{{ devenv }}"
-    target_tags:
+    image_source_tag: "{{ app.image }}:{{ devenv }}"
+    image_target_tags:
       - "{{ image_ns }}/{{ app.image }}:{{ hostvars.app.image_tags[app.binary] }}"
   loop: "{{ hostvars.app.image_status.results|select('changed')|map(attribute='app') }}"
   loop_control:
