@@ -1,17 +1,5 @@
 ---
 devenv: turing
-dev:
-  church:
-    jdk:
-      release: 21
-    kotlin:
-      version: 2.0.0-Beta4
-  turing:
-    jdk:
-      release: 21
-  godel:
-    jdk:
-      release: 17
 
 opsenv: durkheim
 ops:

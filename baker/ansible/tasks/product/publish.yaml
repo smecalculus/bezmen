@@ -1,0 +1,24 @@
+---
+- ansible.builtin.import_role:  # noqa: name[missing]
+    name: image
+    tasks_from: clean
+  vars:
+    image_keys:
+      - "{{ product.image }}/{{ opsenv }}"
+
+- ansible.builtin.import_role:  # noqa: name[missing]
+    name: image
+    tasks_from: build
+  vars:
+    image_home: "{{ project.dir }}/stack/product"
+    image_context: target/image-context
+    image_key: "{{ product.image }}/{{ opsenv }}"
+    image_tag: "{{ product.image }}:{{ opsenv }}"
+
+- ansible.builtin.import_role:  # noqa: name[missing]
+    name: image
+    tasks_from: publish
+  vars:
+    image_source_tag: "{{ product.image }}:{{ opsenv }}"
+    image_target_tags:
+      - "{{ image_ns }}/{{ product.image }}:{{ hostvars.product.stack_tag }}"

@@ -21,15 +21,56 @@
     <lombok.version>1.18.30</lombok.version>
     <mapstruct.version>1.5.5.Final</mapstruct.version>
     <spring.version>6.1.3</spring.version>
-    <kotlin.version>1.9.22</kotlin.version>
+    <kotlin.version>1.8.22</kotlin.version>
     <jacoco.version>0.8.11</jacoco.version>
-    <!--unit tests & integration tests-->
-    <skipTests>false</skipTests>
-    <!--unit tests only-->
-    <skipUnits>${skipTests}</skipUnits>
+    <devenv>godel</devenv>
+    <skipTests>false</skipTests>  <!--unit tests & integration tests-->
+    <skipUnits>${skipTests}</skipUnits>  <!--unit tests only-->
     <maven.compiler.release>17</maven.compiler.release>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
+
+  <profiles>
+    <profile>
+      <id>experimental</id>
+      <activation>
+        <property>
+          <name>devenv</name>
+          <value>church</value>
+        </property>
+      </activation>
+      <properties>
+        <maven.compiler.release>21</maven.compiler.release>  <!--kotlin restriction-->
+        <kotlin.version>2.0.0-Beta4</kotlin.version>
+      </properties>
+    </profile>
+    <profile>
+      <id>stable</id>
+      <activation>
+        <property>
+          <name>devenv</name>
+          <value>turing</value>
+        </property>
+      </activation>
+      <properties>
+        <maven.compiler.release>21</maven.compiler.release>
+        <kotlin.version>1.9.22</kotlin.version>
+      </properties>
+    </profile>
+    <profile>
+      <id>deprecated</id>
+      <activation>
+        <property>
+          <name>devenv</name>
+          <value>godel</value>
+        </property>
+      </activation>
+      <properties>
+        <maven.compiler.release>17</maven.compiler.release>
+        <kotlin.version>1.8.22</kotlin.version>
+      </properties>
+    </profile>
+  </profiles>
 
   <build>
     <testResources>
@@ -235,6 +276,16 @@
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-dependency-plugin</artifactId>
+          <version>3.6.1</version>
+        </plugin>
+        <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>exec-maven-plugin</artifactId>
+          <version>3.1.1</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-failsafe-plugin</artifactId>
           <version>3.2.5</version>
           <configuration>
@@ -283,11 +334,6 @@
               </goals>
             </execution>
           </executions>
-        </plugin>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-dependency-plugin</artifactId>
-          <version>3.6.1</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>

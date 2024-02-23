@@ -53,8 +53,7 @@ jobs:
           ${{ env.IMAGE_NAME }}:${{ matrix.env.dev }}
           ansible-playbook images.yaml -v
           -e devenv=${{ matrix.env.dev }}
-          -e binary_repo=maven.pkg.github.com
-          -e image_repo=ghcr.io
+          -e repo_mode=rw
       - uses: mikepenz/action-junit-report@v4.1.0
         if: ${{ !cancelled() && (steps.images.outcome == 'success' || steps.images.outcome == 'failure') }}
         with:

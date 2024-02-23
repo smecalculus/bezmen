@@ -1,0 +1,8 @@
+---
+- ansible.builtin.import_role:  # noqa: name[missing]
+    name: image
+    tasks_from: publish
+  vars:
+    image_source_tag: "{{ gear.image }}:{{ devenv }}"
+    image_target_tags:
+      - "{{ image_ns }}/{{ gear.image }}:{{ hostvars.gear.stack_tag }}"

@@ -1,72 +1,57 @@
 ---
-- import_playbook: binaries.yaml  # noqa: name[play]
-  vars:
-    maven_phase: "{{ 'install' if binary_repo == 'local' else 'deploy' }}"
-  tags: [binaries, deps]
-
-- name: Images
+- name: Building
   hosts: db
   run_once: true
   tasks:
-    - name: Capture statuses
-      ansible.builtin.command:
-        cmd: >-
-          docker {{ docker_entity }} inspect
-          {{ image_ns }}/{{ product.databases[storage].image }}:{{ product.databases[storage].cid }}
-      register: image_status
-      changed_when: image_status.rc != 0
-      failed_when: false
-      loop: "{{ product.schemas.keys() }}"
-      loop_control:
-        loop_var: storage
-    - name: Status commands
-      ansible.builtin.debug:
-        msg: "{{ image_status.results|map(attribute='cmd')|map('join', ' ') }}"
-      when: image_status is changed
-    - name: Create images
-      ansible.builtin.include_role:
+    - ansible.builtin.import_tasks:  # noqa: name[missing]
+        file: tasks/db/capture.yaml
+      tags: [always]
+    - ansible.builtin.import_role:  # noqa: name[missing]
         name: image
+        tasks_from: clean
       vars:
-        image_tag: "{{ product.databases[storage].cid }}"
-        image_name: "{{ image_ns }}/{{ product.databases[storage].image }}"
-        image_home: "{{ project.dir }}/db/{{ storage }}"
-        image_key: "{{ product.databases[storage].image }}"
-        image_push: "{{ image_repo != 'local' }}"
-      loop: "{{ image_status.results|select('changed')|map(attribute='storage') }}"
-      loop_control:
-        loop_var: storage
+        image_keys: >-
+          {{ image_status.results
+           | select('changed')
+           | map(attribute='db.image')
+           | map('regex_replace', '$', '/' ~ devenv)
+          }}
+      when: image_status is changed
+    - ansible.builtin.import_tasks:  # noqa: name[missing]
+        file: tasks/db/build.yaml
+      when: image_status is changed
 
-- name: Images
+- name: Building & Checking
   hosts: app
   run_once: true
   tasks:
-    - name: Analyze coverage
-      ansible.builtin.command:
-        cmd: >-
-          mvn
-          --no-snapshot-updates
-          --batch-mode
-          --projects tool
-          clean
-          antrun:run@coverage
-        chdir: "{{ project.dir }}"
-        strip_empty_ends: false
-      changed_when: true
-      when: image_status is changed
-    - name: Create images
-      ansible.builtin.include_role:
+    - ansible.builtin.import_tasks:  # noqa: name[missing]
+        file: tasks/app/capture.yaml
+      tags: [always]
+    - ansible.builtin.import_role:  # noqa: name[missing]
         name: image
+        tasks_from: clean
       vars:
-        image_tag: "{{ image_tags[app.binary] }}"
-        image_name: "{{ image_ns }}/{{ app.image }}"
-        image_home: "{{ project.dir }}/app/{{ app.binary }}"
-        image_context: target/image-context
-        image_key: "{{ app.image }}/{{ devenv }}"
-        image_push: "{{ image_repo != 'local' }}"
-        image_args:
-          JAVA_RELEASE: "{{ dev[devenv].jdk.release }}"
-      loop: "{{ image_status.results|select('changed')|map(attribute='app') }}"
-      loop_control:
-        loop_var: app
-        label: "{{ app.binary }}"
+        image_keys: >-
+          {{ image_status.results
+           | select('changed')
+           | map(attribute='app.image')
+           | map('regex_replace', '$', '/' ~ devenv)
+          }}
       when: image_status is changed
+    - ansible.builtin.import_tasks:  # noqa: name[missing]
+        file: tasks/app/build-and-check.yaml
+      vars:
+        maven_phase: "{{ 'deploy' if repo_mode == 'rw' else 'install' }}"
+      when: image_status is changed
+
+- name: Publishing
+  hosts: image
+  run_once: true
+  tasks:
+    - ansible.builtin.import_tasks:  # noqa: name[missing]
+        file: tasks/db/publish.yaml
+      when: hostvars.db.image_status is changed
+    - ansible.builtin.import_tasks:  # noqa: name[missing]
+        file: tasks/app/publish.yaml
+      when: hostvars.app.image_status is changed

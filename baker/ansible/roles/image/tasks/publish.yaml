@@ -1,0 +1,22 @@
+---
+- name: Check inputs
+  ansible.builtin.assert:
+    quiet: true
+    that:
+      - image_source_tag is defined
+      - image_target_tags is defined
+
+- name: Tag images
+  ansible.builtin.command:
+    cmd: docker tag {{ image_source_tag }} {{ item }}
+    strip_empty_ends: false
+  changed_when: true
+  loop: "{{ image_target_tags }}"
+
+- name: Push images
+  ansible.builtin.command:
+    cmd: docker push {{ item }}
+    strip_empty_ends: false
+  changed_when: true
+  loop: "{{ image_target_tags }}"
+  when: repo_mode == 'rw'

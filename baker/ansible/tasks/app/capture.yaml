@@ -1,0 +1,36 @@
+---
+- name: Capture CID's
+  ansible.builtin.command:
+    cmd: git hash-object --stdin
+    stdin: |
+      {{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=lib') }}
+      {{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=app/' ~ app.binary) }}
+  register: image_cid
+  changed_when: false
+  loop: "{{ product.apps.values()|flatten }}"
+  loop_control:
+    loop_var: app
+    label: "{{ app.image }}"
+
+- name: Declare tags
+  ansible.builtin.set_fact:
+    image_tags: >-
+      {{ dict(image_cid.results
+        | map(attribute='stdout')
+        | map('truncate', 7, True, '')
+        | map('regex_replace', '^', devenv ~ '-')
+        | zip(image_cid.results|map(attribute='app.binary'))
+        | map('reverse'))
+      }}
+
+- name: Capture statuses
+  ansible.builtin.command:
+    cmd: docker {{ docker_entity }} inspect {{ image_ns }}/{{ app.image }}:{{ image_tags[app.binary] }}
+  register: image_status
+  changed_when:
+    - image_status.rc != 0
+  failed_when: false
+  loop: "{{ product.apps.values()|flatten }}"
+  loop_control:
+    loop_var: app
+    label: "{{ app.image }}:{{ image_tags[app.binary] }}"

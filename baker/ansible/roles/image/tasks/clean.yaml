@@ -1,0 +1,22 @@
+---
+- name: Check inputs
+  ansible.builtin.assert:
+    quiet: true
+    that:
+      - image_keys is defined
+
+- name: Kill containers
+  ansible.builtin.shell:
+    cmd: docker container rm -f $(docker ps -aq --filter label=image.key={{ item }})
+    strip_empty_ends: false
+  changed_when: false
+  failed_when: false
+  loop: "{{ image_keys }}"
+
+- name: Remove images
+  ansible.builtin.shell:
+    cmd: docker image rm -f $(docker images -q --filter label=image.key={{ item }})
+    strip_empty_ends: false
+  changed_when: false
+  failed_when: false
+  loop: "{{ image_keys }}"
