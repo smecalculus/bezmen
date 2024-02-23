@@ -1,11 +1,4 @@
 ---
-- ansible.builtin.import_role:  # noqa: name[missing]
-    name: image
-    tasks_from: clean
-  vars:
-    image_keys:
-      - "{{ product.image }}/{{ opsenv }}"
-
 - name: Remove artifacts
   ansible.builtin.file:
     path: "{{ stack_dir }}/target"
@@ -32,12 +25,3 @@
     lstrip_blocks: yes
     trim_blocks: yes
     mode: "644"
-
-- ansible.builtin.import_role:  # noqa: name[missing]
-    name: image
-    tasks_from: build
-  vars:
-    image_home: "{{ project.dir }}/stack/product"
-    image_context: target/image-context
-    image_key: "{{ product.image }}/{{ opsenv }}"
-    image_tag: "{{ product.image }}:{{ opsenv }}"
