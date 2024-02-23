@@ -66,7 +66,7 @@
           <artifactId>maven-dependency-plugin</artifactId>
           <executions>
             <execution>
-              <id>deps-context</id>
+              <id>deps-jars</id>
               <phase>pre-integration-test</phase>
               <goals>
                 <goal>copy-dependencies</goal>
@@ -78,7 +78,7 @@
               </configuration>
             </execution>
             <execution>
-              <id>lib-context</id>
+              <id>libs-jars</id>
               <phase>pre-integration-test</phase>
               <goals>
                 <goal>copy-dependencies</goal>
@@ -90,7 +90,7 @@
               </configuration>
             </execution>
             <execution>
-              <id>app-context</id>
+              <id>app-jar</id>
               <phase>pre-integration-test</phase>
               <goals>
                 <goal>copy</goal>
@@ -128,9 +128,9 @@
               <argument>--file</argument>
               <argument>${project.basedir}/Dockerfile</argument>
               <argument>--tag</argument>
-              <argument>app/${project.artifactId}:godel</argument>
+              <argument>app/${artifactId}:${devenv}</argument>
               <argument>--label</argument>
-              <argument>image.key=app/${project.artifactId}/godel</argument>
+              <argument>image.key=app/${artifactId}/${devenv}</argument>
               <argument>--build-arg</argument>
               <argument>JAVA_RELEASE=${maven.compiler.release}</argument>
             </arguments>

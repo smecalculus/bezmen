@@ -20,7 +20,9 @@
     - ansible.builtin.import_tasks:  # noqa: name[missing]
         file: tasks/gear/build.yaml
       tags: [build]
-      when: hostvars.gear.stack_status is changed
+      when: >-
+        hostvars.gear.stack_status is changed and
+        repo_mode != 'rw'
 
 - name: Building & Checking
   hosts: product

@@ -1,9 +1,15 @@
 ---
 - ansible.builtin.import_role:  # noqa: name[missing]
     name: image
+    tasks_from: clean
+  vars:
+    image_keys:
+      - "{{ gear.image }}/{{ devenv }}"
+
+- ansible.builtin.import_role:  # noqa: name[missing]
+    name: image
     tasks_from: build
   vars:
     image_home: "{{ project.dir }}/stack/gear"
     image_key: "{{ gear.image }}/{{ devenv }}"
     image_tag: "{{ gear.image }}:{{ devenv }}"
-  when: repo_mode != 'rw'

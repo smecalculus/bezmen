@@ -16,11 +16,8 @@
       }}
       --also-make
       clean
-      {{ maven_phase|mandatory }}
-      --define maven.compiler.release={{ dev[devenv].jdk.release }}
-      {% if dev[devenv].kotlin is defined %}
-      --define kotlin.version={{ dev[devenv].kotlin.version }}
-      {% endif %}
+      {{ maven_phase | mandatory }}
+      --define devenv={{ devenv }}
     chdir: "{{ project.dir }}"
     strip_empty_ends: false
   changed_when: true

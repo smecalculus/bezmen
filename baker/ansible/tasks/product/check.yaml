@@ -34,12 +34,14 @@
       --batch-mode
       --threads 2
       --projects test/e2e
-      {% if is_docker_gear.rc == 0 %}
+      {% if hostvars.gear.is_docker_gear.rc == 0 %}
       --activate-profiles docker
       {% endif %}
       --also-make
       clean
       test
+      --define devenv={{ devenv }}
+      --define skipUnits=true
       --define props={{ opsenv }}
       {% if reminder is defined %}
       --define testing.sharding.reminder={{ reminder }}
@@ -47,8 +49,6 @@
       {% if modulus is defined %}
       --define testing.sharding.modulus={{ modulus }}
       {% endif %}
-      --define maven.compiler.release={{ dev[devenv].jdk.release }}
-      --define skipUnits=true
     chdir: "{{ project.dir }}"
     strip_empty_ends: false
   changed_when: true
