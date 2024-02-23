@@ -223,7 +223,7 @@ jobs:
     timeout-minutes: 5
     needs: [stack-checking]
     if: ${{ !cancelled() && (contains(needs.*.result, 'success') || contains(needs.*.result, 'failure')) }}
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     permissions:
       checks: write
     steps:

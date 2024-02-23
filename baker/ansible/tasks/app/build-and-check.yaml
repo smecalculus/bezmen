@@ -2,22 +2,30 @@
 - name: Build binaries
   ansible.builtin.command:
     cmd: >-
-      mvn
-      --no-snapshot-updates
-      --batch-mode
-      --fail-fast
-      --threads 2
-      --projects {{
-        image_status.results
-        | select('changed')
-        | map(attribute='app.binary')
-        | map('regex_replace', '^', ':')
-        | join(',')
-      }}
-      --also-make
-      clean
-      {{ maven_phase | mandatory }}
-      --define devenv={{ devenv }}
+      mvn clean {{ maven_phase|mandatory }}
+        --no-snapshot-updates
+        --batch-mode
+        --fail-fast
+        --threads 2
+      {% if image_status is defined %}
+        --projects {{
+          image_status.results
+          | select('changed')
+          | map(attribute='app.binary')
+          | map('regex_replace', '^', ':')
+          | join(',')
+        }}
+      {% else %}
+        --projects {{
+          product.apps.values()
+          | flatten
+          | map(attribute='binary')
+          | map('regex_replace', '^', ':')
+          | join(',')
+        }}
+      {% endif %}
+        --also-make
+        --define devenv={{ devenv }}
     chdir: "{{ project.dir }}"
     strip_empty_ends: false
   changed_when: true
@@ -28,7 +36,7 @@
       mvn
       --no-snapshot-updates
       --batch-mode
-      --projects tool
+      --projects :tool
       clean
       antrun:run@coverage
     chdir: "{{ project.dir }}"
