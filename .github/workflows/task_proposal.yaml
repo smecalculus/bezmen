@@ -1,5 +1,5 @@
 ---
-name: Sanity
+name: Task proposal
 
 on:
   pull_request:
@@ -62,7 +62,7 @@ jobs:
     name: Everything is fine
     needs: [up-to-binaries]
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 5
     if: ${{ always() }}
     steps:
       - if: ${{ contains(needs.*.result, 'failure') || contains(needs.*.result, 'skipped') || contains(needs.*.result, 'cancelled') }}
