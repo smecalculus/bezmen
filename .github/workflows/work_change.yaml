@@ -1,8 +1,9 @@
 ---
-name: Convincing
+name: Work change
 
 on:
   pull_request:
+    types: [synchronize]
     branches:
       - main
   workflow_dispatch:
@@ -81,7 +82,7 @@ jobs:
     name: Everything is fine
     needs: [up-to-images]
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 5
     if: ${{ always() }}
     steps:
       - if: ${{ contains(needs.*.result, 'failure') || contains(needs.*.result, 'skipped') || contains(needs.*.result, 'cancelled') }}

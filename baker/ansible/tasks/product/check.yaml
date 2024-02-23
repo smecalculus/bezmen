@@ -33,7 +33,7 @@
       --no-snapshot-updates
       --batch-mode
       --threads 2
-      --projects test/e2e
+      --projects :e2e
       {% if hostvars.gear.is_virtual.rc == 0 %}
       --activate-profiles docker
       {% endif %}
