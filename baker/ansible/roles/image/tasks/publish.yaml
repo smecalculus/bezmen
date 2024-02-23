@@ -19,4 +19,4 @@
     strip_empty_ends: false
   changed_when: true
   loop: "{{ image_target_tags }}"
-  tags: [never]
+  when: repo_mode == 'rw'

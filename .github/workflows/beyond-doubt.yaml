@@ -102,6 +102,7 @@ jobs:
         run: >-
           docker run --rm
           --volume $(pwd):$(pwd)
+          --volume /var/run/docker.sock:/var/run/docker.sock
           --workdir $(pwd)/baker/ansible
           ${{ env.IMAGE_NAME }}:${{ matrix.env.dev }}
           ansible-playbook stacks.yaml -t build
@@ -114,8 +115,8 @@ jobs:
           path: stack/product/target/image-context
           if-no-files-found: ignore
 
-  stack-testing:
-    name: Stack testing (${{ matrix.shard }}, ${{ matrix.purpose }}, ${{ matrix.env.ops }})
+  stack-checking:
+    name: Stack checking (${{ matrix.shard }}, ${{ matrix.purpose }}, ${{ matrix.env.ops }})
     timeout-minutes: 15
     needs: [stack-building]
     strategy:
@@ -170,7 +171,7 @@ jobs:
   stack-publishing:
     name: Stack publishing (${{ matrix.purpose }}, ${{ matrix.env.ops }})
     timeout-minutes: 10
-    needs: [stack-testing]
+    needs: [stack-checking]
     strategy:
       fail-fast: false
       matrix:
@@ -216,7 +217,7 @@ jobs:
   stack-reporting:
     name: Stack reporting
     timeout-minutes: 5
-    needs: [stack-testing]
+    needs: [stack-checking]
     if: ${{ !cancelled() && (contains(needs.*.result, 'success') || contains(needs.*.result, 'failure')) }}
     runs-on: ubuntu-22.04
     permissions:

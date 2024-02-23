@@ -128,9 +128,9 @@
               <argument>--file</argument>
               <argument>${project.basedir}/Dockerfile</argument>
               <argument>--tag</argument>
-              <argument>app/${artifactId}:${devenv}</argument>
+              <argument>app/${project.artifactId}:${devenv}</argument>
               <argument>--label</argument>
-              <argument>image.key=app/${artifactId}/${devenv}</argument>
+              <argument>image.key=app/${project.artifactId}/${devenv}</argument>
               <argument>--build-arg</argument>
               <argument>JAVA_RELEASE=${maven.compiler.release}</argument>
             </arguments>
