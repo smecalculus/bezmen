@@ -21,53 +21,38 @@
     <lombok.version>1.18.30</lombok.version>
     <mapstruct.version>1.5.5.Final</mapstruct.version>
     <spring.version>6.1.4</spring.version>
-    <kotlin.version>1.8.22</kotlin.version>
     <jacoco.version>0.8.11</jacoco.version>
-    <devenv>godel</devenv>
-    <skipTests>false</skipTests>  <!--unit tests & integration tests-->
+    <skipTests>false</skipTests>  <!--unit, integration and e2e tests-->
     <skipUnits>${skipTests}</skipUnits>  <!--unit tests only-->
-    <maven.compiler.release>17</maven.compiler.release>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
 
   <profiles>
     <profile>
-      <id>experimental</id>
-      <activation>
-        <property>
-          <name>devenv</name>
-          <value>church</value>
-        </property>
-      </activation>
+      <id>church</id>
       <properties>
-        <maven.compiler.release>21</maven.compiler.release>  <!--kotlin restriction-->
+        <devenv>church</devenv>
         <kotlin.version>2.0.0-Beta4</kotlin.version>
+        <maven.compiler.release>21</maven.compiler.release>  <!--bump when kotlin will be ready-->
       </properties>
     </profile>
     <profile>
-      <id>stable</id>
-      <activation>
-        <property>
-          <name>devenv</name>
-          <value>turing</value>
-        </property>
-      </activation>
+      <id>turing</id>
       <properties>
-        <maven.compiler.release>21</maven.compiler.release>
+        <devenv>turing</devenv>
         <kotlin.version>1.9.22</kotlin.version>
+        <maven.compiler.release>21</maven.compiler.release>
       </properties>
     </profile>
     <profile>
-      <id>deprecated</id>
+      <id>godel</id>
       <activation>
-        <property>
-          <name>devenv</name>
-          <value>godel</value>
-        </property>
+        <activeByDefault>true</activeByDefault>  <!--default when building directly-->
       </activation>
       <properties>
-        <maven.compiler.release>17</maven.compiler.release>
+        <devenv>godel</devenv>
         <kotlin.version>1.8.22</kotlin.version>
+        <maven.compiler.release>17</maven.compiler.release>
       </properties>
     </profile>
   </profiles>

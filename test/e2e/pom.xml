@@ -13,10 +13,6 @@
   <artifactId>e2e</artifactId>
   <packaging>jar</packaging>
 
-  <properties>
-    <testingClientHost>localhost</testingClientHost>
-  </properties>
-
   <dependencies>
     <dependency>
       <groupId>${project.groupId}</groupId>
@@ -30,27 +26,15 @@
     </dependency>
   </dependencies>
 
-  <profiles>
-    <profile>
-      <id>docker</id>
-      <properties>
-        <testingClientHost>sepuling</testingClientHost>
-      </properties>
-    </profile>
-  </profiles>
-
   <build>
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
         <configuration>
-          <skipTests>false</skipTests>
+          <skipTests>${skipTests}</skipTests>
           <test>smecalculus.bezmen.FuncSuite</test>
-          <systemPropertyVariables>
-            <testing.client.host>${testingClientHost}</testing.client.host>
-          </systemPropertyVariables>
-          <systemPropertiesFile>src/main/resources/testing.properties</systemPropertiesFile>
+          <systemPropertiesFile>src/test/resources/testing.properties</systemPropertiesFile>
         </configuration>
       </plugin>
     </plugins>
