@@ -37,7 +37,7 @@ services:
       storage:
         condition: service_healthy
     labels:
-      image.key: {{ database.image }}
+      image.key: {{ database.image }}/{{ devenv }}
     command: >-
       --show-banner=false
       --classpath=/liquibase/changelog
@@ -62,7 +62,7 @@ services:
       database:
         condition: service_completed_successfully
     labels:
-      image.key: {{ database.image }}
+      image.key: {{ database.image }}/{{ devenv }}
     command: >-
       --show-banner=false
       --classpath=/liquibase/changelog
@@ -97,5 +97,5 @@ services:
         condition: service_completed_successfully
     {% endfor %}
     labels:
-      image.key: {{ app.image }}
+      image.key: {{ app.image }}/{{ devenv }}
 {% endfor %}

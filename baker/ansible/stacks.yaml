@@ -3,20 +3,16 @@
   tags: [images, deps]
 
 - name: Capturing
-  hosts: product
-  run_once: true
+  hosts: stack
   tasks:
-    - ansible.builtin.import_tasks:  # noqa: name[missing]
-        file: tasks/product/capture.yaml
+    - ansible.builtin.include_tasks:  # noqa: name[missing]
+        file: tasks/{{ inventory_hostname }}/capture.yaml
       tags: [always]
 
-- name: Capturing & Building
+- name: Building
   hosts: gear
   run_once: true
   tasks:
-    - ansible.builtin.import_tasks:  # noqa: name[missing]
-        file: tasks/gear/capture.yaml
-      tags: [always]
     - ansible.builtin.import_tasks:  # noqa: name[missing]
         file: tasks/gear/build.yaml
       tags: [build]
@@ -44,19 +40,9 @@
         hostvars.gear.stack_status is changed
 
 - name: Publishing
-  hosts: product
-  run_once: true
+  hosts: stack
   tasks:
-    - ansible.builtin.import_tasks:  # noqa: name[missing]
-        file: tasks/product/publish.yaml
+    - ansible.builtin.include_tasks:  # noqa: name[missing]
+        file: tasks/{{ inventory_hostname }}/publish.yaml
       tags: [publish]
-      when: hostvars.product.stack_status is changed
-
-- name: Publishing
-  hosts: gear
-  run_once: true
-  tasks:
-    - ansible.builtin.import_tasks:  # noqa: name[missing]
-        file: tasks/gear/publish.yaml
-      tags: [publish]
-      when: hostvars.gear.stack_status is changed
+      when: hostvars[inventory_hostname].stack_status is changed

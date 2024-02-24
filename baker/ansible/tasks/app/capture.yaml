@@ -22,6 +22,7 @@
         | zip(image_cid.results|map(attribute='app.binary'))
         | map('reverse'))
       }}
+  changed_when: false
 
 - name: Capture statuses
   ansible.builtin.command:

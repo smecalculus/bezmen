@@ -37,7 +37,7 @@ jobs:
           --volume ~/.m2:/root/.m2
           --workdir $(pwd)/baker/ansible
           ${{ env.IMAGE_NAME }}:${{ matrix.env.dev }}
-          ansible-playbook sources.yaml
+          ansible-playbook sources.yaml -v
           -e devenv=${{ matrix.env.dev }}
       - name: Run ansible-playbook binaries.yaml
         id: binaries
@@ -47,7 +47,7 @@ jobs:
           --volume ~/.m2:/root/.m2
           --workdir $(pwd)/baker/ansible
           ${{ env.IMAGE_NAME }}:${{ matrix.env.dev }}
-          ansible-playbook binaries.yaml
+          ansible-playbook binaries.yaml -v
           -e devenv=${{ matrix.env.dev }}
       - uses: mikepenz/action-junit-report@v4.1.0
         if: ${{ !cancelled() && (steps.binaries.outcome == 'success' || steps.binaries.outcome == 'failure') }}
