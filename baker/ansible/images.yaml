@@ -1,11 +1,17 @@
 ---
+- name: Capturing
+  hosts: image
+  tasks:
+    - ansible.builtin.include_tasks:  # noqa: name[missing]
+        file: tasks/{{ inventory_hostname }}/capture.yaml
+        apply:
+          tags: [always]
+      tags: [always]
+
 - name: Building
   hosts: db
   run_once: true
   tasks:
-    - ansible.builtin.import_tasks:  # noqa: name[missing]
-        file: tasks/db/capture.yaml
-      tags: [always]
     - ansible.builtin.import_role:  # noqa: name[missing]
         name: image
         tasks_from: clean
@@ -13,8 +19,8 @@
         image_keys: >-
           {{ image_status.results
            | select('changed')
-           | map(attribute='db.image')
-           | map('regex_replace', '$', '/' ~ devenv)
+           | map(attribute='vendor')
+           | map('regex_replace', '^(.*)$', 'db/\\\1/' ~ devenv)
           }}
       when: image_status is changed
     - ansible.builtin.import_tasks:  # noqa: name[missing]
@@ -25,9 +31,6 @@
   hosts: app
   run_once: true
   tasks:
-    - ansible.builtin.import_tasks:  # noqa: name[missing]
-        file: tasks/app/capture.yaml
-      tags: [always]
     - ansible.builtin.import_role:  # noqa: name[missing]
         name: image
         tasks_from: clean
@@ -35,8 +38,8 @@
         image_keys: >-
           {{ image_status.results
            | select('changed')
-           | map(attribute='app.image')
-           | map('regex_replace', '$', '/' ~ devenv)
+           | map(attribute='app')
+           | map('regex_replace', '^(.*)$', 'app/\\\1/' ~ devenv)
           }}
       when: image_status is changed
     - ansible.builtin.import_tasks:  # noqa: name[missing]
@@ -47,11 +50,7 @@
 
 - name: Publishing
   hosts: image
-  run_once: true
   tasks:
-    - ansible.builtin.import_tasks:  # noqa: name[missing]
-        file: tasks/db/publish.yaml
-      when: hostvars.db.image_status is changed
-    - ansible.builtin.import_tasks:  # noqa: name[missing]
-        file: tasks/app/publish.yaml
-      when: hostvars.app.image_status is changed
+    - ansible.builtin.include_tasks:  # noqa: name[missing]
+        file: tasks/{{ inventory_hostname }}/publish.yaml
+      when: hostvars[inventory_hostname].image_status is changed

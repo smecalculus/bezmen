@@ -38,7 +38,7 @@ jobs:
           --volume ~/.m2:/root/.m2
           --workdir $(pwd)/baker/ansible
           ${{ env.IMAGE_NAME }}:${{ matrix.env.dev }}
-          ansible-playbook sources.yaml
+          ansible-playbook sources.yaml -v
           -e devenv=${{ matrix.env.dev }}
       - name: Run ansible-playbook images.yaml
         id: images

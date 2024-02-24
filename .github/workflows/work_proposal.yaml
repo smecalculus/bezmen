@@ -100,7 +100,7 @@ jobs:
           --volume /var/run/docker.sock:/var/run/docker.sock
           --workdir $(pwd)/baker/ansible
           ${{ env.IMAGE_NAME }}:${{ matrix.env.dev }}
-          ansible-playbook stacks.yaml -t build
+          ansible-playbook stacks.yaml -t build -v
           -e devenv=${{ matrix.env.dev }}
           -e purpose=${{ matrix.purpose }}
           -e opsenv=${{ matrix.env.ops }}
@@ -150,7 +150,7 @@ jobs:
           --volume /var/run/docker.sock:/var/run/docker.sock
           --workdir $(pwd)/baker/ansible
           ${{ env.IMAGE_NAME }}:${{ matrix.env.dev }}
-          ansible-playbook stacks.yaml -t check
+          ansible-playbook stacks.yaml -t check -v
           -e devenv=${{ matrix.env.dev }}
           -e purpose=${{ matrix.purpose }}
           -e opsenv=${{ matrix.env.ops }}

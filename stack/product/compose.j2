@@ -30,14 +30,14 @@ services:
       retries: 5
 
   database:
-    image: {{ image_ns }}/{{ database.image }}:{{ database.cid }}
+    image: {{ image_ns }}/db/{{ storage.vendor }}:{{ hostvars.db.image_tags[storage.vendor] }}
     networks:
       - product
     depends_on:
       storage:
         condition: service_healthy
     labels:
-      image.key: {{ database.image }}
+      image.key: db/{{ storage.vendor }}/{{ devenv }}
     command: >-
       --show-banner=false
       --classpath=/liquibase/changelog
@@ -55,14 +55,14 @@ services:
 
 {% for schema in product.schemas[storage.vendor] %}
   {{ schema.name }}:
-    image: {{ image_ns }}/{{ database.image }}:{{ database.cid }}
+    image: {{ image_ns }}/db/{{ storage.vendor }}:{{ hostvars.db.image_tags[storage.vendor] }}
     networks:
       - product
     depends_on:
       database:
         condition: service_completed_successfully
     labels:
-      image.key: {{ database.image }}
+      image.key: db/{{ storage.vendor }}/{{ devenv }}
     command: >-
       --show-banner=false
       --classpath=/liquibase/changelog
@@ -79,7 +79,7 @@ services:
 {% set apps = product.apps[ops[opsenv].app.lang]|selectattr('service', 'in', usages[purpose].apps) %}
 {% for app in apps %}
   {{ app.service }}:
-    image: {{ image_ns }}/{{ app.image }}:{{ hostvars.app.image_tags[app.binary] }}
+    image: {{ image_ns }}/app/{{ app.name }}:{{ hostvars.app.image_tags[app.name] }}
     networks:
       - product
       - gear
@@ -97,5 +97,5 @@ services:
         condition: service_completed_successfully
     {% endfor %}
     labels:
-      image.key: {{ app.image }}
+      image.key: app/{{ app.name }}/{{ devenv }}
 {% endfor %}

@@ -10,7 +10,7 @@
     name: image
     tasks_from: build
   vars:
-    image_home: "{{ project.dir }}/stack/product"
+    image_home: "{{ project.dir }}/{{ product.image }}"
     image_context: target/image-context
     image_key: "{{ product.image }}/{{ opsenv }}"
     image_tag: "{{ product.image }}:{{ opsenv }}"

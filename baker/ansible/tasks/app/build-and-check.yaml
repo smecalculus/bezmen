@@ -2,17 +2,18 @@
 - name: Build binaries
   ansible.builtin.command:
     cmd: >-
-      mvn clean {{ maven_phase|mandatory }}
+      mvn {{ maven_phase|mandatory }}
         --activate-profiles {{ devenv }}
         --no-snapshot-updates
         --batch-mode
         --fail-fast
+        --also-make
         --threads 2
       {% if image_status is defined %}
         --projects {{
           image_status.results
           | select('changed')
-          | map(attribute='app.binary')
+          | map(attribute='app')
           | map('regex_replace', '^', ':')
           | join(',')
         }}
@@ -25,8 +26,6 @@
           | join(',')
         }}
       {% endif %}
-        --also-make
-        --define devenv={{ devenv }}
     chdir: "{{ project.dir }}"
     strip_empty_ends: false
   changed_when: true
@@ -34,7 +33,8 @@
 - name: Analyze coverage
   ansible.builtin.command:
     cmd: >-
-      mvn clean antrun:run@coverage
+      mvn clean
+        antrun:run@coverage
         --no-snapshot-updates
         --batch-mode
         --projects :tool

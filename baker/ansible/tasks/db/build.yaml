@@ -3,10 +3,9 @@
     name: image
     tasks_from: build
   vars:
-    image_home: "{{ project.dir }}/{{ db.image }}"
-    image_key: "{{ db.image }}/{{ devenv }}"
-    image_tag: "{{ db.image }}:{{ devenv }}"
-  loop: "{{ hostvars.db.image_status.results|select('changed')|map(attribute='db') }}"
+    image_home: "{{ project.dir }}/db/{{ vendor }}"
+    image_key: "db/{{ vendor }}/{{ devenv }}"
+    image_tag: "db/{{ vendor }}:{{ devenv }}"
+  loop: "{{ hostvars.db.image_status.results|select('changed')|map(attribute='vendor') }}"
   loop_control:
-    loop_var: db
-    label: "{{ db.image }}"
+    loop_var: vendor

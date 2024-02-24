@@ -6,7 +6,7 @@
     - name: Analyze
       ansible.builtin.command:
         cmd: >-
-          mvn
+          mvn clean
             enforcer:enforce
             spotless:check
             pmd:check
@@ -17,7 +17,7 @@
             --batch-mode
         chdir: "{{ project.dir }}"
         strip_empty_ends: false
-      changed_when: false
+      changed_when: true
 
 - name: Checking
   hosts: ansible
@@ -26,12 +26,9 @@
     - name: Linting
       ansible.builtin.command:
         # list all top level playbooks
-        cmd: >-
-          ansible-lint
-            sources.yaml
-            stacks.yaml
+        cmd: ansible-lint sources.yaml binaries.yaml stacks.yaml
         strip_empty_ends: false
-      changed_when: false
+      changed_when: true
 
 - name: Checking
   hosts: github
@@ -41,4 +38,4 @@
       ansible.builtin.command:
         cmd: yamllint {{ project.dir }}/.github
         strip_empty_ends: false
-      changed_when: false
+      changed_when: true
