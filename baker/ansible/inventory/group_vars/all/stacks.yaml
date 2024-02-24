@@ -20,20 +20,16 @@ product:
   databases:
     postgres:
       name: "{{ project.name }}"
-      cid: "{{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=db/postgres')[:7] }}"
-      image: db/postgres
   schemas:
     postgres:
       - name: sepulkarium
   apps:
     java:
       - service: sepuling
-        image: app/sepuling-java
-        binary: sepuling-java
+        name: sepuling-java
     kotlin:
       - service: sepuling
-        image: app/sepuling-kotlin
-        binary: sepuling-kotlin
+        name: sepuling-kotlin
 
 config_exts:
   lightbend_config: conf

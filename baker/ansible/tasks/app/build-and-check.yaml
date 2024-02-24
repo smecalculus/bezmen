@@ -13,7 +13,7 @@
         --projects {{
           image_status.results
           | select('changed')
-          | map(attribute='app.binary')
+          | map(attribute='app')
           | map('regex_replace', '^', ':')
           | join(',')
         }}
