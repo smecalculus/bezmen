@@ -20,7 +20,7 @@
       tags: [build]
       when: >-
         hostvars.gear.stack_status is changed and
-        repo_mode != 'rw'
+        hostvars.gear.is_virtual.rc != 0
 
 - name: Building & Checking
   hosts: product

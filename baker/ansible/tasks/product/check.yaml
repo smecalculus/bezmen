@@ -1,9 +1,12 @@
 ---
-- name: Remove stand (or part of it)
+- name: Remove storages
   ansible.builtin.command:
-    cmd: docker rm -f env-db
+    cmd: docker container rm -fv storage-{{ vendor }}
   changed_when: false
-  when: hostvars.db.image_status|default({}) is changed
+  loop: "{{ product.databases.keys() }}"
+  loop_control:
+    loop_var: vendor
+  when: hostvars.db.image_status is changed
 
 - name: Create network
   ansible.builtin.shell:

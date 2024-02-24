@@ -20,7 +20,7 @@
           {{ image_status.results
            | select('changed')
            | map(attribute='vendor')
-           | map('regex_replace', '^(.*)$', 'db/\\\1/' ~ devenv)
+           | map('regex_replace', '^(.*)$', 'db/\1/' ~ devenv)
           }}
       when: image_status is changed
     - ansible.builtin.import_tasks:  # noqa: name[missing]
@@ -39,7 +39,7 @@
           {{ image_status.results
            | select('changed')
            | map(attribute='app')
-           | map('regex_replace', '^(.*)$', 'app/\\\1/' ~ devenv)
+           | map('regex_replace', '^(.*)$', 'app/\1/' ~ devenv)
           }}
       when: image_status is changed
     - ansible.builtin.import_tasks:  # noqa: name[missing]
