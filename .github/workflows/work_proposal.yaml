@@ -36,6 +36,15 @@ jobs:
         with:
           devenv: ${{ matrix.env.dev }}
           token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Run ansible-playbook sources.yaml
+        run: >-
+          docker run --rm
+          --volume $(pwd):$(pwd)
+          --volume ~/.m2:/root/.m2
+          --workdir $(pwd)/baker/ansible
+          ${{ env.IMAGE_NAME }}:${{ matrix.env.dev }}
+          ansible-playbook sources.yaml -v
+          -e devenv=${{ matrix.env.dev }}
       - name: Run ansible-playbook images.yaml
         id: images
         run: >-
@@ -54,7 +63,7 @@ jobs:
       - uses: mikepenz/action-junit-report@v4.1.0
         if: ${{ !cancelled() && (steps.images.outcome == 'success' || steps.images.outcome == 'failure') }}
         with:
-          check_name: Unit test report (${{ matrix.env.dev }})
+          check_name: Unit tests (${{ matrix.env.dev }})
           report_paths: "**/target/surefire-reports/TEST-*.xml"
           require_tests: "${{ steps.images.outcome == 'failure' }}"
           fail_on_failure: false
@@ -62,7 +71,7 @@ jobs:
       - uses: mikepenz/action-junit-report@v4.1.0
         if: ${{ !cancelled() && (steps.images.outcome == 'success' || steps.images.outcome == 'failure') }}
         with:
-          check_name: Integration test report (${{ matrix.env.dev }})
+          check_name: Integration tests (${{ matrix.env.dev }})
           report_paths: "**/target/failsafe-reports/TEST-*.xml"
           require_tests: "${{ steps.images.outcome == 'failure' }}"
           fail_on_failure: false
@@ -104,6 +113,7 @@ jobs:
           -e devenv=${{ matrix.env.dev }}
           -e purpose=${{ matrix.purpose }}
           -e opsenv=${{ matrix.env.ops }}
+          -e repo_mode=ro
       - uses: actions/upload-artifact@v4.3.1
         with:
           name: product-${{ matrix.purpose }}-${{ matrix.env.ops }}
@@ -156,10 +166,11 @@ jobs:
           -e opsenv=${{ matrix.env.ops }}
           -e reminder=${{ matrix.shard }}
           -e modulus=2
+          -e repo_mode=ro
       - uses: actions/upload-artifact@v4.3.1
         if: ${{ !cancelled() }}
         with:
-          name: e2e-test-report-${{ matrix.shard }}-${{ matrix.purpose }}-${{ matrix.env.ops }}
+          name: e2e-tests-${{ matrix.shard }}-${{ matrix.purpose }}-${{ matrix.env.ops }}
           path: test/e2e/target/surefire-reports/*.xml
           if-no-files-found: ignore
 
@@ -223,8 +234,8 @@ jobs:
           path: artifacts
       - uses: mikepenz/action-junit-report@v4.1.0
         with:
-          check_name: E2E test report
-          report_paths: "artifacts/e2e-test-report-*/**/TEST-*.xml"
+          check_name: End-to-end tests
+          report_paths: "artifacts/e2e-tests-*/**/TEST-*.xml"
           fail_on_failure: false
           job_summary: false
 

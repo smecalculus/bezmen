@@ -1,2 +1,2 @@
 FROM scratch
-COPY Dockerfile /
+COPY Dockerfile .

@@ -15,6 +15,7 @@ configs:
 {% set database = product.databases[storage.vendor] %}
 services:
   storage:
+    container_name: storage-{{ storage.vendor }}
     image: {{ storage.image }}:{{ storage.version }}-alpine
     networks:
       - product
@@ -30,6 +31,7 @@ services:
       retries: 5
 
   database:
+    container_name: database-{{ database.name }}
     image: {{ image_ns }}/db/{{ storage.vendor }}:{{ hostvars.db.image_tags[storage.vendor] }}
     networks:
       - product
@@ -55,6 +57,7 @@ services:
 
 {% for schema in product.schemas[storage.vendor] %}
   {{ schema.name }}:
+    container_name: schema-{{ schema.name }}
     image: {{ image_ns }}/db/{{ storage.vendor }}:{{ hostvars.db.image_tags[storage.vendor] }}
     networks:
       - product
@@ -79,6 +82,7 @@ services:
 {% set apps = product.apps[ops[opsenv].app.lang]|selectattr('service', 'in', usages[purpose].apps) %}
 {% for app in apps %}
   {{ app.service }}:
+    container_name: app-{{ app.service }}
     image: {{ image_ns }}/app/{{ app.name }}:{{ hostvars.app.image_tags[app.name] }}
     networks:
       - product

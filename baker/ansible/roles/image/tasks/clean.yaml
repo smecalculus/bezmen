@@ -7,7 +7,7 @@
 
 - name: Kill containers
   ansible.builtin.shell:
-    cmd: docker container rm -f $(docker ps -aq --filter label=image.key={{ item }})
+    cmd: docker container rm -fv $(docker ps -aq --filter label=image.key={{ item }})
     strip_empty_ends: false
   register: kill_outcome
   failed_when: false
