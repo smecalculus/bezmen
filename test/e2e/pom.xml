@@ -13,10 +13,6 @@
   <artifactId>e2e</artifactId>
   <packaging>jar</packaging>
 
-  <properties>
-    <testingClientHost>localhost</testingClientHost>
-  </properties>
-
   <dependencies>
     <dependency>
       <groupId>${project.groupId}</groupId>
@@ -30,15 +26,6 @@
     </dependency>
   </dependencies>
 
-  <profiles>
-    <profile>
-      <id>docker</id>
-      <properties>
-        <testingClientHost>sepuling</testingClientHost>
-      </properties>
-    </profile>
-  </profiles>
-
   <build>
     <plugins>
       <plugin>
@@ -47,10 +34,7 @@
         <configuration>
           <skipTests>${skipTests}</skipTests>
           <test>smecalculus.bezmen.FuncSuite</test>
-          <systemPropertyVariables>
-            <testing.client.host>${testingClientHost}</testing.client.host>
-          </systemPropertyVariables>
-          <systemPropertiesFile>src/main/resources/testing.properties</systemPropertiesFile>
+          <systemPropertiesFile>src/test/resources/testing.properties</systemPropertiesFile>
         </configuration>
       </plugin>
     </plugins>
