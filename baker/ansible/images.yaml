@@ -4,6 +4,8 @@
   tasks:
     - ansible.builtin.include_tasks:  # noqa: name[missing]
         file: tasks/{{ inventory_hostname }}/capture.yaml
+        apply:
+          tags: [always]
       tags: [always]
 
 - name: Building
