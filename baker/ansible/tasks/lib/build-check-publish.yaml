@@ -1,25 +1,21 @@
 ---
-- name: Lint, compile, analyze
+- name: Build
   ansible.builtin.command:
     cmd: >-
-      mvn clean
-        enforcer:enforce
-        spotless:check
-        pmd:check
-        compiler:compile
-        spotbugs:check
+      mvn {{ maven_phase|mandatory }}
         --activate-profiles {{ devenv }}
         --no-snapshot-updates
         --batch-mode
+        --fail-fast
         --also-make
         --threads 2
-      {% if maven_projects is defined %}
         --projects {{
-          maven_projects
+          product.libs
+          | map(attribute='name')
           | map('regex_replace', '^', ':')
           | join(',')
         }}
-      {% endif %}
+        --define revision={{ binary_tag }}
     chdir: "{{ project.dir }}"
     strip_empty_ends: false
   changed_when: true

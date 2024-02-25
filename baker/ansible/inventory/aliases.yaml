@@ -4,6 +4,9 @@ sources:
     java:
     ansible:
     github:
+binaries:
+  hosts:
+    lib:
 images:
   hosts:
     db:

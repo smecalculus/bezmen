@@ -1,10 +1,26 @@
 ---
 - name: Building and checking
+  hosts: lib
+  tasks:
+    - ansible.builtin.import_tasks:  # noqa: name[missing]
+        file: tasks/lib/capture.yaml
+    - ansible.builtin.import_tasks:  # noqa: name[missing]
+        file: tasks/java/check.yaml
+      vars:
+        maven_projects: "{{ product.libs|map(attribute='name') }}"
+      when: binary_status is changed
+    - ansible.builtin.import_tasks:  # noqa: name[missing]
+        file: tasks/lib/build-check-publish.yaml
+      vars:
+        maven_phase: "{{ 'deploy' if repo_mode == 'rw' else 'install' }}"
+      when: binary_status is changed
+
+- name: Building and checking
   hosts: app
   tasks:
     - ansible.builtin.import_tasks:  # noqa: name[missing]
         file: tasks/java/check.yaml
     - ansible.builtin.import_tasks:  # noqa: name[missing]
-        file: tasks/app/build-and-check.yaml
+        file: tasks/app/build-check.yaml
       vars:
         maven_phase: package

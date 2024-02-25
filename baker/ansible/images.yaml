@@ -17,9 +17,9 @@
       vars:
         image_keys: >-
           {{ image_status.results
-           | select('changed')
-           | map(attribute='vendor')
-           | map('regex_replace', '^(.*)$', 'db/\1/' ~ devenv)
+            | select('changed')
+            | map(attribute='vendor')
+            | map('regex_replace', '^(.*)$', 'db/\1/' ~ devenv)
           }}
       when: image_status is changed
     - ansible.builtin.import_tasks:  # noqa: name[missing]
@@ -34,8 +34,8 @@
       vars:
         maven_projects: >-
           {{ image_status.results
-           | select('changed')
-           | map(attribute='app')
+            | select('changed')
+            | map(attribute='app')
           }}
       when: image_status is changed
     - ansible.builtin.import_role:  # noqa: name[missing]
@@ -44,15 +44,13 @@
       vars:
         image_keys: >-
           {{ image_status.results
-           | select('changed')
-           | map(attribute='app')
-           | map('regex_replace', '^(.*)$', 'app/\1/' ~ devenv)
+            | select('changed')
+            | map(attribute='app')
+            | map('regex_replace', '^(.*)$', 'app/\1/' ~ devenv)
           }}
       when: image_status is changed
     - ansible.builtin.import_tasks:  # noqa: name[missing]
-        file: tasks/app/build-and-check.yaml
-      vars:
-        maven_phase: "{{ 'deploy' if repo_mode == 'rw' else 'install' }}"
+        file: tasks/app/build-check.yaml
       when: image_status is changed
 
 - name: Publishing

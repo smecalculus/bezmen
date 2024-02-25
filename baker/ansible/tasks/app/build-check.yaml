@@ -1,8 +1,8 @@
 ---
-- name: Build binaries
+- name: Build
   ansible.builtin.command:
     cmd: >-
-      mvn {{ maven_phase|mandatory }}
+      mvn verify
         --activate-profiles {{ devenv }}
         --no-snapshot-updates
         --batch-mode
@@ -21,7 +21,7 @@
         --projects {{
           product.apps.values()
           | flatten
-          | map(attribute='binary')
+          | map(attribute='name')
           | map('regex_replace', '^', ':')
           | join(',')
         }}
