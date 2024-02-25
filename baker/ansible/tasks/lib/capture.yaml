@@ -22,8 +22,6 @@
         --projects :lib
       {% if repo_mode == 'n/a' %}
         --offline
-      {% else %}
-        --define remoteRepositories=github::::https://{{ binary_repo }}/{{ project.org }}/{{ project.name }}
       {% endif %}
         --define revision={{ binary_tag }}
     chdir: "{{ project.dir }}"
