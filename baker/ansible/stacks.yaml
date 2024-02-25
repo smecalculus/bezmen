@@ -24,15 +24,11 @@
         stack_status is changed and
         is_virtual.rc != 0
 
-- name: Building
+- name: Checking
   hosts: pipeline
   tasks:
     - ansible.builtin.import_tasks:  # noqa: name[missing]
         file: tasks/github/check.yaml
-      tags: [build]
-      when: stack_status is changed
-    - ansible.builtin.import_tasks:  # noqa: name[missing]
-        file: tasks/pipeline/build.yaml
       tags: [build]
       when: stack_status is changed
 
