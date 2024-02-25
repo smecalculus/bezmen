@@ -2,6 +2,9 @@
 gear:
   image: stack/gear
 
+pipeline:
+  image: stack/pipeline
+
 product:
   name: "{{ project.name }}"
   image: stack/product
