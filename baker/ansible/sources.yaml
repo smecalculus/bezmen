@@ -1,41 +1,6 @@
 ---
 - name: Checking
-  hosts: java
-  run_once: true
+  hosts: sources
   tasks:
-    - name: Analyze
-      ansible.builtin.command:
-        cmd: >-
-          mvn clean
-            enforcer:enforce
-            spotless:check
-            pmd:check
-            compiler:compile
-            spotbugs:check
-            --activate-profiles {{ devenv }}
-            --no-snapshot-updates
-            --batch-mode
-        chdir: "{{ project.dir }}"
-        strip_empty_ends: false
-      changed_when: true
-
-- name: Checking
-  hosts: ansible
-  run_once: true
-  tasks:
-    - name: Linting
-      ansible.builtin.command:
-        # list all top level playbooks
-        cmd: ansible-lint sources.yaml binaries.yaml stacks.yaml
-        strip_empty_ends: false
-      changed_when: true
-
-- name: Checking
-  hosts: github
-  run_once: true
-  tasks:
-    - name: Linting
-      ansible.builtin.command:
-        cmd: yamllint {{ project.dir }}/.github
-        strip_empty_ends: false
-      changed_when: true
+    - ansible.builtin.include_tasks:  # noqa: name[missing]
+        file: tasks/{{ inventory_hostname }}/check.yaml

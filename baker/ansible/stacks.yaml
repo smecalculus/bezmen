@@ -1,9 +1,8 @@
 ---
 - import_playbook: images.yaml  # noqa: name[play]
-  tags: [images, deps]
 
 - name: Capturing
-  hosts: stack
+  hosts: stacks
   tasks:
     - ansible.builtin.include_tasks:  # noqa: name[missing]
         file: tasks/{{ inventory_hostname }}/capture.yaml
@@ -13,18 +12,20 @@
 
 - name: Building
   hosts: gear
-  run_once: true
   tasks:
+    - ansible.builtin.import_tasks:  # noqa: name[missing]
+        file: tasks/ansible/check.yaml
+      tags: [build]
+      when: stack_status is changed
     - ansible.builtin.import_tasks:  # noqa: name[missing]
         file: tasks/gear/build.yaml
       tags: [build]
       when: >-
-        hostvars.gear.stack_status is changed and
-        hostvars.gear.is_virtual.rc != 0
+        stack_status is changed and
+        is_virtual.rc != 0
 
-- name: Building & Checking
+- name: Building and checking
   hosts: product
-  run_once: true
   vars:
     stack_dir: "{{ project.dir }}/stack/product"
   tasks:
@@ -42,7 +43,7 @@
         hostvars.gear.stack_status is changed
 
 - name: Publishing
-  hosts: stack
+  hosts: stacks
   tasks:
     - ansible.builtin.include_tasks:  # noqa: name[missing]
         file: tasks/{{ inventory_hostname }}/publish.yaml
