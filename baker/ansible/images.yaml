@@ -1,5 +1,5 @@
 ---
-- name: Capturing
+- name: IMAGES
   hosts: images
   tasks:
     - ansible.builtin.include_tasks:  # noqa: name[missing]
@@ -8,7 +8,7 @@
           tags: [always]
       tags: [always]
 
-- name: Building
+- name: DB
   hosts: db
   tasks:
     - ansible.builtin.import_role:  # noqa: name[missing]
@@ -26,7 +26,7 @@
         file: tasks/db/build.yaml
       when: image_status is changed
 
-- name: Building and checking
+- name: APP
   hosts: app
   tasks:
     - ansible.builtin.import_tasks:  # noqa: name[missing]
@@ -53,7 +53,7 @@
         file: tasks/app/build-check.yaml
       when: image_status is changed
 
-- name: Publishing
+- name: IMAGES
   hosts: images
   tasks:
     - ansible.builtin.include_tasks:  # noqa: name[missing]

@@ -1,5 +1,5 @@
 ---
-- name: Building and checking
+- name: LIB
   hosts: lib
   tasks:
     - ansible.builtin.import_tasks:  # noqa: name[missing]
@@ -15,11 +15,13 @@
         maven_phase: "{{ 'deploy' if repo_mode == 'rw' else 'install' }}"
       when: binary_status is changed
 
-- name: Building and checking
+- name: APP
   hosts: app
   tasks:
     - ansible.builtin.import_tasks:  # noqa: name[missing]
         file: tasks/java/check.yaml
+      vars:
+        maven_projects: "{{ product.apps.values()|flatten|map(attribute='name') }}"
     - ansible.builtin.import_tasks:  # noqa: name[missing]
         file: tasks/app/build-check.yaml
       vars:

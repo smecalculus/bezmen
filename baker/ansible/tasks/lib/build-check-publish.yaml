@@ -1,5 +1,5 @@
 ---
-- name: Build
+- name: Build, check, publish
   ansible.builtin.command:
     cmd: >-
       mvn {{ maven_phase|mandatory }}
