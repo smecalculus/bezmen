@@ -1,6 +1,6 @@
 ---
 - name: Capturing
-  hosts: image
+  hosts: images
   tasks:
     - ansible.builtin.include_tasks:  # noqa: name[missing]
         file: tasks/{{ inventory_hostname }}/capture.yaml
@@ -10,7 +10,6 @@
 
 - name: Building
   hosts: db
-  run_once: true
   tasks:
     - ansible.builtin.import_role:  # noqa: name[missing]
         name: image
@@ -27,10 +26,18 @@
         file: tasks/db/build.yaml
       when: image_status is changed
 
-- name: Building & Checking
+- name: Building and checking
   hosts: app
-  run_once: true
   tasks:
+    - ansible.builtin.import_tasks:  # noqa: name[missing]
+        file: tasks/java/check.yaml
+      vars:
+        maven_projects: >-
+          {{ image_status.results
+           | select('changed')
+           | map(attribute='app')
+          }}
+      when: image_status is changed
     - ansible.builtin.import_role:  # noqa: name[missing]
         name: image
         tasks_from: clean
@@ -49,7 +56,7 @@
       when: image_status is changed
 
 - name: Publishing
-  hosts: image
+  hosts: images
   tasks:
     - ansible.builtin.include_tasks:  # noqa: name[missing]
         file: tasks/{{ inventory_hostname }}/publish.yaml

@@ -12,7 +12,7 @@
   register: kill_outcome
   failed_when: false
   changed_when:
-    - kill_outcome.rc != 0
+    - kill_outcome.rc == 0
   loop: "{{ image_keys }}"
 
 - name: Remove images
@@ -22,5 +22,5 @@
   register: remove_outcome
   failed_when: false
   changed_when:
-    - remove_outcome.rc != 0
+    - remove_outcome.rc == 0
   loop: "{{ image_keys }}"

@@ -1,0 +1,24 @@
+---
+- name: Capture CID
+  ansible.builtin.command:
+    cmd: git hash-object --stdin
+    stdin: |
+      {{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=.github') }}
+      {{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=stack/pipeline') }}
+  register: stack_cid
+  changed_when: false
+
+- name: Declare tag
+  ansible.builtin.set_fact:
+    stack_tag: "{{ stack_cid.stdout[:7] }}"
+  changed_when: false
+
+- name: Capture statuses
+  ansible.builtin.command:
+    cmd: docker {{ docker_entity }} inspect {{ image_ns }}/{{ item }}
+  register: stack_status
+  failed_when: false
+  changed_when:
+    - stack_status.rc != 0
+  loop:
+    - "{{ pipeline.image }}:{{ stack_tag }}"

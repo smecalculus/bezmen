@@ -4,13 +4,14 @@ sources:
     java:
     ansible:
     github:
-image:
+images:
   hosts:
     db:
     app:
-stack:
+stacks:
   hosts:
     gear:
+    pipeline:
     product:
 all:
   vars:

@@ -1,8 +1,9 @@
 ---
-- name: Building & Checking
+- name: Building and checking
   hosts: app
-  run_once: true
   tasks:
+    - ansible.builtin.import_tasks:  # noqa: name[missing]
+        file: tasks/java/check.yaml
     - ansible.builtin.import_tasks:  # noqa: name[missing]
         file: tasks/app/build-and-check.yaml
       vars:

@@ -1,0 +1,6 @@
+---
+- name: Lint
+  ansible.builtin.command:
+    cmd: yamllint {{ project.dir }}/.github
+    strip_empty_ends: false
+  changed_when: true

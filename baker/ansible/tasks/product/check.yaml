@@ -36,9 +36,8 @@
         --activate-profiles {{ devenv }}
         --no-snapshot-updates
         --batch-mode
-        --threads 2
-        --projects :e2e
         --also-make
+        --projects :e2e
         --define skipUnits
       {% if hostvars.gear.is_virtual.rc == 0 %}
         --define testing.client.host=sepuling
