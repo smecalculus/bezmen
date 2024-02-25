@@ -18,6 +18,7 @@
   ansible.builtin.command:
     cmd: >-
       mvn dependency:copy@capture
+        --batch-mode
         --projects :lib
       {% if repo_mode == 'n/a' %}
         --offline

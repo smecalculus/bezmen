@@ -2,7 +2,7 @@
 - name: Build
   ansible.builtin.command:
     cmd: >-
-      mvn verify
+      mvn {{ maven_phase|mandatory }}
         --activate-profiles {{ devenv }}
         --no-snapshot-updates
         --batch-mode

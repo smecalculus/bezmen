@@ -40,6 +40,7 @@ jobs:
           ${{ env.IMAGE_NAME }}:${{ matrix.env.dev }}
           ansible-playbook binaries.yaml -v
           -e devenv=${{ matrix.env.dev }}
+          -e repo_mode=rw
       - uses: mikepenz/action-junit-report@v4.1.0
         if: ${{ !cancelled() && (steps.binaries.outcome == 'success' || steps.binaries.outcome == 'failure') }}
         with:
