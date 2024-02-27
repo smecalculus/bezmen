@@ -3,7 +3,7 @@
   hosts: jvm
   tasks:
     - ansible.builtin.import_tasks:  # noqa: name[missing]
-        file: tasks/java/check.yaml
+        file: tasks/jvm/check.yaml
     - name: Capture CID
       ansible.builtin.command:
         cmd: git hash-object --stdin
