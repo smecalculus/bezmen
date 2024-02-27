@@ -6,6 +6,6 @@
     image_source_tag: "app/{{ app }}:{{ devenv }}"
     image_target_tags:
       - "{{ image_ns }}/app/{{ app }}:{{ hostvars.app.image_tags[app] }}"
-  loop: "{{ hostvars.app.image_status.results|select('changed')|map(attribute='app') }}"
+  loop: "{{ hostvars.app.image_status.results | select('changed') | map(attribute='app') }}"
   loop_control:
     loop_var: app

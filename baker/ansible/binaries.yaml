@@ -1,39 +1,38 @@
 ---
-- name: SOURCES
+- name: BINARIES
   hosts: java
   tasks:
     - ansible.builtin.import_tasks:  # noqa: name[missing]
         file: tasks/java/check.yaml
-
-- name: BINARIES
-  hosts: tool
-  tasks:
-    - ansible.builtin.import_tasks:  # noqa: name[missing]
-        file: tasks/binary/capture.yaml
-    - ansible.builtin.import_tasks:  # noqa: name[missing]
-        file: tasks/binary/build-check-publish.yaml
-      vars:
-        maven_phase: install
-
-- name: BINARIES
-  hosts: lib
-  tasks:
-    - ansible.builtin.import_tasks:  # noqa: name[missing]
-        file: tasks/binary/capture.yaml
-    - ansible.builtin.import_tasks:  # noqa: name[missing]
-        file: tasks/binary/build-check-publish.yaml
-      vars:
-        maven_phase: "{{ 'deploy' if repo_mode == 'rw' else 'install' }}"
-
-- name: BINARIES
-  hosts: app
-  tasks:
-    - ansible.builtin.import_tasks:  # noqa: name[missing]
-        file: tasks/binary/capture.yaml
-    - ansible.builtin.import_tasks:  # noqa: name[missing]
-        file: tasks/binary/build-check-publish.yaml
-      vars:
-        maven_phase: "{{ app_phase | default('package') }}"
+    - name: Capture CID
+      ansible.builtin.command:
+        cmd: git hash-object --stdin
+        stdin: |
+          {{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=lib') }}
+          {{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=app') }}
+      register: binary_cid
+      changed_when: false
+    - name: Build, check, publish
+      ansible.builtin.command:
+        cmd: >-
+          mvn {{ maven_phase | default('package') }}
+            --activate-profiles {{ devenv }}
+            --no-snapshot-updates
+            --batch-mode
+            --fail-fast
+            --threads 2
+          {% if maven_projects is defined %}
+            --also-make
+            --projects {{ maven_projects | map('regex_replace', '^', ':') | join(',') }}
+          {% else %}
+            --projects -:e2e
+          {% endif %}
+          {% if repo_mode == 'rw' %}
+            --define revision={{ devenv }}-{{ binary_cid.stdout[:7] }}
+          {% endif %}
+        chdir: "{{ project.dir }}"
+        strip_empty_ends: false
+      changed_when: true
     - name: Coverage
       ansible.builtin.command:
         cmd: >-

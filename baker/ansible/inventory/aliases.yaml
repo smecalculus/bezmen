@@ -3,12 +3,7 @@ sources:
   hosts:
     java:
     ansible:
-    github:
-binaries:
-  hosts:
-    tool:
-    lib:
-    app:
+    yaml:
 images:
   hosts:
     db:

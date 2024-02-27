@@ -28,7 +28,7 @@
   hosts: pipeline
   tasks:
     - ansible.builtin.import_tasks:  # noqa: name[missing]
-        file: tasks/github/check.yaml
+        file: tasks/yaml/check.yaml
       tags: [build]
       when: stack_status is changed
 

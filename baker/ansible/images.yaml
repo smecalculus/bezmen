@@ -8,7 +8,7 @@
           tags: [always]
       tags: [always]
 
-- name: DB
+- name: DATABASES
   hosts: db
   tasks:
     - ansible.builtin.import_role:  # noqa: name[missing]
@@ -26,7 +26,7 @@
         file: tasks/db/build.yaml
       when: image_status is changed
 
-- name: APP
+- name: APPLICATIONS
   hosts: app
   tasks:
     - ansible.builtin.import_role:  # noqa: name[missing]
@@ -43,7 +43,7 @@
 
 - import_playbook: binaries.yaml  # noqa: name[play]
   vars:
-    app_phase: verify
+    maven_phase: "{{ 'deploy' if repo_mode == 'rw' else 'install' }}"
   when: hostvars.app.image_status is changed
 
 - name: IMAGES
