@@ -1,0 +1,21 @@
+---
+- name: Capture CID's
+  ansible.builtin.command:
+    cmd: git hash-object --stdin
+    stdin: |
+      {{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=lib') }}
+      {{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=app') }}
+  register: binary_cid
+  changed_when: false
+
+- name: Declare tag
+  ansible.builtin.set_fact:
+    binary_tag: "{{ devenv }}-{{ binary_cid.stdout[:7] }}"
+  changed_when: false
+
+- name: Capture modules
+  ansible.builtin.command:
+    cmd: git ls-tree -d --name-only HEAD:{{ inventory_hostname }} .
+    chdir: "{{ project.dir }}"
+  register: binary_modules
+  changed_when: false

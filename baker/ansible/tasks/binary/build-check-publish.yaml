@@ -2,20 +2,16 @@
 - name: Build, check, publish
   ansible.builtin.command:
     cmd: >-
-      mvn {{ maven_phase|mandatory }}
+      mvn {{ maven_phase | mandatory }}
         --activate-profiles {{ devenv }}
         --no-snapshot-updates
         --batch-mode
         --fail-fast
-        --also-make
         --threads 2
-        --projects {{
-          product.libs
-          | map(attribute='name')
-          | map('regex_replace', '^', ':')
-          | join(',')
-        }}
+        --projects {{ binary_modules.stdout_lines | map('regex_replace', '^', ':') | join(',') }}
+      {% if repo_mode == 'rw' %}
         --define revision={{ binary_tag }}
+      {% endif %}
     chdir: "{{ project.dir }}"
     strip_empty_ends: false
   changed_when: true

@@ -6,6 +6,7 @@ sources:
     github:
 binaries:
   hosts:
+    tool:
     lib:
     app:
 images:

@@ -29,15 +29,6 @@
 - name: APP
   hosts: app
   tasks:
-    - ansible.builtin.import_tasks:  # noqa: name[missing]
-        file: tasks/java/check.yaml
-      vars:
-        maven_projects: >-
-          {{ image_status.results
-            | select('changed')
-            | map(attribute='app')
-          }}
-      when: image_status is changed
     - ansible.builtin.import_role:  # noqa: name[missing]
         name: image
         tasks_from: clean
@@ -49,9 +40,11 @@
             | map('regex_replace', '^(.*)$', 'app/\1/' ~ devenv)
           }}
       when: image_status is changed
-    - ansible.builtin.import_tasks:  # noqa: name[missing]
-        file: tasks/app/build-check.yaml
-      when: image_status is changed
+
+- import_playbook: binaries.yaml  # noqa: name[play]
+  vars:
+    app_phase: verify
+  when: hostvars.app.image_status is changed
 
 - name: IMAGES
   hosts: images
