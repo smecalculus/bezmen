@@ -1,5 +1,5 @@
 ---
-- name: Capturing
+- name: ALL IMAGES
   hosts: images
   tasks:
     - ansible.builtin.include_tasks:  # noqa: name[missing]
@@ -8,7 +8,7 @@
           tags: [always]
       tags: [always]
 
-- name: Building
+- name: DATABASE IMAGES
   hosts: db
   tasks:
     - ansible.builtin.import_role:  # noqa: name[missing]
@@ -17,45 +17,36 @@
       vars:
         image_keys: >-
           {{ image_status.results
-           | select('changed')
-           | map(attribute='vendor')
-           | map('regex_replace', '^(.*)$', 'db/\1/' ~ devenv)
+            | select('changed')
+            | map(attribute='vendor')
+            | map('regex_replace', '^(.*)$', 'db/\1/' ~ devenv)
           }}
       when: image_status is changed
     - ansible.builtin.import_tasks:  # noqa: name[missing]
         file: tasks/db/build.yaml
       when: image_status is changed
 
-- name: Building and checking
+- name: APPLICATION IMAGES
   hosts: app
   tasks:
-    - ansible.builtin.import_tasks:  # noqa: name[missing]
-        file: tasks/java/check.yaml
-      vars:
-        maven_projects: >-
-          {{ image_status.results
-           | select('changed')
-           | map(attribute='app')
-          }}
-      when: image_status is changed
     - ansible.builtin.import_role:  # noqa: name[missing]
         name: image
         tasks_from: clean
       vars:
         image_keys: >-
           {{ image_status.results
-           | select('changed')
-           | map(attribute='app')
-           | map('regex_replace', '^(.*)$', 'app/\1/' ~ devenv)
+            | select('changed')
+            | map(attribute='app')
+            | map('regex_replace', '^(.*)$', 'app/\1/' ~ devenv)
           }}
       when: image_status is changed
-    - ansible.builtin.import_tasks:  # noqa: name[missing]
-        file: tasks/app/build-and-check.yaml
-      vars:
-        maven_phase: "{{ 'deploy' if repo_mode == 'rw' else 'install' }}"
-      when: image_status is changed
 
-- name: Publishing
+- import_playbook: binaries.yaml  # noqa: name[play]
+  vars:
+    maven_phase: "{{ 'deploy' if repo_mode == 'rw' else 'install' }}"
+  when: hostvars.app.image_status is changed
+
+- name: ALL IMAGES
   hosts: images
   tasks:
     - ansible.builtin.include_tasks:  # noqa: name[missing]

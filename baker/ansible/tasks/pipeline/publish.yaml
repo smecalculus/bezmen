@@ -11,6 +11,7 @@
     tasks_from: build
   vars:
     image_home: "{{ project.dir }}/{{ pipeline.image }}"
+    image_context: .
     image_key: "{{ pipeline.image }}"
     image_tag: "{{ pipeline.image }}:{{ devenv }}"
 

@@ -6,6 +6,6 @@
     image_source_tag: "db/{{ vendor }}:{{ devenv }}"
     image_target_tags:
       - "{{ image_ns }}/db/{{ vendor }}:{{ hostvars.db.image_tags[vendor] }}"
-  loop: "{{ hostvars.db.image_status.results|select('changed')|map(attribute='vendor') }}"
+  loop: "{{ hostvars.db.image_status.results | select('changed') | map(attribute='vendor') }}"
   loop_control:
     loop_var: vendor

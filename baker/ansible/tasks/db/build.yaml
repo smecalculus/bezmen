@@ -6,6 +6,6 @@
     image_home: "{{ project.dir }}/db/{{ vendor }}"
     image_key: "db/{{ vendor }}/{{ devenv }}"
     image_tag: "db/{{ vendor }}:{{ devenv }}"
-  loop: "{{ hostvars.db.image_status.results|select('changed')|map(attribute='vendor') }}"
+  loop: "{{ hostvars.db.image_status.results | select('changed') | map(attribute='vendor') }}"
   loop_control:
     loop_var: vendor

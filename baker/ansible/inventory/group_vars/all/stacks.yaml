@@ -33,6 +33,9 @@ product:
     kotlin:
       - service: sepuling
         name: sepuling-kotlin
+  libs:
+    - name: abstraction-client
+    - name: messaging-client
 
 config_exts:
   lightbend_config: conf

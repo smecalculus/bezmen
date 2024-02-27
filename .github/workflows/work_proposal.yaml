@@ -2,11 +2,11 @@
 name: Work proposal
 
 on:
-  merge_group:
-    branches:
-      - main
   pull_request:
     types: [opened, reopened]
+    branches:
+      - main
+  merge_group:
     branches:
       - main
   workflow_dispatch:

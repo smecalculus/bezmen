@@ -1,9 +1,9 @@
 ---
 sources:
   hosts:
-    java:
+    jvm:
     ansible:
-    github:
+    yaml:
 images:
   hosts:
     db:

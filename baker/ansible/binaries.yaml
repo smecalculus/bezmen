@@ -1,10 +1,46 @@
 ---
-- name: Building and checking
-  hosts: app
+- name: JVM BINARIES
+  hosts: jvm
   tasks:
     - ansible.builtin.import_tasks:  # noqa: name[missing]
-        file: tasks/java/check.yaml
-    - ansible.builtin.import_tasks:  # noqa: name[missing]
-        file: tasks/app/build-and-check.yaml
-      vars:
-        maven_phase: package
+        file: tasks/jvm/check.yaml
+    - name: Capture CID
+      ansible.builtin.command:
+        cmd: git hash-object --stdin
+        stdin: |
+          {{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=lib') }}
+          {{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=app') }}
+      register: binary_cid
+      changed_when: false
+    - name: Build, check, publish
+      ansible.builtin.command:
+        cmd: >-
+          mvn {{ maven_phase | default('package') }}
+            --activate-profiles {{ devenv }}
+            --no-snapshot-updates
+            --batch-mode
+            --fail-fast
+            --threads 2
+          {% if maven_projects is defined %}
+            --also-make
+            --projects {{ maven_projects | map('regex_replace', '^', ':') | join(',') }}
+          {% else %}
+            --projects -:e2e
+          {% endif %}
+          {% if repo_mode == 'rw' %}
+            --define revision={{ devenv }}-{{ binary_cid.stdout[:7] }}
+          {% endif %}
+        chdir: "{{ project.dir }}"
+        strip_empty_ends: false
+      changed_when: true
+    - name: Coverage
+      ansible.builtin.command:
+        cmd: >-
+          mvn clean
+            antrun:run@coverage
+            --no-snapshot-updates
+            --batch-mode
+            --projects :tool
+        chdir: "{{ project.dir }}"
+        strip_empty_ends: false
+      changed_when: true

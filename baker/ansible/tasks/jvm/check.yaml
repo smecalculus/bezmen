@@ -13,11 +13,8 @@
         --batch-mode
         --threads 2
       {% if maven_projects is defined %}
-        --projects {{
-          maven_projects
-          | map('regex_replace', '^', ':')
-          | join(',')
-        }}
+        --also-make
+        --projects {{ maven_projects | map('regex_replace', '^', ':') | join(',') }}
       {% endif %}
     chdir: "{{ project.dir }}"
     strip_empty_ends: false

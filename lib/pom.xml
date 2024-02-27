@@ -235,5 +235,38 @@
         <artifactId>jacoco-maven-plugin</artifactId>
       </plugin>
     </plugins>
+
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-dependency-plugin</artifactId>
+          <executions>
+            <execution>
+              <id>capture</id>
+              <goals>
+                <goal>copy</goal>
+              </goals>
+              <configuration>
+                <outputDirectory>${project.build.directory}</outputDirectory>
+                <artifactItems>
+                  <artifactItem>
+                    <groupId>${project.groupId}</groupId>
+                    <artifactId>abstraction-client</artifactId>
+                    <version>${project.version}</version>
+                  </artifactItem>
+                  <artifactItem>
+                    <groupId>${project.groupId}</groupId>
+                    <artifactId>messaging-client</artifactId>
+                    <version>${project.version}</version>
+                    <type>jar</type>
+                  </artifactItem>
+                </artifactItems>
+              </configuration>
+            </execution>
+          </executions>
+        </plugin>
+      </plugins>
+    </pluginManagement>
   </build>
 </project>

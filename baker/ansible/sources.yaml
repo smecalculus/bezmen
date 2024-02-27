@@ -1,5 +1,5 @@
 ---
-- name: Checking
+- name: ALL SOURCES
   hosts: sources
   tasks:
     - ansible.builtin.include_tasks:  # noqa: name[missing]

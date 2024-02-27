@@ -3,12 +3,14 @@
   ansible.builtin.file:
     path: "{{ stack_dir }}/target"
     state: absent
+  changed_when: false
 
 - name: Create directories
   ansible.builtin.file:
     path: "{{ stack_dir }}/target/image-context"
     state: directory
     recurse: true
+  changed_when: false
 
 - name: Build conf
   ansible.builtin.template:
