@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - id: orgbot
-        uses: actions/create-github-app-token@v1.8.0
+        uses: actions/create-github-app-token@v1.8.1
         with:
           app-id: ${{ secrets.ORGBOT_APP_ID }}
           private-key: ${{ secrets.ORGBOT_PRIVATE_KEY }}
