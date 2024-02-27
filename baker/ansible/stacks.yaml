@@ -1,7 +1,7 @@
 ---
 - import_playbook: images.yaml  # noqa: name[play]
 
-- name: STACKS
+- name: ALL STACKS
   hosts: stacks
   tasks:
     - ansible.builtin.include_tasks:  # noqa: name[missing]
@@ -10,7 +10,7 @@
           tags: [always]
       tags: [always]
 
-- name: GEAR
+- name: GEAR STACK
   hosts: gear
   tasks:
     - ansible.builtin.import_tasks:  # noqa: name[missing]
@@ -24,7 +24,7 @@
         stack_status is changed and
         is_virtual.rc != 0
 
-- name: PIPELINE
+- name: PIPELINE STACK
   hosts: pipeline
   tasks:
     - ansible.builtin.import_tasks:  # noqa: name[missing]
@@ -32,7 +32,7 @@
       tags: [build]
       when: stack_status is changed
 
-- name: PRODUCT
+- name: PRODUCT STACK
   hosts: product
   vars:
     stack_dir: "{{ project.dir }}/stack/product"
@@ -50,7 +50,7 @@
         hostvars.product.stack_status is changed or
         hostvars.gear.stack_status is changed
 
-- name: STACKS
+- name: ALL STACKS
   hosts: stacks
   tasks:
     - ansible.builtin.include_tasks:  # noqa: name[missing]

@@ -1,6 +1,6 @@
 ---
-- name: BINARIES
-  hosts: java
+- name: JVM BINARIES
+  hosts: jvm
   tasks:
     - ansible.builtin.import_tasks:  # noqa: name[missing]
         file: tasks/java/check.yaml

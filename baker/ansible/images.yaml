@@ -1,5 +1,5 @@
 ---
-- name: IMAGES
+- name: ALL IMAGES
   hosts: images
   tasks:
     - ansible.builtin.include_tasks:  # noqa: name[missing]
@@ -8,7 +8,7 @@
           tags: [always]
       tags: [always]
 
-- name: DATABASES
+- name: DATABASE IMAGES
   hosts: db
   tasks:
     - ansible.builtin.import_role:  # noqa: name[missing]
@@ -26,7 +26,7 @@
         file: tasks/db/build.yaml
       when: image_status is changed
 
-- name: APPLICATIONS
+- name: APPLICATION IMAGES
   hosts: app
   tasks:
     - ansible.builtin.import_role:  # noqa: name[missing]
@@ -46,7 +46,7 @@
     maven_phase: "{{ 'deploy' if repo_mode == 'rw' else 'install' }}"
   when: hostvars.app.image_status is changed
 
-- name: IMAGES
+- name: ALL IMAGES
   hosts: images
   tasks:
     - ansible.builtin.include_tasks:  # noqa: name[missing]

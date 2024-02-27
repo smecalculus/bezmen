@@ -1,7 +1,7 @@
 ---
 sources:
   hosts:
-    java:
+    jvm:
     ansible:
     yaml:
 images:
