@@ -24,3 +24,7 @@
     - stack_status.rc != 0
   loop:
     - "{{ product.image }}:{{ stack_tag }}"
+
+- ansible.builtin.include_vars:  # noqa: name[missing]
+    file: "{{ project.dir }}/stack/product/env/{{ opsenv }}.yaml"
+    name: ops

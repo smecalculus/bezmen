@@ -11,3 +11,7 @@ repo_mode: n/a  # values: rw, ro, n/a
 image_ns: "{{ image_repo }}/{{ project.org }}/{{ project.name }}"
 
 docker_entity: "{{ 'image' if repo_mode == 'n/a' else 'manifest' }}"
+
+devenv: turing
+focus: api
+opsenv: durkheim

@@ -3,9 +3,8 @@ name: Work change
 
 on:
   pull_request:
+    branches: [main]
     types: [synchronize]
-    branches:
-      - main
   workflow_dispatch:
 
 env:
