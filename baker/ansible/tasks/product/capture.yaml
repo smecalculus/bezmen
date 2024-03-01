@@ -6,13 +6,14 @@
       {{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=db') }}
       {{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=lib') }}
       {{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=app') }}
-      {{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=stack/product') }}
+      {{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=stack/product/focus/' ~ focus) }}
+      {{ lookup('ansible.builtin.pipe', 'git rev-parse :stack/product/env/' ~ opsenv ~ '.yaml') }}
   register: stack_cid
   changed_when: false
 
 - name: Declare tag
   ansible.builtin.set_fact:
-    stack_tag: "{{ opsenv }}-{{ stack_cid.stdout[:7] }}"
+    stack_tag: "{{ focus }}-{{ opsenv }}-{{ stack_cid.stdout[:7] }}"
   changed_when: false
 
 - name: Capture statuses

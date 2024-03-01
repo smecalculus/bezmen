@@ -4,9 +4,10 @@ project:
   org: smecalculus
   dir: "{{ playbook_dir }}/../.."
 
+repo_mode: n/a  # values: rw, ro, n/a
+
 binary_repo: maven.pkg.github.com
 image_repo: ghcr.io
-repo_mode: n/a  # values: rw, ro, n/a
 
 image_ns: "{{ image_repo }}/{{ project.org }}/{{ project.name }}"
 
