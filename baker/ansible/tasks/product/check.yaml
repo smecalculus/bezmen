@@ -25,7 +25,7 @@
         --quiet-pull
         --no-deps
         --detach
-    chdir: "{{ stack_dir }}/target/image-context"
+    chdir: "{{ stack_dir }}/target/{{ focus }}"
     strip_empty_ends: false
   changed_when: true
 

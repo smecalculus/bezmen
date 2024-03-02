@@ -109,7 +109,7 @@ jobs:
       - uses: actions/upload-artifact@v4.3.1
         with:
           name: product-${{ matrix.focus }}-${{ matrix.env.ops }}
-          path: stack/product/target/image-context
+          path: stack/product/target/${{ matrix.focus }}
           if-no-files-found: ignore
 
   stack-checking:
@@ -142,7 +142,7 @@ jobs:
         continue-on-error: true  # it's ok because stack building can be skipped
         with:
           name: product-${{ matrix.focus }}-${{ matrix.env.ops }}
-          path: stack/product/target/image-context
+          path: stack/product/target/${{ matrix.focus }}
       - name: Run ansible-playbook stacks.yaml -t check
         run: >-
           docker run --rm
@@ -162,7 +162,7 @@ jobs:
       - uses: actions/upload-artifact@v4.3.1
         if: ${{ !cancelled() }}
         with:
-          name: e2e-tests-${{ matrix.shard }}-${{ matrix.focus }}-${{ matrix.env.ops }}
+          name: e2e-tests-${{ matrix.focus }}-${{ matrix.shard }}-${{ matrix.env.ops }}
           path: test/e2e/target/surefire-reports/*.xml
           if-no-files-found: ignore
 
@@ -197,7 +197,7 @@ jobs:
         continue-on-error: true  # it's ok because stack building can be skipped
         with:
           name: product-${{ matrix.focus }}-${{ matrix.env.ops }}
-          path: stack/product/target/image-context
+          path: stack/product/target/${{ matrix.focus }}
       - name: Run ansible-playbook stacks.yaml -t publish
         run: >-
           docker run --rm

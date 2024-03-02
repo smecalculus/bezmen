@@ -8,6 +8,7 @@
       {{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=app') }}
       {{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=stack/product/focus/' ~ focus) }}
       {{ lookup('ansible.builtin.pipe', 'git rev-parse :stack/product/env/' ~ opsenv ~ '.yaml') }}
+      {{ lookup('ansible.builtin.pipe', 'git rev-parse :stack/product/Dockerfile') }}
   register: stack_cid
   changed_when: false
 

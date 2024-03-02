@@ -32,7 +32,6 @@ devenv: turing
 [source,bash]
 ----
 cd baker/ansible
-ansible-playbook sources.yaml
 ansible-playbook stacks.yaml
 ----
 . Создаем пул-реквест.
