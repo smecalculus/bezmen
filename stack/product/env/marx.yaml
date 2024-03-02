@@ -1,0 +1,10 @@
+---
+storage:
+  vendor: postgres
+  version: 14.9
+  mapping_mode: my_batis
+app:
+  name: sepuling-java
+config:
+  mapping_mode: lightbend_config
+  file_name: application.conf

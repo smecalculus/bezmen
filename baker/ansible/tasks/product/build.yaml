@@ -7,23 +7,23 @@
 
 - name: Create directories
   ansible.builtin.file:
-    path: "{{ stack_dir }}/target/image-context"
+    path: "{{ stack_dir }}/target/{{ focus }}"
     state: directory
     recurse: true
   changed_when: false
 
 - name: Build conf
   ansible.builtin.template:
-    src: "{{ stack_dir }}/{{ product.config.mapping_mode }}.j2"
-    dest: "{{ stack_dir }}/target/image-context/application.{{ config_exts[product.config.mapping_mode] }}"
+    src: "{{ stack_dir }}/focus/{{ focus }}/{{ ops.config.mapping_mode }}.j2"
+    dest: "{{ stack_dir }}/target/{{ focus }}/{{ ops.config.file_name }}"
     lstrip_blocks: yes
     trim_blocks: yes
     mode: "644"
 
 - name: Build spec
   ansible.builtin.template:
-    src: "{{ stack_dir }}/compose.j2"
-    dest: "{{ stack_dir }}/target/image-context/compose.yaml"
+    src: "{{ stack_dir }}/focus/{{ focus }}/compose.j2"
+    dest: "{{ stack_dir }}/target/{{ focus }}/compose.yaml"
     lstrip_blocks: yes
     trim_blocks: yes
     mode: "644"

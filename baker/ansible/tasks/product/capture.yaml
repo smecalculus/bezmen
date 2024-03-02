@@ -6,13 +6,15 @@
       {{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=db') }}
       {{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=lib') }}
       {{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=app') }}
-      {{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=stack/product') }}
+      {{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=stack/product/focus/' ~ focus) }}
+      {{ lookup('ansible.builtin.pipe', 'git rev-parse :stack/product/env/' ~ opsenv ~ '.yaml') }}
+      {{ lookup('ansible.builtin.pipe', 'git rev-parse :stack/product/Dockerfile') }}
   register: stack_cid
   changed_when: false
 
 - name: Declare tag
   ansible.builtin.set_fact:
-    stack_tag: "{{ opsenv }}-{{ stack_cid.stdout[:7] }}"
+    stack_tag: "{{ focus }}-{{ opsenv }}-{{ stack_cid.stdout[:7] }}"
   changed_when: false
 
 - name: Capture statuses
@@ -24,3 +26,7 @@
     - stack_status.rc != 0
   loop:
     - "{{ product.image }}:{{ stack_tag }}"
+
+- ansible.builtin.include_vars:  # noqa: name[missing]
+    file: "{{ project.dir }}/stack/product/env/{{ opsenv }}.yaml"
+    name: ops

@@ -1,4 +1,5 @@
-name: {{ product.name }}
+---
+name: focus-api
 
 networks:
   product:
@@ -9,37 +10,37 @@ networks:
 
 configs:
   product_config:
-    file: ./{{ product.config.file_name }}
+    file: ./{{ ops.config.file_name }}
 
-{% set storage = product.storages[ops[opsenv].storage.vendor]|combine(ops[opsenv].storage) %}
-{% set database = product.databases[storage.vendor] %}
 services:
+{% set storage = product.storages[ops.storage.vendor] %}
   storage:
-    container_name: storage-{{ storage.vendor }}
-    image: {{ storage.image }}:{{ storage.version }}-alpine
+    container_name: storage-{{ ops.storage.vendor }}
+    image: {{ storage.image }}:{{ ops.storage.version }}-alpine
     networks:
       - product
     ports:
       - 5432:5432
     environment:
-      POSTGRES_USER: {{ storage.dba.username }}
-      POSTGRES_PASSWORD: {{ storage.dba.password }}
+      POSTGRES_USER: "{{ storage.dba.username }}"
+      POSTGRES_PASSWORD: "{{ storage.dba.password }}"
     healthcheck:
       test: ["CMD-SHELL", "pg_isready"]
       interval: 10s
       timeout: 5s
       retries: 5
 
+{% set database = product.databases[ops.storage.vendor] %}
   database:
     container_name: database-{{ database.name }}
-    image: {{ image_ns }}/db/{{ storage.vendor }}:{{ hostvars.db.image_tags[storage.vendor] }}
+    image: {{ image_ns }}/db/{{ ops.storage.vendor }}:{{ hostvars.db.image_tags[ops.storage.vendor] }}
     networks:
       - product
     depends_on:
       storage:
         condition: service_healthy
     labels:
-      image.key: db/{{ storage.vendor }}/{{ devenv }}
+      image.key: db/{{ ops.storage.vendor }}/{{ devenv }}
     command: >-
       --show-banner=false
       --classpath=/liquibase/changelog
@@ -55,17 +56,17 @@ services:
       -Downer.username={{ storage.owner.username }}
       -Downer.password={{ storage.owner.password }}
 
-{% for schema in product.schemas[storage.vendor] %}
+{% set schema = product.schemas[ops.storage.vendor] %}
   {{ schema.name }}:
     container_name: schema-{{ schema.name }}
-    image: {{ image_ns }}/db/{{ storage.vendor }}:{{ hostvars.db.image_tags[storage.vendor] }}
+    image: {{ image_ns }}/db/{{ ops.storage.vendor }}:{{ hostvars.db.image_tags[ops.storage.vendor] }}
     networks:
       - product
     depends_on:
       database:
         condition: service_completed_successfully
     labels:
-      image.key: db/{{ storage.vendor }}/{{ devenv }}
+      image.key: db/{{ ops.storage.vendor }}/{{ devenv }}
     command: >-
       --show-banner=false
       --classpath=/liquibase/changelog
@@ -77,13 +78,11 @@ services:
       --password={{ storage.owner.password }}
       update
       -Dschema.name={{ schema.name }}
-{% endfor %}
 
-{% set apps = product.apps[ops[opsenv].app.lang]|selectattr('service', 'in', usages[purpose].apps) %}
-{% for app in apps %}
+{% set app = product.apps[ops.app.name] %}
   {{ app.service }}:
     container_name: app-{{ app.service }}
-    image: {{ image_ns }}/app/{{ app.name }}:{{ hostvars.app.image_tags[app.name] }}
+    image: {{ image_ns }}/app/{{ ops.app.name }}:{{ hostvars.app.image_tags[ops.app.name] }}
     networks:
       - product
       - gear
@@ -91,15 +90,12 @@ services:
       - 8080:8080
     configs:
       - source: product_config
-        target: /home/app/{{ product.config.file_name }}
+        target: /home/app/{{ ops.config.file_name }}
     command: >-
-      --product.config.mapping.mode={{ product.config.mapping_mode }}
+      --product.config.mapping.mode={{ ops.config.mapping_mode }}
       --spring.config.location=optional:file:application.yaml
     depends_on:
-    {% for schema in product.schemas.values()|flatten %}
       {{ schema.name }}:
         condition: service_completed_successfully
-    {% endfor %}
     labels:
-      image.key: app/{{ app.name }}/{{ devenv }}
-{% endfor %}
+      image.key: app/{{ ops.app.name }}/{{ devenv }}

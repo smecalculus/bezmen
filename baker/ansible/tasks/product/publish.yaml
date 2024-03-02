@@ -11,7 +11,7 @@
     tasks_from: build
   vars:
     image_home: "{{ project.dir }}/{{ product.image }}"
-    image_context: target/image-context
+    image_context: target/{{ focus }}
     image_key: "{{ product.image }}/{{ opsenv }}"
     image_tag: "{{ product.image }}:{{ opsenv }}"
 

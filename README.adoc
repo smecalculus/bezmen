@@ -32,7 +32,6 @@ devenv: turing
 [source,bash]
 ----
 cd baker/ansible
-ansible-playbook sources.yaml
 ansible-playbook stacks.yaml
 ----
 . Создаем пул-реквест.
@@ -75,7 +74,7 @@ ansible-playbook stacks.yaml
 - Новый инструмент сборки бинарников. Сейчас только Apache Maven.
 - Новый инструмент управления образами. Сейчас только Docker Engine.
 - Новый инструмент раскатки стеков. Сейчас только Docker Compose.
-- Новое целевое использование (purpose) продукта (product) или снаряжения (gear).
+- Новый фокус (focus) продукта (product) или снаряжения (gear).
 - Новая обвязка построения дерева хешей. Сейчас связка Git и Ansible.
 
 === Непредсказуемая сложность

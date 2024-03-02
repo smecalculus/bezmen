@@ -1,0 +1,10 @@
+---
+storage:
+  vendor: postgres
+  version: 15.4
+  mapping_mode: spring_data
+app:
+  name: sepuling-kotlin
+config:
+  mapping_mode: spring_config
+  file_name: application.yaml
