@@ -11,7 +11,7 @@ product {
     protocol {
       mode = {{ ops.storage.vendor }}
       {{ ops.storage.vendor }} {
-        url = "jdbc:postgresql://storage:5432/{{ database.name }}"
+        url = "jdbc:postgresql://{{ ops.storage.vendor }}-primary:5432,{{ ops.storage.vendor }}-secondary:5432/{{ database.name }}"
         schema = "{{ schema.name }}"
         username = "{{ storage.owner.username }}"
         password = "{{ storage.owner.password }}"

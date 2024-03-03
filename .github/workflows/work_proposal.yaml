@@ -76,7 +76,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        focus: [api]
+        focus: [api, resilience]
         env:
           - dev: godel
             ops: marx
@@ -119,7 +119,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        focus: [api]
+        focus: [api, resilience]
         shard: [0, 1]
         env:
           - dev: godel
@@ -173,7 +173,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        focus: [api]
+        focus: [api, resilience]
         env:
           - dev: godel
             ops: marx

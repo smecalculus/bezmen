@@ -1,14 +1,5 @@
 ---
-- name: Remove storages
-  ansible.builtin.command:
-    cmd: docker container rm -fv storage-{{ vendor }}
-  changed_when: false
-  loop: "{{ product.databases.keys() }}"
-  loop_control:
-    loop_var: vendor
-  when: hostvars.db.image_status is changed
-
-- name: Create network
+- name: Create networks
   ansible.builtin.shell:
     cmd: docker network inspect gear || docker network create gear
     strip_empty_ends: false
@@ -19,7 +10,6 @@
     cmd: >-
       docker compose
         --file compose.yaml
-        --profile {{ opsenv }}
         up
         --remove-orphans
         --quiet-pull

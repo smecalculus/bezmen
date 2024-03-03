@@ -1,0 +1,5 @@
+{% set database = product.databases[ops.storage.vendor] %}
+max_wal_senders = 3
+wal_level = replica
+listen_addresses = '*'
+primary_conninfo = 'host={{ ops.storage.vendor }}-primary dbname={{ database.name }}'

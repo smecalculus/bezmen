@@ -4,7 +4,7 @@
     tasks_from: clean
   vars:
     image_keys:
-      - "{{ product.image }}/{{ opsenv }}"
+      - "product/{{ focus }}/{{ opsenv }}"
 
 - ansible.builtin.import_role:  # noqa: name[missing]
     name: image
@@ -12,7 +12,7 @@
   vars:
     image_home: "{{ project.dir }}/{{ product.image }}"
     image_context: target/{{ focus }}
-    image_key: "{{ product.image }}/{{ opsenv }}"
+    image_key: "product/{{ focus }}/{{ opsenv }}"
     image_tag: "{{ product.image }}:{{ opsenv }}"
 
 - ansible.builtin.import_role:  # noqa: name[missing]

@@ -1,7 +1,7 @@
 ---
-- name: Remove artifacts
+- name: Clean artifacts
   ansible.builtin.file:
-    path: "{{ stack_dir }}/target"
+    path: "{{ stack_dir }}/target/{{ focus }}"
     state: absent
   changed_when: false
 
@@ -12,18 +12,22 @@
     recurse: true
   changed_when: false
 
-- name: Build conf
-  ansible.builtin.template:
-    src: "{{ stack_dir }}/focus/{{ focus }}/{{ ops.config.mapping_mode }}.j2"
-    dest: "{{ stack_dir }}/target/{{ focus }}/{{ ops.config.file_name }}"
-    lstrip_blocks: yes
-    trim_blocks: yes
+- name: Copy configs
+  ansible.builtin.copy:
+    src: "{{ item }}"
+    dest: "{{ stack_dir }}/target/{{ focus }}/"
     mode: "644"
+  changed_when: false
+  with_fileglob:
+    - "{{ stack_dir }}/focus/{{ focus }}/*.conf"
 
-- name: Build spec
+- name: Render templates
   ansible.builtin.template:
-    src: "{{ stack_dir }}/focus/{{ focus }}/compose.j2"
-    dest: "{{ stack_dir }}/target/{{ focus }}/compose.yaml"
+    src: "{{ item }}"
+    dest: "{{ stack_dir }}/target/{{ focus }}/{{ item | basename | splitext | first }}"
     lstrip_blocks: yes
     trim_blocks: yes
     mode: "644"
+  changed_when: false
+  with_fileglob:
+    - "{{ stack_dir }}/focus/{{ focus }}/*.jinja"

@@ -1,26 +1,30 @@
+{% set storage = product.storages[ops.storage.vendor] %}
+{% set database = product.databases[ops.storage.vendor] %}
+{% set schema = product.schemas[ops.storage.vendor] %}
+{% set app = product.apps[ops.app.name] %}
 ---
-name: focus-api
+name: {{ project.name }}
 
 networks:
   product:
     name: product
+    external: false
   gear:
     name: gear
     external: true
 
 configs:
-  product_config:
-    file: ./{{ ops.config.file_name }}
+  product:
+    file: {{ ops.config.file_name }}
 
 services:
-{% set storage = product.storages[ops.storage.vendor] %}
-  storage:
-    container_name: storage-{{ ops.storage.vendor }}
+  storage-{{ ops.storage.vendor }}:
+    container_name: {{ project.name }}-storage-{{ ops.storage.vendor }}
     image: {{ storage.image }}:{{ ops.storage.version }}-alpine
     networks:
       - product
     ports:
-      - 5432:5432
+      - "5432:5432"
     environment:
       POSTGRES_USER: "{{ storage.dba.username }}"
       POSTGRES_PASSWORD: "{{ storage.dba.password }}"
@@ -29,23 +33,22 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
-
-{% set database = product.databases[ops.storage.vendor] %}
-  database:
-    container_name: database-{{ database.name }}
-    image: {{ image_ns }}/db/{{ ops.storage.vendor }}:{{ hostvars.db.image_tags[ops.storage.vendor] }}
-    networks:
-      - product
-    depends_on:
-      storage:
-        condition: service_healthy
     labels:
       image.key: db/{{ ops.storage.vendor }}/{{ devenv }}
+
+  database-{{ database.name }}:
+    container_name: {{ project.name }}-database-{{ database.name }}
+    image: {{ image_ns }}/db/{{ ops.storage.vendor }}:{{ hostvars.db.image_tags[ops.storage.vendor] }}
+    depends_on:
+      storage-{{ ops.storage.vendor }}:
+        condition: service_healthy
+    networks:
+      - product
     command: >-
       --show-banner=false
       --classpath=/liquibase/changelog
       --changelog-file=dba/changelog.yaml
-      --url=jdbc:postgresql://storage:5432/postgres
+      --url=jdbc:postgresql://storage-{{ ops.storage.vendor }}:5432/postgres
       --liquibase-schema-name=public
       --default-schema-name=public
       --username={{ storage.dba.username }}
@@ -55,47 +58,47 @@ services:
       -Ddatabase.name={{ database.name }}
       -Downer.username={{ storage.owner.username }}
       -Downer.password={{ storage.owner.password }}
-
-{% set schema = product.schemas[ops.storage.vendor] %}
-  {{ schema.name }}:
-    container_name: schema-{{ schema.name }}
-    image: {{ image_ns }}/db/{{ ops.storage.vendor }}:{{ hostvars.db.image_tags[ops.storage.vendor] }}
-    networks:
-      - product
-    depends_on:
-      database:
-        condition: service_completed_successfully
     labels:
       image.key: db/{{ ops.storage.vendor }}/{{ devenv }}
+
+  schema-{{ schema.name }}:
+    container_name: {{ project.name }}-schema-{{ schema.name }}
+    image: {{ image_ns }}/db/{{ ops.storage.vendor }}:{{ hostvars.db.image_tags[ops.storage.vendor] }}
+    depends_on:
+      database-{{ database.name }}:
+        condition: service_completed_successfully
+    networks:
+      - product
     command: >-
       --show-banner=false
       --classpath=/liquibase/changelog
       --changelog-file=owner/changelog.yaml
-      --url=jdbc:postgresql://storage:5432/{{ database.name }}
+      --url=jdbc:postgresql://storage-{{ ops.storage.vendor }}:5432/{{ database.name }}
       --liquibase-schema-name=public
       --default-schema-name={{ schema.name }}
       --username={{ storage.owner.username }}
       --password={{ storage.owner.password }}
       update
       -Dschema.name={{ schema.name }}
+    labels:
+      image.key: db/{{ ops.storage.vendor }}/{{ devenv }}
 
-{% set app = product.apps[ops.app.name] %}
-  {{ app.service }}:
-    container_name: app-{{ app.service }}
+  app-{{ app.service }}:
+    container_name: {{ project.name }}-app-{{ app.service }}
     image: {{ image_ns }}/app/{{ ops.app.name }}:{{ hostvars.app.image_tags[ops.app.name] }}
+    depends_on:
+      schema-{{ schema.name }}:
+        condition: service_completed_successfully
     networks:
       - product
       - gear
     ports:
-      - 8080:8080
+      - "8080:8080"
     configs:
-      - source: product_config
+      - source: product
         target: /home/app/{{ ops.config.file_name }}
     command: >-
       --product.config.mapping.mode={{ ops.config.mapping_mode }}
       --spring.config.location=optional:file:application.yaml
-    depends_on:
-      {{ schema.name }}:
-        condition: service_completed_successfully
     labels:
       image.key: app/{{ ops.app.name }}/{{ devenv }}
