@@ -70,7 +70,7 @@ jobs:
           job_summary: false
 
   stack-building:
-    name: Stack building (${{ matrix.env.dev }}, ${{ matrix.env.ops }})
+    name: Stack building (${{ matrix.focus }}, ${{ matrix.env.ops }})
     timeout-minutes: 5
     needs: [up-to-images]
     strategy:
@@ -113,7 +113,7 @@ jobs:
           if-no-files-found: ignore
 
   stack-checking:
-    name: Stack checking (${{ matrix.shard }}, ${{ matrix.focus }}, ${{ matrix.env.ops }})
+    name: Stack checking (${{ matrix.focus }}, ${{ matrix.env.ops }}, ${{ matrix.shard }})
     timeout-minutes: 15
     needs: [stack-building]
     strategy:
@@ -162,7 +162,7 @@ jobs:
       - uses: actions/upload-artifact@v4.3.1
         if: ${{ !cancelled() }}
         with:
-          name: e2e-tests-${{ matrix.focus }}-${{ matrix.shard }}-${{ matrix.env.ops }}
+          name: e2e-tests-${{ matrix.focus }}-${{ matrix.env.ops }}-${{ matrix.shard }}
           path: test/e2e/target/surefire-reports/*.xml
           if-no-files-found: ignore
 

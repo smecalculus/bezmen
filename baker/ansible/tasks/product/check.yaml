@@ -30,7 +30,7 @@
         --projects :e2e
         --define skipUnits
       {% if hostvars.gear.is_virtual.rc == 0 %}
-        --define testing.client.host=sepuling
+        --define testing.client.host=app-sepuling
       {% endif %}
       {% if modulus is defined %}
         --define testing.sharding.modulus={{ modulus }}
