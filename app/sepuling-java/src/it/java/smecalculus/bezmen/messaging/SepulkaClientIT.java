@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import smecalculus.bezmen.construction.SepulkaClientBeans;
+import smecalculus.bezmen.core.SepulkaMessageDm;
 import smecalculus.bezmen.core.SepulkaMessageDm.RegistrationRequest;
 import smecalculus.bezmen.core.SepulkaMessageDmEg;
 import smecalculus.bezmen.core.SepulkaService;
@@ -38,6 +39,26 @@ abstract class SepulkaClientIT {
         var expectedResponse = SepulkaMessageEmEg.registrationResponse(externalId);
         // when
         var actualResponse = externalClient.register(request);
+        // then
+        assertThat(actualResponse)
+                .usingRecursiveComparison()
+                .ignoringExpectedNullFields()
+                .isEqualTo(expectedResponse);
+    }
+
+    @Test
+    void shouldViewSepulka() {
+        // given
+        var externalId = UUID.randomUUID().toString();
+        // and
+        var request = SepulkaMessageEmEg.viewRequest(externalId);
+        // and
+        when(serviceMock.view(any(SepulkaMessageDm.ViewRequest.class)))
+                .thenReturn(SepulkaMessageDmEg.viewResponse(externalId).build());
+        // and
+        var expectedResponse = SepulkaMessageEmEg.viewResponse(externalId);
+        // when
+        var actualResponse = externalClient.view(request);
         // then
         assertThat(actualResponse)
                 .usingRecursiveComparison()

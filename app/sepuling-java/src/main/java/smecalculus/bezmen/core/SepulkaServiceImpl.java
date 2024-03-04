@@ -3,14 +3,12 @@ package smecalculus.bezmen.core;
 import static java.util.UUID.randomUUID;
 
 import java.time.LocalDateTime;
-import java.util.Collections;
-import java.util.List;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import smecalculus.bezmen.core.SepulkaMessageDm.PreviewRequest;
-import smecalculus.bezmen.core.SepulkaMessageDm.PreviewResponse;
 import smecalculus.bezmen.core.SepulkaMessageDm.RegistrationRequest;
 import smecalculus.bezmen.core.SepulkaMessageDm.RegistrationResponse;
+import smecalculus.bezmen.core.SepulkaMessageDm.ViewRequest;
+import smecalculus.bezmen.core.SepulkaMessageDm.ViewResponse;
 import smecalculus.bezmen.storage.SepulkaDao;
 
 @RequiredArgsConstructor
@@ -37,7 +35,7 @@ public class SepulkaServiceImpl implements SepulkaService {
     }
 
     @Override
-    public List<PreviewResponse> view(PreviewRequest request) {
-        return Collections.emptyList();
+    public ViewResponse view(ViewRequest request) {
+        return new ViewResponse(request.externalId());
     }
 }

@@ -7,7 +7,6 @@ import static org.awaitility.Awaitility.await;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.condition.EnabledIfSystemProperty;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
@@ -39,17 +38,5 @@ public class SepulkaTest {
         var actualResponse = bezmenClient.register(request);
         // then
         assertThat(actualResponse).usingRecursiveComparison().isEqualTo(expectedResponse);
-    }
-
-    @Test
-    @EnabledIfSystemProperty(named = "storage.protocol.mode", matches = "postgres")
-    void postgresSpecificTest() {
-        // empty
-    }
-
-    @Test
-    @EnabledIfSystemProperty(named = "storage.protocol.mode", matches = "sqlite")
-    void sqliteSpecificTest() {
-        // empty
     }
 }

@@ -17,6 +17,7 @@ import java.util.UUID
 @ExtendWith(SpringExtension::class)
 @ContextConfiguration(classes = [SepulkaClientBeans::class])
 abstract class SepulkaClientIT {
+
     @Autowired
     private lateinit var externalClient: SepulkaClient
 
@@ -36,6 +37,26 @@ abstract class SepulkaClientIT {
         val expectedResponse = SepulkaMessageEmEg.registrationResponse(externalId)
         // when
         val actualResponse = externalClient.register(request)
+        // then
+        assertThat(actualResponse)
+            .usingRecursiveComparison()
+            .ignoringExpectedNullFields()
+            .isEqualTo(expectedResponse)
+    }
+
+    @Test
+    fun shouldViewSepulka() {
+        // given
+        val externalId = UUID.randomUUID().toString()
+        // and
+        val request = SepulkaMessageEmEg.viewRequest(externalId)
+        // and
+        whenever(serviceMock.view(any(SepulkaMessageDm.ViewRequest::class.java)))
+            .thenReturn(SepulkaMessageDmEg.viewResponse(externalId).build())
+        // and
+        val expectedResponse = SepulkaMessageEmEg.viewResponse(externalId)
+        // when
+        val actualResponse = externalClient.view(request)
         // then
         assertThat(actualResponse)
             .usingRecursiveComparison()

@@ -11,8 +11,8 @@ public class SepulkaMessageDm {
     public record RegistrationResponse(@NonNull String externalId) {}
 
     @Builder
-    public record PreviewRequest(@NonNull String externalId) {}
+    public record ViewRequest(@NonNull String externalId) {}
 
     @Builder
-    public record PreviewResponse(@NonNull String externalId) {}
+    public record ViewResponse(@NonNull String externalId) {}
 }

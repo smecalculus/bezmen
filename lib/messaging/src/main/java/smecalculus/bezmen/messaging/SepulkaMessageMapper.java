@@ -8,4 +8,8 @@ public interface SepulkaMessageMapper {
     SepulkaMessageDm.RegistrationRequest toDomain(SepulkaMessageEm.RegistrationRequest request);
 
     SepulkaMessageEm.RegistrationResponse toEdge(SepulkaMessageDm.RegistrationResponse response);
+
+    SepulkaMessageDm.ViewRequest toDomain(SepulkaMessageEm.ViewRequest request);
+
+    SepulkaMessageEm.ViewResponse toEdge(SepulkaMessageDm.ViewResponse response);
 }

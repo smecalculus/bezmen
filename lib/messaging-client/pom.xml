@@ -14,19 +14,21 @@
   <packaging>jar</packaging>
 
   <dependencies>
-    <!--CORE-->
     <dependency>
       <groupId>${project.groupId}</groupId>
       <artifactId>abstraction-client</artifactId>
       <scope>compile</scope>
     </dependency>
-    <!--SERDE-->
     <dependency>
       <groupId>com.fasterxml.jackson.core</groupId>
       <artifactId>jackson-databind</artifactId>
       <scope>compile</scope>
     </dependency>
-    <!--TESTING-->
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+      <scope>compile</scope>
+    </dependency>
     <dependency>
       <groupId>${project.groupId}</groupId>
       <artifactId>testing</artifactId>

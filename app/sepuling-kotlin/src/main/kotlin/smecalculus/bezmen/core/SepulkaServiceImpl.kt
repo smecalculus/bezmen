@@ -1,9 +1,9 @@
 package smecalculus.bezmen.core
 
-import smecalculus.bezmen.core.SepulkaMessageDm.PreviewRequest
-import smecalculus.bezmen.core.SepulkaMessageDm.PreviewResponse
 import smecalculus.bezmen.core.SepulkaMessageDm.RegistrationRequest
 import smecalculus.bezmen.core.SepulkaMessageDm.RegistrationResponse
+import smecalculus.bezmen.core.SepulkaMessageDm.ViewRequest
+import smecalculus.bezmen.core.SepulkaMessageDm.ViewResponse
 import smecalculus.bezmen.storage.SepulkaDao
 import java.time.LocalDateTime
 import java.util.UUID
@@ -25,7 +25,7 @@ class SepulkaServiceImpl(
         return converter.toMessage(sepulkaSaved).build()
     }
 
-    override fun view(request: PreviewRequest): List<PreviewResponse> {
-        return listOf()
+    override fun view(request: ViewRequest): ViewResponse {
+        return ViewResponse(request.externalId)
     }
 }
