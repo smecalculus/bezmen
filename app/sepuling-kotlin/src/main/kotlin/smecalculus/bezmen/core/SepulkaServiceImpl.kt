@@ -26,6 +26,7 @@ class SepulkaServiceImpl(
     }
 
     override fun view(request: ViewRequest): ViewResponse {
+        dao.getBy(request.externalId)
         return ViewResponse(request.externalId)
     }
 }

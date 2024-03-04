@@ -36,6 +36,7 @@ public class SepulkaServiceImpl implements SepulkaService {
 
     @Override
     public ViewResponse view(ViewRequest request) {
+        dao.getBy(request.externalId());
         return new ViewResponse(request.externalId());
     }
 }
