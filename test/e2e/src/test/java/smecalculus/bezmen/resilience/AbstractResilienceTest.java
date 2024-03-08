@@ -43,6 +43,7 @@ public abstract class AbstractResilienceTest {
     @BeforeAll
     void abstractBeforeAll() {
         services = dockerClient.listContainersCmd().withShowAll(true).exec().stream()
-                .collect(groupingBy(container -> container.getLabels().get("com.docker.compose.service")));
+                .collect(groupingBy(
+                        container -> container.getLabels().getOrDefault("com.docker.compose.service", "unknown")));
     }
 }

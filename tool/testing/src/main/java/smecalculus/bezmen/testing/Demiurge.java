@@ -24,14 +24,13 @@ public class Demiurge {
 
     public void starts(@NonNull List<Container> containers) {
         try {
-            containers.forEach(container -> dockerClient.startContainerCmd(container.getId()).exec());
+            containers.forEach(container ->
+                    dockerClient.startContainerCmd(container.getId()).exec());
         } catch (NotModifiedException e) {
             LOG.debug("Already started");
         }
         containers.forEach(container ->
-                await(container.getNames()[0])
-                        .atMost(SERVICE_START_TIMEOUT)
-                        .until(() -> isStarted(container)));
+                await(container.getNames()[0]).atMost(SERVICE_START_TIMEOUT).until(() -> isStarted(container)));
     }
 
     public void kills(@NonNull Container container) {
