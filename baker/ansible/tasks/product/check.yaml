@@ -12,8 +12,8 @@
         --file compose.yaml
         up
         --remove-orphans
+        --pull missing
         --quiet-pull
-        --no-deps
         --detach
     chdir: "{{ stack_dir }}/target/{{ focus }}"
     strip_empty_ends: false

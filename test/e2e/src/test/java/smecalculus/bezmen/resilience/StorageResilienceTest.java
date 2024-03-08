@@ -9,17 +9,13 @@ import static smecalculus.bezmen.messaging.SepulkaMessageEmEg.viewRequest;
 import java.util.UUID;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import smecalculus.bezmen.messaging.BezmenClient;
 import smecalculus.bezmen.messaging.SepulkaMessageEmEg;
 
-public class SepulkaTest extends AbstractResilienceTest {
-
-    @Autowired
-    private BezmenClient bezmenClient;
+public class StorageResilienceTest extends AbstractResilienceTest {
 
     @BeforeAll
     void beforeAll() {
+        demiurge.starts(services.get(POSTGRES_PRIMARY));
         await("isReady").atMost(ofSeconds(5)).until(bezmenClient::isReady);
     }
 
@@ -32,7 +28,7 @@ public class SepulkaTest extends AbstractResilienceTest {
         // and
         bezmenClient.register(registrationRequest(externalId));
         // and
-        demiurge.kills(postgresPrimary);
+        demiurge.kills(services.get(POSTGRES_PRIMARY));
         // and
         var expectedResponse = SepulkaMessageEmEg.viewResponse(registrationRequest.getExternalId());
         // when

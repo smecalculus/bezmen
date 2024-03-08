@@ -21,6 +21,11 @@ configs:
   product:
     file: {{ ops.config.file_name }}
 
+volumes:
+  postgres_data:
+    labels:
+      image.key: db/{{ ops.storage.vendor }}/{{ devenv }}
+
 services:
   {{ ops.storage.vendor }}-primary:
     container_name: {{ project.name }}-{{ ops.storage.vendor }}-primary
@@ -34,23 +39,50 @@ services:
       POSTGRES_PASSWORD: "{{ storage.dba.password }}"
     configs:
       - source: postgresql
-        target: /etc/postgres/postgresql.conf
+        target: /postgres/conf/postgresql.conf
       - source: pg_hba
-        target: /etc/postgres/pg_hba.conf
+        target: /postgres/conf/pg_hba.conf
     healthcheck:
       test: ["CMD-SHELL", "pg_isready"]
       interval: 10s
       timeout: 5s
       retries: 5
     command: >-
-      -c config_file=/etc/postgres/postgresql.conf
-      -c hba_file=/etc/postgres/pg_hba.conf
+      -c config_file=/postgres/conf/postgresql.conf
+      -c hba_file=/postgres/conf/pg_hba.conf
+    labels:
+      image.key: db/{{ ops.storage.vendor }}/{{ devenv }}
+
+  {{ ops.storage.vendor }}-backup:
+    container_name: {{ project.name }}-{{ ops.storage.vendor }}-backup
+    image: {{ storage.image }}:{{ ops.storage.version }}-alpine
+    depends_on:
+      {{ ops.storage.vendor }}-primary:
+        condition: service_healthy
+        restart: false
+    networks:
+      - product
+    environment:
+      PGDATA: /postgres/data
+    volumes:
+      - source: postgres_data
+        target: /postgres/data
+        type: volume
+    entrypoint: []
+    command: >-
+      pg_basebackup --write-recovery-conf
+        --host {{ ops.storage.vendor }}-primary
+        --username {{ storage.dba.username }}
+        --pgdata /postgres/data
     labels:
       image.key: db/{{ ops.storage.vendor }}/{{ devenv }}
 
   {{ ops.storage.vendor }}-secondary:
     container_name: {{ project.name }}-{{ ops.storage.vendor }}-secondary
     image: {{ storage.image }}:{{ ops.storage.version }}-alpine
+    depends_on:
+      {{ ops.storage.vendor }}-backup:
+        condition: service_completed_successfully
     networks:
       - product
     ports:
@@ -58,19 +90,24 @@ services:
     environment:
       POSTGRES_USER: "{{ storage.dba.username }}"
       POSTGRES_PASSWORD: "{{ storage.dba.password }}"
+      PGDATA: /postgres/data
     configs:
       - source: postgresql
-        target: /etc/postgres/postgresql.conf
+        target: /postgres/conf/postgresql.conf
       - source: pg_hba
-        target: /etc/postgres/pg_hba.conf
+        target: /postgres/conf/pg_hba.conf
+    volumes:
+      - source: postgres_data
+        target: /postgres/data
+        type: volume
     healthcheck:
       test: ["CMD-SHELL", "pg_isready"]
       interval: 10s
       timeout: 5s
       retries: 5
     command: >-
-      -c config_file=/etc/postgres/postgresql.conf
-      -c hba_file=/etc/postgres/pg_hba.conf
+      -c config_file=/postgres/conf/postgresql.conf
+      -c hba_file=/postgres/conf/pg_hba.conf
     labels:
       image.key: db/{{ ops.storage.vendor }}/{{ devenv }}
 
@@ -78,7 +115,7 @@ services:
     container_name: {{ project.name }}-database-{{ database.name }}
     image: {{ image_ns }}/db/{{ ops.storage.vendor }}:{{ hostvars.db.image_tags[ops.storage.vendor] }}
     depends_on:
-      {{ ops.storage.vendor }}-primary:
+      {{ ops.storage.vendor }}-secondary:
         condition: service_healthy
     networks:
       - product

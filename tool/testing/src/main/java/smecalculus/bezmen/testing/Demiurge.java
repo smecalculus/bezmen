@@ -6,6 +6,7 @@ import com.github.dockerjava.api.DockerClient;
 import com.github.dockerjava.api.exception.NotModifiedException;
 import com.github.dockerjava.api.model.Container;
 import java.time.Duration;
+import java.util.List;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -16,20 +17,29 @@ public class Demiurge {
 
     private static final Logger LOG = LoggerFactory.getLogger(Demiurge.class);
 
+    private static final Duration SERVICE_START_TIMEOUT = Duration.ofSeconds(20);
+
     @NonNull
     private DockerClient dockerClient;
 
-    public void starts(@NonNull Container container) {
+    public void starts(@NonNull List<Container> containers) {
         try {
-            dockerClient.startContainerCmd(container.getId()).exec();
-            await().atMost(Duration.ofSeconds(20)).until(() -> isStarted(container));
+            containers.forEach(container -> dockerClient.startContainerCmd(container.getId()).exec());
         } catch (NotModifiedException e) {
             LOG.debug("Already started");
         }
+        containers.forEach(container ->
+                await(container.getNames()[0])
+                        .atMost(SERVICE_START_TIMEOUT)
+                        .until(() -> isStarted(container)));
     }
 
     public void kills(@NonNull Container container) {
         dockerClient.killContainerCmd(container.getId()).exec();
+    }
+
+    public void kills(@NonNull List<Container> containers) {
+        containers.forEach(this::kills);
     }
 
     private boolean isStarted(@NonNull Container container) {
