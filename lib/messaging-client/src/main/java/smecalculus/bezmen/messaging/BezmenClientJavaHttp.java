@@ -50,7 +50,7 @@ public class BezmenClientJavaHttp implements BezmenClient {
 
     @Override
     public ViewResponse view(ViewRequest request) {
-        URI uri = URI.create("http://" + props.host() + ":" + props.port() + "/sepulkas/" + request.getExternalId());
+        URI uri = URI.create("http://" + props.host() + ":" + props.port() + "/sepulkas/" + request.getInternalId());
         try {
             var httpRequest = HttpRequest.newBuilder()
                     .uri(uri)

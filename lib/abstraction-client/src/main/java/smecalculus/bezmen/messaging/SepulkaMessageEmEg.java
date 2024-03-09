@@ -21,25 +21,25 @@ public abstract class SepulkaMessageEmEg {
 
     public static RegistrationResponse registrationResponse() {
         var responseEdge = new RegistrationResponse();
-        responseEdge.setExternalId(UUID.randomUUID().toString());
+        responseEdge.setInternalId(UUID.randomUUID().toString());
         return responseEdge;
     }
 
-    public static RegistrationResponse registrationResponse(String externalId) {
+    public static RegistrationResponse registrationResponse(String id) {
         var responseEdge = registrationResponse();
-        responseEdge.setExternalId(externalId);
+        responseEdge.setInternalId(id);
         return responseEdge;
     }
 
     public static ViewRequest viewRequest() {
         var requestEdge = new ViewRequest();
-        requestEdge.setExternalId(UUID.randomUUID().toString());
+        requestEdge.setInternalId(UUID.randomUUID().toString());
         return requestEdge;
     }
 
     public static ViewRequest viewRequest(String id) {
         var requestEdge = viewRequest();
-        requestEdge.setExternalId(id);
+        requestEdge.setInternalId(id);
         return requestEdge;
     }
 

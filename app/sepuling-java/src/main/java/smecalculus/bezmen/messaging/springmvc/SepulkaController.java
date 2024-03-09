@@ -30,10 +30,10 @@ public class SepulkaController {
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
-    @GetMapping("/{externalId}")
-    ResponseEntity<ViewResponse> view(@PathVariable("externalId") String externalId) {
+    @GetMapping("/{internalId}")
+    ResponseEntity<ViewResponse> view(@PathVariable("internalId") String id) {
         var request = new SepulkaMessageEm.ViewRequest();
-        request.setExternalId(externalId);
+        request.setInternalId(id);
         var response = client.view(request);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }

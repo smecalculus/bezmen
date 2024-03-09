@@ -31,7 +31,7 @@ public class SepulkaClientSpringWebTest implements SepulkaClient {
     @Override
     public ViewResponse view(ViewRequest request) {
         return client.get()
-                .uri("/sepulkas/" + request.getExternalId())
+                .uri("/sepulkas/" + request.getInternalId())
                 .accept(MediaType.APPLICATION_JSON)
                 .exchange()
                 .expectBody(ViewResponse.class)

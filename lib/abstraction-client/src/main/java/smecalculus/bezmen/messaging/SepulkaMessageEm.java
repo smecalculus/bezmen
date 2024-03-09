@@ -14,19 +14,14 @@ public abstract class SepulkaMessageEm {
 
     @Data
     public static class RegistrationResponse {
-        String externalId;
-    }
-
-    @Data
-    public static class SearchResponse {
-        String externalId;
+        String internalId;
     }
 
     @Data
     public static class ViewRequest {
         @NotNull
-        @Size(min = 1, max = 64)
-        String externalId;
+        @Size(min = 36, max = 36)
+        String internalId;
     }
 
     @Data

@@ -30,13 +30,14 @@ abstract class SepulkaClientIT {
     void shouldRegisterSepulka() {
         // given
         var externalId = UUID.randomUUID().toString();
+        var internalId = UUID.randomUUID();
         // and
         var request = SepulkaMessageEmEg.registrationRequest(externalId);
         // and
         when(serviceMock.register(any(RegistrationRequest.class)))
-                .thenReturn(SepulkaMessageDmEg.registrationResponse(externalId).build());
+                .thenReturn(SepulkaMessageDmEg.registrationResponse(internalId).build());
         // and
-        var expectedResponse = SepulkaMessageEmEg.registrationResponse(externalId);
+        var expectedResponse = SepulkaMessageEmEg.registrationResponse(internalId.toString());
         // when
         var actualResponse = externalClient.register(request);
         // then
@@ -49,9 +50,10 @@ abstract class SepulkaClientIT {
     @Test
     void shouldViewSepulka() {
         // given
+        var internalId = UUID.randomUUID().toString();
         var externalId = UUID.randomUUID().toString();
         // and
-        var request = SepulkaMessageEmEg.viewRequest(externalId);
+        var request = SepulkaMessageEmEg.viewRequest(internalId);
         // and
         when(serviceMock.view(any(SepulkaMessageDm.ViewRequest.class)))
                 .thenReturn(SepulkaMessageDmEg.viewResponse(externalId).build());

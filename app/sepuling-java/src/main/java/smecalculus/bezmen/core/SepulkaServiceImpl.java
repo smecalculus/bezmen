@@ -31,12 +31,12 @@ public class SepulkaServiceImpl implements SepulkaService {
                 .updatedAt(now)
                 .build();
         var sepulkaSaved = dao.add(sepulkaCreated);
-        return converter.toMessage(sepulkaSaved).build();
+        return converter.toMessage(sepulkaSaved);
     }
 
     @Override
     public ViewResponse view(ViewRequest request) {
-        dao.getBy(request.externalId());
-        return new ViewResponse(request.externalId());
+        var state = dao.getBy(request.internalId());
+        return state.map(converter::toMessage).orElseThrow(RuntimeException::new);
     }
 }

@@ -12,12 +12,10 @@ public abstract class SepulkaStateEm {
     @Data
     public static class Existence {
         UUID internalId;
-        String externalId;
     }
 
     @Data
     public static class Preview {
-        UUID internalId;
         String externalId;
         LocalDateTime createdAt;
     }

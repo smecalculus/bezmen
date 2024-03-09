@@ -59,7 +59,6 @@ services:
     depends_on:
       {{ ops.storage.vendor }}-primary:
         condition: service_healthy
-        restart: false
     networks:
       - product
     environment:
@@ -167,7 +166,6 @@ services:
       image.key: db/{{ ops.storage.vendor }}/{{ devenv }}
 
   app-{{ app.service }}:
-    # container_name: app-{{ app.service }}
     image: {{ image_ns }}/app/{{ ops.app.name }}:{{ hostvars.app.image_tags[ops.app.name] }}
     depends_on:
       schema-{{ schema.name }}:
