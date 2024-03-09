@@ -15,7 +15,7 @@
         --pull missing
         --quiet-pull
         --detach
-    chdir: "{{ stack_dir }}/target/{{ focus }}"
+    chdir: "{{ stack_dir }}/target/{{ ility }}"
     strip_empty_ends: false
   changed_when: true
 
@@ -23,7 +23,7 @@
   ansible.builtin.command:
     cmd: >-
       mvn clean test
-        --activate-profiles {{ focus }},{{ devenv }}
+        --activate-profiles {{ ility }},{{ devenv }}
         --no-snapshot-updates
         --batch-mode
         --also-make

@@ -18,7 +18,7 @@ product:
         password: "{{ project.name }}"
   databases:
     postgres:
-      name: "{{ project.name }}"
+      name: enteropia
   schemas:
     postgres:
       name: sepulkarium

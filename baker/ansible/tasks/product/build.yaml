@@ -1,13 +1,13 @@
 ---
 - name: Clean artifacts
   ansible.builtin.file:
-    path: "{{ stack_dir }}/target/{{ focus }}"
+    path: "{{ stack_dir }}/target/{{ ility }}"
     state: absent
   changed_when: false
 
 - name: Create directories
   ansible.builtin.file:
-    path: "{{ stack_dir }}/target/{{ focus }}"
+    path: "{{ stack_dir }}/target/{{ ility }}"
     state: directory
     recurse: true
   changed_when: false
@@ -15,19 +15,19 @@
 - name: Copy configs
   ansible.builtin.copy:
     src: "{{ item }}"
-    dest: "{{ stack_dir }}/target/{{ focus }}/"
+    dest: "{{ stack_dir }}/target/{{ ility }}/"
     mode: "644"
   changed_when: false
   with_fileglob:
-    - "{{ stack_dir }}/focus/{{ focus }}/*.conf"
+    - "{{ stack_dir }}/ility/{{ ility }}/*.conf"
 
 - name: Render templates
   ansible.builtin.template:
     src: "{{ item }}"
-    dest: "{{ stack_dir }}/target/{{ focus }}/{{ item | basename | splitext | first }}"
+    dest: "{{ stack_dir }}/target/{{ ility }}/{{ item | basename | splitext | first }}"
     lstrip_blocks: yes
     trim_blocks: yes
     mode: "644"
   changed_when: false
   with_fileglob:
-    - "{{ stack_dir }}/focus/{{ focus }}/*.jinja"
+    - "{{ stack_dir }}/ility/{{ ility }}/*.jinja"
