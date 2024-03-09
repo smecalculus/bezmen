@@ -27,12 +27,12 @@ class SepulkaController(
         return ResponseEntity.status(HttpStatus.CREATED).body(response)
     }
 
-    @GetMapping("/{externalId}")
-    fun register(
-        @PathVariable("externalId") externalId: String,
+    @GetMapping("/{internalId}")
+    fun view(
+        @PathVariable("internalId") id: String,
     ): ResponseEntity<ViewResponse> {
         val request = ViewRequest()
-        request.externalId = externalId
+        request.internalId = id
         val response = client.view(request)
         return ResponseEntity.status(HttpStatus.OK).body(response)
     }

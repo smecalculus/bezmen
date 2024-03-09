@@ -24,15 +24,13 @@ public class StorageResilienceTest extends AbstractResilienceTest {
         // given
         String externalId = UUID.randomUUID().toString();
         // and
-        var registrationRequest = registrationRequest(externalId);
-        // and
-        bezmenClient.register(registrationRequest(externalId));
+        var registrationResponse = bezmenClient.register(registrationRequest(externalId));
         // and
         demiurge.kills(services.get(POSTGRES_PRIMARY));
         // and
-        var expectedResponse = SepulkaMessageEmEg.viewResponse(registrationRequest.getExternalId());
+        var expectedResponse = SepulkaMessageEmEg.viewResponse(externalId);
         // when
-        var actualResponse = bezmenClient.view(viewRequest(externalId));
+        var actualResponse = bezmenClient.view(viewRequest(registrationResponse.getInternalId()));
         // then
         assertThat(actualResponse).usingRecursiveComparison().isEqualTo(expectedResponse);
     }

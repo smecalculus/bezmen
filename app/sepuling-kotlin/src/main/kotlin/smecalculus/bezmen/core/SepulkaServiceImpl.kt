@@ -22,11 +22,11 @@ class SepulkaServiceImpl(
                 .updatedAt(now)
                 .build()
         val sepulkaSaved = dao.add(sepulkaCreated)
-        return converter.toMessage(sepulkaSaved).build()
+        return converter.toMessage(sepulkaSaved)
     }
 
     override fun view(request: ViewRequest): ViewResponse {
-        dao.getBy(request.externalId)
-        return ViewResponse(request.externalId)
+        val state = dao.getBy(request.internalId)
+        return state?.let { converter.toMessage(it) } ?: throw RuntimeException()
     }
 }

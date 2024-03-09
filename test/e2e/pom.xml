@@ -28,12 +28,12 @@
 
   <profiles>
     <profile>
-      <id>api</id>
+      <id>programmability</id>
       <activation>
         <activeByDefault>true</activeByDefault>
       </activation>
       <properties>
-        <suiteName>FuncSuite</suiteName>
+        <suiteName>ProgrammabilitySuite</suiteName>
       </properties>
     </profile>
     <profile>

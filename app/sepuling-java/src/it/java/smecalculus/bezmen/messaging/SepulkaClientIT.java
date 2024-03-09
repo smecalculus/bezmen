@@ -50,10 +50,10 @@ abstract class SepulkaClientIT {
     @Test
     void shouldViewSepulka() {
         // given
-        var internalId = UUID.randomUUID().toString();
+        var internalId = UUID.randomUUID();
         var externalId = UUID.randomUUID().toString();
         // and
-        var request = SepulkaMessageEmEg.viewRequest(internalId);
+        var request = SepulkaMessageEmEg.viewRequest(internalId.toString());
         // and
         when(serviceMock.view(any(SepulkaMessageDm.ViewRequest.class)))
                 .thenReturn(SepulkaMessageDmEg.viewResponse(externalId).build());

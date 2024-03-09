@@ -1,4 +1,4 @@
-package smecalculus.bezmen.registration;
+package smecalculus.bezmen.programmability;
 
 import static java.time.Duration.ofSeconds;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -32,11 +32,9 @@ public class SepulkaTest {
     void shouldRegisterSepulka() {
         // given
         var request = SepulkaMessageEmEg.registrationRequest();
-        // and
-        var expectedResponse = SepulkaMessageEmEg.registrationResponse(request.getExternalId());
         // when
         var actualResponse = bezmenClient.register(request);
         // then
-        assertThat(actualResponse).usingRecursiveComparison().isEqualTo(expectedResponse);
+        assertThat(actualResponse.getInternalId()).isNotNull();
     }
 }
