@@ -69,11 +69,16 @@ services:
         target: /postgres/data
         type: volume
     entrypoint: []
-    command: >-
-      pg_basebackup --write-recovery-conf
-        --host {{ ops.storage.vendor }}-primary
-        --username {{ storage.dba.username }}
-        --pgdata /postgres/data
+    command: |
+      bash <<EOF
+        if [ -z "$(ls -A /postgres/data)" ]; then
+          exit 0
+        fi
+        pg_basebackup --write-recovery-conf
+          --host {{ ops.storage.vendor }}-primary
+          --username {{ storage.dba.username }}
+          --pgdata /postgres/data
+      EOF
     labels:
       image.key: db/{{ ops.storage.vendor }}/{{ devenv }}
 

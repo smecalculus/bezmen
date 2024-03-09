@@ -23,7 +23,7 @@
   ansible.builtin.command:
     cmd: >-
       mvn clean test
-        --activate-profiles {{ devenv }},{{ focus }}
+        --activate-profiles {{ focus }},{{ devenv }}
         --no-snapshot-updates
         --batch-mode
         --also-make
