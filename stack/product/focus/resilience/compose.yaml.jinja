@@ -68,17 +68,20 @@ services:
       - source: postgres_data
         target: /postgres/data
         type: volume
-    entrypoint: []
-    command: |
-      bash <<EOF
-        if [ -z "$(ls -A /postgres/data)" ]; then
+    entrypoint: ["/bin/bash", "-c"]
+    command:
+      - |
+        set -eu
+        if [ -n "$(ls -A /postgres/data)" ]; then
+          echo Do nothing
           exit 0
+        else
+          echo Backing up...
         fi
-        pg_basebackup --write-recovery-conf
-          --host {{ ops.storage.vendor }}-primary
-          --username {{ storage.dba.username }}
+        pg_basebackup --write-recovery-conf \
+          --host {{ ops.storage.vendor }}-primary \
+          --username {{ storage.dba.username }} \
           --pgdata /postgres/data
-      EOF
     labels:
       image.key: db/{{ ops.storage.vendor }}/{{ devenv }}
 
