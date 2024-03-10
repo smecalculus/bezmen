@@ -70,7 +70,7 @@ jobs:
           job_summary: false
 
   stack-building:
-    name: Stack building (${{ matrix.ility }}, ${{ matrix.env.ops }})
+    name: Stack building (${{ matrix.env.ops }}, ${{ matrix.ility }})
     timeout-minutes: 5
     needs: [up-to-images]
     strategy:
@@ -108,12 +108,12 @@ jobs:
           -e repo_mode=ro
       - uses: actions/upload-artifact@v4.3.1
         with:
-          name: product-${{ matrix.ility }}-${{ matrix.env.ops }}
+          name: product-${{ matrix.env.ops }}-${{ matrix.ility }}
           path: stack/product/target/${{ matrix.ility }}
           if-no-files-found: ignore
 
   stack-checking:
-    name: Stack checking (${{ matrix.ility }}, ${{ matrix.env.ops }}, ${{ matrix.shard }})
+    name: Stack checking (${{ matrix.env.ops }}, ${{ matrix.ility }}, ${{ matrix.shard }})
     timeout-minutes: 15
     needs: [stack-building]
     strategy:
@@ -141,7 +141,7 @@ jobs:
       - uses: actions/download-artifact@v4.1.4
         continue-on-error: true  # it's ok because stack building can be skipped
         with:
-          name: product-${{ matrix.ility }}-${{ matrix.env.ops }}
+          name: product-${{ matrix.env.ops }}-${{ matrix.ility }}
           path: stack/product/target/${{ matrix.ility }}
       - name: Run ansible-playbook stacks.yaml -t check
         run: >-
@@ -162,12 +162,12 @@ jobs:
       - uses: actions/upload-artifact@v4.3.1
         if: ${{ !cancelled() }}
         with:
-          name: e2e-tests-${{ matrix.ility }}-${{ matrix.env.ops }}-${{ matrix.shard }}
+          name: e2e-tests-${{ matrix.env.ops }}-${{ matrix.ility }}-${{ matrix.shard }}
           path: test/e2e/target/surefire-reports/*.xml
           if-no-files-found: ignore
 
   stack-publishing:
-    name: Stack publishing (${{ matrix.ility }}, ${{ matrix.env.ops }})
+    name: Stack publishing (${{ matrix.env.ops }}, ${{ matrix.ility }})
     timeout-minutes: 10
     needs: [stack-checking]
     strategy:
@@ -196,7 +196,7 @@ jobs:
       - uses: actions/download-artifact@v4.1.4
         continue-on-error: true  # it's ok because stack building can be skipped
         with:
-          name: product-${{ matrix.ility }}-${{ matrix.env.ops }}
+          name: product-${{ matrix.env.ops }}-${{ matrix.ility }}
           path: stack/product/target/${{ matrix.ility }}
       - name: Run ansible-playbook stacks.yaml -t publish
         run: >-
