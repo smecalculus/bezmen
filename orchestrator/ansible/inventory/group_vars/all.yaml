@@ -1,10 +1,29 @@
 ---
+project:
+  name: bezmen
+  org: smecalculus
+  dir: "{{ playbook_dir }}/../.."
+
+repo_mode: n/a  # n/a, ro, rw
+
+binary_repo: maven.pkg.github.com
+image_repo: ghcr.io
+
+image_ns: "{{ image_repo }}/{{ project.org }}/{{ project.name }}"
+
+docker_entity: "{{ 'image' if repo_mode == 'n/a' else 'manifest' }}"
+
+ility: programmability  # programmability, resilience
+
+devenv: turing
 gear:
   image: stack/gear
 
+cicd: github
 pipeline:
   image: stack/pipeline
 
+opsenv: durkheim
 product:
   image: stack/product
   storages:

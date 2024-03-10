@@ -14,7 +14,7 @@
 
 - name: Declare tag
   ansible.builtin.set_fact:
-    stack_tag: "{{ ility }}-{{ opsenv }}-{{ stack_cid.stdout[:7] }}"
+    stack_tag: "{{ opsenv }}-{{ ility }}-{{ stack_cid.stdout[:7] }}"
   changed_when: false
 
 - name: Capture statuses

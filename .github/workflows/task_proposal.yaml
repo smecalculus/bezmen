@@ -37,7 +37,7 @@ jobs:
           --volume ~/.m2:/root/.m2
           --env GITHUB_ACTOR=${{ github.actor }}
           --env GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }}
-          --workdir $(pwd)/baker/ansible
+          --workdir $(pwd)/orchestrator/ansible
           ${{ env.IMAGE_NAME }}:${{ matrix.env.dev }}
           ansible-playbook binaries.yaml -v
           -e devenv=${{ matrix.env.dev }}
