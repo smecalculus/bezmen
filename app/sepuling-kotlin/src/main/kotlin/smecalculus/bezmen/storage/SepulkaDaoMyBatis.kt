@@ -8,7 +8,7 @@ class SepulkaDaoMyBatis(
     private val stateMapper: SepulkaStateMapper,
     private val sqlMapper: SepulkaSqlMapper,
 ) : SepulkaDao {
-    override fun add(state: SepulkaStateDm.AggregateRoot): SepulkaStateDm.AggregateRoot {
+    override fun addNew(state: SepulkaStateDm.AggregateRoot): SepulkaStateDm.AggregateRoot {
         val stateEdge = stateMapper.toEdge(state)
         sqlMapper.insert(stateEdge)
         return state
@@ -27,7 +27,7 @@ class SepulkaDaoMyBatis(
         state: SepulkaStateDm.Touch,
     ) {
         val stateEdge = stateMapper.toEdge(state)
-        val matchedCount = sqlMapper.updateBy(stateEdge, internalId.toString())
+        val matchedCount = sqlMapper.updateBy(internalId.toString(), stateEdge)
         if (matchedCount == 0) {
             throw ContentionException()
         }

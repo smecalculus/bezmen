@@ -11,6 +11,26 @@ import smecalculus.bezmen.storage.SepulkaStateEm;
 
 public interface SepulkaRepository extends CrudRepository<SepulkaStateEm.AggregateRoot, UUID> {
 
+    @Modifying
+    @Query(
+            """
+            INSERT INTO sepulkas (
+                internal_id,
+                external_id,
+                revision,
+                created_at,
+                updated_at
+            )
+            VALUES (
+                :#{#state.internalId},
+                :#{#state.externalId},
+                :#{#state.revision},
+                :#{#state.createdAt},
+                :#{#state.updatedAt}
+            )
+            """)
+    void insert(@Param("state") SepulkaStateEm.AggregateRoot state);
+
     Optional<SepulkaStateEm.Existence> findByExternalId(@NonNull String externalId);
 
     Optional<SepulkaStateEm.Viewing> findByInternalId(@NonNull UUID internalId);

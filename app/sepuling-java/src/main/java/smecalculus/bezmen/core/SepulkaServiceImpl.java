@@ -35,7 +35,7 @@ public class SepulkaServiceImpl implements SepulkaService {
                 .createdAt(now)
                 .updatedAt(now)
                 .build();
-        var sepulkaSaved = dao.add(sepulkaCreated);
+        var sepulkaSaved = dao.addNew(sepulkaCreated);
         return converter.toMessage(sepulkaSaved);
     }
 

@@ -8,9 +8,10 @@ class SepulkaDaoSpringData(
     private val mapper: SepulkaStateMapper,
     private val repository: SepulkaRepository,
 ) : SepulkaDao {
-    override fun add(state: SepulkaStateDm.AggregateRoot): SepulkaStateDm.AggregateRoot {
-        val stateEdge = repository.save(mapper.toEdge(state))
-        return mapper.toDomain(stateEdge)
+    override fun addNew(state: SepulkaStateDm.AggregateRoot): SepulkaStateDm.AggregateRoot {
+        val stateEdge = mapper.toEdge(state)
+        repository.insert(stateEdge)
+        return state
     }
 
     override fun getBy(externalId: String): SepulkaStateDm.Existence? {

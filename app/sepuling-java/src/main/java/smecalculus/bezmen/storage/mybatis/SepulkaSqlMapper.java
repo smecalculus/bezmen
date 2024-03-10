@@ -57,5 +57,5 @@ public interface SepulkaSqlMapper {
             WHERE internal_id = #{id, jdbcType=OTHER}::uuid
             AND revision = #{state.revision}
             """)
-    int updateBy(@Param("state") Touch state, @Param("id") String id);
+    int updateBy(@Param("id") String internalId, @Param("state") Touch state);
 }

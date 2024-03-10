@@ -4,7 +4,6 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.domain.Persistable;
 import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
 
@@ -27,7 +26,7 @@ public abstract class SepulkaStateEm {
 
     @Data
     @Table("sepulkas")
-    public static class AggregateRoot implements Persistable<UUID> {
+    public static class AggregateRoot {
         @Id
         UUID internalId;
 
@@ -42,15 +41,5 @@ public abstract class SepulkaStateEm {
 
         @Column
         LocalDateTime updatedAt;
-
-        @Override
-        public UUID getId() {
-            return internalId;
-        }
-
-        @Override
-        public boolean isNew() {
-            return true;
-        }
     }
 }

@@ -53,7 +53,6 @@ services:
       --default-schema-name=public
       --username={{ storage.dba.username }}
       --password={{ storage.dba.password }}
-      --labels=database,user
       update
       -Ddatabase.name={{ database.name }}
       -Downer.username={{ storage.owner.username }}

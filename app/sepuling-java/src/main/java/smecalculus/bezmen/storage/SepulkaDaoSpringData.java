@@ -17,9 +17,10 @@ public class SepulkaDaoSpringData implements SepulkaDao {
     private SepulkaRepository repository;
 
     @Override
-    public SepulkaStateDm.AggregateRoot add(@NonNull SepulkaStateDm.AggregateRoot state) {
-        var stateEdge = repository.save(mapper.toEdge(state));
-        return mapper.toDomain(stateEdge);
+    public SepulkaStateDm.AggregateRoot addNew(@NonNull SepulkaStateDm.AggregateRoot state) {
+        var stateEdge = mapper.toEdge(state);
+        repository.insert(stateEdge);
+        return state;
     }
 
     @Override
@@ -33,7 +34,7 @@ public class SepulkaDaoSpringData implements SepulkaDao {
     }
 
     @Override
-    public void updateBy(UUID internalId, SepulkaStateDm.Touch state) {
+    public void touchBy(@NonNull UUID internalId, @NonNull SepulkaStateDm.Touch state) {
         var stateEdge = mapper.toEdge(state);
         var matchedCount = repository.updateBy(internalId, stateEdge);
         if (matchedCount == 0) {

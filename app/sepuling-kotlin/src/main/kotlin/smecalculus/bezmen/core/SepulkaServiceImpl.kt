@@ -21,7 +21,7 @@ class SepulkaServiceImpl(
                 .createdAt(now)
                 .updatedAt(now)
                 .build()
-        val sepulkaSaved = dao.add(sepulkaCreated)
+        val sepulkaSaved = dao.addNew(sepulkaCreated)
         return converter.toMessage(sepulkaSaved)
     }
 

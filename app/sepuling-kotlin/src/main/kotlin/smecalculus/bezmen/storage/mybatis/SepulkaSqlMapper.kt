@@ -61,7 +61,7 @@ interface SepulkaSqlMapper {
         """,
     )
     fun updateBy(
+        @Param("id") internalId: String,
         @Param("state") state: SepulkaStateEm.Touch,
-        @Param("id") id: String,
     ): Int
 }
