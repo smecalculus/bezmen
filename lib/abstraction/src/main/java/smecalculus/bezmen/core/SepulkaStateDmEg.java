@@ -5,8 +5,8 @@ import static java.time.temporal.ChronoUnit.MICROS;
 import java.time.LocalDateTime;
 import java.util.UUID;
 import smecalculus.bezmen.core.SepulkaStateDm.AggregateRoot;
-import smecalculus.bezmen.core.SepulkaStateDm.Preview;
 import smecalculus.bezmen.core.SepulkaStateDm.Touch;
+import smecalculus.bezmen.core.SepulkaStateDm.Viewing;
 
 public class SepulkaStateDmEg {
     public static SepulkaStateDm.AggregateRoot.Builder aggregateRoot() {
@@ -22,8 +22,8 @@ public class SepulkaStateDmEg {
         return SepulkaStateDm.Existence.builder().internalId(UUID.randomUUID());
     }
 
-    public static SepulkaStateDm.Preview.Builder preview(SepulkaStateDm.AggregateRoot state) {
-        return Preview.builder().externalId(state.externalId()).createdAt(state.createdAt());
+    public static Viewing.Builder viewing(SepulkaStateDm.AggregateRoot state) {
+        return SepulkaStateDm.Viewing.builder().externalId(state.externalId());
     }
 
     public static SepulkaStateDm.Touch.Builder touch(AggregateRoot state) {

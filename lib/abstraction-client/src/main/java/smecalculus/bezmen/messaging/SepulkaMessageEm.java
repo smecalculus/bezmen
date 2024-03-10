@@ -14,8 +14,18 @@ public abstract class SepulkaMessageEm {
 
     @Data
     public static class RegistrationResponse {
+        String internalId;
+    }
+
+    @Data
+    public static class ViewRequest {
         @NotNull
-        @Size(min = 1, max = 64)
+        @Size(min = 36, max = 36)
+        String internalId;
+    }
+
+    @Data
+    public static class ViewResponse {
         String externalId;
     }
 }

@@ -1,5 +1,6 @@
 package smecalculus.bezmen.core;
 
+import java.util.UUID;
 import lombok.Builder;
 import lombok.NonNull;
 
@@ -8,11 +9,11 @@ public class SepulkaMessageDm {
     public record RegistrationRequest(@NonNull String externalId) {}
 
     @Builder
-    public record RegistrationResponse(@NonNull String externalId) {}
+    public record RegistrationResponse(@NonNull UUID internalId) {}
 
     @Builder
-    public record PreviewRequest(@NonNull String externalId) {}
+    public record ViewRequest(@NonNull UUID internalId) {}
 
     @Builder
-    public record PreviewResponse(@NonNull String externalId) {}
+    public record ViewResponse(@NonNull String externalId) {}
 }

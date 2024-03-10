@@ -13,7 +13,7 @@ public interface SepulkaStateMapper {
 
     SepulkaStateDm.Existence toDomain(SepulkaStateEm.Existence state);
 
-    SepulkaStateEm.Preview toEdge(SepulkaStateDm.Preview state);
+    SepulkaStateEm.Viewing toEdge(SepulkaStateDm.Viewing state);
 
-    SepulkaStateDm.Preview toDomain(SepulkaStateEm.Preview state);
+    SepulkaStateDm.Viewing toDomain(SepulkaStateEm.Viewing state);
 }

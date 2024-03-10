@@ -4,13 +4,17 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import smecalculus.bezmen.messaging.SepulkaClient;
+import smecalculus.bezmen.messaging.SepulkaMessageEm;
 import smecalculus.bezmen.messaging.SepulkaMessageEm.RegistrationRequest;
 import smecalculus.bezmen.messaging.SepulkaMessageEm.RegistrationResponse;
+import smecalculus.bezmen.messaging.SepulkaMessageEm.ViewResponse;
 
 @RestController
 @RequestMapping("sepulkas")
@@ -21,8 +25,16 @@ public class SepulkaController {
     private SepulkaClient client;
 
     @PostMapping
-    ResponseEntity<RegistrationResponse> register(@RequestBody RegistrationRequest requestEdge) {
-        var responseEdge = client.register(requestEdge);
-        return ResponseEntity.status(HttpStatus.CREATED).body(responseEdge);
+    ResponseEntity<RegistrationResponse> register(@RequestBody RegistrationRequest request) {
+        var response = client.register(request);
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
+    }
+
+    @GetMapping("/{internalId}")
+    ResponseEntity<ViewResponse> view(@PathVariable("internalId") String id) {
+        var request = new SepulkaMessageEm.ViewRequest();
+        request.setInternalId(id);
+        var response = client.view(request);
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 }

@@ -5,22 +5,32 @@
     that:
       - image_keys is defined
 
-- name: Kill containers
+- name: Remove containers
   ansible.builtin.shell:
     cmd: docker container rm -fv $(docker ps -aq --filter label=image.key={{ item }})
     strip_empty_ends: false
-  register: kill_outcome
+  register: container_outcome
   failed_when: false
   changed_when:
-    - kill_outcome.rc == 0
+    - container_outcome.rc == 0
+  loop: "{{ image_keys }}"
+
+- name: Remove volumes
+  ansible.builtin.shell:
+    cmd: docker volume rm -f $(docker volume ls -q --filter label=image.key={{ item }})
+    strip_empty_ends: false
+  register: volume_outcome
+  failed_when: false
+  changed_when:
+    - volume_outcome.rc == 0
   loop: "{{ image_keys }}"
 
 - name: Remove images
   ansible.builtin.shell:
     cmd: docker image rm -f $(docker images -q --filter label=image.key={{ item }})
     strip_empty_ends: false
-  register: remove_outcome
+  register: image_outcome
   failed_when: false
   changed_when:
-    - remove_outcome.rc == 0
+    - image_outcome.rc == 0
   loop: "{{ image_keys }}"

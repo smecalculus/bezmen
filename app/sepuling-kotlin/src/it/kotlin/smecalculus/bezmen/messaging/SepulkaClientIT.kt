@@ -17,6 +17,7 @@ import java.util.UUID
 @ExtendWith(SpringExtension::class)
 @ContextConfiguration(classes = [SepulkaClientBeans::class])
 abstract class SepulkaClientIT {
+
     @Autowired
     private lateinit var externalClient: SepulkaClient
 
@@ -27,15 +28,37 @@ abstract class SepulkaClientIT {
     fun shouldRegisterSepulka() {
         // given
         val externalId = UUID.randomUUID().toString()
+        val internalId = UUID.randomUUID()
         // and
         val request = SepulkaMessageEmEg.registrationRequest(externalId)
         // and
         whenever(serviceMock.register(any(SepulkaMessageDm.RegistrationRequest::class.java)))
-            .thenReturn(SepulkaMessageDmEg.registrationResponse(externalId).build())
+            .thenReturn(SepulkaMessageDmEg.registrationResponse(internalId).build())
         // and
-        val expectedResponse = SepulkaMessageEmEg.registrationResponse(externalId)
+        val expectedResponse = SepulkaMessageEmEg.registrationResponse(internalId.toString())
         // when
         val actualResponse = externalClient.register(request)
+        // then
+        assertThat(actualResponse)
+            .usingRecursiveComparison()
+            .ignoringExpectedNullFields()
+            .isEqualTo(expectedResponse)
+    }
+
+    @Test
+    fun shouldViewSepulka() {
+        // given
+        val internalId = UUID.randomUUID()
+        val externalId = UUID.randomUUID().toString()
+        // and
+        val request = SepulkaMessageEmEg.viewRequest(internalId.toString())
+        // and
+        whenever(serviceMock.view(any(SepulkaMessageDm.ViewRequest::class.java)))
+            .thenReturn(SepulkaMessageDmEg.viewResponse(externalId).build())
+        // and
+        val expectedResponse = SepulkaMessageEmEg.viewResponse(externalId)
+        // when
+        val actualResponse = externalClient.view(request)
         // then
         assertThat(actualResponse)
             .usingRecursiveComparison()

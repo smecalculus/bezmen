@@ -14,11 +14,16 @@
   <packaging>jar</packaging>
 
   <dependencies>
-    <!--ABSTRACTION-->
+    <!--CORE-->
     <dependency>
       <groupId>${project.groupId}</groupId>
       <artifactId>abstraction</artifactId>
       <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>testing</artifactId>
+      <scope>test</scope>
     </dependency>
     <!--SERDE-->
     <dependency>

@@ -3,18 +3,20 @@ package smecalculus.bezmen.core;
 import static java.util.UUID.randomUUID;
 
 import java.time.LocalDateTime;
-import java.util.Collections;
-import java.util.List;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import smecalculus.bezmen.core.SepulkaMessageDm.PreviewRequest;
-import smecalculus.bezmen.core.SepulkaMessageDm.PreviewResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import smecalculus.bezmen.core.SepulkaMessageDm.RegistrationRequest;
 import smecalculus.bezmen.core.SepulkaMessageDm.RegistrationResponse;
+import smecalculus.bezmen.core.SepulkaMessageDm.ViewRequest;
+import smecalculus.bezmen.core.SepulkaMessageDm.ViewResponse;
 import smecalculus.bezmen.storage.SepulkaDao;
 
 @RequiredArgsConstructor
 public class SepulkaServiceImpl implements SepulkaService {
+
+    private static final Logger LOG = LoggerFactory.getLogger(SepulkaServiceImpl.class);
 
     @NonNull
     private SepulkaConverter converter;
@@ -24,6 +26,7 @@ public class SepulkaServiceImpl implements SepulkaService {
 
     @Override
     public RegistrationResponse register(RegistrationRequest request) {
+        LOG.debug("Handling sepulka registration request: {}", request);
         var now = LocalDateTime.now();
         var sepulkaCreated = converter
                 .toState(request)
@@ -33,11 +36,13 @@ public class SepulkaServiceImpl implements SepulkaService {
                 .updatedAt(now)
                 .build();
         var sepulkaSaved = dao.add(sepulkaCreated);
-        return converter.toMessage(sepulkaSaved).build();
+        return converter.toMessage(sepulkaSaved);
     }
 
     @Override
-    public List<PreviewResponse> view(PreviewRequest request) {
-        return Collections.emptyList();
+    public ViewResponse view(ViewRequest request) {
+        LOG.debug("Handling sepulka viewing request: {}", request);
+        var state = dao.getBy(request.internalId());
+        return state.map(converter::toMessage).orElseThrow(RuntimeException::new);
     }
 }

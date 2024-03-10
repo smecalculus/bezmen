@@ -12,7 +12,7 @@ public interface SepulkaDao {
 
     Optional<SepulkaStateDm.Existence> getBy(String externalId);
 
-    Optional<SepulkaStateDm.Preview> getBy(UUID internalId);
+    Optional<SepulkaStateDm.Viewing> getBy(UUID internalId);
 
     void updateBy(UUID internalId, SepulkaStateDm.Touch state);
 }

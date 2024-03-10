@@ -43,7 +43,7 @@ abstract class SepulkaDaoIT {
         // and
         sepulkaDao.add(aggregate);
         // and
-        var expected = SepulkaStateDmEg.preview(aggregate).build();
+        var expected = SepulkaStateDmEg.viewing(aggregate).build();
         // when
         var actual = sepulkaDao.getBy(aggregate.internalId());
         // then

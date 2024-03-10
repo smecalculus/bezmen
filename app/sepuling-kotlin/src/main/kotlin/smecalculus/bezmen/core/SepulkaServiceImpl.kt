@@ -1,9 +1,9 @@
 package smecalculus.bezmen.core
 
-import smecalculus.bezmen.core.SepulkaMessageDm.PreviewRequest
-import smecalculus.bezmen.core.SepulkaMessageDm.PreviewResponse
 import smecalculus.bezmen.core.SepulkaMessageDm.RegistrationRequest
 import smecalculus.bezmen.core.SepulkaMessageDm.RegistrationResponse
+import smecalculus.bezmen.core.SepulkaMessageDm.ViewRequest
+import smecalculus.bezmen.core.SepulkaMessageDm.ViewResponse
 import smecalculus.bezmen.storage.SepulkaDao
 import java.time.LocalDateTime
 import java.util.UUID
@@ -22,10 +22,11 @@ class SepulkaServiceImpl(
                 .updatedAt(now)
                 .build()
         val sepulkaSaved = dao.add(sepulkaCreated)
-        return converter.toMessage(sepulkaSaved).build()
+        return converter.toMessage(sepulkaSaved)
     }
 
-    override fun view(request: PreviewRequest): List<PreviewResponse> {
-        return listOf()
+    override fun view(request: ViewRequest): ViewResponse {
+        val state = dao.getBy(request.internalId)
+        return state?.let { converter.toMessage(it) } ?: throw RuntimeException()
     }
 }

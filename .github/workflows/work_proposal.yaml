@@ -70,13 +70,13 @@ jobs:
           job_summary: false
 
   stack-building:
-    name: Stack building (${{ matrix.env.dev }}, ${{ matrix.env.ops }})
+    name: Stack building (${{ matrix.ility }}, ${{ matrix.env.ops }})
     timeout-minutes: 5
     needs: [up-to-images]
     strategy:
       fail-fast: false
       matrix:
-        focus: [api]
+        ility: [programmability, resilience]
         env:
           - dev: godel
             ops: marx
@@ -103,23 +103,23 @@ jobs:
           ${{ env.IMAGE_NAME }}:${{ matrix.env.dev }}
           ansible-playbook stacks.yaml -t build -v
           -e devenv=${{ matrix.env.dev }}
-          -e focus=${{ matrix.focus }}
+          -e ility=${{ matrix.ility }}
           -e opsenv=${{ matrix.env.ops }}
           -e repo_mode=ro
       - uses: actions/upload-artifact@v4.3.1
         with:
-          name: product-${{ matrix.focus }}-${{ matrix.env.ops }}
-          path: stack/product/target/${{ matrix.focus }}
+          name: product-${{ matrix.ility }}-${{ matrix.env.ops }}
+          path: stack/product/target/${{ matrix.ility }}
           if-no-files-found: ignore
 
   stack-checking:
-    name: Stack checking (${{ matrix.shard }}, ${{ matrix.focus }}, ${{ matrix.env.ops }})
+    name: Stack checking (${{ matrix.ility }}, ${{ matrix.env.ops }}, ${{ matrix.shard }})
     timeout-minutes: 15
     needs: [stack-building]
     strategy:
       fail-fast: false
       matrix:
-        focus: [api]
+        ility: [programmability, resilience]
         shard: [0, 1]
         env:
           - dev: godel
@@ -141,8 +141,8 @@ jobs:
       - uses: actions/download-artifact@v4.1.4
         continue-on-error: true  # it's ok because stack building can be skipped
         with:
-          name: product-${{ matrix.focus }}-${{ matrix.env.ops }}
-          path: stack/product/target/${{ matrix.focus }}
+          name: product-${{ matrix.ility }}-${{ matrix.env.ops }}
+          path: stack/product/target/${{ matrix.ility }}
       - name: Run ansible-playbook stacks.yaml -t check
         run: >-
           docker run --rm
@@ -154,7 +154,7 @@ jobs:
           ${{ env.IMAGE_NAME }}:${{ matrix.env.dev }}
           ansible-playbook stacks.yaml -t check -v
           -e devenv=${{ matrix.env.dev }}
-          -e focus=${{ matrix.focus }}
+          -e ility=${{ matrix.ility }}
           -e opsenv=${{ matrix.env.ops }}
           -e reminder=${{ matrix.shard }}
           -e modulus=2
@@ -162,18 +162,18 @@ jobs:
       - uses: actions/upload-artifact@v4.3.1
         if: ${{ !cancelled() }}
         with:
-          name: e2e-tests-${{ matrix.focus }}-${{ matrix.shard }}-${{ matrix.env.ops }}
+          name: e2e-tests-${{ matrix.ility }}-${{ matrix.env.ops }}-${{ matrix.shard }}
           path: test/e2e/target/surefire-reports/*.xml
           if-no-files-found: ignore
 
   stack-publishing:
-    name: Stack publishing (${{ matrix.focus }}, ${{ matrix.env.ops }})
+    name: Stack publishing (${{ matrix.ility }}, ${{ matrix.env.ops }})
     timeout-minutes: 10
     needs: [stack-checking]
     strategy:
       fail-fast: false
       matrix:
-        focus: [api]
+        ility: [programmability, resilience]
         env:
           - dev: godel
             ops: marx
@@ -196,8 +196,8 @@ jobs:
       - uses: actions/download-artifact@v4.1.4
         continue-on-error: true  # it's ok because stack building can be skipped
         with:
-          name: product-${{ matrix.focus }}-${{ matrix.env.ops }}
-          path: stack/product/target/${{ matrix.focus }}
+          name: product-${{ matrix.ility }}-${{ matrix.env.ops }}
+          path: stack/product/target/${{ matrix.ility }}
       - name: Run ansible-playbook stacks.yaml -t publish
         run: >-
           docker run --rm
@@ -208,7 +208,7 @@ jobs:
           ${{ env.IMAGE_NAME }}:${{ matrix.env.dev }}
           ansible-playbook stacks.yaml -t publish -v
           -e devenv=${{ matrix.env.dev }}
-          -e focus=${{ matrix.focus }}
+          -e ility=${{ matrix.ility }}
           -e opsenv=${{ matrix.env.ops }}
           -e repo_mode=rw
 

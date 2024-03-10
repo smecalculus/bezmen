@@ -4,15 +4,15 @@
     tasks_from: clean
   vars:
     image_keys:
-      - "{{ product.image }}/{{ opsenv }}"
+      - "product/{{ ility }}/{{ opsenv }}"
 
 - ansible.builtin.import_role:  # noqa: name[missing]
     name: image
     tasks_from: build
   vars:
     image_home: "{{ project.dir }}/{{ product.image }}"
-    image_context: target/{{ focus }}
-    image_key: "{{ product.image }}/{{ opsenv }}"
+    image_context: target/{{ ility }}
+    image_key: "product/{{ ility }}/{{ opsenv }}"
     image_tag: "{{ product.image }}:{{ opsenv }}"
 
 - ansible.builtin.import_role:  # noqa: name[missing]

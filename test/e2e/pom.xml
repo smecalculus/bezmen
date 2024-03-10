@@ -26,6 +26,24 @@
     </dependency>
   </dependencies>
 
+  <profiles>
+    <profile>
+      <id>programmability</id>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
+      <properties>
+        <suiteName>ProgrammabilitySuite</suiteName>
+      </properties>
+    </profile>
+    <profile>
+      <id>resilience</id>
+      <properties>
+        <suiteName>ResilienceSuite</suiteName>
+      </properties>
+    </profile>
+  </profiles>
+
   <build>
     <plugins>
       <plugin>
@@ -33,7 +51,7 @@
         <artifactId>maven-surefire-plugin</artifactId>
         <configuration>
           <skipTests>${skipTests}</skipTests>
-          <test>smecalculus.bezmen.FuncSuite</test>
+          <test>smecalculus.bezmen.${suiteName}</test>
           <systemPropertiesFile>src/test/resources/testing.properties</systemPropertiesFile>
         </configuration>
       </plugin>

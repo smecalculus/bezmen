@@ -1,4 +1,4 @@
-package smecalculus.bezmen.registration;
+package smecalculus.bezmen.programmability;
 
 import static java.time.Duration.ofSeconds;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -7,7 +7,6 @@ import static org.awaitility.Awaitility.await;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.condition.EnabledIfSystemProperty;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
@@ -33,23 +32,9 @@ public class SepulkaTest {
     void shouldRegisterSepulka() {
         // given
         var request = SepulkaMessageEmEg.registrationRequest();
-        // and
-        var expectedResponse = SepulkaMessageEmEg.registrationResponse(request.getExternalId());
         // when
         var actualResponse = bezmenClient.register(request);
         // then
-        assertThat(actualResponse).usingRecursiveComparison().isEqualTo(expectedResponse);
-    }
-
-    @Test
-    @EnabledIfSystemProperty(named = "storage.protocol.mode", matches = "postgres")
-    void postgresSpecificTest() {
-        // empty
-    }
-
-    @Test
-    @EnabledIfSystemProperty(named = "storage.protocol.mode", matches = "sqlite")
-    void sqliteSpecificTest() {
-        // empty
+        assertThat(actualResponse.getInternalId()).isNotNull();
     }
 }

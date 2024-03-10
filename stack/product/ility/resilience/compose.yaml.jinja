@@ -1,0 +1,187 @@
+{% set storage = product.storages[ops.storage.vendor] %}
+{% set database = product.databases[ops.storage.vendor] %}
+{% set schema = product.schemas[ops.storage.vendor] %}
+{% set app = product.apps[ops.app.name] %}
+---
+name: {{ project.name }}
+
+networks:
+  product:
+    name: product
+    external: false
+  gear:
+    name: gear
+    external: true
+
+configs:
+  postgresql:
+    file: postgresql.conf
+  pg_hba:
+    file: pg_hba.conf
+  product:
+    file: {{ ops.config.file_name }}
+
+volumes:
+  postgres_data:
+    labels:
+      image.key: db/{{ ops.storage.vendor }}/{{ devenv }}
+
+services:
+  {{ ops.storage.vendor }}-primary:
+    container_name: {{ project.name }}-{{ ops.storage.vendor }}-primary
+    image: {{ storage.image }}:{{ ops.storage.version }}-alpine
+    networks:
+      - product
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: "{{ storage.dba.username }}"
+      POSTGRES_PASSWORD: "{{ storage.dba.password }}"
+    configs:
+      - source: postgresql
+        target: /postgres/conf/postgresql.conf
+      - source: pg_hba
+        target: /postgres/conf/pg_hba.conf
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    command: >-
+      -c config_file=/postgres/conf/postgresql.conf
+      -c hba_file=/postgres/conf/pg_hba.conf
+    labels:
+      image.key: db/{{ ops.storage.vendor }}/{{ devenv }}
+
+  {{ ops.storage.vendor }}-backup:
+    container_name: {{ project.name }}-{{ ops.storage.vendor }}-backup
+    image: {{ storage.image }}:{{ ops.storage.version }}-alpine
+    depends_on:
+      {{ ops.storage.vendor }}-primary:
+        condition: service_healthy
+    networks:
+      - product
+    environment:
+      PGDATA: /postgres/data
+    volumes:
+      - source: postgres_data
+        target: /postgres/data
+        type: volume
+    entrypoint: ["/bin/bash", "-c"]
+    command:
+      - |
+        set -eu
+        if [ -n "$(ls -A /postgres/data)" ]; then
+          echo Do nothing
+          exit 0
+        else
+          echo Backing up...
+        fi
+        pg_basebackup --write-recovery-conf \
+          --host {{ ops.storage.vendor }}-primary \
+          --username {{ storage.dba.username }} \
+          --pgdata /postgres/data
+    labels:
+      image.key: db/{{ ops.storage.vendor }}/{{ devenv }}
+
+  {{ ops.storage.vendor }}-secondary:
+    container_name: {{ project.name }}-{{ ops.storage.vendor }}-secondary
+    image: {{ storage.image }}:{{ ops.storage.version }}-alpine
+    depends_on:
+      {{ ops.storage.vendor }}-backup:
+        condition: service_completed_successfully
+    networks:
+      - product
+    ports:
+      - "5433:5432"
+    environment:
+      POSTGRES_USER: "{{ storage.dba.username }}"
+      POSTGRES_PASSWORD: "{{ storage.dba.password }}"
+      PGDATA: /postgres/data
+    configs:
+      - source: postgresql
+        target: /postgres/conf/postgresql.conf
+      - source: pg_hba
+        target: /postgres/conf/pg_hba.conf
+    volumes:
+      - source: postgres_data
+        target: /postgres/data
+        type: volume
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    command: >-
+      -c config_file=/postgres/conf/postgresql.conf
+      -c hba_file=/postgres/conf/pg_hba.conf
+    labels:
+      image.key: db/{{ ops.storage.vendor }}/{{ devenv }}
+
+  database-{{ database.name }}:
+    container_name: {{ project.name }}-database-{{ database.name }}
+    image: {{ image_ns }}/db/{{ ops.storage.vendor }}:{{ hostvars.db.image_tags[ops.storage.vendor] }}
+    depends_on:
+      {{ ops.storage.vendor }}-secondary:
+        condition: service_healthy
+    networks:
+      - product
+    command: >-
+      --show-banner=false
+      --classpath=/liquibase/changelog
+      --changelog-file=dba/changelog.yaml
+      --url=jdbc:postgresql://{{ ops.storage.vendor }}-primary:5432/postgres
+      --liquibase-schema-name=public
+      --default-schema-name=public
+      --username={{ storage.dba.username }}
+      --password={{ storage.dba.password }}
+      --labels=database,user
+      update
+      -Ddatabase.name={{ database.name }}
+      -Downer.username={{ storage.owner.username }}
+      -Downer.password={{ storage.owner.password }}
+    labels:
+      image.key: db/{{ ops.storage.vendor }}/{{ devenv }}
+
+  schema-{{ schema.name }}:
+    container_name: {{ project.name }}-schema-{{ schema.name }}
+    image: {{ image_ns }}/db/{{ ops.storage.vendor }}:{{ hostvars.db.image_tags[ops.storage.vendor] }}
+    depends_on:
+      database-{{ database.name }}:
+        condition: service_completed_successfully
+    networks:
+      - product
+    command: >-
+      --show-banner=false
+      --classpath=/liquibase/changelog
+      --changelog-file=owner/changelog.yaml
+      --url=jdbc:postgresql://{{ ops.storage.vendor }}-primary:5432/{{ database.name }}
+      --liquibase-schema-name=public
+      --default-schema-name={{ schema.name }}
+      --username={{ storage.owner.username }}
+      --password={{ storage.owner.password }}
+      update
+      -Dschema.name={{ schema.name }}
+    labels:
+      image.key: db/{{ ops.storage.vendor }}/{{ devenv }}
+
+  app-{{ app.service }}:
+    image: {{ image_ns }}/app/{{ ops.app.name }}:{{ hostvars.app.image_tags[ops.app.name] }}
+    depends_on:
+      schema-{{ schema.name }}:
+        condition: service_completed_successfully
+    deploy:
+      replicas: 2
+    networks:
+      - product
+      - gear
+    ports:
+      - "8080-8081:8080"
+    configs:
+      - source: product
+        target: /home/app/{{ ops.config.file_name }}
+    command: >-
+      --product.config.mapping.mode={{ ops.config.mapping_mode }}
+      --spring.config.location=optional:file:application.yaml
+    labels:
+      image.key: app/{{ ops.app.name }}/{{ devenv }}
