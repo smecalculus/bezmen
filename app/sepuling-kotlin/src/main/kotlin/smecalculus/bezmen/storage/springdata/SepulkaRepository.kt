@@ -31,9 +31,9 @@ interface SepulkaRepository : CrudRepository<SepulkaStateEm.AggregateRoot, UUID>
         @Param("state") state: SepulkaStateEm.AggregateRoot,
     )
 
-    fun findByExternalId(externalId: String): SepulkaStateEm.Existence?
+    fun findByExternalId(id: String): SepulkaStateEm.Existence?
 
-    fun findByInternalId(internalId: UUID): SepulkaStateEm.Viewing?
+    fun findByInternalId(id: UUID): SepulkaStateEm.Viewing?
 
     @Modifying
     @Query(

@@ -30,13 +30,13 @@ public class SepulkaDaoMyBatis implements SepulkaDao {
 
     @Override
     public Optional<SepulkaStateDm.Viewing> getBy(@NonNull UUID internalId) {
-        return sqlMapper.findByInternalId(internalId.toString()).map(stateMapper::toDomain);
+        return sqlMapper.findByInternalId(internalId).map(stateMapper::toDomain);
     }
 
     @Override
     public void touchBy(@NonNull UUID internalId, @NonNull SepulkaStateDm.Touch state) {
         var stateEdge = stateMapper.toEdge(state);
-        var matchedCount = sqlMapper.updateBy(internalId.toString(), stateEdge);
+        var matchedCount = sqlMapper.updateBy(internalId, stateEdge);
         if (matchedCount == 0) {
             throw new ContentionException();
         }

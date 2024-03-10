@@ -5,6 +5,7 @@ import org.apache.ibatis.annotations.Param
 import org.apache.ibatis.annotations.Select
 import org.apache.ibatis.annotations.Update
 import smecalculus.bezmen.storage.SepulkaStateEm
+import java.util.UUID
 
 interface SepulkaSqlMapper {
     @Insert(
@@ -32,7 +33,7 @@ interface SepulkaSqlMapper {
         SELECT
             internal_id as internalId
         FROM sepulkas
-        WHERE external_id = #{id, jdbcType=VARCHAR}
+        WHERE external_id = #{id}
         """,
     )
     fun findByExternalId(
@@ -44,11 +45,11 @@ interface SepulkaSqlMapper {
         SELECT
             external_id as externalId
         FROM sepulkas
-        WHERE internal_id = #{id, jdbcType=OTHER}::uuid
+        WHERE internal_id = #{id}
         """,
     )
     fun findByInternalId(
-        @Param("id") id: String,
+        @Param("id") id: UUID,
     ): SepulkaStateEm.Viewing?
 
     @Update(
@@ -56,12 +57,12 @@ interface SepulkaSqlMapper {
         UPDATE sepulkas
         SET revision = revision + 1,
             updated_at = #{state.updatedAt}
-        WHERE internal_id = #{id, jdbcType=OTHER}::uuid
+        WHERE internal_id = #{id}
         AND revision = #{state.revision}
         """,
     )
     fun updateBy(
-        @Param("id") internalId: String,
+        @Param("id") internalId: UUID,
         @Param("state") state: SepulkaStateEm.Touch,
     ): Int
 }

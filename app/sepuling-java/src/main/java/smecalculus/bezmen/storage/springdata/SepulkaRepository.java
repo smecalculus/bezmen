@@ -31,9 +31,9 @@ public interface SepulkaRepository extends CrudRepository<SepulkaStateEm.Aggrega
             """)
     void insert(@Param("state") SepulkaStateEm.AggregateRoot state);
 
-    Optional<SepulkaStateEm.Existence> findByExternalId(@NonNull String externalId);
+    Optional<SepulkaStateEm.Existence> findByExternalId(@NonNull String id);
 
-    Optional<SepulkaStateEm.Viewing> findByInternalId(@NonNull UUID internalId);
+    Optional<SepulkaStateEm.Viewing> findByInternalId(@NonNull UUID id);
 
     @Modifying
     @Query(

@@ -19,7 +19,7 @@ class SepulkaDaoMyBatis(
     }
 
     override fun getBy(internalId: UUID): SepulkaStateDm.Viewing? {
-        return sqlMapper.findByInternalId(internalId.toString())?.let { stateMapper.toDomain(it) }
+        return sqlMapper.findByInternalId(internalId)?.let { stateMapper.toDomain(it) }
     }
 
     override fun touchBy(
@@ -27,7 +27,7 @@ class SepulkaDaoMyBatis(
         state: SepulkaStateDm.Touch,
     ) {
         val stateEdge = stateMapper.toEdge(state)
-        val matchedCount = sqlMapper.updateBy(internalId.toString(), stateEdge)
+        val matchedCount = sqlMapper.updateBy(internalId, stateEdge)
         if (matchedCount == 0) {
             throw ContentionException()
         }
