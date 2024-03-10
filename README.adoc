@@ -19,7 +19,7 @@
 == Как нанести пользу
 
 . Заводим тикет и описываем идею доработки (можно воспользоваться готовыми из <<идеи,списка>>).
-. Настраиваем одну из link:stack/gear/env[поддерживаемых] сред разработки и фиксируем её в `baker/ansible/group_vars/all.yaml`.
+. Настраиваем одну из link:stack/gear/env[поддерживаемых] сред разработки и фиксируем её в `orchestrator/ansible/group_vars/all.yaml`.
 +
 [source,yaml]
 ----
@@ -31,7 +31,7 @@ devenv: turing
 +
 [source,bash]
 ----
-cd baker/ansible
+cd orchestrator/ansible
 ansible-playbook stacks.yaml
 ----
 . Создаем пул-реквест.
@@ -79,7 +79,7 @@ ansible-playbook stacks.yaml
 
 === Непредсказуемая сложность
 
-- Новый инструмент оркестрации (baker). Сейчас только Ansible.
+- Новый инструмент оркестрации (orchestrator). Сейчас только Ansible.
 - Новый язык программирования. Сейчас только Java и Kotlin.
 - Новая операционная система в dev и/или ops окружении. Сейчас только Ubuntu.
 - Новый этап конвейера (pipeline). Сейчас только интеграция (CI).

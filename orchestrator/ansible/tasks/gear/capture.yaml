@@ -5,7 +5,7 @@
     stdin: |
       {{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=tool') }}
       {{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=test') }}
-      {{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=baker') }}
+      {{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=orchestrator') }}
       {{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=stack/gear/env/' ~ devenv) }}
   register: stack_cid
   changed_when: false
