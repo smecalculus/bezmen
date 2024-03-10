@@ -9,8 +9,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.PropertySource;
-import smecalculus.bezmen.core.SepulkaConverter;
-import smecalculus.bezmen.core.SepulkaConverterImpl;
+import smecalculus.bezmen.core.SepulkaFactory;
+import smecalculus.bezmen.core.SepulkaFactoryImpl;
 import smecalculus.bezmen.core.SepulkaService;
 import smecalculus.bezmen.core.SepulkaServiceImpl;
 import smecalculus.bezmen.messaging.SepulkaClient;
@@ -53,13 +53,13 @@ public class App {
     }
 
     @Bean
-    SepulkaConverter sepulkaConverter() {
-        return new SepulkaConverterImpl();
+    SepulkaFactory sepulkaFactory() {
+        return new SepulkaFactoryImpl();
     }
 
     @Bean
-    SepulkaService sepulkaService(SepulkaConverter converter, SepulkaDao dao) {
-        return new SepulkaServiceImpl(converter, dao);
+    SepulkaService sepulkaService(SepulkaFactory factory, SepulkaDao dao) {
+        return new SepulkaServiceImpl(factory, dao);
     }
 
     @Bean

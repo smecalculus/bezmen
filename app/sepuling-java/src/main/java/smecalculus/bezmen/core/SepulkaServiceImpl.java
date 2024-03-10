@@ -18,7 +18,7 @@ public class SepulkaServiceImpl implements SepulkaService {
     private static final Logger LOG = LoggerFactory.getLogger(SepulkaServiceImpl.class);
 
     @NonNull
-    private SepulkaConverter converter;
+    private SepulkaFactory factory;
 
     @NonNull
     private SepulkaDao dao;
@@ -27,21 +27,20 @@ public class SepulkaServiceImpl implements SepulkaService {
     public RegistrationResponse register(RegistrationRequest request) {
         LOG.debug("Handling sepulka registration request: {}", request);
         var now = LocalDateTime.now();
-        var sepulkaCreated = converter
-                .toState(request)
+        var stateCreated = factory.newState(request)
                 .internalId(randomUUID())
                 .revision(0)
                 .createdAt(now)
                 .updatedAt(now)
                 .build();
-        var sepulkaSaved = dao.addNew(sepulkaCreated);
-        return converter.toMessage(sepulkaSaved);
+        var statePersisted = dao.addNew(stateCreated);
+        return factory.newMessage(statePersisted);
     }
 
     @Override
     public ViewingResponse view(SepulkaMessageDm.ViewingRequest request) {
         LOG.debug("Handling sepulka viewing request: {}", request);
         var state = dao.getBy(request.internalId());
-        return state.map(converter::toMessage).orElseThrow(RuntimeException::new);
+        return state.map(factory::newMessage).orElseThrow(RuntimeException::new);
     }
 }

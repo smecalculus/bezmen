@@ -14,8 +14,7 @@ public class SepulkaMessageDmEg {
     }
 
     public static ViewingResponse.Builder viewingResponse() {
-        return ViewingResponse.builder()
-                .externalId(UUID.randomUUID().toString());
+        return ViewingResponse.builder().externalId(UUID.randomUUID().toString());
     }
 
     public static ViewingResponse.Builder viewingResponse(String id) {

@@ -8,10 +8,10 @@ import smecalculus.bezmen.core.SepulkaStateDm.AggregateRoot;
 import smecalculus.bezmen.core.SepulkaStateDm.Viewing;
 
 @Mapper
-public interface SepulkaConverter {
-    AggregateRoot.Builder toState(RegistrationRequest request);
+public interface SepulkaFactory {
+    AggregateRoot.Builder newState(RegistrationRequest request);
 
-    RegistrationResponse toMessage(AggregateRoot state);
+    RegistrationResponse newMessage(AggregateRoot state);
 
-    ViewingResponse toMessage(Viewing state);
+    ViewingResponse newMessage(Viewing state);
 }
