@@ -14,5 +14,8 @@ image_ns: "{{ image_repo }}/{{ project.org }}/{{ project.name }}"
 docker_entity: "{{ 'image' if repo_mode == 'n/a' else 'manifest' }}"
 
 devenv: turing
-ility: programmability
 opsenv: durkheim
+
+ility: programmability
+
+cicd: github
