@@ -12,8 +12,8 @@ public class SepulkaMessageDm {
     public record RegistrationResponse(@NonNull UUID internalId) {}
 
     @Builder
-    public record ViewRequest(@NonNull UUID internalId) {}
+    public record ViewingRequest(@NonNull UUID internalId) {}
 
     @Builder
-    public record ViewResponse(@NonNull String externalId) {}
+    public record ViewingResponse(@NonNull String externalId) {}
 }

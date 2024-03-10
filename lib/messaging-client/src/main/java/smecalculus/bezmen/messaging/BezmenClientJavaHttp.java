@@ -12,8 +12,8 @@ import lombok.RequiredArgsConstructor;
 import smecalculus.bezmen.configuration.ClientProps;
 import smecalculus.bezmen.messaging.SepulkaMessageEm.RegistrationRequest;
 import smecalculus.bezmen.messaging.SepulkaMessageEm.RegistrationResponse;
-import smecalculus.bezmen.messaging.SepulkaMessageEm.ViewRequest;
-import smecalculus.bezmen.messaging.SepulkaMessageEm.ViewResponse;
+import smecalculus.bezmen.messaging.SepulkaMessageEm.ViewingRequest;
+import smecalculus.bezmen.messaging.SepulkaMessageEm.ViewingResponse;
 
 @RequiredArgsConstructor
 public class BezmenClientJavaHttp implements BezmenClient {
@@ -49,7 +49,7 @@ public class BezmenClientJavaHttp implements BezmenClient {
     }
 
     @Override
-    public ViewResponse view(ViewRequest request) {
+    public ViewingResponse view(ViewingRequest request) {
         URI uri = URI.create("http://" + props.host() + ":" + props.port() + "/sepulkas/" + request.getInternalId());
         try {
             var httpRequest = HttpRequest.newBuilder()
@@ -59,7 +59,7 @@ public class BezmenClientJavaHttp implements BezmenClient {
                     .build();
             var httpResponse = client.send(httpRequest, BodyHandlers.ofString());
             if (httpResponse.statusCode() < 300) {
-                return mapper.readValue(httpResponse.body(), ViewResponse.class);
+                return mapper.readValue(httpResponse.body(), ViewingResponse.class);
             }
             throw new RuntimeException(httpResponse.body());
         } catch (IOException | InterruptedException e) {

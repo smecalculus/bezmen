@@ -18,14 +18,14 @@ public abstract class SepulkaMessageEm {
     }
 
     @Data
-    public static class ViewRequest {
+    public static class ViewingRequest {
         @NotNull
         @Size(min = 36, max = 36)
         String internalId;
     }
 
     @Data
-    public static class ViewResponse {
+    public static class ViewingResponse {
         String externalId;
     }
 }

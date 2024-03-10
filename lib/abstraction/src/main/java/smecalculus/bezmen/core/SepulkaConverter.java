@@ -3,7 +3,7 @@ package smecalculus.bezmen.core;
 import org.mapstruct.Mapper;
 import smecalculus.bezmen.core.SepulkaMessageDm.RegistrationRequest;
 import smecalculus.bezmen.core.SepulkaMessageDm.RegistrationResponse;
-import smecalculus.bezmen.core.SepulkaMessageDm.ViewResponse;
+import smecalculus.bezmen.core.SepulkaMessageDm.ViewingResponse;
 import smecalculus.bezmen.core.SepulkaStateDm.AggregateRoot;
 import smecalculus.bezmen.core.SepulkaStateDm.Viewing;
 
@@ -13,5 +13,5 @@ public interface SepulkaConverter {
 
     RegistrationResponse toMessage(AggregateRoot state);
 
-    ViewResponse toMessage(Viewing state);
+    ViewingResponse toMessage(Viewing state);
 }

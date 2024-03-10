@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RestController
 import smecalculus.bezmen.messaging.SepulkaClient
 import smecalculus.bezmen.messaging.SepulkaMessageEm.RegistrationRequest
 import smecalculus.bezmen.messaging.SepulkaMessageEm.RegistrationResponse
-import smecalculus.bezmen.messaging.SepulkaMessageEm.ViewRequest
-import smecalculus.bezmen.messaging.SepulkaMessageEm.ViewResponse
+import smecalculus.bezmen.messaging.SepulkaMessageEm.ViewingRequest
+import smecalculus.bezmen.messaging.SepulkaMessageEm.ViewingResponse
 
 @RestController
 @RequestMapping("sepulkas")
@@ -30,8 +30,8 @@ class SepulkaController(
     @GetMapping("/{internalId}")
     fun view(
         @PathVariable("internalId") id: String,
-    ): ResponseEntity<ViewResponse> {
-        val request = ViewRequest()
+    ): ResponseEntity<ViewingResponse> {
+        val request = ViewingRequest()
         request.internalId = id
         val response = client.view(request)
         return ResponseEntity.status(HttpStatus.OK).body(response)

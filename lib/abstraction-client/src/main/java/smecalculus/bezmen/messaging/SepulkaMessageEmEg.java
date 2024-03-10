@@ -3,8 +3,8 @@ package smecalculus.bezmen.messaging;
 import java.util.UUID;
 import smecalculus.bezmen.messaging.SepulkaMessageEm.RegistrationRequest;
 import smecalculus.bezmen.messaging.SepulkaMessageEm.RegistrationResponse;
-import smecalculus.bezmen.messaging.SepulkaMessageEm.ViewRequest;
-import smecalculus.bezmen.messaging.SepulkaMessageEm.ViewResponse;
+import smecalculus.bezmen.messaging.SepulkaMessageEm.ViewingRequest;
+import smecalculus.bezmen.messaging.SepulkaMessageEm.ViewingResponse;
 
 public abstract class SepulkaMessageEmEg {
     public static RegistrationRequest registrationRequest() {
@@ -31,26 +31,26 @@ public abstract class SepulkaMessageEmEg {
         return responseEdge;
     }
 
-    public static ViewRequest viewRequest() {
-        var requestEdge = new ViewRequest();
+    public static ViewingRequest viewingRequest() {
+        var requestEdge = new ViewingRequest();
         requestEdge.setInternalId(UUID.randomUUID().toString());
         return requestEdge;
     }
 
-    public static ViewRequest viewRequest(String id) {
-        var requestEdge = viewRequest();
+    public static ViewingRequest viewingRequest(String id) {
+        var requestEdge = viewingRequest();
         requestEdge.setInternalId(id);
         return requestEdge;
     }
 
-    public static ViewResponse viewResponse() {
-        var responseEdge = new ViewResponse();
+    public static ViewingResponse viewingResponse() {
+        var responseEdge = new ViewingResponse();
         responseEdge.setExternalId(UUID.randomUUID().toString());
         return responseEdge;
     }
 
-    public static ViewResponse viewResponse(String externalId) {
-        var responseEdge = viewResponse();
+    public static ViewingResponse viewingResponse(String externalId) {
+        var responseEdge = viewingResponse();
         responseEdge.setExternalId(externalId);
         return responseEdge;
     }

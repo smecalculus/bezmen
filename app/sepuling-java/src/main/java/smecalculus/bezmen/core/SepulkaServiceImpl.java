@@ -9,8 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import smecalculus.bezmen.core.SepulkaMessageDm.RegistrationRequest;
 import smecalculus.bezmen.core.SepulkaMessageDm.RegistrationResponse;
-import smecalculus.bezmen.core.SepulkaMessageDm.ViewRequest;
-import smecalculus.bezmen.core.SepulkaMessageDm.ViewResponse;
+import smecalculus.bezmen.core.SepulkaMessageDm.ViewingResponse;
 import smecalculus.bezmen.storage.SepulkaDao;
 
 @RequiredArgsConstructor
@@ -40,7 +39,7 @@ public class SepulkaServiceImpl implements SepulkaService {
     }
 
     @Override
-    public ViewResponse view(ViewRequest request) {
+    public ViewingResponse view(SepulkaMessageDm.ViewingRequest request) {
         LOG.debug("Handling sepulka viewing request: {}", request);
         var state = dao.getBy(request.internalId());
         return state.map(converter::toMessage).orElseThrow(RuntimeException::new);

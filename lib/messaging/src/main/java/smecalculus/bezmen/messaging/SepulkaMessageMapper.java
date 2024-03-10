@@ -9,7 +9,7 @@ public interface SepulkaMessageMapper {
 
     SepulkaMessageEm.RegistrationResponse toEdge(SepulkaMessageDm.RegistrationResponse response);
 
-    SepulkaMessageDm.ViewRequest toDomain(SepulkaMessageEm.ViewRequest request);
+    SepulkaMessageDm.ViewingRequest toDomain(SepulkaMessageEm.ViewingRequest request);
 
-    SepulkaMessageEm.ViewResponse toEdge(SepulkaMessageDm.ViewResponse response);
+    SepulkaMessageEm.ViewingResponse toEdge(SepulkaMessageDm.ViewingResponse response);
 }

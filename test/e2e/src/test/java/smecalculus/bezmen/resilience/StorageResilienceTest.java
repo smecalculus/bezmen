@@ -4,7 +4,7 @@ import static java.time.Duration.ofSeconds;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.awaitility.Awaitility.await;
 import static smecalculus.bezmen.messaging.SepulkaMessageEmEg.registrationRequest;
-import static smecalculus.bezmen.messaging.SepulkaMessageEmEg.viewRequest;
+import static smecalculus.bezmen.messaging.SepulkaMessageEmEg.viewingRequest;
 
 import java.util.UUID;
 import org.junit.jupiter.api.BeforeAll;
@@ -28,9 +28,9 @@ public class StorageResilienceTest extends AbstractResilienceTest {
         // and
         demiurge.kills(services.get(POSTGRES_PRIMARY));
         // and
-        var expectedResponse = SepulkaMessageEmEg.viewResponse(externalId);
+        var expectedResponse = SepulkaMessageEmEg.viewingResponse(externalId);
         // when
-        var actualResponse = bezmenClient.view(viewRequest(registrationResponse.getInternalId()));
+        var actualResponse = bezmenClient.view(viewingRequest(registrationResponse.getInternalId()));
         // then
         assertThat(actualResponse).usingRecursiveComparison().isEqualTo(expectedResponse);
     }

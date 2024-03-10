@@ -14,7 +14,7 @@ import smecalculus.bezmen.messaging.SepulkaClient;
 import smecalculus.bezmen.messaging.SepulkaMessageEm;
 import smecalculus.bezmen.messaging.SepulkaMessageEm.RegistrationRequest;
 import smecalculus.bezmen.messaging.SepulkaMessageEm.RegistrationResponse;
-import smecalculus.bezmen.messaging.SepulkaMessageEm.ViewResponse;
+import smecalculus.bezmen.messaging.SepulkaMessageEm.ViewingResponse;
 
 @RestController
 @RequestMapping("sepulkas")
@@ -31,8 +31,8 @@ public class SepulkaController {
     }
 
     @GetMapping("/{internalId}")
-    ResponseEntity<ViewResponse> view(@PathVariable("internalId") String id) {
-        var request = new SepulkaMessageEm.ViewRequest();
+    ResponseEntity<ViewingResponse> view(@PathVariable("internalId") String id) {
+        var request = new SepulkaMessageEm.ViewingRequest();
         request.setInternalId(id);
         var response = client.view(request);
         return ResponseEntity.status(HttpStatus.OK).body(response);
