@@ -21,7 +21,7 @@ runs:
     - uses: docker/setup-buildx-action@v3.1.0
     - uses: docker/build-push-action@v5.1.0
       with:
-        context: stack/gear/${{ inputs.devenv }}
+        context: stack/gear/env/${{ inputs.devenv }}
         tags: stack/gear:${{ inputs.devenv }}
         load: true
         cache-from: type=gha,scope=stack/gear/${{ inputs.devenv }}

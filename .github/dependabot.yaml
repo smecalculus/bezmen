@@ -26,15 +26,15 @@ updates:
     schedule:
       interval: "weekly"
   - package-ecosystem: "docker"
-    directory: "/stack/gear/church"
+    directory: "/stack/gear/env/church"
     schedule:
       interval: "weekly"
   - package-ecosystem: "pip"
-    directory: "/stack/gear/church"
+    directory: "/stack/gear/env/church"
     schedule:
       interval: "weekly"
   - package-ecosystem: "pip"
-    directory: "/stack/gear/turing"
+    directory: "/stack/gear/env/turing"
     schedule:
       interval: "weekly"
     ignore:
@@ -42,7 +42,7 @@ updates:
         update-types:
           - version-update:semver-major
   - package-ecosystem: "pip"
-    directory: "/stack/gear/godel"
+    directory: "/stack/gear/env/godel"
     schedule:
       interval: "weekly"
     ignore:

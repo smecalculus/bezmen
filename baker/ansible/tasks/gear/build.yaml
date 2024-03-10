@@ -10,6 +10,6 @@
     name: image
     tasks_from: build
   vars:
-    image_home: "{{ project.dir }}/{{ gear.image }}"
+    image_home: "{{ project.dir }}/stack/gear"
     image_key: "{{ gear.image }}/{{ devenv }}"
     image_tag: "{{ gear.image }}:{{ devenv }}"
