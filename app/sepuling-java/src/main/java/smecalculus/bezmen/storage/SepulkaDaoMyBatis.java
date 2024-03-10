@@ -29,7 +29,7 @@ public class SepulkaDaoMyBatis implements SepulkaDao {
     }
 
     @Override
-    public Optional<SepulkaStateDm.Preview> getBy(@NonNull UUID internalId) {
+    public Optional<SepulkaStateDm.Viewing> getBy(@NonNull UUID internalId) {
         return sqlMapper.findByInternalId(internalId.toString()).map(stateMapper::toDomain);
     }
 

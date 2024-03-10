@@ -1,6 +1,5 @@
 package smecalculus.bezmen.messaging;
 
-import java.util.UUID;
 import org.mapstruct.Mapper;
 import smecalculus.bezmen.core.SepulkaMessageDm;
 
@@ -13,6 +12,4 @@ public interface SepulkaMessageMapper {
     SepulkaMessageDm.ViewRequest toDomain(SepulkaMessageEm.ViewRequest request);
 
     SepulkaMessageEm.ViewResponse toEdge(SepulkaMessageDm.ViewResponse response);
-
-    UUID toDomain(String uuid);
 }

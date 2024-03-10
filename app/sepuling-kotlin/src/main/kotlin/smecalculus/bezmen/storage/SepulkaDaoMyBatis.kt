@@ -18,11 +18,11 @@ class SepulkaDaoMyBatis(
         return sqlMapper.findByExternalId(externalId)?.let { stateMapper.toDomain(it) }
     }
 
-    override fun getBy(internalId: UUID): SepulkaStateDm.Preview? {
+    override fun getBy(internalId: UUID): SepulkaStateDm.Viewing? {
         return sqlMapper.findByInternalId(internalId.toString())?.let { stateMapper.toDomain(it) }
     }
 
-    override fun updateBy(
+    override fun touchBy(
         internalId: UUID,
         state: SepulkaStateDm.Touch,
     ) {

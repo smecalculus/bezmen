@@ -5,7 +5,7 @@ import smecalculus.bezmen.core.SepulkaMessageDm.RegistrationRequest;
 import smecalculus.bezmen.core.SepulkaMessageDm.RegistrationResponse;
 import smecalculus.bezmen.core.SepulkaMessageDm.ViewResponse;
 import smecalculus.bezmen.core.SepulkaStateDm.AggregateRoot;
-import smecalculus.bezmen.core.SepulkaStateDm.Preview;
+import smecalculus.bezmen.core.SepulkaStateDm.Viewing;
 
 @Mapper
 public interface SepulkaConverter {
@@ -13,5 +13,5 @@ public interface SepulkaConverter {
 
     RegistrationResponse toMessage(AggregateRoot state);
 
-    ViewResponse toMessage(Preview state);
+    ViewResponse toMessage(Viewing state);
 }

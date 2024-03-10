@@ -10,7 +10,7 @@ public class SepulkaStateDm {
     public record Existence(@NonNull UUID internalId) {}
 
     @Builder
-    public record Preview(@NonNull String externalId, @NonNull LocalDateTime createdAt) {}
+    public record Viewing(@NonNull String externalId) {}
 
     @Builder
     public record Touch(@NonNull Integer revision, @NonNull LocalDateTime updatedAt) {}

@@ -10,7 +10,7 @@ import java.util.UUID
 interface SepulkaRepository : CrudRepository<SepulkaStateEm.AggregateRoot, UUID> {
     fun findByExternalId(externalId: String): SepulkaStateEm.Existence?
 
-    fun findByInternalId(internalId: UUID): SepulkaStateEm.Preview?
+    fun findByInternalId(internalId: UUID): SepulkaStateEm.Viewing?
 
     @Modifying
     @Query(

@@ -28,7 +28,7 @@ public class SepulkaDaoSpringData implements SepulkaDao {
     }
 
     @Override
-    public Optional<SepulkaStateDm.Preview> getBy(@NonNull UUID internalId) {
+    public Optional<SepulkaStateDm.Viewing> getBy(@NonNull UUID internalId) {
         return repository.findByInternalId(internalId).map(mapper::toDomain);
     }
 

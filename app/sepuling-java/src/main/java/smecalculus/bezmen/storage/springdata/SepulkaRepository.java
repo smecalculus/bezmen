@@ -13,7 +13,7 @@ public interface SepulkaRepository extends CrudRepository<SepulkaStateEm.Aggrega
 
     Optional<SepulkaStateEm.Existence> findByExternalId(@NonNull String externalId);
 
-    Optional<SepulkaStateEm.Preview> findByInternalId(@NonNull UUID internalId);
+    Optional<SepulkaStateEm.Viewing> findByInternalId(@NonNull UUID internalId);
 
     @Modifying
     @Query(

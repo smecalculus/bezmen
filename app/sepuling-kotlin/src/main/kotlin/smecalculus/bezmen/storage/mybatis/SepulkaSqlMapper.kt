@@ -30,37 +30,38 @@ interface SepulkaSqlMapper {
     @Select(
         """
         SELECT
-            internal_id as internalId,
-            external_id as externalId
+            internal_id as internalId
         FROM sepulkas
-        WHERE external_id = #{externalId}
+        WHERE external_id = #{id, jdbcType=VARCHAR}
         """,
     )
-    fun findByExternalId(externalId: String): SepulkaStateEm.Existence?
+    fun findByExternalId(
+        @Param("id") id: String,
+    ): SepulkaStateEm.Existence?
 
     @Select(
         """
         SELECT
-            internal_id as internalId,
-            external_id as externalId,
-            created_at as createdAt
+            external_id as externalId
         FROM sepulkas
-        WHERE internal_id = #{internalId}
+        WHERE internal_id = #{id, jdbcType=OTHER}::uuid
         """,
     )
-    fun findByInternalId(internalId: String): SepulkaStateEm.Preview?
+    fun findByInternalId(
+        @Param("id") id: String,
+    ): SepulkaStateEm.Viewing?
 
     @Update(
         """
         UPDATE sepulkas
         SET revision = revision + 1,
             updated_at = #{state.updatedAt}
-        WHERE internal_id = #{id}
+        WHERE internal_id = #{id, jdbcType=OTHER}::uuid
         AND revision = #{state.revision}
         """,
     )
     fun updateBy(
         @Param("state") state: SepulkaStateEm.Touch,
-        @Param("id") internalId: String,
+        @Param("id") id: String,
     ): Int
 }

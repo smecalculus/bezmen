@@ -15,9 +15,8 @@ public abstract class SepulkaStateEm {
     }
 
     @Data
-    public static class Preview {
+    public static class Viewing {
         String externalId;
-        LocalDateTime createdAt;
     }
 
     @Data

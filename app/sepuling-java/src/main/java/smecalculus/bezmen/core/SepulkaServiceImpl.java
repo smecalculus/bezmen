@@ -5,6 +5,8 @@ import static java.util.UUID.randomUUID;
 import java.time.LocalDateTime;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import smecalculus.bezmen.core.SepulkaMessageDm.RegistrationRequest;
 import smecalculus.bezmen.core.SepulkaMessageDm.RegistrationResponse;
 import smecalculus.bezmen.core.SepulkaMessageDm.ViewRequest;
@@ -14,6 +16,8 @@ import smecalculus.bezmen.storage.SepulkaDao;
 @RequiredArgsConstructor
 public class SepulkaServiceImpl implements SepulkaService {
 
+    private static final Logger LOG = LoggerFactory.getLogger(SepulkaServiceImpl.class);
+
     @NonNull
     private SepulkaConverter converter;
 
@@ -22,6 +26,7 @@ public class SepulkaServiceImpl implements SepulkaService {
 
     @Override
     public RegistrationResponse register(RegistrationRequest request) {
+        LOG.debug("Handling sepulka registration request: {}", request);
         var now = LocalDateTime.now();
         var sepulkaCreated = converter
                 .toState(request)
@@ -36,6 +41,7 @@ public class SepulkaServiceImpl implements SepulkaService {
 
     @Override
     public ViewResponse view(ViewRequest request) {
+        LOG.debug("Handling sepulka viewing request: {}", request);
         var state = dao.getBy(request.internalId());
         return state.map(converter::toMessage).orElseThrow(RuntimeException::new);
     }

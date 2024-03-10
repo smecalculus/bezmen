@@ -40,7 +40,7 @@ abstract class SepulkaDaoIT {
         // and
         sepulkaDao.add(aggregate)
         // and
-        val expected = SepulkaStateDmEg.preview(aggregate).build()
+        val expected = SepulkaStateDmEg.viewing(aggregate).build()
         // when
         val actual = sepulkaDao.getBy(aggregate.internalId)
         // then
@@ -58,7 +58,7 @@ abstract class SepulkaDaoIT {
         // and
         val touch = SepulkaStateDmEg.touch(aggregate).updatedAt(updatedAt).build()
         // when
-        sepulkaDao.updateBy(aggregate.internalId, touch)
+        sepulkaDao.touchBy(aggregate.internalId, touch)
         // then
         // no exception
     }

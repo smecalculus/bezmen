@@ -17,11 +17,11 @@ class SepulkaDaoSpringData(
         return repository.findByExternalId(externalId)?.let { mapper.toDomain(it) }
     }
 
-    override fun getBy(internalId: UUID): SepulkaStateDm.Preview? {
+    override fun getBy(internalId: UUID): SepulkaStateDm.Viewing? {
         return repository.findByInternalId(internalId)?.let { mapper.toDomain(it) }
     }
 
-    override fun updateBy(
+    override fun touchBy(
         internalId: UUID,
         state: SepulkaStateDm.Touch,
     ) {
