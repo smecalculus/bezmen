@@ -7,7 +7,7 @@ import java.util.UUID
  * Port: server side
  */
 interface SepulkaDao {
-    fun add(state: SepulkaStateDm.AggregateRoot): SepulkaStateDm.AggregateRoot
+    fun addNew(state: SepulkaStateDm.AggregateRoot): SepulkaStateDm.AggregateRoot
 
     fun getBy(externalId: String): SepulkaStateDm.Existence?
 

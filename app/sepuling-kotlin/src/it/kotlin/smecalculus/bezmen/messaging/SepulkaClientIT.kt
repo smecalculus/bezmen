@@ -51,12 +51,12 @@ abstract class SepulkaClientIT {
         val internalId = UUID.randomUUID()
         val externalId = UUID.randomUUID().toString()
         // and
-        val request = SepulkaMessageEmEg.viewRequest(internalId.toString())
+        val request = SepulkaMessageEmEg.viewingRequest(internalId.toString())
         // and
-        whenever(serviceMock.view(any(SepulkaMessageDm.ViewRequest::class.java)))
-            .thenReturn(SepulkaMessageDmEg.viewResponse(externalId).build())
+        whenever(serviceMock.view(any(SepulkaMessageDm.ViewingRequest::class.java)))
+            .thenReturn(SepulkaMessageDmEg.viewingResponse(externalId).build())
         // and
-        val expectedResponse = SepulkaMessageEmEg.viewResponse(externalId)
+        val expectedResponse = SepulkaMessageEmEg.viewingResponse(externalId)
         // when
         val actualResponse = externalClient.view(request)
         // then

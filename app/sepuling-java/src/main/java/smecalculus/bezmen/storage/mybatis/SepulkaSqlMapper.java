@@ -1,6 +1,7 @@
 package smecalculus.bezmen.storage.mybatis;
 
 import java.util.Optional;
+import java.util.UUID;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
@@ -36,7 +37,7 @@ public interface SepulkaSqlMapper {
             SELECT
                 internal_id as internalId
             FROM sepulkas
-            WHERE external_id = #{id, jdbcType=VARCHAR}
+            WHERE external_id = #{id}
             """)
     Optional<Existence> findByExternalId(@Param("id") String id);
 
@@ -45,17 +46,17 @@ public interface SepulkaSqlMapper {
             SELECT
                 external_id as externalId
             FROM sepulkas
-            WHERE internal_id = #{id, jdbcType=OTHER}::uuid
+            WHERE internal_id = #{id}
             """)
-    Optional<Viewing> findByInternalId(@Param("id") String id);
+    Optional<Viewing> findByInternalId(@Param("id") UUID id);
 
     @Update(
             """
             UPDATE sepulkas
             SET revision = revision + 1,
                 updated_at = #{state.updatedAt}
-            WHERE internal_id = #{id, jdbcType=OTHER}::uuid
+            WHERE internal_id = #{id}
             AND revision = #{state.revision}
             """)
-    int updateBy(@Param("state") Touch state, @Param("id") String id);
+    int updateBy(@Param("id") UUID internalId, @Param("state") Touch state);
 }

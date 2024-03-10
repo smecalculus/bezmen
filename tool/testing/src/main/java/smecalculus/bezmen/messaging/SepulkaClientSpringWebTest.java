@@ -6,8 +6,8 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import smecalculus.bezmen.messaging.SepulkaMessageEm.RegistrationRequest;
 import smecalculus.bezmen.messaging.SepulkaMessageEm.RegistrationResponse;
-import smecalculus.bezmen.messaging.SepulkaMessageEm.ViewRequest;
-import smecalculus.bezmen.messaging.SepulkaMessageEm.ViewResponse;
+import smecalculus.bezmen.messaging.SepulkaMessageEm.ViewingRequest;
+import smecalculus.bezmen.messaging.SepulkaMessageEm.ViewingResponse;
 
 @RequiredArgsConstructor
 public class SepulkaClientSpringWebTest implements SepulkaClient {
@@ -29,12 +29,12 @@ public class SepulkaClientSpringWebTest implements SepulkaClient {
     }
 
     @Override
-    public ViewResponse view(ViewRequest request) {
+    public ViewingResponse view(ViewingRequest request) {
         return client.get()
                 .uri("/sepulkas/" + request.getInternalId())
                 .accept(MediaType.APPLICATION_JSON)
                 .exchange()
-                .expectBody(ViewResponse.class)
+                .expectBody(ViewingResponse.class)
                 .returnResult()
                 .getResponseBody();
     }

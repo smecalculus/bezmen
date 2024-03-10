@@ -2,7 +2,7 @@ package smecalculus.bezmen.core;
 
 import java.util.UUID;
 import smecalculus.bezmen.core.SepulkaMessageDm.RegistrationResponse;
-import smecalculus.bezmen.core.SepulkaMessageDm.ViewResponse;
+import smecalculus.bezmen.core.SepulkaMessageDm.ViewingResponse;
 
 public class SepulkaMessageDmEg {
     public static RegistrationResponse.Builder registrationResponse() {
@@ -13,11 +13,11 @@ public class SepulkaMessageDmEg {
         return registrationResponse().internalId(id);
     }
 
-    public static ViewResponse.Builder viewResponse() {
-        return ViewResponse.builder().externalId(UUID.randomUUID().toString());
+    public static ViewingResponse.Builder viewingResponse() {
+        return ViewingResponse.builder().externalId(UUID.randomUUID().toString());
     }
 
-    public static ViewResponse.Builder viewResponse(String id) {
-        return viewResponse().externalId(id);
+    public static ViewingResponse.Builder viewingResponse(String id) {
+        return viewingResponse().externalId(id);
     }
 }

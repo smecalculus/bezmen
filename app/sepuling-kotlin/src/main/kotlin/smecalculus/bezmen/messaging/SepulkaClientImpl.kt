@@ -3,8 +3,8 @@ package smecalculus.bezmen.messaging
 import smecalculus.bezmen.core.SepulkaService
 import smecalculus.bezmen.messaging.SepulkaMessageEm.RegistrationRequest
 import smecalculus.bezmen.messaging.SepulkaMessageEm.RegistrationResponse
-import smecalculus.bezmen.messaging.SepulkaMessageEm.ViewRequest
-import smecalculus.bezmen.messaging.SepulkaMessageEm.ViewResponse
+import smecalculus.bezmen.messaging.SepulkaMessageEm.ViewingRequest
+import smecalculus.bezmen.messaging.SepulkaMessageEm.ViewingResponse
 import smecalculus.bezmen.validation.EdgeValidator
 
 class SepulkaClientImpl(
@@ -19,7 +19,7 @@ class SepulkaClientImpl(
         return mapper.toEdge(response)
     }
 
-    override fun view(requestEdge: ViewRequest): ViewResponse {
+    override fun view(requestEdge: ViewingRequest): ViewingResponse {
         validator.validate(requestEdge)
         val request = mapper.toDomain(requestEdge)
         val response = service.view(request)

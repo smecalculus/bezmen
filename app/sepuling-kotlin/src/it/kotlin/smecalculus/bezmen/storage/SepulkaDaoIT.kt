@@ -24,21 +24,21 @@ abstract class SepulkaDaoIT {
         // and
         val expected2 = SepulkaStateDmEg.existence().internalId(expected1.internalId).build()
         // when
-        val actualSaved = sepulkaDao.add(expected1)
+        val actualInserted = sepulkaDao.addNew(expected1)
         // and
         val actualSelected = sepulkaDao.getBy(expected1.externalId)
         // then
-        assertThat(actualSaved).usingRecursiveComparison().isEqualTo(expected1)
+        assertThat(actualInserted).usingRecursiveComparison().isEqualTo(expected1)
         // and
         assertThat(actualSelected).usingRecursiveComparison().isEqualTo(expected2)
     }
 
     @Test
-    fun shouldViewOneSepulka() {
+    fun shouldGetOneSepulka() {
         // given
         val aggregate = SepulkaStateDmEg.aggregateRoot().build()
         // and
-        sepulkaDao.add(aggregate)
+        sepulkaDao.addNew(aggregate)
         // and
         val expected = SepulkaStateDmEg.viewing(aggregate).build()
         // when
@@ -48,11 +48,11 @@ abstract class SepulkaDaoIT {
     }
 
     @Test
-    fun shouldUpdateOneSepulka() {
+    fun shouldTouchOneSepulka() {
         // given
         val aggregate = SepulkaStateDmEg.aggregateRoot().build()
         // and
-        sepulkaDao.add(aggregate)
+        sepulkaDao.addNew(aggregate)
         // and
         val updatedAt = aggregate.updatedAt.plusSeconds(1)
         // and

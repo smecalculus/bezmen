@@ -27,21 +27,21 @@ abstract class SepulkaDaoIT {
         var expected2 =
                 SepulkaStateDmEg.existence().internalId(expected1.internalId()).build();
         // when
-        var actualSaved = sepulkaDao.add(expected1);
+        var actualInserted = sepulkaDao.addNew(expected1);
         // and
         var actualSelected = sepulkaDao.getBy(expected1.externalId());
         // then
-        assertThat(actualSaved).usingRecursiveComparison().isEqualTo(expected1);
+        assertThat(actualInserted).usingRecursiveComparison().isEqualTo(expected1);
         // and
         assertThat(actualSelected).contains(expected2);
     }
 
     @Test
-    void shouldViewOneSepulka() {
+    void shouldGetOneSepulka() {
         // given
         var aggregate = SepulkaStateDmEg.aggregateRoot().build();
         // and
-        sepulkaDao.add(aggregate);
+        sepulkaDao.addNew(aggregate);
         // and
         var expected = SepulkaStateDmEg.viewing(aggregate).build();
         // when
@@ -51,17 +51,17 @@ abstract class SepulkaDaoIT {
     }
 
     @Test
-    void shouldUpdateOneSepulka() {
+    void shouldTouchOneSepulka() {
         // given
         var aggregate = SepulkaStateDmEg.aggregateRoot().build();
         // and
-        sepulkaDao.add(aggregate);
+        sepulkaDao.addNew(aggregate);
         // and
         var updatedAt = aggregate.updatedAt().plusSeconds(1);
         // and
         var touch = SepulkaStateDmEg.touch(aggregate).updatedAt(updatedAt).build();
         // when
-        sepulkaDao.updateBy(aggregate.internalId(), touch);
+        sepulkaDao.touchBy(aggregate.internalId(), touch);
         // then
         // no exception
     }

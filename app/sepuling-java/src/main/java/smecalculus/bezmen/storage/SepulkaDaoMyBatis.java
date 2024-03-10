@@ -17,7 +17,7 @@ public class SepulkaDaoMyBatis implements SepulkaDao {
     private SepulkaSqlMapper sqlMapper;
 
     @Override
-    public SepulkaStateDm.AggregateRoot add(@NonNull SepulkaStateDm.AggregateRoot state) {
+    public SepulkaStateDm.AggregateRoot addNew(@NonNull SepulkaStateDm.AggregateRoot state) {
         var stateEdge = stateMapper.toEdge(state);
         sqlMapper.insert(stateEdge);
         return state;
@@ -30,13 +30,13 @@ public class SepulkaDaoMyBatis implements SepulkaDao {
 
     @Override
     public Optional<SepulkaStateDm.Viewing> getBy(@NonNull UUID internalId) {
-        return sqlMapper.findByInternalId(internalId.toString()).map(stateMapper::toDomain);
+        return sqlMapper.findByInternalId(internalId).map(stateMapper::toDomain);
     }
 
     @Override
-    public void updateBy(UUID internalId, SepulkaStateDm.Touch state) {
+    public void touchBy(@NonNull UUID internalId, @NonNull SepulkaStateDm.Touch state) {
         var stateEdge = stateMapper.toEdge(state);
-        var matchedCount = sqlMapper.updateBy(stateEdge, internalId.toString());
+        var matchedCount = sqlMapper.updateBy(internalId, stateEdge);
         if (matchedCount == 0) {
             throw new ContentionException();
         }

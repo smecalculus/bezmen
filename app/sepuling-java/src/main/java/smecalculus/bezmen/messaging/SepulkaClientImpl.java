@@ -5,8 +5,8 @@ import lombok.RequiredArgsConstructor;
 import smecalculus.bezmen.core.SepulkaService;
 import smecalculus.bezmen.messaging.SepulkaMessageEm.RegistrationRequest;
 import smecalculus.bezmen.messaging.SepulkaMessageEm.RegistrationResponse;
-import smecalculus.bezmen.messaging.SepulkaMessageEm.ViewRequest;
-import smecalculus.bezmen.messaging.SepulkaMessageEm.ViewResponse;
+import smecalculus.bezmen.messaging.SepulkaMessageEm.ViewingRequest;
+import smecalculus.bezmen.messaging.SepulkaMessageEm.ViewingResponse;
 import smecalculus.bezmen.validation.EdgeValidator;
 
 @RequiredArgsConstructor
@@ -30,7 +30,7 @@ public class SepulkaClientImpl implements SepulkaClient {
     }
 
     @Override
-    public ViewResponse view(ViewRequest requestEdge) {
+    public ViewingResponse view(ViewingRequest requestEdge) {
         validator.validate(requestEdge);
         var request = mapper.toDomain(requestEdge);
         var response = service.view(request);

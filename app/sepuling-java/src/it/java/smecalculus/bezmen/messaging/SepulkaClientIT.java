@@ -53,12 +53,12 @@ abstract class SepulkaClientIT {
         var internalId = UUID.randomUUID();
         var externalId = UUID.randomUUID().toString();
         // and
-        var request = SepulkaMessageEmEg.viewRequest(internalId.toString());
+        var request = SepulkaMessageEmEg.viewingRequest(internalId.toString());
         // and
-        when(serviceMock.view(any(SepulkaMessageDm.ViewRequest.class)))
-                .thenReturn(SepulkaMessageDmEg.viewResponse(externalId).build());
+        when(serviceMock.view(any(SepulkaMessageDm.ViewingRequest.class)))
+                .thenReturn(SepulkaMessageDmEg.viewingResponse(externalId).build());
         // and
-        var expectedResponse = SepulkaMessageEmEg.viewResponse(externalId);
+        var expectedResponse = SepulkaMessageEmEg.viewingResponse(externalId);
         // when
         var actualResponse = externalClient.view(request);
         // then

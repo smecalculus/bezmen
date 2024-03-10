@@ -8,9 +8,32 @@ import smecalculus.bezmen.storage.SepulkaStateEm
 import java.util.UUID
 
 interface SepulkaRepository : CrudRepository<SepulkaStateEm.AggregateRoot, UUID> {
-    fun findByExternalId(externalId: String): SepulkaStateEm.Existence?
+    @Modifying
+    @Query(
+        """
+        INSERT INTO sepulkas (
+            internal_id,
+            external_id,
+            revision,
+            created_at,
+            updated_at
+        )
+        VALUES (
+            :#{#state.internalId},
+            :#{#state.externalId},
+            :#{#state.revision},
+            :#{#state.createdAt},
+            :#{#state.updatedAt}
+        )
+        """,
+    )
+    fun insert(
+        @Param("state") state: SepulkaStateEm.AggregateRoot,
+    )
 
-    fun findByInternalId(internalId: UUID): SepulkaStateEm.Viewing?
+    fun findByExternalId(id: String): SepulkaStateEm.Existence?
+
+    fun findByInternalId(id: UUID): SepulkaStateEm.Viewing?
 
     @Modifying
     @Query(
