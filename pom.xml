@@ -20,7 +20,7 @@
     <revision>0.1.0-SNAPSHOT</revision>
     <lombok.version>1.18.30</lombok.version>
     <mapstruct.version>1.5.5.Final</mapstruct.version>
-    <spring.version>6.1.4</spring.version>
+    <spring.version>6.1.5</spring.version>
     <jacoco.version>0.8.11</jacoco.version>
     <skipTests>false</skipTests>  <!--unit, integration and e2e tests-->
     <skipUnits>${skipTests}</skipUnits>  <!--unit tests only-->
