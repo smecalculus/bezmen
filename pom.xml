@@ -125,7 +125,7 @@
             </formats>
             <java>
               <palantirJavaFormat>
-                <version>2.39.0</version>
+                <version>2.41.0</version>
               </palantirJavaFormat>
             </java>
             <kotlin>
@@ -262,6 +262,19 @@
           <version>3.2.5</version>
           <configuration>
             <skipTests>${skipUnits}</skipTests>
+            <forkCount>1</forkCount>
+            <properties>
+              <configurationParameters>
+                junit.jupiter.testinstance.lifecycle.default=per_class
+                junit.jupiter.testclass.order.default=org.junit.jupiter.api.ClassOrderer$Random
+                junit.jupiter.testmethod.order.default=org.junit.jupiter.api.MethodOrderer$Random
+                junit.jupiter.execution.parallel.enabled=true
+                junit.jupiter.execution.parallel.mode.default=same_thread
+                junit.jupiter.execution.parallel.mode.classes.default=concurrent
+                junit.jupiter.execution.parallel.config.strategy=fixed
+                junit.jupiter.execution.parallel.config.fixed.parallelism=2
+              </configurationParameters>
+            </properties>
           </configuration>
         </plugin>
         <plugin>
@@ -280,6 +293,15 @@
           <version>3.2.5</version>
           <configuration>
             <skipITs>${skipTests}</skipITs>
+            <forkCount>2</forkCount>
+            <properties>
+              <configurationParameters>
+                junit.jupiter.testinstance.lifecycle.default=per_class
+                junit.jupiter.testclass.order.default=org.junit.jupiter.api.ClassOrderer$Random
+                junit.jupiter.testmethod.order.default=org.junit.jupiter.api.MethodOrderer$Random
+                junit.jupiter.execution.parallel.enabled=false
+              </configurationParameters>
+            </properties>
           </configuration>
           <executions>
             <execution>
