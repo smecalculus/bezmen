@@ -12,7 +12,7 @@ env:
 jobs:
   up-to-binaries:
     name: Up to binaries (${{ matrix.env.dev }})
-    timeout-minutes: 5
+    timeout-minutes: 10
     permissions:
       checks: write
       packages: write
@@ -42,7 +42,7 @@ jobs:
           ansible-playbook binaries.yaml -v
           -e devenv=${{ matrix.env.dev }}
           -e repo_mode=ro
-      - uses: mikepenz/action-junit-report@v4.1.0
+      - uses: mikepenz/action-junit-report@v4.2.1
         if: ${{ !cancelled() && (steps.binaries.outcome == 'success' || steps.binaries.outcome == 'failure') }}
         with:
           check_name: Unit tests
