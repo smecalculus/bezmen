@@ -71,7 +71,7 @@ jobs:
 
   stack-building:
     name: Stack building (${{ matrix.env.ops }}, ${{ matrix.ility }})
-    timeout-minutes: 5
+    timeout-minutes: 10
     needs: [up-to-images]
     strategy:
       fail-fast: false
