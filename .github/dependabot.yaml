@@ -3,7 +3,7 @@ version: 2
 updates:
   - package-ecosystem: "maven"
     directory: "/"
-    open-pull-requests-limit: 10
+    open-pull-requests-limit: 5
     schedule:
       interval: "daily"
     groups:
@@ -13,9 +13,6 @@ updates:
       junit-platform:
         patterns:
           - "org.junit*"
-      fasterxml-jackson:
-        patterns:
-          - "com.fasterxml.jackson*"
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
@@ -24,6 +21,10 @@ updates:
     directory: "/.github/actions/setup-gear"
     schedule:
       interval: "weekly"
+    groups:
+      docker:
+        patterns:
+          - "docker/*"
   - package-ecosystem: "docker"
     directory: "/db/postgres"
     schedule:
