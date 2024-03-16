@@ -13,6 +13,9 @@ updates:
       junit-platform:
         patterns:
           - "org.junit*"
+      fasterxml-jackson:
+        patterns:
+          - "com.fasterxml.jackson*"
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
