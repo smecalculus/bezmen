@@ -107,7 +107,7 @@
       <dependency>
         <groupId>org.springframework</groupId>
         <artifactId>spring-framework-bom</artifactId>
-        <version>6.1.4</version>
+        <version>6.1.5</version>
         <scope>import</scope>
         <type>pom</type>
       </dependency>
@@ -183,7 +183,7 @@
       <dependency>
         <groupId>org.springframework.data</groupId>
         <artifactId>spring-data-jdbc</artifactId>
-        <version>3.2.3</version>
+        <version>3.2.4</version>
       </dependency>
       <dependency>
         <groupId>org.postgresql</groupId>
