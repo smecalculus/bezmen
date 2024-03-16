@@ -32,7 +32,7 @@ runs:
         username: ${{ github.actor }}
         password: ${{ inputs.token }}
     # for the sake of maven setup & dependency caching
-    - uses: actions/setup-java@v4.1.0
+    - uses: actions/setup-java@v4.2.1
       with:
         distribution: 'temurin'
         java-version: '21'
