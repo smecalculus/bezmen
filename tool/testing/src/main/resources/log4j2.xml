@@ -1,5 +1,5 @@
-<!-- Gear stack -->
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- Gear stack logging -->
 <Configuration status="WARN">
   <Appenders>
     <Console name="CONSOLE" target="SYSTEM_OUT">
