@@ -66,7 +66,7 @@
           <artifactId>maven-dependency-plugin</artifactId>
           <executions>
             <execution>
-              <id>deps-jars</id>
+              <id>copy-deps</id>
               <phase>pre-integration-test</phase>
               <goals>
                 <goal>copy-dependencies</goal>
@@ -74,11 +74,11 @@
               <configuration>
                 <includeScope>runtime</includeScope>
                 <excludeGroupIds>${project.groupId}</excludeGroupIds>
-                <outputDirectory>${project.build.directory}/image-context/lib</outputDirectory>
+                <outputDirectory>${project.build.directory}/image/lib</outputDirectory>
               </configuration>
             </execution>
             <execution>
-              <id>libs-jars</id>
+              <id>copy-libs</id>
               <phase>pre-integration-test</phase>
               <goals>
                 <goal>copy-dependencies</goal>
@@ -86,11 +86,11 @@
               <configuration>
                 <includeScope>runtime</includeScope>
                 <includeGroupIds>${project.groupId}</includeGroupIds>
-                <outputDirectory>${project.build.directory}/image-context/bin</outputDirectory>
+                <outputDirectory>${project.build.directory}/image/bin</outputDirectory>
               </configuration>
             </execution>
             <execution>
-              <id>app-jar</id>
+              <id>copy-app</id>
               <phase>pre-integration-test</phase>
               <goals>
                 <goal>copy</goal>
@@ -101,7 +101,7 @@
                     <groupId>${project.groupId}</groupId>
                     <artifactId>${project.artifactId}</artifactId>
                     <version>${project.version}</version>
-                    <outputDirectory>${project.build.directory}/image-context/bin</outputDirectory>
+                    <outputDirectory>${project.build.directory}/image/bin</outputDirectory>
                   </artifactItem>
                 </artifactItems>
               </configuration>
@@ -124,7 +124,7 @@
             <executable>docker</executable>
             <arguments>
               <argument>build</argument>
-              <argument>${project.build.directory}/image-context</argument>
+              <argument>${project.build.directory}/image</argument>
               <argument>--file</argument>
               <argument>${project.basedir}/Dockerfile</argument>
               <argument>--tag</argument>
