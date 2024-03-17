@@ -41,6 +41,7 @@ public class SepulkaServiceImpl implements SepulkaService {
     public ViewingResponse view(SepulkaMessageDm.ViewingRequest request) {
         LOG.debug("Handling sepulka viewing request: {}", request);
         var state = dao.getBy(request.internalId());
-        return state.map(factory::newMessage).orElseThrow(RuntimeException::new);
+        return state.map(factory::newMessage)
+                .orElseThrow(() -> new RuntimeException("NotFoundException"));
     }
 }

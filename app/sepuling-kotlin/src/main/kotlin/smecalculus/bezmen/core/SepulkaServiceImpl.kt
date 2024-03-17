@@ -27,6 +27,6 @@ class SepulkaServiceImpl(
 
     override fun view(request: ViewingRequest): ViewingResponse {
         val state = dao.getBy(request.internalId)
-        return state?.let { factory.newMessage(it) } ?: throw RuntimeException()
+        return state?.let { factory.newMessage(it) } ?: throw RuntimeException("NotFoundException")
     }
 }
