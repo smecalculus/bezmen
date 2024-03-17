@@ -7,6 +7,7 @@
   </Appenders>
   <Loggers>
     <Logger name="org.junit.jupiter.api" level="debug"/>
+    <Logger name="com.github.dockerjava" level="info"/>
     <Root level="error">
       <AppenderRef ref="CONSOLE"/>
     </Root>
