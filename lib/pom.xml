@@ -197,6 +197,11 @@
         <artifactId>h2</artifactId>
         <version>2.2.224</version>
       </dependency>
+      <dependency>
+        <groupId>net.bytebuddy</groupId>
+        <artifactId>byte-buddy</artifactId>
+        <version>1.14.12</version>
+      </dependency>
     </dependencies>
   </dependencyManagement>
 

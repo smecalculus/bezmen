@@ -29,13 +29,6 @@
     <dependencies>
       <dependency>
         <groupId>${project.groupId}</groupId>
-        <artifactId>lib</artifactId>
-        <version>${revision}</version>
-        <scope>import</scope>
-        <type>pom</type>
-      </dependency>
-      <dependency>
-        <groupId>${project.groupId}</groupId>
         <artifactId>tool</artifactId>
         <version>latest</version>
         <scope>import</scope>
