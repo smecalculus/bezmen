@@ -31,7 +31,7 @@
       <id>church</id>
       <properties>
         <devenv>church</devenv>
-        <kotlin.version>2.0.0-Beta4</kotlin.version>
+        <kotlin.version>2.0.0-Beta5</kotlin.version>
         <maven.compiler.release>21</maven.compiler.release>  <!--bump when kotlin will be ready-->
       </properties>
     </profile>
