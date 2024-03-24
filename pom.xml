@@ -29,7 +29,6 @@
       <id>church</id>
       <properties>
         <devenv>church</devenv>
-        <kotlin.version>2.0.0-Beta4</kotlin.version>
         <maven.compiler.release>21</maven.compiler.release>  <!--bump when kotlin will be ready-->
       </properties>
     </profile>
@@ -37,7 +36,6 @@
       <id>turing</id>
       <properties>
         <devenv>turing</devenv>
-        <kotlin.version>1.9.22</kotlin.version>
         <maven.compiler.release>21</maven.compiler.release>
       </properties>
     </profile>
@@ -48,7 +46,6 @@
       </activation>
       <properties>
         <devenv>godel</devenv>
-        <kotlin.version>1.8.22</kotlin.version>
         <maven.compiler.release>17</maven.compiler.release>
       </properties>
     </profile>
@@ -174,7 +171,7 @@
         <plugin>
           <groupId>org.jetbrains.kotlin</groupId>
           <artifactId>kotlin-maven-plugin</artifactId>
-          <version>${kotlin.version}</version>
+          <version>1.9.22</version>
           <configuration>
             <jvmTarget>${maven.compiler.release}</jvmTarget>
           </configuration>
