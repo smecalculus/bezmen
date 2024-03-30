@@ -17,9 +17,9 @@
 - name: Capture status
   ansible.builtin.command:
     cmd: docker {{ docker_entity }} inspect {{ image_ns }}/{{ item }}
-  register: image_status
+  register: status
   failed_when: false
   changed_when:
-    - image_status.rc != 0
+    - status.rc != 0
   loop:
     - "tool/stacker:{{ package_tag }}"

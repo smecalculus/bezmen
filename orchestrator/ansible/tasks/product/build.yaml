@@ -17,7 +17,7 @@
     src: "{{ item }}"
     dest: "{{ stack_dir }}/target/{{ ility }}/"
     mode: "644"
-  changed_when: false
+  changed_when: true
   with_fileglob:
     - "{{ stack_dir }}/ility/{{ ility }}/*.conf"
 
@@ -28,6 +28,6 @@
     lstrip_blocks: yes
     trim_blocks: yes
     mode: "644"
-  changed_when: false
+  changed_when: true
   with_fileglob:
     - "{{ stack_dir }}/ility/{{ ility }}/*.jinja"
