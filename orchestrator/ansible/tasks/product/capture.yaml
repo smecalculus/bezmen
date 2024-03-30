@@ -9,21 +9,21 @@
       {{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=stack/product/ility/' ~ ility) }}
       {{ lookup('ansible.builtin.pipe', 'git rev-parse :stack/product/env/' ~ opsenv ~ '.yaml') }}
       {{ lookup('ansible.builtin.pipe', 'git rev-parse :stack/product/Dockerfile') }}
-  register: stack_cid
+  register: cid
   changed_when: false
 
 - name: Declare tag
   ansible.builtin.set_fact:
-    stack_tag: "{{ opsenv }}-{{ ility }}-{{ stack_cid.stdout[:7] }}"
+    stack_tag: "{{ opsenv }}-{{ ility }}-{{ cid.stdout[:7] }}"
   changed_when: false
 
 - name: Capture statuses
   ansible.builtin.command:
     cmd: docker {{ docker_entity }} inspect {{ image_ns }}/{{ item }}
-  register: image_status
+  register: status
   failed_when: false
   changed_when:
-    - image_status.rc != 0
+    - status.rc != 0
   loop:
     - "{{ product.image }}:{{ stack_tag }}"
 

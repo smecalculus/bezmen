@@ -4,7 +4,7 @@
     tasks_from: clean
   vars:
     image_keys: >-
-      {{ image_status.results
+      {{ hostvars.app.status.results
         | select('changed')
         | map(attribute='app')
         | map('regex_replace', '^(.*)$', 'app/\1/' ~ devenv)

@@ -5,7 +5,7 @@
     stdin: |
       {{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=lib') }}
       {{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=app/' ~ app) }}
-  register: image_cid
+  register: cid
   changed_when: false
   loop: "{{ product.apps.keys() }}"
   loop_control:
@@ -14,11 +14,11 @@
 - name: Declare tags
   ansible.builtin.set_fact:
     image_tags: >-
-      {{ dict(image_cid.results
+      {{ dict(cid.results
         | map(attribute='stdout')
         | map('truncate', 7, True, '')
         | map('regex_replace', '^', devenv ~ '-')
-        | zip(image_cid.results|map(attribute='app'))
+        | zip(cid.results|map(attribute='app'))
         | map('reverse'))
       }}
   changed_when: false
@@ -26,10 +26,10 @@
 - name: Capture statuses
   ansible.builtin.command:
     cmd: docker {{ docker_entity }} inspect {{ image_ns }}/app/{{ app }}:{{ image_tags[app] }}
-  register: image_status
+  register: status
   failed_when: false
   changed_when:
-    - image_status.rc != 0
+    - status.rc != 0
   loop: "{{ image_tags.keys() }}"
   loop_control:
     loop_var: app

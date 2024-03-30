@@ -4,7 +4,7 @@
     tasks_from: clean
   vars:
     image_keys: >-
-      {{ image_status.results
+      {{ hostvars.db.status.results
         | select('changed')
         | map(attribute='vendor')
         | map('regex_replace', '^(.*)$', 'db/\1/' ~ devenv)
@@ -17,6 +17,6 @@
     image_home: "{{ project.dir }}/db/{{ vendor }}"
     image_key: "db/{{ vendor }}/{{ devenv }}"
     image_tag: "db/{{ vendor }}:{{ devenv }}"
-  loop: "{{ hostvars.db.image_status.results | select('changed') | map(attribute='vendor') }}"
+  loop: "{{ hostvars.db.status.results | select('changed') | map(attribute='vendor') }}"
   loop_control:
     loop_var: vendor

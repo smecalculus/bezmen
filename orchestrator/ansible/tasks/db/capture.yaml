@@ -2,7 +2,7 @@
 - name: Capture CID's
   ansible.builtin.command:
     cmd: git write-tree --prefix=db/{{ vendor }}
-  register: image_cid
+  register: cid
   changed_when: false
   loop: "{{ product.databases.keys() }}"
   loop_control:
@@ -11,10 +11,10 @@
 - name: Declare tags
   ansible.builtin.set_fact:
     image_tags: >-
-      {{ dict(image_cid.results
+      {{ dict(cid.results
         | map(attribute='stdout')
         | map('truncate', 7, True, '')
-        | zip(image_cid.results|map(attribute='vendor'))
+        | zip(cid.results|map(attribute='vendor'))
         | map('reverse'))
       }}
   changed_when: false
@@ -22,10 +22,10 @@
 - name: Capture statuses
   ansible.builtin.command:
     cmd: docker {{ docker_entity }} inspect {{ image_ns }}/db/{{ vendor }}:{{ image_tags[vendor] }}
-  register: image_status
+  register: status
   failed_when: false
   changed_when:
-    - image_status.rc != 0
+    - status.rc != 0
   loop: "{{ image_tags.keys() }}"
   loop_control:
     loop_var: vendor

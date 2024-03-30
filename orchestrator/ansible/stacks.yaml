@@ -16,12 +16,12 @@
     - ansible.builtin.import_tasks:  # noqa: name[missing]
         file: tasks/ansible/check.yaml
       tags: [build]
-      when: image_status is changed
+      when: status is changed
     - ansible.builtin.import_tasks:  # noqa: name[missing]
         file: tasks/gear/build.yaml
       tags: [build]
       when: >-
-        image_status is changed and
+        status is changed and
         is_virtual.rc != 0
 
 - name: PIPELINE STACK
@@ -30,7 +30,7 @@
     - ansible.builtin.import_tasks:  # noqa: name[missing]
         file: tasks/yaml/check.yaml
       tags: [build]
-      when: image_status is changed
+      when: status is changed
 
 - name: PRODUCT STACK
   hosts: product
@@ -41,15 +41,16 @@
         file: tasks/product/build.yaml
       tags: [build]
       when: >-
-        hostvars.product.image_status is changed or
-        hostvars.stacker.image_status is changed
+        hostvars.product.status is changed or
+        hostvars.stacker.status is changed or
+        hostvars.builder.status is changed
     - ansible.builtin.import_tasks:  # noqa: name[missing]
         file: tasks/product/check.yaml
       tags: [check]
       when: >-
-        hostvars.product.image_status is changed or
-        hostvars.stacker.image_status is changed or
-        hostvars.builder.image_status is changed
+        hostvars.product.status is changed or
+        hostvars.stacker.status is changed or
+        hostvars.builder.status is changed
 
 - name: ALL STACKS
   hosts: stacks:tools
@@ -59,4 +60,4 @@
         apply:
           tags: [publish]
       tags: [publish]
-      when: hostvars[inventory_hostname].image_status is changed
+      when: hostvars[inventory_hostname].status is changed

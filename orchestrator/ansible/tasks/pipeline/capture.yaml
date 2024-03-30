@@ -5,20 +5,20 @@
     stdin: |
       {{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=.github') }}
       {{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=stack/pipeline') }}
-  register: stack_cid
+  register: cid
   changed_when: false
 
 - name: Declare tag
   ansible.builtin.set_fact:
-    stack_tag: "{{ cicd }}-{{ stack_cid.stdout[:7] }}"
+    stack_tag: "{{ cicd }}-{{ cid.stdout[:7] }}"
   changed_when: false
 
 - name: Capture statuses
   ansible.builtin.command:
     cmd: docker {{ docker_entity }} inspect {{ image_ns }}/{{ item }}
-  register: image_status
+  register: status
   failed_when: false
   changed_when:
-    - image_status.rc != 0
+    - status.rc != 0
   loop:
     - "{{ pipeline.image }}:{{ stack_tag }}"
