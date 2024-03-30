@@ -29,4 +29,4 @@
   loop: "{{ image_tags.keys() }}"
   loop_control:
     loop_var: vendor
-    label: "{{ vendor }}:{{ image_tags[vendor] }}"
+    label: "db/{{ vendor }}:{{ image_tags[vendor] }}"

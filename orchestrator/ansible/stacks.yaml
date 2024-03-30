@@ -16,12 +16,14 @@
     - ansible.builtin.import_tasks:  # noqa: name[missing]
         file: tasks/ansible/check.yaml
       tags: [build]
-      when: status is changed
+      when: >-
+        hostvars.gear.status is changed and
+        repo_mode != 'n/a'
     - ansible.builtin.import_tasks:  # noqa: name[missing]
         file: tasks/gear/build.yaml
       tags: [build]
       when: >-
-        status is changed and
+        hostvars.gear.status is changed and
         is_virtual.rc != 0
 
 - name: PIPELINE STACK
@@ -30,7 +32,9 @@
     - ansible.builtin.import_tasks:  # noqa: name[missing]
         file: tasks/yaml/check.yaml
       tags: [build]
-      when: status is changed
+      when: >-
+        hostvars.pipeline.status is changed and
+        repo_mode != 'n/a'
 
 - name: PRODUCT STACK
   hosts: product

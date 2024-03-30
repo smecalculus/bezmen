@@ -4,6 +4,7 @@
   tasks:
     - ansible.builtin.import_tasks:  # noqa: name[missing]
         file: tasks/jvm/check.yaml
+      when: repo_mode != 'n/a'
     - name: Capture CID
       ansible.builtin.command:
         cmd: git hash-object --stdin
@@ -42,3 +43,4 @@
         chdir: "{{ project.dir }}"
         strip_empty_ends: false
       changed_when: true
+      when: repo_mode != 'n/a'
