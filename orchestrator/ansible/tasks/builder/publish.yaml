@@ -14,3 +14,11 @@
     image_context: .
     image_key: "tool/builder/{{ devenv }}"
     image_tag: "tool/builder:{{ devenv }}"
+
+- ansible.builtin.import_role:  # noqa: name[missing]
+    name: image
+    tasks_from: publish
+  vars:
+    image_source_tag: "tool/builder:{{ devenv }}"
+    image_target_tags:
+      - "{{ image_ns }}/tool/builder:{{ hostvars.builder.package_tag }}"

@@ -1,6 +1,6 @@
 ---
 - name: ALL IMAGES
-  hosts: images
+  hosts: images:builder
   tasks:
     - ansible.builtin.include_tasks:  # noqa: name[missing]
         file: tasks/{{ inventory_hostname }}/capture.yaml
@@ -11,13 +11,13 @@
         file: tasks/{{ inventory_hostname }}/build.yaml
       when: hostvars[inventory_hostname].image_status is changed
 
-# building everything without exception otherwise purely external libs will not be published
+# TODO: build only changed apps and purely external libs which have no dependees
 - import_playbook: binaries.yaml  # noqa: name[play]
   vars:
-    maven_phase: "{{ 'deploy' if repo_mode == 'rw' else 'install' }}"
+    maven_phase: "{{ 'deploy' if repo_mode == 'rw' and hostvars.app.image_status is changed else 'install' }}"
   when: >-
     hostvars.app.image_status is changed or
-    hostvars.tool.image_status is changed
+    hostvars.builder.image_status is changed
 
 - name: ALL IMAGES
   hosts: images

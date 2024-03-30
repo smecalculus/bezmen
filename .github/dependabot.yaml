@@ -13,6 +13,9 @@ updates:
       junit-platform:
         patterns:
           - "org.junit*"
+      jetbrains-kotlin:
+        patterns:
+          - "org.jetbrains.kotlin*"
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
