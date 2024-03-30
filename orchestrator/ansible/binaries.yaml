@@ -9,7 +9,6 @@
         cmd: git hash-object --stdin
         stdin: |
           {{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=lib') }}
-          {{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=app') }}
       register: binary_cid
       changed_when: false
     - name: Build, check, publish
@@ -36,8 +35,7 @@
     - name: Coverage
       ansible.builtin.command:
         cmd: >-
-          mvn clean
-            antrun:run@coverage
+          mvn antrun:run@coverage
             --no-snapshot-updates
             --batch-mode
             --projects :tool

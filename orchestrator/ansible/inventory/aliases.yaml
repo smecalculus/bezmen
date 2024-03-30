@@ -8,6 +8,7 @@ images:
   hosts:
     db:
     app:
+    tool:
 stacks:
   hosts:
     gear:

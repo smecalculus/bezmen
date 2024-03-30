@@ -7,7 +7,7 @@
   <parent>
     <groupId>smecalculus.bezmen</groupId>
     <artifactId>bezmen</artifactId>
-    <version>latest</version>
+    <version>${revision}</version>
   </parent>
 
   <artifactId>app</artifactId>
@@ -100,8 +100,9 @@
                   <artifactItem>
                     <groupId>${project.groupId}</groupId>
                     <artifactId>${project.artifactId}</artifactId>
-                    <version>${project.version}</version>
+                    <version>${revision}</version>
                     <outputDirectory>${project.build.directory}/image/bin</outputDirectory>
+                    <type>${project.packaging}</type>
                   </artifactItem>
                 </artifactItems>
               </configuration>

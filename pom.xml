@@ -6,8 +6,8 @@
 
   <groupId>smecalculus.bezmen</groupId>
   <artifactId>bezmen</artifactId>
+  <version>${revision}</version>
   <packaging>pom</packaging>
-  <version>latest</version>
 
   <modules>
     <module>lib</module>
@@ -29,7 +29,6 @@
       <id>church</id>
       <properties>
         <devenv>church</devenv>
-        <kotlin.version>2.0.0-Beta4</kotlin.version>
         <maven.compiler.release>21</maven.compiler.release>  <!--bump when kotlin will be ready-->
       </properties>
     </profile>
@@ -37,7 +36,6 @@
       <id>turing</id>
       <properties>
         <devenv>turing</devenv>
-        <kotlin.version>1.9.22</kotlin.version>
         <maven.compiler.release>21</maven.compiler.release>
       </properties>
     </profile>
@@ -48,11 +46,17 @@
       </activation>
       <properties>
         <devenv>godel</devenv>
-        <kotlin.version>1.8.22</kotlin.version>
         <maven.compiler.release>17</maven.compiler.release>
       </properties>
     </profile>
   </profiles>
+
+  <distributionManagement>
+    <repository>
+      <id>github</id>
+      <url>https://maven.pkg.github.com/smecalculus/bezmen</url>
+    </repository>
+  </distributionManagement>
 
   <build>
     <testResources>
@@ -69,6 +73,7 @@
         <artifactId>flatten-maven-plugin</artifactId>
       </plugin>
     </plugins>
+
     <pluginManagement>
       <plugins>
         <plugin>
@@ -174,7 +179,7 @@
         <plugin>
           <groupId>org.jetbrains.kotlin</groupId>
           <artifactId>kotlin-maven-plugin</artifactId>
-          <version>${kotlin.version}</version>
+          <version>1.9.22</version>
           <configuration>
             <jvmTarget>${maven.compiler.release}</jvmTarget>
           </configuration>
@@ -280,6 +285,34 @@
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-dependency-plugin</artifactId>
           <version>3.6.1</version>
+          <executions>
+            <execution>
+              <id>get</id>
+              <phase>none</phase>
+              <goals>
+                <goal>get</goal>
+              </goals>
+              <configuration>
+                <transitive>false</transitive>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>${project.artifactId}</artifactId>
+                <version>${revision}</version>
+                <packaging>${project.packaging}</packaging>
+                <remoteRepositories>${project.distributionManagement.repository.url}</remoteRepositories>
+              </configuration>
+            </execution>
+            <execution>
+              <id>purge</id>
+              <phase>none</phase>
+              <goals>
+                <goal>purge-local-repository</goal>
+              </goals>
+              <configuration>
+                <resolutionFuzziness>artifactId</resolutionFuzziness>
+                <manualIncludes>${project.groupId}:${project.artifactId}</manualIncludes>
+              </configuration>
+            </execution>
+          </executions>
         </plugin>
         <plugin>
           <groupId>org.codehaus.mojo</groupId>
@@ -363,6 +396,9 @@
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-install-plugin</artifactId>
           <version>3.1.1</version>
+          <configuration>
+            <skip>true</skip>  <!-- enable explicitly in library modules -->
+          </configuration>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
