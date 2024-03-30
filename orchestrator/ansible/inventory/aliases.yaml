@@ -15,7 +15,7 @@ stacks:
     product:
 tools:
   hosts:
-    binarier:
+    builder:
     stacker:
 all:
   vars:

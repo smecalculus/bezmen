@@ -21,4 +21,4 @@
   changed_when:
     - image_status.rc != 0
   loop:
-    - "tool/binarier:{{ package_tag }}"
+    - "tool/builder:{{ package_tag }}"

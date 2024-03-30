@@ -4,7 +4,7 @@
     tasks_from: clean
   vars:
     image_keys:
-      - "tool/binarier/{{ devenv }}"
+      - "tool/builder/{{ devenv }}"
 
 - ansible.builtin.import_role:  # noqa: name[missing]
     name: image
@@ -12,5 +12,5 @@
   vars:
     image_home: "{{ project.dir }}/tool"
     image_context: .
-    image_key: "tool/binarier/{{ devenv }}"
-    image_tag: "tool/binarier:{{ devenv }}"
+    image_key: "tool/builder/{{ devenv }}"
+    image_tag: "tool/builder:{{ devenv }}"
