@@ -1,4 +1,15 @@
 ---
+- ansible.builtin.import_role:  # noqa: name[missing]
+    name: image
+    tasks_from: clean
+  vars:
+    image_keys: >-
+      {{ image_status.results
+        | select('changed')
+        | map(attribute='vendor')
+        | map('regex_replace', '^(.*)$', 'db/\1/' ~ devenv)
+      }}
+
 - ansible.builtin.include_role:  # noqa: name[missing]
     name: image
     tasks_from: build

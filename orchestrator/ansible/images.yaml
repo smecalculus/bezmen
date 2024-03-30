@@ -7,44 +7,17 @@
         apply:
           tags: [always]
       tags: [always]
+    - ansible.builtin.include_tasks:  # noqa: name[missing]
+        file: tasks/{{ inventory_hostname }}/build.yaml
+      when: hostvars[inventory_hostname].image_status is changed
 
-- name: DATABASE IMAGES
-  hosts: db
-  tasks:
-    - ansible.builtin.import_role:  # noqa: name[missing]
-        name: image
-        tasks_from: clean
-      vars:
-        image_keys: >-
-          {{ image_status.results
-            | select('changed')
-            | map(attribute='vendor')
-            | map('regex_replace', '^(.*)$', 'db/\1/' ~ devenv)
-          }}
-      when: image_status is changed
-    - ansible.builtin.import_tasks:  # noqa: name[missing]
-        file: tasks/db/build.yaml
-      when: image_status is changed
-
-- name: APPLICATION IMAGES
-  hosts: app
-  tasks:
-    - ansible.builtin.import_role:  # noqa: name[missing]
-        name: image
-        tasks_from: clean
-      vars:
-        image_keys: >-
-          {{ image_status.results
-            | select('changed')
-            | map(attribute='app')
-            | map('regex_replace', '^(.*)$', 'app/\1/' ~ devenv)
-          }}
-      when: image_status is changed
-
+# building everything without exception otherwise purely external libs will not be published
 - import_playbook: binaries.yaml  # noqa: name[play]
   vars:
     maven_phase: "{{ 'deploy' if repo_mode == 'rw' else 'install' }}"
-  when: hostvars.app.image_status is changed
+  when: >-
+    hostvars.app.image_status is changed or
+    hostvars.tool.image_status is changed
 
 - name: ALL IMAGES
   hosts: images

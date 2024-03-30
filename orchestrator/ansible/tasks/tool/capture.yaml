@@ -1,0 +1,24 @@
+---
+- name: Capture CID
+  ansible.builtin.command:
+    cmd: git hash-object --stdin
+    stdin: |
+      {{ lookup('ansible.builtin.pipe', 'git rev-parse :pom.xml') }}
+      {{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=tool') }}
+  register: package_cid
+  changed_when: false
+
+- name: Declare tag
+  ansible.builtin.set_fact:
+    package_tag: "{{ devenv }}-{{ package_cid.stdout[:7] }}"
+  changed_when: false
+
+- name: Capture status
+  ansible.builtin.command:
+    cmd: docker {{ docker_entity }} inspect {{ image_ns }}/{{ item }}
+  register: image_status
+  failed_when: false
+  changed_when:
+    - image_status.rc != 0
+  loop:
+    - "tool/builder:{{ package_tag }}"

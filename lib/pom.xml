@@ -7,7 +7,7 @@
   <parent>
     <groupId>smecalculus.bezmen</groupId>
     <artifactId>bezmen</artifactId>
-    <version>latest</version>
+    <version>${revision}</version>
   </parent>
 
   <artifactId>lib</artifactId>
@@ -27,13 +27,6 @@
     <spring-boot.version>3.2.4</spring-boot.version>
   </properties>
 
-  <distributionManagement>
-    <repository>
-      <id>github</id>
-      <url>https://maven.pkg.github.com/smecalculus/bezmen</url>
-    </repository>
-  </distributionManagement>
-
   <dependencies>
     <dependency>
       <groupId>org.projectlombok</groupId>
@@ -52,37 +45,37 @@
       <dependency>
         <groupId>${project.groupId}</groupId>
         <artifactId>abstraction-client</artifactId>
-        <version>${project.version}</version>
+        <version>${revision}</version>
       </dependency>
       <dependency>
         <groupId>${project.groupId}</groupId>
         <artifactId>abstraction</artifactId>
-        <version>${project.version}</version>
+        <version>${revision}</version>
       </dependency>
       <dependency>
         <groupId>${project.groupId}</groupId>
         <artifactId>essentials</artifactId>
-        <version>${project.version}</version>
+        <version>${revision}</version>
       </dependency>
       <dependency>
         <groupId>${project.groupId}</groupId>
         <artifactId>messaging-client</artifactId>
-        <version>${project.version}</version>
+        <version>${revision}</version>
       </dependency>
       <dependency>
         <groupId>${project.groupId}</groupId>
         <artifactId>messaging</artifactId>
-        <version>${project.version}</version>
+        <version>${revision}</version>
       </dependency>
       <dependency>
         <groupId>${project.groupId}</groupId>
         <artifactId>storage</artifactId>
-        <version>${project.version}</version>
+        <version>${revision}</version>
       </dependency>
       <dependency>
         <groupId>${project.groupId}</groupId>
         <artifactId>testing</artifactId>
-        <version>latest</version>
+        <version>${revision}</version>
       </dependency>
       <dependency>
         <groupId>org.projectlombok</groupId>
@@ -253,31 +246,10 @@
       <plugins>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-dependency-plugin</artifactId>
-          <executions>
-            <execution>
-              <id>capture</id>
-              <goals>
-                <goal>copy</goal>
-              </goals>
-              <configuration>
-                <outputDirectory>${project.build.directory}</outputDirectory>
-                <artifactItems>
-                  <artifactItem>
-                    <groupId>${project.groupId}</groupId>
-                    <artifactId>abstraction-client</artifactId>
-                    <version>${project.version}</version>
-                  </artifactItem>
-                  <artifactItem>
-                    <groupId>${project.groupId}</groupId>
-                    <artifactId>messaging-client</artifactId>
-                    <version>${project.version}</version>
-                    <type>jar</type>
-                  </artifactItem>
-                </artifactItems>
-              </configuration>
-            </execution>
-          </executions>
+          <artifactId>maven-install-plugin</artifactId>
+          <configuration>
+            <skip>false</skip>
+          </configuration>
         </plugin>
       </plugins>
     </pluginManagement>
