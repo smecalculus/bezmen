@@ -33,4 +33,4 @@
   loop: "{{ image_tags.keys() }}"
   loop_control:
     loop_var: app
-    label: "{{ app }}:{{ image_tags[app] }}"
+    label: "app/{{ app }}:{{ image_tags[app] }}"
