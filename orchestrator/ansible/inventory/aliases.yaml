@@ -8,12 +8,15 @@ images:
   hosts:
     db:
     app:
-    tool:
 stacks:
   hosts:
     gear:
     pipeline:
     product:
+tools:
+  hosts:
+    binarier:
+    stacker:
 all:
   vars:
     ansible_connection: local

@@ -3,6 +3,8 @@
   ansible.builtin.command:
     cmd: git hash-object --stdin
     stdin: |
+      {{ lookup('ansible.builtin.pipe', 'git rev-parse :pom.xml') }}
+      {{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=tool') }}
       {{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=test') }}
       {{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=orchestrator') }}
       {{ lookup('ansible.builtin.pipe', 'git write-tree --prefix=stack/gear/env/' ~ devenv) }}
@@ -17,10 +19,10 @@
 - name: Capture statuses
   ansible.builtin.command:
     cmd: docker {{ docker_entity }} inspect {{ image_ns }}/{{ item }}
-  register: stack_status
+  register: image_status
   failed_when: false
   changed_when:
-    - stack_status.rc != 0
+    - image_status.rc != 0
   loop:
     - "{{ gear.image }}:{{ stack_tag }}"
 

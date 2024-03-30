@@ -1,6 +1,6 @@
 ---
 - name: ALL IMAGES
-  hosts: images
+  hosts: images:tools
   tasks:
     - ansible.builtin.include_tasks:  # noqa: name[missing]
         file: tasks/{{ inventory_hostname }}/capture.yaml
@@ -17,7 +17,7 @@
     maven_phase: "{{ 'deploy' if repo_mode == 'rw' else 'install' }}"
   when: >-
     hostvars.app.image_status is changed or
-    hostvars.tool.image_status is changed
+    hostvars.binarier.image_status is changed
 
 - name: ALL IMAGES
   hosts: images
