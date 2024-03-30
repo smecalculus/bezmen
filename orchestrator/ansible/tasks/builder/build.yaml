@@ -1,16 +1,1 @@
----
-- ansible.builtin.import_role:  # noqa: name[missing]
-    name: image
-    tasks_from: clean
-  vars:
-    image_keys:
-      - "tool/builder/{{ devenv }}"
-
-- ansible.builtin.import_role:  # noqa: name[missing]
-    name: image
-    tasks_from: build
-  vars:
-    image_home: "{{ project.dir }}/tool"
-    image_context: .
-    image_key: "tool/builder/{{ devenv }}"
-    image_tag: "tool/builder:{{ devenv }}"
+# build right before publishing

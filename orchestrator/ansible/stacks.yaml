@@ -2,7 +2,7 @@
 - import_playbook: images.yaml  # noqa: name[play]
 
 - name: ALL STACKS
-  hosts: stacks
+  hosts: stacks:stacker
   tasks:
     - ansible.builtin.include_tasks:  # noqa: name[missing]
         file: tasks/{{ inventory_hostname }}/capture.yaml

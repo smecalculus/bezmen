@@ -1,6 +1,6 @@
 ---
 - name: ALL IMAGES
-  hosts: images:tools
+  hosts: images:builder
   tasks:
     - ansible.builtin.include_tasks:  # noqa: name[missing]
         file: tasks/{{ inventory_hostname }}/capture.yaml
