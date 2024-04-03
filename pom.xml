@@ -18,7 +18,7 @@
 
   <properties>
     <revision>0.1.0-SNAPSHOT</revision>
-    <jacoco.version>0.8.11</jacoco.version>
+    <jacoco.version>0.8.12</jacoco.version>
     <skipTests>false</skipTests>  <!--unit, integration and e2e tests-->
     <skipUnits>${skipTests}</skipUnits>  <!--unit tests only-->
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
