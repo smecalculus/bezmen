@@ -18,7 +18,7 @@ runs:
         sudo sed -i -e "1i runner:$(id -u):1" /etc/subuid
         sudo systemctl restart docker
         docker network create gear
-    - uses: docker/setup-buildx-action@v3.2.0
+    - uses: docker/setup-buildx-action@v3.3.0
     - uses: docker/build-push-action@v5.3.0
       with:
         context: stack/gear/env/${{ inputs.devenv }}
