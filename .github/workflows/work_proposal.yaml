@@ -31,7 +31,7 @@ jobs:
           - dev: church
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4.1.2
+      - uses: actions/checkout@v4.1.3
       - name: Run setup-gear
         uses: ./.github/actions/setup-gear
         with:
@@ -88,7 +88,7 @@ jobs:
             ops: commons
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4.1.2
+      - uses: actions/checkout@v4.1.3
       - name: Run setup-gear
         uses: ./.github/actions/setup-gear
         with:
@@ -132,7 +132,7 @@ jobs:
             ops: commons
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4.1.2
+      - uses: actions/checkout@v4.1.3
       - name: Run setup-gear
         uses: ./.github/actions/setup-gear
         with:
@@ -187,7 +187,7 @@ jobs:
     permissions:
       packages: write
     steps:
-      - uses: actions/checkout@v4.1.2
+      - uses: actions/checkout@v4.1.3
       - name: Run setup-gear
         uses: ./.github/actions/setup-gear
         with:
