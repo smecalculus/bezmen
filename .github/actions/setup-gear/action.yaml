@@ -26,7 +26,7 @@ runs:
         load: true
         cache-from: type=gha,scope=stack/gear/${{ inputs.devenv }}
         cache-to: type=gha,mode=max,scope=stack/gear/${{ inputs.devenv }}
-    - uses: docker/login-action@v3.1.0
+    - uses: docker/login-action@v3.2.0
       with:
         registry: ghcr.io
         username: ${{ github.actor }}
