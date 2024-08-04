@@ -52,7 +52,7 @@ jobs:
           ansible-playbook images.yaml -v
           -e devenv=${{ matrix.env.dev }}
           -e repo_mode=rw
-      - uses: mikepenz/action-junit-report@v4.2.1
+      - uses: mikepenz/action-junit-report@v4.3.1
         if: ${{ !cancelled() && (steps.images.outcome == 'success' || steps.images.outcome == 'failure') }}
         with:
           check_name: Unit tests (${{ matrix.env.dev }})
@@ -60,7 +60,7 @@ jobs:
           require_tests: "${{ steps.images.outcome == 'failure' }}"
           fail_on_failure: false
           job_summary: false
-      - uses: mikepenz/action-junit-report@v4.2.1
+      - uses: mikepenz/action-junit-report@v4.3.1
         if: ${{ !cancelled() && (steps.images.outcome == 'success' || steps.images.outcome == 'failure') }}
         with:
           check_name: Integration tests (${{ matrix.env.dev }})
@@ -224,7 +224,7 @@ jobs:
       - uses: actions/download-artifact@v4.1.8
         with:
           path: artifacts
-      - uses: mikepenz/action-junit-report@v4.2.1
+      - uses: mikepenz/action-junit-report@v4.3.1
         with:
           check_name: End-to-end tests
           report_paths: "artifacts/e2e-tests-*/**/TEST-*.xml"
